@@ -5,10 +5,9 @@ import * as THREE from 'three'
 import PropTypes from 'prop-types'
 
 
-import cityMap from '../assets/levels/city.json'
 import TimeStepper from '../game/TimeStepper'
 import { stepper } from '../game/GameLogic'
-import { House } from './House'
+import City from './City'
 
 
 function Lights () {
@@ -43,52 +42,6 @@ function MySky () {
   return <Sky sunPosition={[x, y, z]} />
 }
 
-function TheCity () {
-  // console.log('City', cityMap)
-
-  const city = cityMap
-
-  if (city === undefined) return <></>
-
-  const elements = []
-
-  for (let i = 0; i < 30; i++) {
-    for (let j = 0; j < 30; j++) {
-      const field = city.pattern[29-j][i]
-      // const street = city.streets[i][j]
-      // const text = [<div key="type">{types[field]}</div>];
-      switch (field) {
-        case '00':
-        case '78':
-          // element = <div></div>
-          // text.push([<div key="street">{street_names[street]}</div>]);
-          break
-        case '60':
-          // element = <div>o</div>
-          break
-        case '68':
-          // element = <div>X</div> 
-          break
-        default:
-          const num = Number.parseInt(field, 16)
-          const type = (num - 1) % 4
-          elements.push(<House key={[i,j]} type={type} x={i} y={j} />)
-      }
-    }
-  }
-
-  return <group>{elements}</group>
-  
-}
-
-// const gameState = {
-//   time: 0.0,
-
-// }
-// function gameUpdate() {
-
-// }
-
 export default function Scene () {
   console.log('RENDERING SCENE');
   const ref = useRef()
@@ -109,7 +62,7 @@ export default function Scene () {
       {/* <Stars /> */}
       <MySky />
       <Ground />
-      <TheCity />
+      <City />
       {/* <OrbitControls /> */}
     </group>
   )
