@@ -10,9 +10,11 @@ import City from './City'
 import { SPECIAL_KEY } from './Keys'
 
 function Lights () {
+  const color = 0xFFFFFF
+  const intensity = 0.5
   return (
     <>
-      <ambientLight />
+      <ambientLight args={[color, intensity]}/>
     </>
   )
 }
@@ -85,6 +87,7 @@ export default function Scene () {
         ref={cameraRef}
         makeDefault
         position={[startX, 0, startY]}
+        fov={75}
         on
       />
       <Lights />
