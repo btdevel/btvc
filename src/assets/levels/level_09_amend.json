@@ -1,0 +1,24 @@
+{
+    "specials_info": [
+        [
+            [
+                5, 
+                12
+            ], 
+            "Legions of Baron Harkyn\n  Battle vs. [4x99 Berserker]"
+        ], 
+        [
+            [
+                1, 
+                21
+            ], 
+            "Statue of the Mad God\n Battle vs. [1 Mad God]\n If you have the EYE, you'll be teleported behind the gates to Kylearan's Tower."
+        ], 
+        [
+            [
+                5, 
+                3
+            ], 
+            "An old man asks you a question in order to pass:\n\n What tavern lies off Night Archer?\n\n Answer: SKULL TAVERN\n Wrong: Battle vs. [1 Old Man, 2x2 Lesser Demons]"
+        ]
+    ]}
