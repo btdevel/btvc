@@ -15,9 +15,9 @@ import shopImg from '../assets/images/city/shop.png'
 import templeImg from '../assets/images/city/temple.png'
 import castleImg from '../assets/images/city/castle.png'
 
-// import house4Img from '../assets/images/city/statue.png'
-// import house4Img from '../assets/images/city/city_gate.png'
-// import house4Img from '../assets/images/city/gate.png'
+import statueImg from '../assets/images/city/statue.png'
+import cityGateImg from '../assets/images/city/city_gate.png'
+import gateImg from '../assets/images/city/gate.png'
 
 
 const loader = new THREE.TextureLoader()

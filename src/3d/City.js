@@ -24,7 +24,7 @@ class CityMap {
     const type = this.type
     for (let i = 0; i < 30; i++) {
       for (let j = 0; j < 30; j++) {
-        const field = city.pattern[29 - j][i]
+        const field = city.pattern[j][i]
         switch (field) {
           case '00': // street, none
             break
