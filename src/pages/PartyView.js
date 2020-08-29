@@ -18,34 +18,71 @@ const CharacterBox = styled.div`
   color: black;
   text-shadow: 1px 1px #777;
 `
-const tabs = {
-  number: -16, name: 0, ac: 248, hp: 296, cnd: 384, sp: 456, cls: 520
+const attrInfo = {
+  number: { pos: -62, type: 'num' },
+  name: { pos: 4, type: 'upp' },
+  ac: { pos: 220, type: 'num' },
+  hp: { pos: 300, type: 'num' },
+  cnd: { pos: 374, type: 'num' },
+  sp: { pos: 456, type: 'num' },
+  cls: { pos: 534, type: 'cap' },
 }
 const Attribute = styled.div`
   position: absolute;
-  left: ${props => tabs[props.attr]+20}px;
+  left: ${props => attrInfo[props.attr].pos + 20}px;
+  width: 60px;
+  text-align: ${props =>
+    attrInfo[props.attr].type === 'num' ? 'right' : 'left'};
   background-color: transparent;
-  text-transform: uppercase;
+  text-transform: ${props =>
+    attrInfo[props.attr].type === 'cap' ? 'capitalize' : 'uppercase'};
+  ...extra;
 `
 
-function CharacterDisp({name, ac, hp, cnd, sp, cls}) {
+function CharacterDisp ({ number, name, ac, hp, cnd, sp, cls }) {
   return (
-    <>
+    <CharacterBox number={number}>
+      <Attribute attr='number'>{number}</Attribute>
       <Attribute attr='name'>{name}</Attribute>
       <Attribute attr='ac'>{ac}</Attribute>
       <Attribute attr='hp'>{hp}</Attribute>
       <Attribute attr='cnd'>{cnd}</Attribute>
       <Attribute attr='sp'>{sp}</Attribute>
       <Attribute attr='cls'>{cls}</Attribute>
-    </>
+    </CharacterBox>
   )
 }
 
 export default function LocationView () {
-  return <PartyViewBox style={{textAlign: 'center'}}>
-    <CharacterBox number={1}>
-      <Attribute attr='number'>1</Attribute>
-      <CharacterDisp name='GANDALF' ac='lo' hp={300} cnd='old' sp={512} cls='wzd'/>
-    </CharacterBox>
-  </PartyViewBox>
+  return (
+    <PartyViewBox style={{ textAlign: 'center' }}>
+      <CharacterDisp
+        number={1}
+        name='Gimli'
+        ac='lo'
+        hp={320}
+        cnd='210'
+        sp={0}
+        cls='wa'
+      />
+      <CharacterDisp
+        number={2}
+        name='Bilbo'
+        ac='-5'
+        hp={120}
+        cnd='8'
+        sp={0}
+        cls='th'
+      />
+      <CharacterDisp
+        number={3}
+        name='Gandalf'
+        ac='3'
+        hp={98}
+        cnd='old'
+        sp={512}
+        cls='wi'
+      />
+    </PartyViewBox>
+  )
 }
