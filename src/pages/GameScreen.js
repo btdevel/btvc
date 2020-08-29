@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Canvas } from 'react-three-fiber'
 import { ErrorBoundary } from 'react-error-boundary'
 import Scene from '../3d/Scene'
@@ -59,8 +59,20 @@ const PartyViewBox = styled.div`
   top: 262px;
 }}
 `
+function Conditional ({ render, children, otherwise }) {
+  if (render) {
+    return children
+  }
+  return otherwise
+}
+
+function LoadScreen () {
+  return <div>Loading Skara Brae...</div>
+}
 
 export default function GameScreen () {
+  const [loaded, setIsLoaded] = useState(false)
+
   return (
     <GamescreenBox id='gamescreen'>
       <Fonts />
@@ -70,28 +82,32 @@ export default function GameScreen () {
           src={mainImg}
           style={{ width: 640, height: 400 }}
           alt='BT1 main screen'
+          style={loaded ? {} : {display: 'none'}}
+          onLoad={() => setIsLoaded(true)}
         />
       </BackgroundImgBox>
 
-      <PlayerViewBox id='3dview'>
-        <ErrorBoundary FallbackComponent={ErrorComponent}>
-          <Canvas>
-            <Scene />
-          </Canvas>
-        </ErrorBoundary>
-      </PlayerViewBox>
+      <Conditional render={loaded} otherwise={<LoadScreen />}>
+        <PlayerViewBox id='3dview'>
+          <ErrorBoundary FallbackComponent={ErrorComponent}>
+            <Canvas>
+              <Scene />
+            </Canvas>
+          </ErrorBoundary>
+        </PlayerViewBox>
 
-      <LocationViewBox id='locationview'>
-        <LocationView />
-      </LocationViewBox>
+        <LocationViewBox id='locationview'>
+          <LocationView />
+        </LocationViewBox>
 
-      <TextViewBox id='textview'>
-        <TextView />
-      </TextViewBox>
+        <TextViewBox id='textview'>
+          <TextView />
+        </TextViewBox>
 
-      <PartyViewBox>
-        <PartyView />
-      </PartyViewBox>
+        <PartyViewBox>
+          <PartyView />
+        </PartyViewBox>
+      </Conditional>
     </GamescreenBox>
   )
 }

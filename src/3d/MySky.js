@@ -12,9 +12,9 @@ export default function MySky() {
     const time = stepper.getSimTime()
     const phi = time / (60 * 60 * 24) * 2 * Math.PI
     const z = Math.cos(phi)
-    if (z > 0.999) {
-      console.log(sunRef.current)
-    }
+    // if (z > 0.999) {
+    //   console.log(sunRef.current)
+    // }
     sunRef.current.material.uniforms.sunPosition.value.z = -1
     sunRef.current.material.uniforms.sunPosition.value.y = z
     sunRef.current.material.uniforms.rayleigh.value = z + 1
