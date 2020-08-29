@@ -5,8 +5,9 @@ import * as THREE from 'three'
 import PropTypes from 'prop-types'
 
 import { getState } from '../game/GameLogic'
-import City from './City'
 import { SPECIAL_KEY } from './Keys'
+
+import City from './City'
 import Lights from './Lights'
 import MySky from './MySky'
 import Ground from './Ground'
