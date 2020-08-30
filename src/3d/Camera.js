@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useFrame } from 'react-three-fiber'
 import { PerspectiveCamera } from 'drei'
-import { getState } from '../game/GameLogic'
+import { gameState } from '../game/GameLogic'
 import { useSpring, animated, config as springConfigs } from 'react-spring'
 import { Euler } from 'three'
 
@@ -10,42 +10,30 @@ const springConfigMove = { mass: 3, tension: 400, friction: 12.0, clamp: true}
 const springConfigSlide = { mass: 2, tension: 1400, friction: 150}
 const springConfigWobble = { mass: 3, tension: 400, friction: 12.0}
 
-let startY = 15
-let startX = 25 // Guild
-let startAngle = 0
-
-getState().position.x = startX
-getState().position.y = startY
-getState().angle = startAngle
-
-const AnimCamera = animated(PerspectiveCamera)
-
-const radians = (degree) => (degree / 180.0 * Math.PI)
+const AnimatedCamera = animated(PerspectiveCamera)
 
 export default function Camera () {
+  const startPos = gameState.position
+  const startAngle = gameState.angle()
 
   const [{position}, setPos] = useSpring(() => ({
-    position: [startX, 0, startY],
+    position: [startPos.x, 0, startPos.y],
     config: springConfigSlide
   }))
   const [{rotation_y}, setRot] = useSpring(() => ({
-    rotation_y: radians(startAngle),
+    rotation_y: startAngle,
     config: springConfigMove
   }))
-  // console.log(props)
 
   useFrame(() => {
-    const angle = getState().angle
-    const pos = getState().position
+    const pos = gameState.position
+    const angle = gameState.angle()
     setPos({position: [pos.x, 0, pos.y]})
-    setRot({rotation_y: radians(angle)})
-
-    //camera.rotation.set(0, (angle / 180) * Math.PI, 0, 'XYZ')
-    // console.log(angle);
+    setRot({rotation_y: angle})
   })
 
   return (
-    <AnimCamera
+    <AnimatedCamera
       makeDefault
       position={position}
       rotation-y={rotation_y}

@@ -20,6 +20,7 @@ export class CityMap {
 
   parseJson(city) {
     const type = this.type
+    const subtype = this.subtype
     for (let i = 0; i < 30; i++) {
       for (let j = 0; j < 30; j++) {
         const field = city.pattern[j][i]
@@ -57,7 +58,7 @@ export class CityMap {
             type[i][j] = 0
             break
           case '68': // gate
-            type[i][j] = 0
+            type[i][j] = 10
             break
           case '71': // madgod_temple
             type[i][j] = 8
@@ -81,7 +82,7 @@ export class CityMap {
             type[i][j] = 1
             break
           case 'A8': // city_gate"
-            type[i][j] = 0
+            type[i][j] = 11
             break
         }
       }

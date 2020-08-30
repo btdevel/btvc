@@ -2,58 +2,105 @@ import create from 'zustand'
 import produce from 'immer'
 import TimeStepper from './TimeStepper'
 import { CityMap } from './CityMap'
+import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 
 const cityMap = new CityMap()
 
-// export const stepper = new TimeStepper()
-
-// https://www.pveducation.org/pvcdrom/properties-of-sunlight/elevation-angle
+function randomInt (max) {
+  return Math.floor(Math.random() * Math.floor(max))
+}
 
 export const [useStore, api] = create((set, get) => {
   const modify = fn => set(produce(fn))
 
   return {
-    stepper: new TimeStepper(),
-    timeOfDay: () => (get().stepper.getSimTime() / (60 * 60)) % 24,
+    modify: modify,
 
-    position: { x: 0, y: 0 },
-    angle: 0,
-    transient: {
-      position: { x: 0, y: 0 },
-      angle: 0
-    },
-
-    move: i => {
-      modify(draft => {
-        const angle = draft.angle
-        const dx = i * Math.round(Math.sin((angle / 180) * Math.PI))
-        const dy = i * Math.round(Math.cos((angle / 180) * Math.PI))
-        const x = draft.position.x + dx
-        const y = draft.position.y + dy
-        if (cityMap.type[x][y] == 0) {
-          draft.position.x += dx
-          draft.position.y += dy
-          draft.transient.position.x = draft.position.x
-          draft.transient.position.y = draft.position.y
-        }
-        return draft
-      })
-    },
-    turn: i => {
-      modify(draft => {
-        draft.angle += i
-        draft.transient.angle += i
-      })
-    },
-
-    sun: {
-      phi: 0,
-      theta: 0
-    }
+    overlayText: '',
+    gameText: 'Welcome to Skara Brae!'
   }
 })
 
-export const getState = api.getState
+export const gameState = {
+  stepper: new TimeStepper(),
+
+  dir: 0,
+  position: { x: 0, y: 0 },
+
+  angle () {
+    return radians(this.dir * 90)
+  },
+
+  showInfo () {
+    api.getState().modify(draft => {
+      draft.gameText = `You are in Skara Brae. It is 9 o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
+    })
+  },
+
+  sun: {
+    latitude: radians(51),
+    day: 180,
+    hour_angle () {
+      return hour_angle(gameState.time_hours())
+    },
+    elevation () {
+      return elevation(this.latitude, declination(this.day), this.hour_angle())
+    },
+    position () {
+      // const phi = gameState.sun.azimuth()
+      const phi = gameState.sun.hour_angle()
+      const theta = gameState.sun.elevation()
+      return sunPosition(phi, theta)
+    }
+  },
+
+  init (startHour, startX, startY, startDir) {
+    this.position.x = startX
+    this.position.y = startY
+    this.dir = startDir
+
+    const stepper = this.stepper
+    stepper.pause()
+    stepper.setSimSpeed((3 * TimeStepper.DAY) / TimeStepper.MINUTE) // One minute is 24 hours
+    stepper.setSimTime(startHour * TimeStepper.HOUR)
+    stepper.resume()
+  },
+
+  pause () {
+    this.stepper.pause()
+  },
+
+  resume () {
+    this.stepper.resume()
+  },
+
+  time () {
+    return this.stepper.getSimTime()
+  },
+
+  time_hours () {
+    return this.time() / TimeStepper.HOUR
+  },
+
+  move (i) {
+    const dir = this.dir
+    const dx = i * Math.round(Math.sin(0.5 * dir * Math.PI))
+    const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
+    const x = this.position.x + dx
+    const y = this.position.y + dy
+    if (cityMap.type[x][y] == 0) {
+      this.position.x += dx
+      this.position.y += dy
+    }
+  },
+
+  turn (i) {
+    this.dir += i
+  }
+}
+// Object.freeze(gameState)
+
+// export const getState = api.getState
 
 /*
 # Instead, use refs and mutate! This is totally fine and that's how you would do it in plain Threejs as well.

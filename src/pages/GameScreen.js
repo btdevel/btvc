@@ -8,6 +8,9 @@ import PartyView from './PartyView'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
 import styled from 'styled-components'
+import { OrbitControls } from 'drei'
+import { useStore } from '../game/GameLogic'
+import { onKeyEvent } from '../game/KeyMap'
 
 function ErrorComponent () {
   return <></>
@@ -31,6 +34,12 @@ const PlayerViewBox = styled.div`
   position: absolute;
   left: 34px;
   top: 30px;
+`
+const TextOverlayBox = styled(PlayerViewBox)`
+  background-color: transparent;
+  font-family: arial;
+  font-size: 10px;
+  color: white;
 `
 const LocationViewBox = styled.div`
   background-color: black;
@@ -70,8 +79,22 @@ function LoadScreen () {
   return <div>Loading Skara Brae...</div>
 }
 
+document.addEventListener('keydown', onKeyEvent, false)
+
 export default function GameScreen () {
   const [loaded, setIsLoaded] = useState(false)
+  const overlayText = useStore(state => state.overlayText)
+
+  if (1 === -1) {
+    return (
+      <GamescreenBox id='gamescreen'>
+        <Canvas>
+          <Scene />
+          <OrbitControls />
+        </Canvas>
+      </GamescreenBox>
+    )
+  }
 
   return (
     <GamescreenBox id='gamescreen'>
@@ -82,7 +105,7 @@ export default function GameScreen () {
           src={mainImg}
           style={{ width: 640, height: 400 }}
           alt='BT1 main screen'
-          style={loaded ? {} : {display: 'none'}}
+          style={loaded ? {} : { display: 'none' }}
           onLoad={() => setIsLoaded(true)}
         />
       </BackgroundImgBox>
@@ -95,6 +118,7 @@ export default function GameScreen () {
             </Canvas>
           </ErrorBoundary>
         </PlayerViewBox>
+        <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
 
         <LocationViewBox id='locationview'>
           <LocationView />

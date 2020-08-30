@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useStore } from '../game/GameLogic'
 
 const TextViewBox = styled.div`
   box-sizing: border-box;
@@ -10,7 +11,6 @@ const TextViewBox = styled.div`
 `
 
 export default function TextView () {
-  return <TextViewBox>
-    Welcome to Skara Brae!
-  </TextViewBox>
+  const text = useStore(state => state.gameText)
+  return <TextViewBox>{text}</TextViewBox>
 }

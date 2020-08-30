@@ -7,11 +7,6 @@ export default class TimeStepper {
     this.paused = paused!==undefined ? paused : false
   }
 
-  // tReal = 0.0
-  // tSim
-  // simSpeed
-  // paused
-
   getSystemTime () {
     return Date.now() / 1000.0
   }
@@ -79,3 +74,8 @@ export default class TimeStepper {
     this.setPaused(false)
   }
 }
+
+TimeStepper.SECOND = 1
+TimeStepper.MINUTE = 60 * TimeStepper.SECOND
+TimeStepper.HOUR = 60 * TimeStepper.MINUTE
+TimeStepper.DAY = 60 * TimeStepper.HOUR

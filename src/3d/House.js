@@ -22,7 +22,9 @@ import castleAlpha from '../assets/images/city/castle_alpha.png'
 
 import statueImg from '../assets/images/city/statue.png'
 import cityGateImg from '../assets/images/city/city_gate.png'
+import cityGateAlpha from '../assets/images/city/city_gate_alpha.png'
 import gateImg from '../assets/images/city/gate.png'
+import gateAlpha from '../assets/images/city/gate_alpha.png'
 
 
 const loader = new THREE.TextureLoader()
@@ -38,6 +40,9 @@ const houseTextures = {
   7: {map: load(shopImg)},
   8: {map: load(templeImg)},
   9: {map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
+
+  10: {map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
+  11: {map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
 }
 
 
