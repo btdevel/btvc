@@ -12,7 +12,9 @@ const keyMap = {
   'ArrowDown': ['move', +1],
   'ArrowLeft': ['turn', 1],
   'ArrowRight': ['turn', -1],
-  '?': ['showInfo']
+  '?': ['showInfo'],
+  'm': ['showMap'],
+  'f': ['toggleFullscreen']
 }
 
 
@@ -30,11 +32,15 @@ export function onKeyEvent (event) {
   const [funcname, ...args] = command
   console.log('func: ', funcname, args);
   
-  const func = functionMap[funcname]
+  // const func = functionMap[funcname]
+  const func = gameState[funcname]
   console.log('func: ', func);
   if (!func) return
 
-  func.apply(null, args)
+  // func.apply(null, args)
+  func.apply(gameState, args)
 
   event.preventDefault()
 }
+
+document.addEventListener('keydown', onKeyEvent, false)

@@ -1,8 +1,9 @@
-import React from 'react'
+import React, {forwardRef} from 'react'
 import PropTypes from 'prop-types'
 import * as THREE from 'three'
 
 import house1Img from '../assets/images/city/house1.png'
+import house1Alpha from '../assets/images/city/house1_alpha.png'
 import house1Bump from '../assets/images/city/house1_bump.png'
 import house2Img from '../assets/images/city/house2.png'
 import house2Alpha from '../assets/images/city/house2_alpha.png'
@@ -31,7 +32,8 @@ const loader = new THREE.TextureLoader()
 function load(img) { return loader.load(img)}
 
 const houseTextures = {
-  1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
+  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
+  1: {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true },
   2: {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true },
   3: {map: load(house3Img)},
   4: {map: load(house4Img)},
@@ -46,19 +48,19 @@ const houseTextures = {
 }
 
 
-{/* <texture attach="map" image={img} onUpdate={self => img && (self.needsUpdate = true)} /> */}
-export default function House ({ type, x, y, props }) {
-  // console.log(houseTextures)
+export const House = forwardRef(({ type, x, y, props}, ref) => {
   return (
-    <mesh position={[x, 0, y]}>
-      <boxBufferGeometry attach='geometry' args={[1, 1, 1, 5, 5, 5]} />
+    <mesh position={[x, 0, y]} castShadow receiveShadow ref={ref}>
+      <boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
       <meshStandardMaterial attach='material' {...houseTextures[type]} />
     </mesh>
   )
-}
+})
 
 House.defaultProps = {
   x: 0,
   y: 0,
   type: 3
 }
+
+export default House

@@ -6,17 +6,20 @@ let startHour = 12
 // let startX = 25 // Guild
 // let startY = 15
 // let startDir = 0
-let startX = 2
+
+// let startX = 2 // City gate
+// let startY = 14
+// let startDir = 1
+
+let startX = 3
 let startY = 14
-let startDir = 1
+let startDir = 0
  
 gameState.init(startHour, startX, startY, startDir)
 gameState.pause()
 
-function App () {
+export default function App () {
   return (
     <GameScreen />
   )
 }
-
-export default App

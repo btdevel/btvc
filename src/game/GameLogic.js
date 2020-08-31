@@ -1,8 +1,12 @@
+import React from 'react'
+
 import create from 'zustand'
 import produce from 'immer'
 import TimeStepper from './TimeStepper'
 import { CityMap } from './CityMap'
 import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
+
+import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 
 const cityMap = new CityMap()
 
@@ -17,7 +21,8 @@ export const [useStore, api] = create((set, get) => {
     modify: modify,
 
     overlayText: '',
-    gameText: 'Welcome to Skara Brae!'
+    gameText: 'Welcome to Skara Brae!',
+    fullscreen: false
   }
 })
 
@@ -26,6 +31,8 @@ export const gameState = {
 
   dir: 0,
   position: { x: 0, y: 0 },
+  dPhi: 0,
+  dTheta: 0,
 
   angle () {
     return radians(this.dir * 90)
@@ -34,6 +41,18 @@ export const gameState = {
   showInfo () {
     api.getState().modify(draft => {
       draft.gameText = `You are in Skara Brae. It is 9 o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
+    })
+  },
+
+  showMap () {
+    api.getState().modify(draft => {
+      draft.gameText = <img height='100%' width='100%' src={cityMapImg} />
+    })
+  },
+
+  toggleFullscreen () {
+    api.getState().modify(draft => {
+      draft.fullscreen = !draft.fullscreen
     })
   },
 
@@ -61,7 +80,7 @@ export const gameState = {
 
     const stepper = this.stepper
     stepper.pause()
-    stepper.setSimSpeed((3 * TimeStepper.DAY) / TimeStepper.MINUTE) // One minute is 24 hours
+    stepper.setSimSpeed((1.3 * TimeStepper.DAY) / TimeStepper.MINUTE) // One minute is 24 hours
     stepper.setSimTime(startHour * TimeStepper.HOUR)
     stepper.resume()
   },
@@ -99,32 +118,3 @@ export const gameState = {
   }
 }
 // Object.freeze(gameState)
-
-// export const getState = api.getState
-
-/*
-# Instead, use refs and mutate! This is totally fine and that's how you would do it in plain Threejs as well.
-
-    const ref = useRef()
-    useFrame(() => ref.current.position.x += 0.01)
-    return <mesh ref={ref} />
-
-# Or react-spring, which animates outside of React:
-
-    import { a, useSpring } from 'react-spring/three'
-
-    function Signal({ active }) {
-      const { x } = useSpring({ x: active ? 100 : 0 })
-      return <a.mesh position-x={x} />
-
-# Fetch state directly, for instance using zustand:
-
-    useFrame(() => ref.current.position.x = api.getState().x)
-    return <mesh ref={ref} />
-
-# Or, subscribe to your state in a way that doesn't re-render the component:
-
-    const ref = useRef()
-    useEffect(() => api.subscribe(x => ref.current.position.x = x, state => state.x), [])
-    return <mesh ref={ref} />
-*/

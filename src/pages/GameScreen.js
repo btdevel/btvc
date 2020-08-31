@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { Canvas } from 'react-three-fiber'
 import { ErrorBoundary } from 'react-error-boundary'
-import Scene from '../3d/Scene'
-import mainImg from '../assets/images/main.png'
+import * as THREE from 'three'
+
 import TextView from './TextView'
 import PartyView from './PartyView'
+import PlayerView from './PlayerView'
+// import PlayerView from './PlayerViewTest'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
-import styled from 'styled-components'
-import { OrbitControls } from 'drei'
 import { useStore } from '../game/GameLogic'
-import { onKeyEvent } from '../game/KeyMap'
+
+import '../game/KeyMap'
+import '../game/MouseHandling'
+
+import mainImg from '../assets/images/main.png'
 
 function ErrorComponent () {
   return <></>
@@ -79,19 +84,16 @@ function LoadScreen () {
   return <div>Loading Skara Brae...</div>
 }
 
-document.addEventListener('keydown', onKeyEvent, false)
-
 export default function GameScreen () {
   const [loaded, setIsLoaded] = useState(false)
   const overlayText = useStore(state => state.overlayText)
+  const fullscreen = useStore(state => state.fullscreen)
 
-  if (1 === -1) {
+  if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
-        <Canvas>
-          <Scene />
-          <OrbitControls />
-        </Canvas>
+        {/* <PlayerView orbitControls /> */}
+        <PlayerView />
       </GamescreenBox>
     )
   }
@@ -113,9 +115,7 @@ export default function GameScreen () {
       <Conditional render={loaded} otherwise={<LoadScreen />}>
         <PlayerViewBox id='3dview'>
           <ErrorBoundary FallbackComponent={ErrorComponent}>
-            <Canvas>
-              <Scene />
-            </Canvas>
+            <PlayerView />
           </ErrorBoundary>
         </PlayerViewBox>
         <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
