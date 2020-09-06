@@ -1,24 +1,5 @@
 import { gameState } from '../game/GameLogic'
 
-const keyMap = {
-  ArrowUp: ['move', -1],
-  ArrowDown: ['move', +1],
-  ArrowLeft: ['turn', 1],
-  ArrowRight: ['turn', -1],
-
-  w: ['move', -1],
-  s: ['move', +1],
-  a: ['turn', 1],
-  d: ['turn', -1],
-  q: ['strafe', -1],
-  e: ['strafe', 1],
-
-  '?': ['showInfo'],
-  m: ['showMap'],
-  f: ['toggleFullscreen'],
-  p: ['togglePause']
-}
-
 export function execCommand (command, key) {
   const [funcname, ...args] = (typeof command === 'string') ? [command, []] : command
 
@@ -44,7 +25,7 @@ export function handleKeyDown (event) {
   // console.log('key: ', key);
   if (!key) return
 
-  const command = keyMap[key]
+  const command = gameState.keyMap[key]
   // console.log('command: ', command);
   if (!command) return
 

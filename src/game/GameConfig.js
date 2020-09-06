@@ -35,6 +35,7 @@ export async function init (configfile, finished) {
   for (const name of fullconf.debug) {
     mergeObject(config, fullconf.debugConfigs[name])
   }
+  config.keyMap = fullconf.keyMap
 
   console.log('Init config: \n', YAML.safeDump(config))
   gameState.init(config)

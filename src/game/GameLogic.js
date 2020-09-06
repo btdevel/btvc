@@ -121,6 +121,7 @@ export const gameState = {
     this.position.y = config.position.y
     this.dir = config.dir
     this.setOrbitcontrols(config.orbitcontrols)
+    this.keyMap = config.keyMap
 
     const hour = config.hour
     const dayLengthInMinutes = config.dayLengthInMinutes
@@ -133,7 +134,7 @@ export const gameState = {
     )
     stepper.setSimTime(hour * TimeStepper.HOUR)
     stepper.resume()
-    // console.log('Init: ', this);
+    console.log('Init: ', this);
 
     for(const command of commands) {
       console.log(command);
