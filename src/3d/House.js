@@ -31,10 +31,10 @@ import gateAlpha from '../assets/images/city/gate_alpha.png'
 const loader = new THREE.TextureLoader()
 function load(img) { return loader.load(img)}
 
-const houseTextures = {
+const materialProps = {
   // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
-  1: {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true },
-  2: {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true },
+  1: {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true},
+  2: {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true},
   3: {map: load(house3Img)},
   4: {map: load(house4Img)},
   5: {map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmis), emissive: 0xFFFFFF},
@@ -42,17 +42,30 @@ const houseTextures = {
   7: {map: load(shopImg)},
   8: {map: load(templeImg)},
   9: {map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
-
   10: {map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
   11: {map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
+}
+const meshProps = {
+  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
+  1: {renderOrder: 4 },
+  2: {renderOrder: 3 },
+  3: {},
+  4: {},
+  5: {},
+  6: {},
+  7: {},
+  8: {},
+  9: {},
+  10: {renderOrder: 2},
+  11: {renderOrder: 2 },
 }
 
 
 export const House = forwardRef(({ type, x, y, props}, ref) => {
   return (
-    <mesh position={[x, 0, y]} castShadow receiveShadow ref={ref}>
+    <mesh position={[x, 0, y]} castShadow receiveShadow {...meshProps[type]} ref={ref}>
       <boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
-      <meshStandardMaterial attach='material' {...houseTextures[type]} />
+      <meshStandardMaterial attach='material' {...materialProps[type]} />
     </mesh>
   )
 })

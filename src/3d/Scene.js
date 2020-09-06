@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react'
 
-import { gameState } from '../game/GameLogic'
-import { onKeyEvent } from '../game/KeyMap'
-
 import City from './City'
 import Lights from './Lights'
 import MySky from './MySky'
 import Ground from './Ground'
 import Camera from './Camera'
+import Effects from './Effects'
 
 export default function Scene () {
   return (
@@ -17,6 +15,7 @@ export default function Scene () {
       <MySky />
       <Ground />
       <City />
+      <Effects />
     </group>
   )
 }

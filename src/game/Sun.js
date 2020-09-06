@@ -5,7 +5,8 @@ export function sunPosition (phi, theta) {
   const x = cos(theta) * sin(phi)
   const y = cos(theta) * cos(phi)
   const z = sin(theta)
-  return [x, y, z]
+  // return [x, y, z]
+  return [x, z, -y]
 }
 
 function sunPostion2 (inclination, azimuth) {

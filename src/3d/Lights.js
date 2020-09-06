@@ -1,74 +1,91 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, forwardRef, useState } from 'react'
 import { useFrame, useThree } from 'react-three-fiber'
 import { gameState } from '../game/GameLogic'
 import * as THREE from 'three'
-
-const Light = () => {
-  //Create a PointLight and turn on shadows for the light
-  const light = new THREE.DirectionalLight(0xffffff, 1, 100)
-  const n=100
-  light.position.set(n, n, n)
-  // light.position.set(1, 1, 1)
-  light.castShadow = true // default false
-  //Set up shadow properties for the light
-  light.shadow.mapSize.width = 5120 // default
-  light.shadow.mapSize.height = 5120 // default
-  light.shadow.camera.near = 0.1 // default
-  light.shadow.camera.far = 500 // default
-  light.shadow.camera.top = -100 // default
-  light.shadow.camera.right = 100 // default
-  light.shadow.camera.left = -100 // default
-  light.shadow.camera.bottom = 100 // default
-  return <primitive object={light} />
-}
+import { degree, sunPosition, radians } from '../game/Sun'
+import { useHelper } from 'drei'
+import { DirectionalLightHelper, Object3D } from 'three'
 
 
 export default function Lights () {
   const ambientRef = useRef()
   const sunRef = useRef()
-
-  const t = useThree()
-  const renderer = t.gl
-  // console.log('TTT: ', t);
-
-  useEffect(() => {
-    if (renderer) {
-      console.log('SETTING SHADOWS');
-      // renderer.shadowMap.enabled = true
-      // renderer.shadowMap.type = THREE.PCFSoftShadowMap // default THREE.PCFShadowMap
-    }
-
-    // const light = sunRef.current
-    // light.shadow.mapSize.width = 512 // default
-    // light.shadow.mapSize.height = 512 // default
-    // light.shadow.camera.near = 0.5 // default
-    // light.shadow.camera.far = 500 // default
-  }, [renderer])
+  const targetRef = useRef()
+  const clock = useRef(new THREE.Clock(true)).current
 
   useFrame(() => {
-    if(false){
     const theta = gameState.sun.elevation()
-    const [x, y, z] = gameState.sun.position()
+    let [x, y, z] = gameState.sun.position()
+    const sunPos = new THREE.Vector3(x,y,z)
 
-    const intensity = Math.min(0.9, Math.max(theta, 0.1))
-    ambientRef.current.intensity = 0.5 * intensity
+    let sin = Math.sin(theta)
+    const intensity1 = Math.min(0.9, Math.max(2 * sin, 0.1))
+    const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))
 
-    sunRef.current.position.x = 10*x
-    sunRef.current.position.y = 10*z
-    sunRef.current.position.z = 10*(-y)
-    sunRef.current.intensity = 0.7 * intensity}
+    if (ambientRef.current) {
+      ambientRef.current.intensity = 0.3 * intensity1
+    }
+    if (sunRef.current) {
+      const n = 20, mindiff = 0.3
+      sunRef.current.intensity = 0.7 * intensity2
+      const pos = sunRef.current.position
+      const tpos = sunRef.current.target.position
+      const lightPos = sunPos.multiplyScalar(n).add(tpos)
+      if( lightPos.distanceTo(pos)>mindiff) {
+        sunRef.current.position.copy(lightPos)
+      }
 
-    //Math.min(0.9, Math.max(0, theta + 0.2) + 0.15) // 0.5 * (1 + Math.cos(phi) + 0.4)
+      if( clock.getElapsedTime() > 100 ) {
+        console.log(clock.getElapsedTime());
+        clock.start()
+        console.log(pos);
+        console.log(sunRef.current.shadow.camera.position);
+        console.log(sunRef.current.target.position);
+        console.log(sunRef.current.shadow.camera);
+      }
+    }
   })
 
   const color = 0xffffff
   const intensity = 0.5
+  const w = 20
+  const mapSize = 8 * 512
+  const debug = false
   return (
     <>
-      <ambientLight args={[color, 0.5*intensity]} ref={ambientRef} />
-      {/* <directionalLight position={[1, 1, 1]} castShadow ref={sunRef} /> */}
-      {/* <directionalLight position={[1, 1, 2]} castShadow /> */}
-      <Light />
+      <ambientLight args={[color, intensity]} ref={ambientRef} />
+
+      <object3D position={[15, 0.0, 15]} ref={targetRef}>
+        {debug && <axesHelper />}
+      </object3D>
+      <directionalLight 
+        angle={radians(10)}
+        castShadow ref={sunRef} 
+        shadow-camera-left={-w}
+        shadow-camera-right={w}
+        shadow-camera-bottom={-w}
+        shadow-camera-top={w}
+        shadow-camera-near={0}
+        shadow-camera-far={40}
+        target={targetRef.current}
+        shadow-mapSize-width={mapSize}
+        shadow-mapSize-height={mapSize}
+        >
+        {debug && <axesHelper args={[5]} />}
+      </directionalLight>
+      {debug && sunRef.current &&
+          <cameraHelper args={[sunRef.current.shadow.camera]}>
+            <axesHelper args={[5]}/>
+          </cameraHelper>
+        }
     </>
   )
 }
+
+  // var gui = new dat.GUI();
+  // gui.add( light.shadow.camera, 'top' ).min( 1 ).max( 100000 ).onChange( function ( value ) {
+  //     light.shadow.camera.bottom = -value;
+  //     light.shadow.camera.left = value;
+  //     light.shadow.camera.right = -value;
+  // });
+

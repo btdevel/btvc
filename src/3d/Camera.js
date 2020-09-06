@@ -46,6 +46,8 @@ export default function Camera () {
       rotation-order='YXZ'
       // fov={120}
       fov={90}
+      near={0.01}
+      far={550}
       on
     />
   )

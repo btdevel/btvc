@@ -13,7 +13,7 @@ function setAngles (x, y) {
   gameState.dTheta = clamp(-(y - yStart) / 100, -maxTheta, maxTheta)
 }
 
-function handleMouseDown (event) {
+export function handleMouseDown (event) {
   xStart = event.screenX
   yStart = event.screenY
   isPressed = true
@@ -21,7 +21,7 @@ function handleMouseDown (event) {
   event.preventDefault()
 }
 
-function handleMouseMove (event) {
+export function handleMouseMove (event) {
   if (isPressed) {
     const x = event.screenX
     const y = event.screenY
@@ -30,15 +30,10 @@ function handleMouseMove (event) {
   }
 }
 
-function handleMouseUp (event) {
+export function handleMouseUp (event) {
   if (isPressed) {
     isPressed = false
     setAngles(xStart, yStart)
     event.preventDefault()
   }
 }
-
-document.addEventListener('mousedown', handleMouseDown, false)
-document.addEventListener('mousemove', handleMouseMove, false)
-document.addEventListener('mouseup', handleMouseUp, false)
-document.addEventListener('mouseleave', handleMouseUp, false)

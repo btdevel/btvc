@@ -92,7 +92,6 @@ export default function GameScreen () {
   if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
-        {/* <PlayerView orbitControls /> */}
         <PlayerView />
       </GamescreenBox>
     )

@@ -3,18 +3,19 @@ import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from 'drei'
 import Scene from '../3d/Scene'
 import * as THREE from 'three'
+import GameControls from '../3d/GameControls'
 
 function PlayerView ({ orbitControls }) {
   return (
     <Canvas
-      shadowMap
-      onCreated={({ gl }) => {
-        // gl.toneMapping = THREE.ACESFilmicToneMapping
-        // gl.outputEncoding = THREE.sRGBEncoding
-      }}
+      // shadowMap
+      shadowMap={{
+        enabled: true,
+        type: THREE.PCFSoftShadowMap
+      }} 
     >
       <Scene />
-      {orbitControls && <OrbitControls />}
+      {orbitControls ? <OrbitControls /> : <GameControls />}
     </Canvas>
   )
 }

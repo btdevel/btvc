@@ -14,8 +14,8 @@ export default function MySky () {
     // }
     const uniforms = sunRef.current.material.uniforms
     uniforms.sunPosition.value.x = x
-    uniforms.sunPosition.value.y = z
-    uniforms.sunPosition.value.z = -y
+    uniforms.sunPosition.value.y = y
+    uniforms.sunPosition.value.z = z
 
     var effectController = {
       turbidity: 10,

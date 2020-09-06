@@ -14,6 +14,10 @@ function randomInt (max) {
   return Math.floor(Math.random() * Math.floor(max))
 }
 
+function mapTo(x, a, b, c, d) {
+  return ((x - a) / (b - a)) * (d - c) + c
+}
+
 export const [useStore, api] = create((set, get) => {
   const modify = fn => set(produce(fn))
 
@@ -39,14 +43,44 @@ export const gameState = {
   },
 
   showInfo () {
+    const time = this.time_hours() % 24
+    const hours = Math.floor(time)
+    const minutes = Math.floor((time - hours) * 60)
     api.getState().modify(draft => {
-      draft.gameText = `You are in Skara Brae. It is 9 o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
+      draft.gameText = `You are in Skara Brae. It is ${hours}:${minutes} o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
     })
   },
 
   showMap () {
     api.getState().modify(draft => {
-      draft.gameText = <img height='100%' width='100%' src={cityMapImg} />
+      // const x = this.position.x * 10
+      // const y = this.position.y * 10
+
+      // Guild at 25,14
+      // const x = 200
+      // const y = 86
+      // Mangar at 2, 24
+      // const x = 42
+      // const y = 138
+      const x = mapTo(this.position.x, 2, 25, 42, 200)
+      // const y = mapTo(this.position.y, 14, 24, 86, 138)
+      const y = mapTo(this.position.y, 14, 24, 90, 140)
+      const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
+      const dir = ((this.dir % 4) + 4) % 4
+      console.log(this.dir, dir);
+      
+      draft.gameText = (
+        <div style={{width: '100%', height: '100%'}}>
+          <img height='100%' width='100%' src={cityMapImg} />
+          <div style={{ fontSize: 12, fontWeight: 'bold',  fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y}}>{arrows[dir]}</div>
+        </div>
+      )
+    })
+  },
+
+  clearInfo () {
+    api.getState().modify(draft => {
+      draft.gameText = ''
     })
   },
 
@@ -63,6 +97,7 @@ export const gameState = {
       return hour_angle(gameState.time_hours())
     },
     elevation () {
+      // return radians(30)
       return elevation(this.latitude, declination(this.day), this.hour_angle())
     },
     position () {
@@ -78,9 +113,12 @@ export const gameState = {
     this.position.y = startY
     this.dir = startDir
 
+    const dayLengthInMinutes = 50
     const stepper = this.stepper
     stepper.pause()
-    stepper.setSimSpeed((1.3 * TimeStepper.DAY) / TimeStepper.MINUTE) // One minute is 24 hours
+    stepper.setSimSpeed(
+      TimeStepper.DAY / TimeStepper.MINUTE / dayLengthInMinutes
+    ) // One minute is 24 hours
     stepper.setSimTime(startHour * TimeStepper.HOUR)
     stepper.resume()
   },
@@ -91,6 +129,10 @@ export const gameState = {
 
   resume () {
     this.stepper.resume()
+  },
+
+  togglePause () {
+    this.stepper.setPaused(!this.stepper.isPaused())
   },
 
   time () {
@@ -111,10 +153,12 @@ export const gameState = {
       this.position.x += dx
       this.position.y += dy
     }
+    this.clearInfo()
   },
 
   turn (i) {
     this.dir += i
+    this.clearInfo()
   }
 }
 // Object.freeze(gameState)

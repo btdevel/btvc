@@ -1,0 +1,29 @@
+{
+  "init": {
+    "hour": 12,
+    "position": {
+    "x": 19,
+    "y": 25},
+    "dir": 1
+  },
+
+  comments: "
+  // let startHour = 12
+  // let startX = 25 // Guild
+  // let startY = 15
+  // let startDir = 0
+  // let startX = 25 // Guild (better)
+  // let startY = 14
+  // let startDir = 3
+  // let startX = 2 // City gate
+  // let startY = 14
+  // let startDir = 1
+  // let startX = 3
+  // let startY = 14
+  // let startDir = 0
+  
+  // let startX = 19 // South
+  // let startY = 25
+  // let startDir = 1
+  "
+}
