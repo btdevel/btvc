@@ -1,29 +1,57 @@
-{
-  "init": {
-    "hour": 12,
-    "position": {
-    "x": 19,
-    "y": 25},
-    "dir": 1
-  },
+init: 
+  hour: 12
+  position:
+    x: 19
+    y: 25
+  dir: 1
+  initCommands: []
+  orbitcontrols: false
+  dayLengthInMinutes: 30
 
-  comments: "
-  // let startHour = 12
-  // let startX = 25 // Guild
-  // let startY = 15
-  // let startDir = 0
-  // let startX = 25 // Guild (better)
-  // let startY = 14
-  // let startDir = 3
-  // let startX = 2 // City gate
-  // let startY = 14
-  // let startDir = 1
-  // let startX = 3
-  // let startY = 14
-  // let startDir = 0
-  
-  // let startX = 19 // South
-  // let startY = 25
-  // let startDir = 1
-  "
-}
+debug: ['atGuildBetter', 'earlyMorning', 'standard']
+# debug: ['morning', 'atGate', 'faster']
+
+debugConfigs:
+  standard:
+    dayLengthInMinutes: 30
+  faster:
+    dayLengthInMinutes: 10
+  fast:
+    dayLengthInMinutes: 2
+  ultrafast:
+    dayLengthInMinutes: 0.2
+  orbitcontrols:
+    initCommands:
+      - 'toggleFullscreen'
+    orbitcontrols: true
+  night:
+    hour: 0
+  earlyMorning:
+    hour: 5
+  morning:
+    hour: 6
+  noon:
+    hour: 12
+  evening:
+    hour: 18
+  atGate:
+    position: {x: 2, y: 14}
+    dir: 1
+  atGuildStandard:
+    position: {x: 25, y: 15}
+    dir: 0
+  atGuildBetter:
+    position: {x: 25, y: 14}
+    dir: 3
+  nearGate:
+    position: {x: 3, y: 14}
+    dir: 0
+  southQuarter:
+    position: {x: 19, y: 25}
+    dir: 1
+  paused:
+    initCommands:
+      - 'pause'
+  fullscreen:
+    initCommands:
+      - 'toggleFullscreen'

@@ -7,6 +7,7 @@ import { CityMap } from './CityMap'
 import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
+import { execCommand } from './KeyMap'
 
 const cityMap = new CityMap()
 
@@ -26,7 +27,8 @@ export const [useStore, api] = create((set, get) => {
 
     overlayText: '',
     gameText: 'Welcome to Skara Brae!',
-    fullscreen: false
+    fullscreen: false,
+    orbitcontrols: false,
   }
 })
 
@@ -90,6 +92,12 @@ export const gameState = {
     })
   },
 
+  setOrbitcontrols (onoff) {
+    api.getState().modify(draft => {
+      draft.orbitcontrols = onoff
+    })
+  },
+
   sun: {
     latitude: radians(51),
     day: 180,
@@ -108,19 +116,29 @@ export const gameState = {
     }
   },
 
-  init (startHour, startX, startY, startDir) {
-    this.position.x = startX
-    this.position.y = startY
-    this.dir = startDir
+  init (config) {
+    this.position.x = config.position.x
+    this.position.y = config.position.y
+    this.dir = config.dir
+    this.setOrbitcontrols(config.orbitcontrols)
 
-    const dayLengthInMinutes = 50
+    const hour = config.hour
+    const dayLengthInMinutes = config.dayLengthInMinutes
+    const commands = config.initCommands
+
     const stepper = this.stepper
     stepper.pause()
     stepper.setSimSpeed(
       TimeStepper.DAY / TimeStepper.MINUTE / dayLengthInMinutes
-    ) // One minute is 24 hours
-    stepper.setSimTime(startHour * TimeStepper.HOUR)
+    )
+    stepper.setSimTime(hour * TimeStepper.HOUR)
     stepper.resume()
+    // console.log('Init: ', this);
+
+    for(const command of commands) {
+      console.log(command);
+      execCommand(command)
+    }
   },
 
   pause () {

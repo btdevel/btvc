@@ -2,8 +2,8 @@ const sin = Math.sin
 const cos = Math.cos
 
 export function sunPosition (phi, theta) {
-  const x = cos(theta) * sin(phi)
-  const y = cos(theta) * cos(phi)
+  const x = cos(theta) * sin(phi + Math.PI)
+  const y = cos(theta) * cos(phi + Math.PI)
   const z = sin(theta)
   // return [x, y, z]
   return [x, z, -y]

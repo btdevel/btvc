@@ -23,7 +23,7 @@ export default function Lights () {
     const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))
 
     if (ambientRef.current) {
-      ambientRef.current.intensity = 0.3 * intensity1
+      ambientRef.current.intensity = 0.5 * intensity1
     }
     if (sunRef.current) {
       const n = 20, mindiff = 0.3
@@ -35,13 +35,10 @@ export default function Lights () {
         sunRef.current.position.copy(lightPos)
       }
 
-      if( clock.getElapsedTime() > 100 ) {
-        console.log(clock.getElapsedTime());
+      if( clock.getElapsedTime() > 2 ) {
+        sunRef.current.position.copy(lightPos)
+        // console.log(clock.getElapsedTime(), lightPos);
         clock.start()
-        console.log(pos);
-        console.log(sunRef.current.shadow.camera.position);
-        console.log(sunRef.current.target.position);
-        console.log(sunRef.current.shadow.camera);
       }
     }
   })

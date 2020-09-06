@@ -88,11 +88,12 @@ export default function GameScreen () {
   const [loaded, setIsLoaded] = useState(false)
   const overlayText = useStore(state => state.overlayText)
   const fullscreen = useStore(state => state.fullscreen)
+  const orbitcontrols = useStore(state => state.orbitcontrols)
 
   if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
-        <PlayerView />
+        <PlayerView orbitControls={orbitcontrols} />
       </GamescreenBox>
     )
   }
@@ -114,7 +115,7 @@ export default function GameScreen () {
       <Conditional render={loaded} otherwise={<LoadScreen />}>
         <PlayerViewBox id='3dview'>
           <ErrorBoundary FallbackComponent={ErrorComponent}>
-            <PlayerView />
+            <PlayerView orbitControls={orbitcontrols} />
           </ErrorBoundary>
         </PlayerViewBox>
         <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
