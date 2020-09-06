@@ -9,8 +9,7 @@ init:
   dayLengthInMinutes: 30
 
 debug: ['atGuildBetter', 'earlyMorning', 'standard']
-# debug: ['morning', 'atGate', 'faster']
-
+# debug: ['morning', 'atGate', 'fast']
 
 keyMap:
   ArrowUp: ['move', -1]
@@ -20,10 +19,10 @@ keyMap:
 
   w: ['move', -1]
   s: ['move', +1]
-  a: ['turn', 1]
-  d: ['turn', -1]
-  q: ['strafe', -1]
-  e: ['strafe', 1]
+  q: ['turn', 1]
+  e: ['turn', -1]
+  a: ['strafe', -1]
+  d: ['strafe', 1]
   '?': 'showInfo'
   m: 'showMap'
   f: 'toggleFullscreen'

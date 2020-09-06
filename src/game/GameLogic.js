@@ -178,6 +178,12 @@ export const gameState = {
   turn (i) {
     this.dir += i
     this.clearInfo()
+  },
+
+  strafe (i) {
+    this.turn(1)
+    this.move(i)
+    this.turn(-1)
   }
 }
 // Object.freeze(gameState)
