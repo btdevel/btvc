@@ -7,9 +7,11 @@ init:
   initCommands: []
   orbitcontrols: false
   dayLengthInMinutes: 30
+  level: 'city'
 
-debug: ['atGuildBetter', 'earlyMorning', 'standard']
-# debug: ['morning', 'atGate', 'fast']
+# debug: ['atGuildBetter', 'earlyMorning', 'standard']
+# debug: ['night', 'atCenter', 'fast', 'fullscreen', 'facingSouth']
+debug: ['cellars', 'night', 'fullscreen']
 
 keyMap:
   ArrowUp: ['move', -1]
@@ -51,9 +53,14 @@ debugConfigs:
     hour: 12
   evening:
     hour: 18
+  cellars:
+    level: 0
   atGate:
     position: {x: 2, y: 14}
     dir: 1
+  atCenter:
+    position: {x: 15, y: 14}
+    dir: 0
   atGuildStandard:
     position: {x: 25, y: 15}
     dir: 0
@@ -72,3 +79,11 @@ debugConfigs:
   fullscreen:
     initCommands:
       - 'toggleFullscreen'
+  facingNorth:
+    dir: 0
+  facingEast:
+    dir: 1
+  facingSouth:
+    dir: 2
+  facingWest:
+    dir: 3

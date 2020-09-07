@@ -8,42 +8,69 @@ import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 import { execCommand } from './KeyMap'
+import { mapTo } from '../util/math'
 
 const cityMap = new CityMap()
 
-function randomInt (max) {
-  return Math.floor(Math.random() * Math.floor(max))
-}
-
-function mapTo(x, a, b, c, d) {
-  return ((x - a) / (b - a)) * (d - c) + c
-}
-
 export const [useStore, api] = create((set, get) => {
   const modify = fn => set(produce(fn))
-
+  
   return {
     modify: modify,
-
+    
     overlayText: '',
     gameText: 'Welcome to Skara Brae!',
     fullscreen: false,
     orbitcontrols: false,
+    level: 'city'
   }
 })
+
+function modifyState (func) {
+  api.getState().modify(func)
+}
 
 export const gameState = {
   stepper: new TimeStepper(),
 
-  dir: 0,
   position: { x: 0, y: 0 },
+  dir: 0,
   dPhi: 0,
   dTheta: 0,
+  keyMap: {},
+  
+  init (config) {
+    this.position.x = config.position.x
+    this.position.y = config.position.y
+    this.dir = config.dir
+    this.keyMap = config.keyMap
+
+    this.setOrbitcontrols(config.orbitcontrols)
+    this.setLevel(config.level)
+  
+    const hour = config.hour
+    const dayLengthInMinutes = config.dayLengthInMinutes
+    const commands = config.initCommands
+  
+    const stepper = this.stepper
+    stepper.pause()
+    stepper.setSimSpeed(
+      TimeStepper.DAY / TimeStepper.MINUTE / dayLengthInMinutes
+    )
+    stepper.setSimTime(hour * TimeStepper.HOUR)
+    stepper.resume()
+    console.log('Init: ', this);
+  
+    for(const command of commands) {
+      console.log(command);
+      execCommand(command)
+    }
+  },
 
   angle () {
     return radians(this.dir * 90)
   },
-
+  
   showInfo () {
     const time = this.time_hours() % 24
     const hours = Math.floor(time)
@@ -52,12 +79,12 @@ export const gameState = {
       draft.gameText = `You are in Skara Brae. It is ${hours}:${minutes} o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
     })
   },
-
+  
   showMap () {
     api.getState().modify(draft => {
       // const x = this.position.x * 10
       // const y = this.position.y * 10
-
+      
       // Guild at 25,14
       // const x = 200
       // const y = 86
@@ -116,31 +143,6 @@ export const gameState = {
     }
   },
 
-  init (config) {
-    this.position.x = config.position.x
-    this.position.y = config.position.y
-    this.dir = config.dir
-    this.setOrbitcontrols(config.orbitcontrols)
-    this.keyMap = config.keyMap
-
-    const hour = config.hour
-    const dayLengthInMinutes = config.dayLengthInMinutes
-    const commands = config.initCommands
-
-    const stepper = this.stepper
-    stepper.pause()
-    stepper.setSimSpeed(
-      TimeStepper.DAY / TimeStepper.MINUTE / dayLengthInMinutes
-    )
-    stepper.setSimTime(hour * TimeStepper.HOUR)
-    stepper.resume()
-    console.log('Init: ', this);
-
-    for(const command of commands) {
-      console.log(command);
-      execCommand(command)
-    }
-  },
 
   pause () {
     this.stepper.pause()
@@ -184,6 +186,10 @@ export const gameState = {
     this.turn(1)
     this.move(i)
     this.turn(-1)
+  },
+
+  setLevel (level) {
+    modifyState(draft => {draft.level = level})
   }
 }
 // Object.freeze(gameState)

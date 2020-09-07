@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { gameState } from './GameLogic'
 import YAML from 'js-yaml'
 
@@ -24,12 +23,15 @@ function mergeObject(obj1, obj2) {
   return obj1
 }
 
-export async function init (configfile, finished) {
-  console.log('config', configfile)
-  const response = await fetch(configfile)
+async function loadYAML(file) {
+  const response = await fetch(file)
   const body = await response.text()
 
-  const fullconf = YAML.safeLoad(body)
+  return YAML.safeLoad(body)
+}
+
+export async function init (configfile, finished) {
+  const fullconf = await loadYAML(configfile)
   console.log('Full config: ', fullconf);
   let config = fullconf.init
   for (const name of fullconf.debug) {

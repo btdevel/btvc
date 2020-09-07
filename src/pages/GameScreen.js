@@ -23,11 +23,19 @@ function ErrorComponent () {
 
 const GamescreenBox = styled.div`
   width: 640px;
-  height: 480px;
+  height: 400px;
 `
 const BackgroundImgBox = styled.div`
   width: 640px;
-  height: 480px;
+  height: 400px;
+  position: absolute;
+  left: 0;
+  top: 0;
+`
+const FullscreenBox = styled.div`
+  background-color: black;
+  width: 640px;
+  height: 400px;
   position: absolute;
   left: 0;
   top: 0;
@@ -93,7 +101,9 @@ export default function GameScreen () {
   if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
-        <PlayerView orbitControls={orbitcontrols} />
+        <FullscreenBox>
+          <PlayerView orbitControls={orbitcontrols} />
+        </FullscreenBox>
       </GamescreenBox>
     )
   }
