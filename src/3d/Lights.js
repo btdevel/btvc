@@ -1,11 +1,8 @@
-import React, { useRef, useEffect, forwardRef, useState } from 'react'
-import { useFrame, useThree } from 'react-three-fiber'
+import React, { useRef } from 'react'
+import { useFrame } from 'react-three-fiber'
 import { gameState } from '../game/GameLogic'
+import { radians } from '../game/Sun'
 import * as THREE from 'three'
-import { degree, sunPosition, radians } from '../game/Sun'
-import { useHelper } from 'drei'
-import { DirectionalLightHelper, Object3D } from 'three'
-
 
 export default function Lights () {
   const ambientRef = useRef()
@@ -15,10 +12,10 @@ export default function Lights () {
 
   useFrame(() => {
     const theta = gameState.sun.elevation()
-    let [x, y, z] = gameState.sun.position()
-    const sunPos = new THREE.Vector3(x,y,z)
+    const [x, y, z] = gameState.sun.position()
+    const sunPos = new THREE.Vector3(x, y, z)
 
-    let sin = Math.sin(theta)
+    const sin = Math.sin(theta)
     const intensity1 = Math.min(0.9, Math.max(2 * sin, 0.1))
     const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))
 
@@ -26,16 +23,17 @@ export default function Lights () {
       ambientRef.current.intensity = 0.5 * intensity1
     }
     if (sunRef.current) {
-      const n = 20, mindiff = 0.3
+      const n = 20
+      const mindiff = 0.3
       sunRef.current.intensity = 0.7 * intensity2
       const pos = sunRef.current.position
       const tpos = sunRef.current.target.position
       const lightPos = sunPos.multiplyScalar(n).add(tpos)
-      if( lightPos.distanceTo(pos)>mindiff) {
+      if (lightPos.distanceTo(pos) > mindiff) {
         sunRef.current.position.copy(lightPos)
       }
 
-      if( clock.getElapsedTime() > 2 ) {
+      if (clock.getElapsedTime() > 2) {
         sunRef.current.position.copy(lightPos)
         // console.log(clock.getElapsedTime(), lightPos);
         clock.start()
@@ -67,22 +65,21 @@ export default function Lights () {
         target={targetRef.current}
         shadow-mapSize-width={mapSize}
         shadow-mapSize-height={mapSize}
-        >
+      >
         {debug && <axesHelper args={[5]} />}
       </directionalLight>
       {debug && sunRef.current &&
-          <cameraHelper args={[sunRef.current.shadow.camera]}>
-            <axesHelper args={[5]}/>
-          </cameraHelper>
-        }
+        <cameraHelper args={[sunRef.current.shadow.camera]}>
+          <axesHelper args={[5]}/>
+        </cameraHelper>
+      }
     </>
   )
 }
 
-  // var gui = new dat.GUI();
-  // gui.add( light.shadow.camera, 'top' ).min( 1 ).max( 100000 ).onChange( function ( value ) {
-  //     light.shadow.camera.bottom = -value;
-  //     light.shadow.camera.left = value;
-  //     light.shadow.camera.right = -value;
-  // });
-
+// var gui = new dat.GUI();
+// gui.add( light.shadow.camera, 'top' ).min( 1 ).max( 100000 ).onChange( function ( value ) {
+//     light.shadow.camera.bottom = -value;
+//     light.shadow.camera.left = value;
+//     light.shadow.camera.right = -value;
+// });

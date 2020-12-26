@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 
 import City from './City'
+import Dungeon from './Dungeon'
 import Lights from './Lights'
+import DungeonLights from './DungeonLights'
 import MySky from './MySky'
 import Ground from './Ground'
 import Camera from './Camera'
@@ -27,9 +29,9 @@ function DungeonScene ({ level }) {
   return (
     <group>
       <Camera />
-      <Lights />
-      <Ground />
-      <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400}/>
+      <DungeonLights />
+      <Ground type='dungeon'/>
+      <Dungeon level={level} />
     </group>
   )
 }

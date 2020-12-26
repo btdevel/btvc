@@ -45,7 +45,7 @@ Stars.propTypes = {
   number: PropTypes.number,
   box: PropTypes.number,
   mindDist: PropTypes.number,
-  color: PropTypes.number || PropTypes.string,
+  color: PropTypes.oneOfType( [PropTypes.number, PropTypes.string] ),
   size: PropTypes.number,
   sprite: PropTypes.bool
 }
