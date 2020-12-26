@@ -21,6 +21,6 @@ export function useAsync(func, args) {
 }
 
 export function useAsyncFinish(func, args) {
-  const [result, loading, error] = useAsync(func, args)
+  const [, loading, ] = useAsync(func, args)
   return !loading
 }

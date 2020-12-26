@@ -12,8 +12,9 @@ import { mapTo } from '../util/math'
 
 const cityMap = new CityMap()
 
-export const [useStore, api] = create((set, get) => {
-  const modify = fn => set(produce(fn))
+// export const [useStore, api] = create((set, get) => {
+export const useStore = create((set, get) => {
+    const modify = fn => set(produce(fn))
   
   return {
     modify: modify,
@@ -27,7 +28,8 @@ export const [useStore, api] = create((set, get) => {
 })
 
 function modifyState (func) {
-  api.getState().modify(func)
+  // api.getState().modify(func)
+  useStore.getState().modify(func)
 }
 
 export const gameState = {
@@ -75,13 +77,13 @@ export const gameState = {
     const time = this.time_hours() % 24
     const hours = Math.floor(time)
     const minutes = Math.floor((time - hours) * 60)
-    api.getState().modify(draft => {
+    modifyState(draft => {
       draft.gameText = `You are in Skara Brae. It is ${hours}:${minutes} o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
     })
   },
   
   showMap () {
-    api.getState().modify(draft => {
+    modifyState(draft => {
       // const x = this.position.x * 10
       // const y = this.position.y * 10
       
@@ -100,7 +102,7 @@ export const gameState = {
       
       draft.gameText = (
         <div style={{width: '100%', height: '100%'}}>
-          <img height='100%' width='100%' src={cityMapImg} />
+          <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae"/>
           <div style={{ fontSize: 12, fontWeight: 'bold',  fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y}}>{arrows[dir]}</div>
         </div>
       )
@@ -108,19 +110,19 @@ export const gameState = {
   },
 
   clearInfo () {
-    api.getState().modify(draft => {
+    modifyState(draft => {
       draft.gameText = ''
     })
   },
 
   toggleFullscreen () {
-    api.getState().modify(draft => {
+    modifyState(draft => {
       draft.fullscreen = !draft.fullscreen
     })
   },
 
   setOrbitcontrols (onoff) {
-    api.getState().modify(draft => {
+    modifyState(draft => {
       draft.orbitcontrols = onoff
     })
   },
@@ -170,7 +172,7 @@ export const gameState = {
     const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
     const x = this.position.x + dx
     const y = this.position.y + dy
-    if (cityMap.type[x][y] == 0) {
+    if (cityMap.type[x][y] === 0) {
       this.position.x += dx
       this.position.y += dy
     }
