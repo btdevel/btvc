@@ -14,11 +14,11 @@ const cityMap = new CityMap()
 
 // export const [useStore, api] = create((set, get) => {
 export const useStore = create((set, get) => {
-    const modify = fn => set(produce(fn))
-  
+  const modify = fn => set(produce(fn))
+
   return {
     modify: modify,
-    
+
     overlayText: '',
     gameText: 'Welcome to Skara Brae!',
     fullscreen: false,
@@ -27,8 +27,7 @@ export const useStore = create((set, get) => {
   }
 })
 
-function modifyState (func) {
-  // api.getState().modify(func)
+export function modifyState(func) {
   useStore.getState().modify(func)
 }
 
@@ -40,8 +39,8 @@ export const gameState = {
   dPhi: 0,
   dTheta: 0,
   keyMap: {},
-  
-  init (config) {
+
+  init(config) {
     this.position.x = config.position.x
     this.position.y = config.position.y
     this.dir = config.dir
@@ -49,11 +48,11 @@ export const gameState = {
 
     this.setOrbitcontrols(config.orbitcontrols)
     this.setLevel(config.level)
-  
+
     const hour = config.hour
     const dayLengthInMinutes = config.dayLengthInMinutes
     const commands = config.initCommands
-  
+
     const stepper = this.stepper
     stepper.pause()
     stepper.setSimSpeed(
@@ -62,31 +61,49 @@ export const gameState = {
     stepper.setSimTime(hour * TimeStepper.HOUR)
     stepper.resume()
     console.log('Init: ', this);
-  
-    for(const command of commands) {
+
+    for (const command of commands) {
       console.log(command);
       execCommand(command)
     }
   },
 
-  angle () {
+  angle() {
     return radians(this.dir * 90)
   },
-  
-  showInfo () {
+
+  showInfo() {
     const time = this.time_hours() % 24
     const hours = Math.floor(time)
     const minutes = Math.floor((time - hours) * 60)
+    const directions = ['north', 'west', 'south', 'east'];
+    const timeOfDay = ['after midnite', 'early morning', 'mid morning',
+      'noon', 'afternoon', 'dusk', 'evening', 'midnite']
+    function pad(num, size) { return ('00' + num).substr(-size); }
+
+    // https://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?t=1604
+    // "present time of day: after midnite 0 - 3, midnite 4 - 7, evening 8 - b, dusk c - f, afternoon 10 - 13, noon 14 - 17, mid morning 18 - 1b, early morning 1c - 1f"  Seems to be set to 1f; i.e. early morning
+
     modifyState(draft => {
-      draft.gameText = `You are in Skara Brae. It is ${hours}:${minutes} o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
+      if (draft.level === 'city') {
+        const timeStr = timeOfDay[Math.floor(((time - 1.5 + 24) % 24) / 3)]
+        draft.gameText = `You are on ?? Street facing ${directions[this.dir]}.
+
+        It's now ${timeStr}.
+
+        [T: ${pad(hours, 2)}:${pad(minutes, 2)} X: ${this.position.x} Y: ${this.position.y}]`
+      } else {
+        draft.gameText = `You are in Skara Brae. It is ${hours}:${minutes} o'clock and you are at X: ${this.position.x} Y: ${this.position.y}`
+      }
+      console.log(draft.gameText)
     })
   },
-  
-  showMap () {
+
+  showMap() {
     modifyState(draft => {
       // const x = this.position.x * 10
       // const y = this.position.y * 10
-      
+
       // Guild at 25,14
       // const x = 200
       // const y = 86
@@ -99,29 +116,29 @@ export const gameState = {
       const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
       const dir = ((this.dir % 4) + 4) % 4
       console.log(this.dir, dir);
-      
+
       draft.gameText = (
-        <div style={{width: '100%', height: '100%'}}>
-          <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae"/>
-          <div style={{ fontSize: 12, fontWeight: 'bold',  fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y}}>{arrows[dir]}</div>
+        <div style={{ width: '100%', height: '100%' }}>
+          <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae" />
+          <div style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y }}>{arrows[dir]}</div>
         </div>
       )
     })
   },
 
-  clearInfo () {
+  clearInfo() {
     modifyState(draft => {
       draft.gameText = ''
     })
   },
 
-  toggleFullscreen () {
+  toggleFullscreen() {
     modifyState(draft => {
       draft.fullscreen = !draft.fullscreen
     })
   },
 
-  setOrbitcontrols (onoff) {
+  setOrbitcontrols(onoff) {
     modifyState(draft => {
       draft.orbitcontrols = onoff
     })
@@ -130,14 +147,14 @@ export const gameState = {
   sun: {
     latitude: radians(51),
     day: 180,
-    hour_angle () {
+    hour_angle() {
       return hour_angle(gameState.time_hours())
     },
-    elevation () {
+    elevation() {
       // return radians(30)
       return elevation(this.latitude, declination(this.day), this.hour_angle())
     },
-    position () {
+    position() {
       // const phi = gameState.sun.azimuth()
       const phi = gameState.sun.hour_angle()
       const theta = gameState.sun.elevation()
@@ -146,27 +163,27 @@ export const gameState = {
   },
 
 
-  pause () {
+  pause() {
     this.stepper.pause()
   },
 
-  resume () {
+  resume() {
     this.stepper.resume()
   },
 
-  togglePause () {
+  togglePause() {
     this.stepper.setPaused(!this.stepper.isPaused())
   },
 
-  time () {
+  time() {
     return this.stepper.getSimTime()
   },
 
-  time_hours () {
+  time_hours() {
     return this.time() / TimeStepper.HOUR
   },
 
-  move (i) {
+  move(i) {
     const dir = this.dir
     const dx = i * Math.round(Math.sin(0.5 * dir * Math.PI))
     const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
@@ -179,19 +196,20 @@ export const gameState = {
     this.clearInfo()
   },
 
-  turn (i) {
+  turn(i) {
     this.dir += i
     this.clearInfo()
   },
 
-  strafe (i) {
+  strafe(i) {
     this.turn(1)
     this.move(i)
     this.turn(-1)
   },
 
-  setLevel (level) {
-    modifyState(draft => {draft.level = level})
+  setLevel(level) {
+    modifyState(draft => { draft.level = level })
+  },
   }
 }
 // Object.freeze(gameState)
