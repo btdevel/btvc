@@ -10,7 +10,8 @@ const TextViewBox = styled.div`
   font-family: 'C64Font';
 `
 
-export default function TextView () {
+export default function TextView() {
   const text = useStore(state => state.gameText)
-  return <TextViewBox>{text}</TextViewBox>
+  const lines = text.split("\n").map(line => <>{line}<br /></>)
+  return <TextViewBox>{lines}</TextViewBox>
 }
