@@ -1,17 +1,9 @@
-init: 
-  hour: 12
-  position:
-    x: 19
-    y: 25
-  dir: 1
-  initCommands: []
-  orbitcontrols: false
-  dayLengthInMinutes: 30
-  level: 'city'
+config: betterGame
+# config: originalGame
+# config: debugStars
+# config: debugCellars
+# config: debugShadowCasting
 
-# debug: ['atGuildBetter', 'earlyMorning', 'standard']
-# debug: ['night', 'atCenter', 'fast', 'fullscreen', 'facingSouth']
-debug: ['cellars', 'night', 'fullscreen']
 
 keyMap:
   ArrowUp: ['move', -1]
@@ -30,7 +22,20 @@ keyMap:
   f: 'toggleFullscreen'
   p: 'togglePause'
 
-debugConfigs:
+configs:
+  # Full configs:
+  originalGame:
+    configs: ['atGuildStandard', 'earlyMorning', 'standard']
+  betterGame:
+    configs: ['originalGame', 'atGuildBetter']
+  debugStars:
+    configs: ['night', 'atCenter', 'fast', 'fullscreen', 'facingSouth']
+  debugCellars:
+    configs: ['cellars', 'night', 'fullscreen']
+  debugShadowCasting:
+    configs: ['atCenter', 'fullscreen', 'doDebugStuff', 'morning', 'ultrafast']
+
+  # Game time configs
   standard:
     dayLengthInMinutes: 30
   faster:
@@ -39,10 +44,8 @@ debugConfigs:
     dayLengthInMinutes: 2
   ultrafast:
     dayLengthInMinutes: 0.2
-  orbitcontrols:
-    initCommands:
-      - 'toggleFullscreen'
-    orbitcontrols: true
+
+  # Game start time
   night:
     hour: 0
   earlyMorning:
@@ -53,32 +56,39 @@ debugConfigs:
     hour: 12
   evening:
     hour: 18
-  cellars:
-    level: 0
+
+  # Game start position
   atGate:
-    position: {x: 2, y: 14}
+    level: 'city'
+    position: { x: 2, y: 14 }
     dir: 1
   atCenter:
-    position: {x: 15, y: 14}
+    level: 'city'
+    position: { x: 15, y: 14 }
     dir: 0
   atGuildStandard:
-    position: {x: 25, y: 15}
+    level: 'city'
+    position: { x: 25, y: 15 }
     dir: 0
   atGuildBetter:
-    position: {x: 25, y: 14}
+    level: 'city'
+    position: { x: 25, y: 14 }
     dir: 3
   nearGate:
-    position: {x: 3, y: 14}
+    level: 'city'
+    position: { x: 3, y: 14 }
     dir: 0
   southQuarter:
-    position: {x: 19, y: 25}
+    level: 'city'
+    position: { x: 19, y: 25 }
     dir: 1
-  paused:
-    initCommands:
-      - 'pause'
-  fullscreen:
-    initCommands:
-      - 'toggleFullscreen'
+  cellars:
+    level: 0
+    position: { x: 0, y: 0 }
+    dir: 0
+
+
+  # Game start direction
   facingNorth:
     dir: 0
   facingEast:
@@ -87,3 +97,19 @@ debugConfigs:
     dir: 2
   facingWest:
     dir: 3
+
+  # Init commands
+  paused:
+    initCommands:
+      - 'pause'
+  fullscreen:
+    initCommands:
+      - 'toggleFullscreen'
+  doDebugStuff:
+    initCommands:
+      - 'doDebugStuff'
+  orbitcontrols:
+    initCommands:
+      - 'toggleFullscreen'
+    orbitcontrols: true
+
