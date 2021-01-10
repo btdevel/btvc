@@ -61,7 +61,7 @@ export const gameState = {
     )
     stepper.setSimTime(hour * TimeStepper.HOUR)
     stepper.resume()
-    console.log('Init: ', this);
+    // console.log('Init: ', this);
 
     for (const command of commands) {
       console.log(command);
@@ -195,7 +195,9 @@ export const gameState = {
     const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
     const x = this.position.x + dx
     const y = this.position.y + dy
-    if (cityMap.type[x][y] === 0) {
+
+    const level = useStore.getState().level;
+    if (level != 'city' || cityMap.type[x][y] === 0) {
       this.position.x += dx
       this.position.y += dy
     }

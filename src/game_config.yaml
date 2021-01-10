@@ -1,39 +1,38 @@
-config: betterGame
+# config: betterGame
 # config: originalGame
 # config: debugStars
-# config: debugCellars
+config: debugCellars
 # config: debugShadowCasting
 
-
 keyMap:
-  ArrowUp: ['move', -1]
-  ArrowDown: ['move', +1]
-  ArrowLeft: ['turn', 1]
-  ArrowRight: ['turn', -1]
+  ArrowUp: ["move", -1]
+  ArrowDown: ["move", +1]
+  ArrowLeft: ["turn", 1]
+  ArrowRight: ["turn", -1]
 
-  w: ['move', -1]
-  s: ['move', +1]
-  q: ['turn', 1]
-  e: ['turn', -1]
-  a: ['strafe', -1]
-  d: ['strafe', 1]
-  '?': 'showInfo'
-  m: 'showMap'
-  f: 'toggleFullscreen'
-  p: 'togglePause'
+  w: ["move", -1]
+  s: ["move", +1]
+  q: ["turn", 1]
+  e: ["turn", -1]
+  a: ["strafe", -1]
+  d: ["strafe", 1]
+  "?": "showInfo"
+  m: "showMap"
+  f: "toggleFullscreen"
+  p: "togglePause"
 
 configs:
   # Full configs:
   originalGame:
-    configs: ['atGuildSouth', 'facingNorth', 'earlyMorning', 'standard']
+    configs: ["atGuildSouth", "facingNorth", "earlyMorning", "standard"]
   betterGame:
-    configs: ['originalGame', 'atGuild', 'facingEast']
+    configs: ["originalGame", "atGuild", "facingEast"]
   debugStars:
-    configs: ['night', 'atCenter', 'fast', 'fullscreen', 'facingSouth']
+    configs: ["night", "atCenter", "fast", "facingSouth", "debug"]
   debugCellars:
-    configs: ['cellars', 'night', 'fullscreen', 'doDebugStuff']
+    configs: ["cellars", "night", "fullscreen", "doDebugStuff", "debug"]
   debugShadowCasting:
-    configs: ['atCenter', 'fullscreen', 'doDebugStuff', 'morning', 'ultrafast']
+    configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
 
   # Game time configs
   standard:
@@ -75,7 +74,6 @@ configs:
   cellars:
     level: 0
 
-
   # Game start direction
   facingNorth:
     dir: 0
@@ -89,23 +87,23 @@ configs:
   # Init commands
   paused:
     initCommands:
-      - 'pause'
+      - "pause"
   fullscreen:
     initCommands:
-      - 'toggleFullscreen'
-  doDebugStuff:
+      - "toggleFullscreen"
+  debug:
     initCommands:
-      - 'doDebugStuff'
+      - "doDebugStuff"
   orbitcontrols:
     initCommands:
-      - 'toggleFullscreen'
+      - "toggleFullscreen"
     orbitcontrols: true
 
   # This is included in every config
   defaults:
     dayLengthInMinutes: 30
     hour: 0
-    level: 'city'
+    level: "city"
     position: { x: 0, y: 0 }
     dir: 0
     initCommands: []

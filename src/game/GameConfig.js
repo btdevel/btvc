@@ -24,7 +24,7 @@ function mergeObject(obj1, obj2) {
 }
 
 function mergeRecursive(name, yaml, cache) {
-  console.log('Recursively merging: ', name)
+  // console.log('Recursively merging: ', name)
   if (cache[name]) {
     return cache[name]
   }

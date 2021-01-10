@@ -12,6 +12,11 @@ const TextViewBox = styled.div`
 
 export default function TextView() {
   const text = useStore(state => state.gameText)
-  const lines = text.split("\n").map(line => <>{line}<br /></>)
-  return <TextViewBox>{lines}</TextViewBox>
+  if (typeof text === "string") {
+    const lines = text.split("\n").map(line => <>{line}<br /></>)
+    return <TextViewBox>{lines}</TextViewBox>
+  }
+  else {
+    return <TextViewBox>{text}</TextViewBox>
+  }
 }

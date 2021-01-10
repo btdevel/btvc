@@ -28,6 +28,6 @@ function bindToStore(gui, name) {
 
 export function startGUI(gameState) {
     const gui = new DAT.GUI()
-    // bindToStore(gui, 'fullscreen')
+    bindToStore(gui, 'fullscreen')
     bindToStore(gui, 'orbitcontrols')
 }
