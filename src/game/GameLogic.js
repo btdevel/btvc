@@ -9,6 +9,7 @@ import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 import { execCommand } from './KeyMap'
 import { mapTo } from '../util/math'
+import { startGUI } from './ExpGUI'
 
 const cityMap = new CityMap()
 
@@ -210,6 +211,9 @@ export const gameState = {
   setLevel(level) {
     modifyState(draft => { draft.level = level })
   },
+
+  doDebugStuff() {
+    startGUI()
   }
 }
 // Object.freeze(gameState)
