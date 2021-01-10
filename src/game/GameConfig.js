@@ -55,8 +55,9 @@ export async function init(configFile, finished) {
   const yaml = await loadYAML(configFile)
   console.log('Full config: ', yaml)
 
-  const configName = yaml.config
-  const config = mergeRecursive(configName, yaml, {})
+  const defaultConfig = mergeRecursive('defaults', yaml, {})
+  const namedConfig = mergeRecursive(yaml.config, yaml, {})
+  const config = mergeObject(defaultConfig, namedConfig)
   config.keyMap = yaml.keyMap
 
   console.log('Init config: \n', YAML.safeDump(config))

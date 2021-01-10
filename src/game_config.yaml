@@ -25,13 +25,13 @@ keyMap:
 configs:
   # Full configs:
   originalGame:
-    configs: ['atGuildStandard', 'earlyMorning', 'standard']
+    configs: ['atGuildSouth', 'facingNorth', 'earlyMorning', 'standard']
   betterGame:
-    configs: ['originalGame', 'atGuildBetter']
+    configs: ['originalGame', 'atGuild', 'facingEast']
   debugStars:
     configs: ['night', 'atCenter', 'fast', 'fullscreen', 'facingSouth']
   debugCellars:
-    configs: ['cellars', 'night', 'fullscreen']
+    configs: ['cellars', 'night', 'fullscreen', 'doDebugStuff']
   debugShadowCasting:
     configs: ['atCenter', 'fullscreen', 'doDebugStuff', 'morning', 'ultrafast']
 
@@ -59,43 +59,31 @@ configs:
 
   # Game start position
   atGate:
-    level: 'city'
     position: { x: 2, y: 14 }
     dir: 1
   atCenter:
-    level: 'city'
     position: { x: 15, y: 14 }
-    dir: 0
-  atGuildStandard:
-    level: 'city'
+  atGuildSouth:
     position: { x: 25, y: 15 }
-    dir: 0
-  atGuildBetter:
-    level: 'city'
+  atGuild:
     position: { x: 25, y: 14 }
-    dir: 3
   nearGate:
-    level: 'city'
     position: { x: 3, y: 14 }
-    dir: 0
   southQuarter:
-    level: 'city'
     position: { x: 19, y: 25 }
     dir: 1
   cellars:
     level: 0
-    position: { x: 0, y: 0 }
-    dir: 0
 
 
   # Game start direction
   facingNorth:
     dir: 0
-  facingEast:
+  facingWest:
     dir: 1
   facingSouth:
     dir: 2
-  facingWest:
+  facingEast:
     dir: 3
 
   # Init commands
@@ -113,3 +101,12 @@ configs:
       - 'toggleFullscreen'
     orbitcontrols: true
 
+  # This is included in every config
+  defaults:
+    dayLengthInMinutes: 30
+    hour: 0
+    level: 'city'
+    position: { x: 0, y: 0 }
+    dir: 0
+    initCommands: []
+    orbitcontrols: false
