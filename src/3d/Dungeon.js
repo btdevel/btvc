@@ -5,9 +5,10 @@ import { useAsync } from '../util/hooks'
 import * as THREE from 'three'
 // const cityMap = new CityMap()
 
-// import wallImg from '../assets/images/levels1/dungeon_wall.png'
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
+// import wallImg from '../assets/images/levels1/dungeon_wall.png'
+// import doorImg from '../assets/images/levels1/dungeon_door.png'
 
 const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
 
