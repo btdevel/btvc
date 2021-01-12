@@ -11,13 +11,13 @@ import Effects from './Effects'
 import { useStore } from '../game/GameLogic'
 import MyStars from './MyStars'
 
-function CityScene () {
+function CityScene() {
   return (
-    <group>
+    <group rotation-y={1.2}>
       <Camera />
       <Lights />
       <MySky />
-      <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400}/>
+      <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />
       <Ground />
       <City />
       <Effects />
@@ -25,19 +25,19 @@ function CityScene () {
   )
 }
 
-function DungeonScene ({ level }) {
+function DungeonScene({ level }) {
   return (
     <group>
       <Camera />
       <DungeonLights />
-      <Ground type='dungeon'/>
+      <Ground type='dungeon' />
       <Dungeon level={level} />
     </group>
   )
 }
 
-export default function Scene () {
+export default function Scene() {
   const level = useStore(state => state.level)
 
-  return level==='city' ? <CityScene /> : <DungeonScene level={level} />
+  return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
 }

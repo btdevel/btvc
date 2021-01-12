@@ -30,7 +30,8 @@ configs:
   debugStars:
     configs: ["night", "atCenter", "fast", "facingSouth", "debug"]
   debugCellars:
-    configs: ["cellars", "night", "fullscreen", "doDebugStuff", "debug"]
+    # configs: ["cellars", "night", "fullscreen", "debug"]
+    configs: ["cellars", "night", "facingEast"]
   debugShadowCasting:
     configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
 
@@ -72,6 +73,7 @@ configs:
     position: { x: 19, y: 25 }
     dir: 1
   cellars:
+    position: { x: 1, y: 1 }
     level: 0
 
   # Game start direction

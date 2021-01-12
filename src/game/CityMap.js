@@ -1,10 +1,10 @@
+import Map from './Map'
 import cityMapJsonRaw from '../assets/levels/city.json'
 
 export const create2dArray = (rows, columns, defaultVal) =>
   [...Array(rows).keys()].map(() => Array(columns).fill(defaultVal))
 
-export class CityMap {
-  // 0
+export class CityMap extends Map {
   rows = 30;
   columns = 30;
   type
@@ -12,6 +12,7 @@ export class CityMap {
   name
 
   constructor() {
+    super()
     this.type = create2dArray(this.rows, this.columns, 0)
     this.subtype = create2dArray(this.rows, this.columns, 0)
     this.name = create2dArray(this.rows, this.columns, '')

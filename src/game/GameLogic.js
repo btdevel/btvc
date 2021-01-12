@@ -95,7 +95,7 @@ export const gameState = {
 
         [T: ${hours}:${minutes} X: ${this.position.x} Y: ${this.position.y}]`
       } else {
-        draft.gameText = `You are in some dungeon ...
+        draft.gameText = `You are in some dungeon ... facing ${directions[this.dir]}
 
         It's now ${timeStr}.
 

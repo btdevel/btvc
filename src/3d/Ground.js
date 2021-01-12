@@ -1,6 +1,9 @@
 import React from 'react'
 import * as THREE from 'three'
 
+import { useSpring, animated, a } from 'react-spring'
+
+
 import floorImg from '../assets/images/textures/yellow_floor.png'
 import dungeonFloorImg from '../assets/images/textures/stone_floor.png'
 
@@ -13,14 +16,15 @@ function loadTexture(img) {
   return texture
 }
 
-function createCheckeredTexture() {
+const white = new THREE.Color(0xffffff)
+const black = new THREE.Color(0x000000)
+
+function createCheckeredTexture(color1 = white, color2 = black) {
   const width = 2;
   const height = 2;
 
   const size = width * height;
   const data = new Uint8Array(3 * size);
-  const color1 = new THREE.Color(0xffffff);
-  const color2 = new THREE.Color(0x000000);
 
   data[0] = Math.floor(color1.r * 255)
   data[1] = Math.floor(color1.g * 255)
@@ -29,7 +33,7 @@ function createCheckeredTexture() {
   data[4] = Math.floor(color2.g * 255)
   data[5] = Math.floor(color2.b * 255)
 
-  data.copyWithin(6, 3, 3)
+  data.copyWithin(6, 3, 6)
   data.copyWithin(9, 0, 3)
 
   // for (let i = 1; i < size / 2; i++) {
@@ -40,13 +44,22 @@ function createCheckeredTexture() {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 
-  texture.repeat.set(1000, 1000);
+  texture.repeat.set(4*500, 4*500);
   return texture
 }
 
 const floorTexture = loadTexture(floorImg)
 // const dungeonTexture = loadTexture(dungeonFloorImg)
-const dungeonTexture = createCheckeredTexture()
+
+function lighten(color, add) {
+  const { h, s, l } = color.getHSL()
+  const newColor = new THREE.Color()
+  return newColor.setHSL(h, s, l + add)
+}
+const floorColor = new THREE.Color("rgb(0, 85, 68)")
+const floorColor2 = lighten(floorColor, 0.1)
+
+const dungeonTexture = createCheckeredTexture(floorColor, floorColor2)
 
 
 
