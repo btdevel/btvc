@@ -5,21 +5,29 @@ config: debugCellars
 # config: debugShadowCasting
 
 keyMap:
-  ArrowUp: ["move", -1]
-  ArrowDown: ["move", +1]
-  ArrowLeft: ["turn", 1]
-  ArrowRight: ["turn", -1]
+  ArrowUp: "forward"
+  ArrowDown: "backward"
+  ArrowLeft: "turnLeft"
+  ArrowRight: "turnRight"
 
-  w: ["move", -1]
-  s: ["move", +1]
-  q: ["turn", 1]
-  e: ["turn", -1]
-  a: ["strafe", -1]
-  d: ["strafe", 1]
+  w: "forward"
+  s: "backward"
+  q: "turnLeft"
+  e: "turnRight"
+  a: "strafeLeft"
+  d: "strafeRight"
   "?": "showInfo"
   m: "showMap"
   f: "toggleFullscreen"
   p: "togglePause"
+
+commands:
+  turnLeft: ["turn", 1]
+  turnRight: ["turn", -1]
+  forward: ["move", -1]
+  backward: ["move", 1]
+  strafeLeft: ["exec", "turnLeft", "forward", "turnRight"]
+  strafeRight: ["exec", "turnRight", "forward", "turnLeft"]
 
 configs:
   # Full configs:

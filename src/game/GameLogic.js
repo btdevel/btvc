@@ -40,12 +40,14 @@ export const gameState = {
   dPhi: 0,
   dTheta: 0,
   keyMap: {},
+  commands: {},
 
   init(config) {
     this.position.x = config.position.x
     this.position.y = config.position.y
     this.dir = config.dir
     this.keyMap = config.keyMap
+    this.commands = config.commands
 
     this.setOrbitcontrols(config.orbitcontrols)
     this.setLevel(config.level)
@@ -209,10 +211,10 @@ export const gameState = {
     this.clearInfo()
   },
 
-  strafe(i) {
-    this.turn(1)
-    this.move(i)
-    this.turn(-1)
+  exec(...commands) {
+    for (let command of commands) {
+      execCommand(command)
+    }
   },
 
   setLevel(level) {

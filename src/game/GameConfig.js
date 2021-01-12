@@ -59,6 +59,7 @@ export async function init(configFile, finished) {
   const namedConfig = mergeRecursive(yaml.config, yaml, {})
   const config = mergeObject(defaultConfig, namedConfig)
   config.keyMap = yaml.keyMap
+  config.commands = yaml.commands
 
   console.log('Init config: \n', YAML.safeDump(config))
   gameState.init(config)
