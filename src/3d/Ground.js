@@ -6,7 +6,8 @@ import { useSpring, animated, a } from 'react-spring'
 
 import floorImg from '../assets/images/textures/yellow_floor.png'
 // import dungeonFloorImg from '../assets/images/textures/stone_floor.png'
-import dungeonFloorImg from '../assets/images/levels1/dungeon_floor.png'
+// import dungeonFloorImg from '../assets/images/levels1/dungeon_floor.png'
+import dungeonFloorImg from '../assets/images/levels1/dungeon_floor2.png'
 
 const loader = new THREE.TextureLoader()
 function loadTexture(img) {
@@ -20,8 +21,9 @@ function loadTexture2(img) {
   const texture = loader.load(img)
   texture.wrapS = THREE.RepeatWrapping
   texture.wrapT = THREE.RepeatWrapping
-  // texture.repeat.set(4*1000, 4*1000)
-  texture.repeat.set(4*1000, 4*1000)
+  const n = 2
+  texture.repeat.set(n * 1000, n * 1000)
+  texture.minFilter = THREE.LinearFilter
   return texture
 }
 
