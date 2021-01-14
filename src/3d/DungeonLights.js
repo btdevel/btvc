@@ -22,14 +22,14 @@ export default function DungeonLights () {
 
   const startPos = gameState.position
   const [{ position }, setPos] = useSpring(() => ({
-    position: [startPos.x, 2, startPos.y],
+    position: [startPos.x, startPos.y, 2],
     // config: springConfigSlide
     config: springConfigSlow
   }))
 
   useFrame(() => {
     const pos = gameState.position
-    setPos({ position: [pos.x, 0.4, pos.y] })
+    setPos({ position: [pos.x, pos.y, 0.4] })
   })
 
 
@@ -39,8 +39,8 @@ export default function DungeonLights () {
   return (
     <>
       <ambientLight args={[color, intensity]} ref={ambientRef} />
-      <PointLight color='lightred' position={[5,1.2,1]}/>
-      <PointLight color='lightred' position={[10,1.2,18]}/>
+      <PointLight color='lightred' position={[1, 5, 1.2]}/>
+      <PointLight color='lightred' position={[18, 10, 1.2]}/>
       <AnimatedPointLight position={position}/>
     </>
   )

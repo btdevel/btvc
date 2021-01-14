@@ -28,7 +28,7 @@ export default function Lights() {
 
   const ambientRef = useRef()
   const sunRef = useRef()
-  const targetPos = [15, 0.0, 15];
+  const targetPos = [15, 15, 0.0];
   const targetRef = useRef()
   const clock = useRef(new THREE.Clock(true)).current
 

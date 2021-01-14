@@ -16,12 +16,12 @@ export default function Camera () {
   const startAngle = gameState.angle()
 
   const [{ position }, setPos] = useSpring(() => ({
-    position: [startPos.x, 0, startPos.y],
+    position: [startPos.x, startPos.y, 0],
     config: springConfigSlide
   }))
-  const [{ rotationY, rotationX }, setRot] = useSpring(() => ({
-    rotationY: startAngle,
-    rotationX: 0,
+  const [{ rotationZ, rotationX }, setRot] = useSpring(() => ({
+    rotationZ: startAngle,
+    rotationX: Math.PI / 2,
     config: springConfigSlide
   }))
 
@@ -31,8 +31,8 @@ export default function Camera () {
     const dPhi = gameState.dPhi
     const dTheta = gameState.dTheta
 
-    setPos({ position: [pos.x, 0, pos.y] })
-    setRot({ rotationY: angle + dPhi, rotationX: dTheta })
+    setPos({ position: [pos.x, pos.y, 0] })
+    setRot({ rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta})
   })
 
   return (
@@ -40,8 +40,8 @@ export default function Camera () {
       makeDefault
       position={position}
       rotation-x={rotationX}
-      rotation-y={rotationY}
-      rotation-order='YXZ'
+      rotation-z={rotationZ}
+      rotation-order='YZX'
       // fov={120}
       fov={90}
       near={0.01}

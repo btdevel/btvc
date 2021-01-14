@@ -73,7 +73,8 @@ const materials = materialProps.map(props => new MeshStandardMaterial(props))
 
 export const House = forwardRef(({ type, x, y, props}, ref) => {
   return (
-    <mesh position={[x, -eps/2, y]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {houseGeometry} material = {materials[type]}>
+    <mesh rotation={[Math.PI/2, 0, 0]}
+      position={[x, y, -eps/2]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {houseGeometry} material = {materials[type]}>
       {/* <boxBufferGeometry attach='geometry' args={[1, 1, 1]} /> */}
       {/* <meshStandardMaterial attach='material' {...materialProps[type]} /> */}
     </mesh>

@@ -81,7 +81,7 @@ export default function Ground({ type }) {
   }
 
   return (
-    <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+    <mesh position={[0, 0, -0.5]} receiveShadow>
       <planeBufferGeometry attach='geometry' args={[1000, 1000]} />
       {/* <meshStandardMaterial attach='material' color={'#503000'} /> */}
       <meshStandardMaterial attach='material' side={THREE.DoubleSide} map={texture} />

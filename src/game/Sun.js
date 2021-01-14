@@ -5,15 +5,14 @@ export function sunPosition (phi, theta) {
   const x = cos(theta) * sin(phi + Math.PI)
   const y = cos(theta) * cos(phi + Math.PI)
   const z = sin(theta)
-  // return [x, y, z]
-  return [x, z, -y]
+  return [x, y, z]
 }
 
-export function sunPostion2 (inclination, azimuth) {
-  var theta = Math.PI * (inclination - 0.5)
-  var phi = 2 * Math.PI * (azimuth - 0.5)
-  return sunPosition(phi, theta)
-}
+// export function sunPosition2 (inclination, azimuth) {
+//   var theta = Math.PI * (inclination - 0.5)
+//   var phi = 2 * Math.PI * (azimuth - 0.5)
+//   return sunPosition(phi, theta)
+// }
 
 const deg2rad = Math.PI / 180.0
 const rad2deg = 180.0 / Math.PI

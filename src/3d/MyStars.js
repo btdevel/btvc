@@ -32,7 +32,7 @@ export default function Stars ({ number, box, minDist, color, size, sprite }) {
 
   useFrame(() => {
     stars.rotation.x = -gameState.sun.latitude
-    stars.rotation.y = -gameState.sun.hour_angle()
+    stars.rotation.z = -gameState.sun.hour_angle()
     const phi = gameState.sun.elevation()
     const opacity = THREE.MathUtils.clamp(-phi + 0.1, 0, 1)
     stars.material.opacity = opacity

@@ -31,40 +31,36 @@ const doorMat = new THREE.MeshStandardMaterial({ map: load(doorImg) })
 const sdoorMat = wallMat // It's secret after all...
 
 const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
-const floorMat = new THREE.MeshBasicMaterial({color: colorCeiling})
-const ceilMat = new THREE.MeshBasicMaterial({color: colorCeiling})
+const floorMat = new THREE.MeshBasicMaterial({ color: colorCeiling })
+const ceilMat = new THREE.MeshBasicMaterial({ color: colorCeiling })
 
 
 const materials = [undefined, wallMat, doorMat, sdoorMat]
 
 
 function Wall({ x, y, dir, wtype }) {
-  let rot = 0
   switch (dir) {
     case 0: // north
       y += 0.5
-      rot = Math.PI
       break
     case 1: // west
       x -= 0.5
-      rot = 1.5 * Math.PI
       break
     case 2: // south
       y -= 0.5
-      rot = 0
       break
     case 3: // east
       x += 0.5
-      rot = 0.5 * Math.PI
-      break
       break
     default:
       console.error(`Unknown direction: ${dir} ${typeof dir}`)
   }
+  const rot = dir * 0.5 * Math.PI
 
   console.log(wtype)
   const elems = []
-  elems.push(<mesh key={[0, 0]} position={[x, 0, y]} rotation-y={rot} material={materials[wtype]} geometry={wallGeom} />)
+  elems.push(<mesh key={[0, 0]} position={[x, y, 0]} rotation-order='ZXY' rotation={[Math.PI / 2, 0, rot]} material={materials[wtype]} geometry={wallGeom} />)
+
   // const repI = 0, repJ = 0;
   // for (let i = -repI; i <= repI; ++i) {
   //   for (let j = -repJ; j <= repJ; ++j) {
@@ -89,14 +85,13 @@ function createLevel(map, elements) {
       const dirs = [space.north, space.west, space.south, space.east]
 
       for (let k = 0; k < 4; k++) {
-        // console.log(k, dirs[k]);
+        // elements.push(<Wall key={`${i}-${j}-${k}`} x={i} y={j} dir={k} wtype={2} />)
         if (dirs[k]) {
           elements.push(<Wall key={`${i}-${j}-${k}`} x={i} y={j} dir={k} wtype={dirs[k]} />)
         }
       }
     }
   }
-
 }
 
 export default function Dungeon({ map, level }) {

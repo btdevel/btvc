@@ -53,8 +53,8 @@ class GameState {
   get map() { return useStore.getState().map }
 
   export = {
-    forward: () => this.move(-1), // Something's wrong here...
-    backward: () => this.move(1), // Something's wrong here...
+    forward: () => this.move(1),
+    backward: () => this.move(-1),
     turn: this.turn,
     showInfo: this.showInfo,
     showMap: this.showMap,
@@ -128,15 +128,15 @@ class GameState {
     // "present time of day: after midnite 0 - 3, midnite 4 - 7, evening 8 - b, dusk c - f, afternoon 10 - 13, noon 14 - 17, mid morning 18 - 1b, early morning 1c - 1f"  Seems to be set to 1f; i.e. early morning
 
     modifyState(draft => {
-      const dir = ((directions.dir % 4) + 4) % 4
+      const dir = ((this.dir % 4) + 4) % 4
       if (draft.level === 'city') {
-        draft.gameText = `You are on ?? Street facing ${directions[this.dir]}.
+        draft.gameText = `You are on ?? Street facing ${directions[dir]}.
 
         It's now ${timeStr}.
 
         [T: ${hours}:${minutes} X: ${this.position.x} Y: ${this.position.y}]`
       } else {
-        draft.gameText = `You are in some dungeon ... facing ${directions[this.dir]}
+        draft.gameText = `You are in some dungeon ... facing ${directions[dir]}
 
         It's now ${timeStr}.
 
@@ -231,9 +231,11 @@ class GameState {
 
   move(i) {
 
-    const dir = this.dir
-    const dx = i * Math.round(Math.sin(0.5 * dir * Math.PI))
-    const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
+    const dxs = [0, -1, 0, 1]
+    const dys = [1, 0, -1, 0]
+    const dir = ((this.dir % 4) + 4) % 4
+    const dx = i * dxs[dir]
+    const dy = i * dys[dir]
     const x = this.position.x + dx
     const y = this.position.y + dy
 
