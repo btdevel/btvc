@@ -26,46 +26,56 @@ import cityGateImg from '../assets/images/city/city_gate.png'
 import cityGateAlpha from '../assets/images/city/city_gate_alpha.png'
 import gateImg from '../assets/images/city/gate.png'
 import gateAlpha from '../assets/images/city/gate_alpha.png'
+import { MeshStandardMaterial } from 'three'
 
+// const houseGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
+const eps = 1e-10
+const houseGeometry = new THREE.BoxBufferGeometry(1 - eps, 1 - eps, 1 - eps)
 
 const loader = new THREE.TextureLoader()
-function load(img) { return loader.load(img)}
-
-const materialProps = {
-  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
-  1: {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true},
-  2: {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true},
-  3: {map: load(house3Img)},
-  4: {map: load(house4Img)},
-  5: {map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmis), emissive: 0xFFFFFF},
-  6: {map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: true, emissiveMap: load(tavernEmis), emissive: 0xFFFFFF },
-  7: {map: load(shopImg)},
-  8: {map: load(templeImg)},
-  9: {map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
-  10: {map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
-  11: {map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
-}
-const meshProps = {
-  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
-  1: {renderOrder: 4 },
-  2: {renderOrder: 3 },
-  3: {},
-  4: {},
-  5: {},
-  6: {},
-  7: {},
-  8: {},
-  9: {},
-  10: {renderOrder: 2},
-  11: {renderOrder: 2 },
+function load(img) {
+  const texture = loader.load(img)
+  texture.minFilter = THREE.LinearFilter
+  return texture
 }
 
+const materialProps = [
+  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
+  /* 0: */ {},
+  /* 1: */ {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true},
+  /* 2: */ {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true},
+  /* 3: */ {map: load(house3Img)},
+  /* 4: */ {map: load(house4Img)},
+  /* 5: */ {map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmis), emissive: 0xFFFFFF},
+  /* 6: */ {map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: true, emissiveMap: load(tavernEmis), emissive: 0xFFFFFF },
+  /* 7: */ {map: load(shopImg)},
+  /* 8: */ {map: load(templeImg)},
+  /* 9: */ {map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
+  /* 10:*/  {map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
+  /* 11:*/  {map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
+]
+const meshProps = [
+  /* 0: */ {},
+  /* 1: */ {}, //renderOrder: 4 },
+  /* 2: */ {},//renderOrder: 3 },
+  /* 3: */ {},
+  /* 4: */ {},
+  /* 5: */ {},
+  /* 6: */ {},
+  /* 7: */ {},
+  /* 8: */ {},
+  /* 9: */ {},
+  /* 10:*/  {renderOrder: 2},
+  /* 11:*/  {renderOrder: 2 },
+]
+
+const materials = materialProps.map(props => new MeshStandardMaterial(props))
 
 export const House = forwardRef(({ type, x, y, props}, ref) => {
   return (
-    <mesh position={[x, 0, y]} castShadow receiveShadow {...meshProps[type]} ref={ref}>
-      <boxBufferGeometry attach='geometry' args={[1, 1, 1]} />
-      <meshStandardMaterial attach='material' {...materialProps[type]} />
+    <mesh position={[x, -eps/2, y]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {houseGeometry} material = {materials[type]}>
+      {/* <boxBufferGeometry attach='geometry' args={[1, 1, 1]} /> */}
+      {/* <meshStandardMaterial attach='material' {...materialProps[type]} /> */}
     </mesh>
   )
 })

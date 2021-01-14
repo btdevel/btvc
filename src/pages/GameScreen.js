@@ -10,7 +10,7 @@ import PlayerView from './PlayerView'
 // import PlayerView from './PlayerViewTest'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
-import { useStore } from '../game/GameLogic'
+import { useFullscreen, useOrbitcontrols, useOverlayText } from '../game/GameLogic'
 
 import '../game/KeyMap'
 import '../game/MouseHandling'
@@ -94,9 +94,9 @@ function LoadScreen () {
 
 export default function GameScreen () {
   const [loaded, setIsLoaded] = useState(false)
-  const overlayText = useStore(state => state.overlayText)
-  const fullscreen = useStore(state => state.fullscreen)
-  const orbitcontrols = useStore(state => state.orbitcontrols)
+  const overlayText = useOverlayText()
+  const fullscreen = useFullscreen()
+  const orbitcontrols = useOrbitcontrols()
 
   if (fullscreen) {
     return (

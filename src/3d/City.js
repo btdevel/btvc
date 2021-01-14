@@ -1,18 +1,14 @@
 import React from 'react'
 import House from './House'
-import { CityMap } from '../game/CityMap'
 
-
-const cityMap = new CityMap()
-
-export default function City () {
-  // console.log('City', cityMap)
+export default function City({ map }) {
+  if (!map) return <></>
 
   const elements = []
 
-  for (let i = 0; i < cityMap.columns; i++) {
-    for (let j = 0; j < cityMap.rows; j++) {
-      const type = cityMap.type[i][j]
+  for (let i = 0; i < map.columns; i++) {
+    for (let j = 0; j < map.rows; j++) {
+      const type = map.map[i][j].type
       if (type>0) {
         elements.push(<House key={[i,j]} type={type} x={i} y={j} />)
       }

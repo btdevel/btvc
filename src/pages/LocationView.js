@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { useMap } from '../game/GameLogic'
+
 const LocationViewBox = styled.div`
   box-sizing: border-box;
   width: 100%;
@@ -10,6 +12,8 @@ const LocationViewBox = styled.div`
   color: white;
 `
 
-export default function LocationView () {
-  return <LocationViewBox style={{textAlign: 'center'}}>Skara Brae</LocationViewBox>
+export default function LocationView() {
+  const map = useMap()
+  const text = map?.name
+  return <LocationViewBox style={{textAlign: 'center'}}>{text}</LocationViewBox>
 }

@@ -8,18 +8,19 @@ export function execCommand(command, key) {
   const commands = gameState?.commands
   const repl = commands && commands[command]
   if (repl) {
-    execCommand(repl)
+    execCommand(repl, `${key}/${repl}`)
     return
   }
 
   // const func = functionMap[funcname]
-  const func = gameState[funcname]
+  const functions = gameState?.export
+  const func = functions[funcname]
   // console.log('func: ', func);
   if (!func) {
     console.error(
       `Unknown function '${funcname}' (with args: ${JSON.stringify(
         args
-      )}) for key binding '${key}'`
+      )}) for '${key}'`
     )
     return
   }
@@ -31,14 +32,13 @@ export function handleKeyDown (event) {
   // const {code, key} = event
   const { key } = event
 
-  // console.log('key: ', key);
   if (!key) return
 
   const command = gameState.keyMap[key]
   // console.log('command: ', command);
   if (!command) return
 
-  execCommand(command)
+  execCommand(command, `keypress: ${key}`)
 
   event.preventDefault()
 }

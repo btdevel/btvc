@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useStore } from '../game/GameLogic'
+import { useGameText } from '../game/GameLogic'
 
 const TextViewBox = styled.div`
   box-sizing: border-box;
@@ -11,9 +11,9 @@ const TextViewBox = styled.div`
 `
 
 export default function TextView() {
-  const text = useStore(state => state.gameText)
+  const text = useGameText();
   if (typeof text === "string") {
-    const lines = text.split("\n").map(line => <>{line}<br /></>)
+    const lines = text.split("\n").map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)
     return <TextViewBox>{lines}</TextViewBox>
   }
   else {

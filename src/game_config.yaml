@@ -1,8 +1,9 @@
-# config: betterGame
+config: betterGame
 # config: originalGame
 # config: debugStars
-config: debugCellars
+# config: debugCellars
 # config: debugShadowCasting
+# config: debugSky
 
 keyMap:
   ArrowUp: "forward"
@@ -21,11 +22,12 @@ keyMap:
   f: "toggleFullscreen"
   p: "togglePause"
 
+  1: ["loadLevel", "city"]
+  2: ["loadLevel", 0]
+
 commands:
   turnLeft: ["turn", 1]
   turnRight: ["turn", -1]
-  forward: ["move", -1]
-  backward: ["move", 1]
   strafeLeft: ["exec", "turnLeft", "forward", "turnRight"]
   strafeRight: ["exec", "turnRight", "forward", "turnLeft"]
 
@@ -42,6 +44,8 @@ configs:
     configs: ["cellars", "night", "facingEast"]
   debugShadowCasting:
     configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
+  debugSky:
+    configs: ["atCenter", "noon", "fullscreen", "debug"]
 
   # Game time configs
   standard:

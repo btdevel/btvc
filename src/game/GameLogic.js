@@ -10,11 +10,9 @@ import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 import { execCommand } from './KeyMap'
 import { mapTo } from '../util/math'
 import { startGUI } from './ExpGUI'
+import DungeonMap from './DungeonMap'
 
-const cityMap = new CityMap()
-
-// export const [useStore, api] = create((set, get) => {
-export const useStore = create((set, get) => {
+const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
 
   return {
@@ -24,25 +22,50 @@ export const useStore = create((set, get) => {
     gameText: 'Welcome to Skara Brae!',
     fullscreen: false,
     orbitcontrols: false,
-    level: 'city'
+    level: 'city',
+    map: null
   }
 })
 
-export function modifyState(func) {
+function modifyState(func) {
   useStore.getState().modify(func)
 }
 
-export const gameState = {
-  stepper: new TimeStepper(),
+export const useGameText = () => useStore(state => state.gameText)
+export const useOverlayText = () => useStore(state => state.overlayText)
+export const useFullscreen = () => useStore(state => state.fullscreen)
+export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
+export const useLevel = () => useStore(state => state.level)
+export const useMap = () => useStore(state => state.map)
 
-  position: { x: 0, y: 0 },
-  dir: 0,
-  dPhi: 0,
-  dTheta: 0,
-  keyMap: {},
-  commands: {},
 
-  init(config) {
+
+class GameState {
+  stepper = new TimeStepper()
+  position = { x: 0, y: 0 }
+  dir = 0
+  dPhi = 0
+  dTheta = 0
+  keyMap = {}
+  commands = {}
+
+  get level() { return useStore.getState().level }
+  get map() { return useStore.getState().map }
+
+  export = {
+    forward: () => this.move(-1), // Something's wrong here...
+    backward: () => this.move(1), // Something's wrong here...
+    turn: this.turn,
+    showInfo: this.showInfo,
+    showMap: this.showMap,
+    exec: this.exec,
+    toggleFullscreen: this.toggleFullscreen,
+    togglePause: this.togglePause,
+    loadLevel: this.loadLevel,
+    doDebugStuff: this.startGUI,
+    }
+
+  async init(config) {
     this.position.x = config.position.x
     this.position.y = config.position.y
     this.dir = config.dir
@@ -50,7 +73,7 @@ export const gameState = {
     this.commands = config.commands
 
     this.setOrbitcontrols(config.orbitcontrols)
-    this.setLevel(config.level)
+    await this.loadLevel(config.level)
 
     const hour = config.hour
     const dayLengthInMinutes = config.dayLengthInMinutes
@@ -67,13 +90,28 @@ export const gameState = {
 
     for (const command of commands) {
       console.log(command);
-      execCommand(command)
+      execCommand(command, "init()")
     }
-  },
+  }
+
+  async loadLevel(level) {
+    if (level === undefined) return null
+    let map
+    if (level === "city")
+      map = new CityMap()
+    else
+      map = new DungeonMap(level)
+    await map.load()
+
+    modifyState(draft => {
+      draft.level = level
+      draft.map = map
+    })
+  }
 
   angle() {
     return radians(this.dir * 90)
-  },
+  }
 
   showInfo() {
     const time = this.time_hours() % 24
@@ -105,7 +143,7 @@ export const gameState = {
       }
       console.log(draft.gameText)
     })
-  },
+  }
 
   showMap() {
     modifyState(draft => {
@@ -132,27 +170,27 @@ export const gameState = {
         </div>
       )
     })
-  },
+  }
 
   clearInfo() {
     modifyState(draft => {
       draft.gameText = ''
     })
-  },
+  }
 
   toggleFullscreen() {
     modifyState(draft => {
       draft.fullscreen = !draft.fullscreen
     })
-  },
+  }
 
   setOrbitcontrols(onoff) {
     modifyState(draft => {
       draft.orbitcontrols = onoff
     })
-  },
+  }
 
-  sun: {
+  sun = {
     latitude: radians(51),
     day: 180,
     hour_angle() {
@@ -168,61 +206,58 @@ export const gameState = {
       const theta = gameState.sun.elevation()
       return sunPosition(phi, theta)
     }
-  },
-
+  }
 
   pause() {
     this.stepper.pause()
-  },
+  }
 
   resume() {
     this.stepper.resume()
-  },
+  }
 
   togglePause() {
     this.stepper.setPaused(!this.stepper.isPaused())
-  },
+  }
 
   time() {
     return this.stepper.getSimTime()
-  },
+  }
 
   time_hours() {
     return this.time() / TimeStepper.HOUR
-  },
+  }
 
   move(i) {
+
     const dir = this.dir
     const dx = i * Math.round(Math.sin(0.5 * dir * Math.PI))
     const dy = i * Math.round(Math.cos(0.5 * dir * Math.PI))
     const x = this.position.x + dx
     const y = this.position.y + dy
 
-    const level = useStore.getState().level;
-    if (level != 'city' || cityMap.type[x][y] === 0) {
+    const level = this.level;
+    const map = this.map;
+    console.log(map)
+    if (level != 'city' || map.map[x][y].type === 0) {
       this.position.x += dx
       this.position.y += dy
     }
     this.clearInfo()
-  },
+  }
 
   turn(i) {
     this.dir += i
     this.clearInfo()
-  },
+  }
 
   exec(...commands) {
     for (let command of commands) {
-      execCommand(command)
+      execCommand(command, "exec()")
     }
-  },
-
-  setLevel(level) {
-    modifyState(draft => { draft.level = level })
-  },
-
-  doDebugStuff() {
-    startGUI()
   }
+
 }
-// Object.freeze(gameState)
+
+export const gameState = new GameState()
+

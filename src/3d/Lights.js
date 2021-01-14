@@ -4,7 +4,7 @@ import { gameState } from '../game/GameLogic'
 import { radians } from '../game/Sun'
 import * as THREE from 'three'
 
-export default function Lights () {
+export default function Lights() {
   const ambientRef = useRef()
   const sunRef = useRef()
   const targetRef = useRef()
@@ -50,12 +50,14 @@ export default function Lights () {
     <>
       <ambientLight args={[color, intensity]} ref={ambientRef} />
 
-      <object3D position={[15, 0.0, 15]} ref={targetRef}>
+        <object3D position={[15, 0.0, 15]} ref={targetRef}>
         {debug && <axesHelper />}
-      </object3D>
-      <directionalLight 
+        </object3D>
+
+      <directionalLight
+        intensity={0} // init with current intensity...
         angle={radians(10)}
-        castShadow ref={sunRef} 
+        castShadow ref={sunRef}
         shadow-camera-left={-w}
         shadow-camera-right={w}
         shadow-camera-bottom={-w}
@@ -68,9 +70,10 @@ export default function Lights () {
       >
         {debug && <axesHelper args={[5]} />}
       </directionalLight>
+
       {debug && sunRef.current &&
         <cameraHelper args={[sunRef.current.shadow.camera]}>
-          <axesHelper args={[5]}/>
+          <axesHelper args={[5]} />
         </cameraHelper>
       }
     </>

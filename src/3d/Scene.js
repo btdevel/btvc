@@ -8,36 +8,28 @@ import MySky from './MySky'
 import Ground from './Ground'
 import Camera from './Camera'
 import Effects from './Effects'
-import { useStore } from '../game/GameLogic'
 import MyStars from './MyStars'
+import { useLevel, useMap } from '../game/GameLogic'
 
-function CityScene() {
-  return (
-    <group rotation-y={1.2}>
-      <Camera />
-      <Lights />
-      <MySky />
-      <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />
-      <Ground />
-      <City />
-      <Effects />
-    </group>
-  )
-}
 
-function DungeonScene({ level }) {
+export default function Scene() {
+  const level = useLevel()
+  const map = useMap()
+  // get the map and pass it on to city or dungeon
+  const isCity = level === 'city'
+
+  console.log(map)
+
   return (
     <group>
       <Camera />
-      <DungeonLights />
-      <Ground type='dungeon' />
-      <Dungeon level={level} />
-    </group>
-  )
-}
+      {isCity ? <Lights /> : <DungeonLights />}
+      {isCity && <MySky />}
+      {isCity && <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />}
+      <Ground type={isCity ? "city" : "dungeon"}/>
+      {isCity ? <City map={map} /> : <Dungeon map={map} level={level} />}
+      <Effects />
+    </group>)
 
-export default function Scene() {
-  const level = useStore(state => state.level)
-
-  return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
+  // return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
 }

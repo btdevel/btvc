@@ -1,3 +1,183 @@
+import Map from './Map'
+
+
+export default class DungeonMap extends Map {
+  rows = 22
+  columns = 22
+  loaded = false
+  name = null
+  level = null
+  map = null
+
+  constructor(level) {
+    super()
+    if (level === undefined) {
+      throw "Level is undefined"
+    }
+    this.level = level
+    this.name = levelNames[level]
+  }
+
+  async load() {
+    const map = await loadLevel(this.level)
+    this.map = map.map
+    this.loaded = true
+  }
+}
+
+
+function transform_level(level, levnum) {
+  level.height = 22;
+  level.width = 22;
+  level.level_number = levnum;
+  const map = transform_map(level);
+  level.map = map;
+  level.fullName = levelNames[levnum]
+  return level;
+}
+
+
+
+const transform_map = (level) => {
+  const { width, height } = level;
+  const map = Array(height);
+
+  for (let i = 0; i < height; i++) {
+    map[i] = Array(width);
+    for (let j = 0; j < width; j++) {
+      const space = {}
+      const walls = level.wall_data[i + j * width]
+      space.north = (walls & 0b00000011) >> 0
+      space.south = (walls & 0b00001100) >> 2
+      space.east = (walls & 0b00110000) >> 4
+      space.west = (walls & 0b11000000) >> 6
+
+      const spec = level.spec_data[i + j * width]
+
+      space.stairs_prev = (spec & 0b00000001) != 0;
+      space.stairs_next = (spec & 0b00000010) != 0;
+      // space.special     = (spec & 0b00000100)!=0;
+      space.darkness = (spec & 0b00001000) != 0;
+      space.trap = (spec & 0b00010000) != 0;
+      space.portal_down = (spec & 0b00100000) != 0;
+      space.portal_up = (spec & 0b01000000) != 0;
+      space.encounter = (spec & 0b10000000) != 0;
+
+      space.stairs_down = level.goes_down ? space.stairs_next : space.stairs_prev;
+      space.stairs_up = level.goes_down ? space.stairs_prev : space.stairs_next;
+
+      map[i][j] = space
+    }
+  }
+
+  for (let msg_struct of level.messages) {
+    const [[j, i], msg] = msg_struct
+    // console.log(`(${i},${j}) -> ${msg}`)
+    map[i][j].message = msg;
+  }
+  for (let encounter of level.encounters) {
+    const [[j, i], [type, num]] = encounter;
+    map[i][j].encounter_num_type = { num: num, type: type }
+  }
+
+  for (let teleport of level.teleports) {
+    const [from, to] = teleport;
+    map[from[1]][from[0]].teleport_to = [to[1], to[0]];
+    map[to[1]][to[0]].teleport_from = [from[1], from[0]];
+  }
+
+  for (let point of level.hitpoint_damage) {
+    const [j, i] = point;
+    map[i][j].hitpoint_damage = true;
+  }
+  for (let point of level.smoke_zones) {
+    const [j, i] = point;
+    map[i][j].smoke_zone = true;
+  }
+  for (let point of level.antimagic_zones) {
+    const [j, i] = point;
+    map[i][j].antimagic_zone = true;
+  }
+  for (let point of level.spellpoint_restore) {
+    const [j, i] = point;
+    map[i][j].spellpoint_restore = true;
+  }
+  for (let point of level.spinners) {
+    const [j, i] = point;
+    map[i][j].spinner = true;
+  }
+  for (let point of level.stasis_chambers) {
+    const [j, i] = point;
+    map[i][j].stasis_chamber = true;
+  }
+  if (level.specials_info) {
+    for (let point of level.specials_info) {
+      const [[j, i], msg] = point;
+      map[i][j].special = msg;
+      // console.log({point: [i,j], msg: msg})
+    }
+  }
+
+  return map;
+}
+
+
+
+export async function loadLevel(levnum) {
+  const lnum = levnum.toString().padStart(2, '0')
+
+  const levelRaw = {}
+  try {
+    const levelImport = import(`../assets/levels/level_${lnum}.json`)
+    const levelBase = (await levelImport).default
+    Object.assign(levelRaw, levelBase)
+
+    const levelAmendImport = import(`../assets/levels/level_${lnum}_amend.json`)
+    const levelExtra = (await levelAmendImport).default
+    Object.assign(levelRaw, levelExtra)
+  }
+  catch {
+    console.warn(`Could not load level ${levnum}`)
+  }
+  // console.log(levelRaw)
+  const level = transform_level(levelRaw, levnum)
+  return level;
+}
+
+export async function loadLevels() {
+  const levels = Array();
+  for (let i = 0; i < 16; i++) {
+    levels.push(loadLevel(i))
+  }
+  return levels;
+}
+
+export const levelNames = [
+  "Wine Cellar",
+  "Sewers Level 1",
+  "Sewers Level 2",
+  "Sewers Level 3",
+  "Catacombs Level 1",
+  "Catacombs Level 2",
+  "Catacombs Level 3",
+  "Harkyn's Castle Level 1",
+  "Harkyn's Castle Level 2",
+  "Harkyn's Castle Level 3",
+  "Kylearan's Tower",
+  "Mangar's Tower Level 1",
+  "Mangar's Tower Level 2",
+  "Mangar's Tower Level 3",
+  "Mangar's Tower Level 4",
+  "Mangar's Tower Level 5"
+]
+
+
+
+
+
+
+
+
 // import level00 from '../assets/levels/level_00.json'
 // import level01 from '../assets/levels/level_01.json'
 // import level02 from '../assets/levels/level_02.json'
@@ -72,146 +252,3 @@
 // bit 5 	set if there's a portal down
 // bit 6 	set if there's a portal up
 // bit 7 	set if there's a random encounter scheduled for this tile.
-
-
-const transform_map = (level) => {
-    const { width, height } = level;
-    const map = Array(height);
-
-    for (let i = 0; i < height; i++) {
-        map[i] = Array(width);
-        for (let j = 0; j < width; j++) {
-            const space = {}
-            const walls = level.wall_data[i + j * width]
-            space.north = (walls & 0b00000011) >> 0
-            space.south = (walls & 0b00001100) >> 2
-            space.east = (walls & 0b00110000) >> 4
-            space.west = (walls & 0b11000000) >> 6
-
-            const spec = level.spec_data[i + j * width]
-
-            space.stairs_prev = (spec & 0b00000001) != 0;
-            space.stairs_next = (spec & 0b00000010) != 0;
-            // space.special     = (spec & 0b00000100)!=0;
-            space.darkness = (spec & 0b00001000) != 0;
-            space.trap = (spec & 0b00010000) != 0;
-            space.portal_down = (spec & 0b00100000) != 0;
-            space.portal_up = (spec & 0b01000000) != 0;
-            space.encounter = (spec & 0b10000000) != 0;
-
-            space.stairs_down = level.goes_down ? space.stairs_next : space.stairs_prev;
-            space.stairs_up = level.goes_down ? space.stairs_prev : space.stairs_next;
-
-            map[i][j] = space
-        }
-    }
-
-    for (let msg_struct of level.messages) {
-        const [[j, i], msg] = msg_struct
-        // console.log(`(${i},${j}) -> ${msg}`)
-        map[i][j].message = msg;
-    }
-    for (let encounter of level.encounters) {
-        const [[j, i], [type, num]] = encounter;
-        map[i][j].encounter_num_type = { num: num, type: type }
-    }
-
-    for (let teleport of level.teleports) {
-        const [from, to] = teleport;
-        map[from[1]][from[0]].teleport_to = [to[1], to[0]];
-        map[to[1]][to[0]].teleport_from = [from[1], from[0]];
-    }
-
-    for (let point of level.hitpoint_damage) {
-        const [j, i] = point;
-        map[i][j].hitpoint_damage = true;
-    }
-    for (let point of level.smoke_zones) {
-        const [j, i] = point;
-        map[i][j].smoke_zone = true;
-    }
-    for (let point of level.antimagic_zones) {
-        const [j, i] = point;
-        map[i][j].antimagic_zone = true;
-    }
-    for (let point of level.spellpoint_restore) {
-        const [j, i] = point;
-        map[i][j].spellpoint_restore = true;
-    }
-    for (let point of level.spinners) {
-        const [j, i] = point;
-        map[i][j].spinner = true;
-    }
-    for (let point of level.stasis_chambers) {
-        const [j, i] = point;
-        map[i][j].stasis_chamber = true;
-    }
-    if (level.specials_info) {
-        for (let point of level.specials_info) {
-            const [[j, i], msg] = point;
-            map[i][j].special = msg;
-            // console.log({point: [i,j], msg: msg})
-        }
-    }
-
-    return map;
-}
-
-function transform_level(level, levnum) {
-    level.height = 22;
-    level.width = 22;
-    level.level_number = levnum;
-    const map = transform_map(level);
-    level.map = map;
-    level.fullName = levelNames[levnum]
-    return level;
-}
-
-
-export async function loadLevel(levnum) {
-    const lnum = levnum.toString().padStart(2, '0')
-
-    const levelRaw = {}
-    try {
-        const levelImport = import(`../assets/levels/level_${lnum}.json`)
-        const levelBase = (await levelImport).default
-        Object.assign(levelRaw, levelBase)
-
-        const levelAmendImport = import(`../assets/levels/level_${lnum}_amend.json`)
-        const levelExtra = (await levelAmendImport).default
-        Object.assign(levelRaw, levelExtra)
-    }
-    catch {
-        console.warn(`Could not load level ${levnum}`)
-    }
-    // console.log(levelRaw)
-    const level = transform_level(levelRaw, levnum)
-    return level;
-}
-
-export async function loadLevels() {
-    const levels = Array();
-    for (let i = 0; i < 16; i++) {
-        levels.push(loadLevel(i))
-    }
-    return levels;
-}
-
-export const levelNames = [
-    "Wine Cellar",
-    "Sewers Level 1",
-    "Sewers Level 2",
-    "Sewers Level 3",
-    "Catacombs Level 1",
-    "Catacombs Level 2",
-    "Catacombs Level 3",
-    "Harkyn's Castle Level 1",
-    "Harkyn's Castle Level 2",
-    "Harkyn's Castle Level 3",
-    "Kylearan's Tower",
-    "Mangar's Tower Level 1",
-    "Mangar's Tower Level 2",
-    "Mangar's Tower Level 3",
-    "Mangar's Tower Level 4",
-    "Mangar's Tower Level 5"
-]

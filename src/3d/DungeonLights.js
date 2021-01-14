@@ -22,7 +22,7 @@ export default function DungeonLights () {
 
   const startPos = gameState.position
   const [{ position }, setPos] = useSpring(() => ({
-    position: [startPos.x, 10, startPos.y],
+    position: [startPos.x, 2, startPos.y],
     // config: springConfigSlide
     config: springConfigSlow
   }))
