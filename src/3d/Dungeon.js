@@ -10,13 +10,9 @@ import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
 // import wallImg from '../assets/images/levels1/dungeon_wall.png'
 // import doorImg from '../assets/images/levels1/dungeon_door.png'
 
-const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
 
 const wallGeom = new THREE.PlaneBufferGeometry()
-const sdoorMat = new THREE.MeshBasicMaterial({ color: 'red' })
 
-const floorMat = new THREE.MeshBasicMaterial({color: colorCeiling})
-const ceilMat = new THREE.MeshBasicMaterial({color: colorCeiling})
 
 
 const loader = new THREE.TextureLoader()
@@ -31,6 +27,12 @@ function load(img) {
 // const wallMat = new THREE.MeshBasicMaterial({ map: load(wallImg) })
 const wallMat = new THREE.MeshStandardMaterial({ map: load(wallImg) })
 const doorMat = new THREE.MeshStandardMaterial({ map: load(doorImg) })
+// const sdoorMat = new THREE.MeshBasicMaterial({ color: 'red' })
+const sdoorMat = wallMat // It's secret after all...
+
+const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
+const floorMat = new THREE.MeshBasicMaterial({color: colorCeiling})
+const ceilMat = new THREE.MeshBasicMaterial({color: colorCeiling})
 
 
 const materials = [undefined, wallMat, doorMat, sdoorMat]
@@ -39,54 +41,52 @@ const materials = [undefined, wallMat, doorMat, sdoorMat]
 function Wall({ x, y, dir, wtype }) {
   let rot = 0
   switch (dir) {
-    case 0:
-      y -= 0.5
-      rot = 0
-      break
-    case 1:
-      x -= 0.5
-      rot = 0.5 * Math.PI
-      break
-    case 2:
+    case 0: // north
       y += 0.5
       rot = Math.PI
       break
-    case 3:
-      x += 0.5
+    case 1: // west
+      x -= 0.5
       rot = 1.5 * Math.PI
+      break
+    case 2: // south
+      y -= 0.5
+      rot = 0
+      break
+    case 3: // east
+      x += 0.5
+      rot = 0.5 * Math.PI
       break
       break
     default:
       console.error(`Unknown direction: ${dir} ${typeof dir}`)
   }
 
+  console.log(wtype)
   const elems = []
-  // elems.push(<mesh key={[0, 0]} position={[x, 0, y]} rotation-y={rot} material={materials[wtype]} geometry={wallGeom} />)
-  const repI = 0, repJ = 0;
-  for (let i = -repI; i <= repI; ++i) {
-    for (let j = -repJ; j <= repJ; ++j) {
-      elems.push(<mesh key={[i, j]} position={[x + 22 * i, 0, y + 22 * j]} rotation-y={rot} material={wallMat} geometry={wallGeom} />)
-    }
-  }
+  elems.push(<mesh key={[0, 0]} position={[x, 0, y]} rotation-y={rot} material={materials[wtype]} geometry={wallGeom} />)
+  // const repI = 0, repJ = 0;
+  // for (let i = -repI; i <= repI; ++i) {
+  //   for (let j = -repJ; j <= repJ; ++j) {
+  //     elems.push(<mesh key={[i, j]} position={[x + 22 * i, 0, y + 22 * j]} rotation-y={rot} material={materials[wtype]} geometry={wallGeom} />)
+  //   }
+  // }
   return <group>{elems}</group>
 }
 
 function createLevel(map, elements) {
   console.log("Map: ", map)
-  if (!map) return {}
-  if (!map.map) return {}
+  if (!map?.map) return {}
 
-  const rows = map.map.length
-  const columns = map.map[0].length
+  const columns = map.columns
+  const rows = map.rows
 
   for (let i = 0; i < columns; ++i) {
     for (let j = 0; j < rows; ++j) {
-      const space = map.map[j][i]
-      const dirs = [space.west, space.south, space.east, space.north]
-      // const space = levelMap.map[i][j]
-      // const dirs = [space.south, space.west, space.north, space.east]
-      // const space = levelMap.map[i][21 - j]
-      // const dirs = [space.north, space.west, space.south, space.east]
+      // const space = map.map[j][i]
+      // const dirs = [space.west, space.south, space.east, space.north]
+      const space = map.map[i][j]
+      const dirs = [space.north, space.west, space.south, space.east]
 
       for (let k = 0; k < 4; k++) {
         // console.log(k, dirs[k]);

@@ -128,6 +128,7 @@ class GameState {
     // "present time of day: after midnite 0 - 3, midnite 4 - 7, evening 8 - b, dusk c - f, afternoon 10 - 13, noon 14 - 17, mid morning 18 - 1b, early morning 1c - 1f"  Seems to be set to 1f; i.e. early morning
 
     modifyState(draft => {
+      const dir = ((directions.dir % 4) + 4) % 4
       if (draft.level === 'city') {
         draft.gameText = `You are on ?? Street facing ${directions[this.dir]}.
 
