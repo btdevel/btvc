@@ -4,69 +4,83 @@ import { gameState } from '../game/GameLogic'
 import { radians } from '../game/Sun'
 import * as THREE from 'three'
 
+const makeVector3 = ([x, y, z]) => new THREE.Vector3(x, y, z)
+
+function computeLightParams(targetPos) {
+  const theta = gameState.sun.elevation()
+  const sunPos = makeVector3(gameState.sun.position())
+
+  // todo: rethink those formulas...
+  const sin = Math.sin(theta)
+  const intensity1 = Math.min(0.9, Math.max(2 * sin, 0.1))
+  const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))
+
+  const ambientIntensity = 0.5 * intensity1
+
+  const n = 20
+  const sunIntensity = 0.7 * intensity2
+
+  const newSunPos = sunPos.multiplyScalar(n).add(targetPos)
+  return {ambientIntensity, sunIntensity, newSunPos}
+}
+
 export default function Lights() {
+
   const ambientRef = useRef()
   const sunRef = useRef()
+  const targetPos = [15, 0.0, 15];
   const targetRef = useRef()
   const clock = useRef(new THREE.Clock(true)).current
 
-  useFrame(() => {
-    const theta = gameState.sun.elevation()
-    const [x, y, z] = gameState.sun.position()
-    const sunPos = new THREE.Vector3(x, y, z)
 
-    const sin = Math.sin(theta)
-    const intensity1 = Math.min(0.9, Math.max(2 * sin, 0.1))
-    const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))
+  useFrame(() => {
+    const { ambientIntensity, sunIntensity, newSunPos } = computeLightParams(targetPos)
 
     if (ambientRef.current) {
-      ambientRef.current.intensity = 0.5 * intensity1
+      ambientRef.current.intensity = ambientIntensity
     }
     if (sunRef.current) {
-      const n = 20
-      const mindiff = 0.3
-      sunRef.current.intensity = 0.7 * intensity2
-      const pos = sunRef.current.position
-      const tpos = sunRef.current.target.position
-      const lightPos = sunPos.multiplyScalar(n).add(tpos)
-      if (lightPos.distanceTo(pos) > mindiff) {
-        sunRef.current.position.copy(lightPos)
-      }
+      sunRef.current.intensity = sunIntensity
 
-      if (clock.getElapsedTime() > 2) {
-        sunRef.current.position.copy(lightPos)
+      const minDiff = 0.3
+      const lastSunPos = sunRef.current.position
+
+      if (newSunPos.distanceTo(lastSunPos) > minDiff || clock.getElapsedTime() > 2) {
+        sunRef.current.position.copy(newSunPos)
         // console.log(clock.getElapsedTime(), lightPos);
         clock.start()
       }
     }
   })
 
+  const { ambientIntensity, sunIntensity, newSunPos } = computeLightParams(targetPos)
   const color = 0xffffff
-  const intensity = 0.5
-  const w = 20
-  const mapSize = 8 * 512
+  const shadowCamWidth = 20
+  const shadowMapSize = 8 * 512
   const debug = false
   return (
     <>
-      <ambientLight args={[color, intensity]} ref={ambientRef} />
+      <ambientLight args={[color, ambientIntensity]} ref={ambientRef} />
 
-        <object3D position={[15, 0.0, 15]} ref={targetRef}>
+      <object3D position={targetPos} ref={targetRef}>
         {debug && <axesHelper />}
-        </object3D>
+      </object3D>
 
       <directionalLight
-        intensity={0} // init with current intensity...
         angle={radians(10)}
-        castShadow ref={sunRef}
-        shadow-camera-left={-w}
-        shadow-camera-right={w}
-        shadow-camera-bottom={-w}
-        shadow-camera-top={w}
+        intensity={sunIntensity}
+        position={newSunPos}
+        target={targetRef.current}
+        castShadow
+        shadow-camera-left={-shadowCamWidth}
+        shadow-camera-right={shadowCamWidth}
+        shadow-camera-bottom={-shadowCamWidth}
+        shadow-camera-top={shadowCamWidth}
         shadow-camera-near={0}
         shadow-camera-far={40}
-        target={targetRef.current}
-        shadow-mapSize-width={mapSize}
-        shadow-mapSize-height={mapSize}
+        shadow-mapSize-width={shadowMapSize}
+        shadow-mapSize-height={shadowMapSize}
+        ref={sunRef}
       >
         {debug && <axesHelper args={[5]} />}
       </directionalLight>
