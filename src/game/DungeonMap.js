@@ -1,3 +1,4 @@
+import { setGameText } from './GameLogic'
 import Map from './Map'
 import { Direction, mod} from './Movement'
 
@@ -34,6 +35,10 @@ export default class DungeonMap extends Map {
     const new_x = mod(old_x + Direction.dx[dir], this.columns)
     const new_y = mod(old_y + Direction.dy[dir], this.rows)
     return [true, undefined, new_x, new_y]
+  }
+
+  showMap(pos, dir) {
+    setGameText("Sorry pal! Auto mapping was disabled on purpose...")
   }
 
 }

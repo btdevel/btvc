@@ -1,6 +1,11 @@
+import React from 'react'
 import Map, { create2dArray } from './Map'
 import { Direction, mod} from './Movement'
 import cityMapJsonRaw from '../assets/levels/city.json'
+import { setGameText } from './GameLogic'
+import { mapTo } from '../util/math'
+import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
+
 
 export class CityMap extends Map {
   rows = 30
@@ -36,6 +41,30 @@ export class CityMap extends Map {
     return [true, undefined, new_x, new_y]
   }
 
+  showMap(pos, dir) {
+    // const x = this.position.x * 10
+    // const y = this.position.y * 10
+
+    // Guild at 25,14
+    // const x = 200
+    // const y = 86
+    // Mangar at 2, 24
+    // const x = 42
+    // const y = 138
+    const x = mapTo(pos.x, 2, 25, 42, 200)
+    // const y = mapTo(pos.y, 14, 24, 86, 138)
+    const y = mapTo(pos.y, 15, 5, 90, 140)
+    const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
+    dir = mod(dir, 4)
+
+    setGameText(
+      <div style={{ width: '100%', height: '100%' }}>
+        <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae" />
+        <div style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y }}>{arrows[dir]}</div>
+      </div>
+    )
+  }
+
 
   parseJson(cityMapJsonRaw) {
     this.rows = cityMapJsonRaw.pattern[0].length
@@ -43,9 +72,9 @@ export class CityMap extends Map {
     this.map = create2dArray(this.rows, this.columns, {})
 
     const elem = {}
-    for (let i = 0; i < this.rows; i++) {
-      for (let j = 0; j < this.columns; j++) {
-        const type = getHouseType(cityMapJsonRaw.pattern[j][i])
+    for (let i = 0; i < this.columns; i++) {
+      for (let j = 0; j < this.rows; j++) {
+        const type = getHouseType(cityMapJsonRaw.pattern[this.rows - j - 1][i])
         const elem = { type }
         this.map[i][j] = elem
       }

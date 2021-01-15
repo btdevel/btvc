@@ -1,5 +1,5 @@
-config: betterGame
-# config: originalGame
+# config: betterGame
+config: originalGame
 # config: debugStars
 # config: debugCellars
 # config: debugShadowCasting
@@ -30,6 +30,7 @@ commands:
   turnRight: ["turn", -1]
   strafeLeft: ["exec", "turnLeft", "forward", "turnRight"]
   strafeRight: ["exec", "turnRight", "forward", "turnLeft"]
+  welcomeMessage: ["showMessage", "Welcome to the Bard's Tale!"]
 
 configs:
   # Full configs:
@@ -38,10 +39,11 @@ configs:
   betterGame:
     configs: ["originalGame", "atGuild", "facingEast"]
   debugStars:
-    configs: ["night", "atCenter", "fast", "facingSouth", "debug"]
+    configs: ["night", "atCenter", "fast", "facingSouth", "fullscreen", "debug"]
   debugCellars:
     # configs: ["cellars", "night", "fullscreen", "debug"]
-    configs: ["cellars", "night", "facingEast"]
+    # configs: ["cellars", "night", "facingEast", "debug"]
+    configs: ["cellars", "night", "facingNorth", "debug"]
   debugShadowCasting:
     configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
   debugSky:
@@ -71,21 +73,22 @@ configs:
 
   # Game start position
   atGate:
-    position: { x: 2, y: 14 }
+    position: { x: 2, y: 15 }
     dir: 1
   atCenter:
-    position: { x: 15, y: 14 }
+    position: { x: 15, y: 15 }
   atGuildSouth:
-    position: { x: 25, y: 15 }
-  atGuild:
     position: { x: 25, y: 14 }
+  atGuild:
+    position: { x: 25, y: 15 }
   nearGate:
-    position: { x: 3, y: 14 }
+    position: { x: 3, y: 15 }
   southQuarter:
-    position: { x: 19, y: 25 }
+    position: { x: 19, y: 4 }
     dir: 1
   cellars:
-    position: { x: 1, y: 1 }
+    # position: { x: 1, y: 1 }
+    position: { x: 0, y: 0 }
     level: 0
 
   # Game start direction
@@ -120,5 +123,5 @@ configs:
     level: "city"
     position: { x: 0, y: 0 }
     dir: 0
-    initCommands: []
+    initCommands: ["welcomeMessage"]
     orbitcontrols: false

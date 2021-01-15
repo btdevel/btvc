@@ -6,9 +6,7 @@ import TimeStepper from './TimeStepper'
 import { CityMap } from './CityMap'
 import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 
-import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 import { execCommand } from './KeyMap'
-import { mapTo } from '../util/math'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
 import { Direction, mod } from './Movement'
@@ -20,7 +18,7 @@ const useStore = create((set, get) => {
     modify: modify,
 
     overlayText: '',
-    gameText: 'Welcome to Skara Brae!',
+    gameText: '',
     fullscreen: false,
     orbitcontrols: false,
     level: 'city',
@@ -36,6 +34,8 @@ export const modifyStatInternal_ = modifyState
 export const useStoreInternal_ = useStore
 
 export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
+export const setGameText = (text) => modifyState(state => { state.gameText = text })
+
 export const useGameText = () => useStore(state => state.gameText)
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
@@ -148,30 +148,7 @@ class GameState {
   }
 
   showMap() {
-    modifyState(draft => {
-      // const x = this.position.x * 10
-      // const y = this.position.y * 10
-
-      // Guild at 25,14
-      // const x = 200
-      // const y = 86
-      // Mangar at 2, 24
-      // const x = 42
-      // const y = 138
-      const x = mapTo(this.position.x, 2, 25, 42, 200)
-      // const y = mapTo(this.position.y, 14, 24, 86, 138)
-      const y = mapTo(this.position.y, 14, 24, 90, 140)
-      const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
-      const dir = ((this.dir % 4) + 4) % 4
-      console.log(this.dir, dir);
-
-      draft.gameText = (
-        <div style={{ width: '100%', height: '100%' }}>
-          <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae" />
-          <div style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y }}>{arrows[dir]}</div>
-        </div>
-      )
-    })
+    this.map.showMap(this.position, this.dir);
   }
 
   showMessage(msg = "") {

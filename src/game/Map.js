@@ -9,6 +9,8 @@ export default class Map {
     name
     level
     map
+    startX
+    startY
 
     constructor() {
     }
