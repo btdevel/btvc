@@ -1,5 +1,3 @@
-import React from 'react'
-
 import create from 'zustand'
 import produce from 'immer'
 import TimeStepper from './TimeStepper'
@@ -9,7 +7,7 @@ import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 import { execCommand } from './KeyMap'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
-import { Direction, mod } from './Movement'
+import { mod } from '../util/math'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -187,12 +185,11 @@ class GameState {
     const dir = mod(this.dir + (forward ? 0 : 2), 4)
 
     const [allowed, msg, new_x, new_y] = map.canMove(this.position.x, this.position.y, dir)
-    if (allowed) {
-      this.position.x = new_x
-      this.position.y = new_y
-    }
-
     this.showMessage(msg)
+    if (!allowed) return
+
+    this.position.x = new_x
+    this.position.y = new_y
     this.map.enter(this.position)
   }
 
@@ -211,6 +208,21 @@ class GameState {
     this.loadLevel(level)
     this.position.x = x
     this.position.y = y
+  }
+
+  takeStairs(down) {
+    const map = this.map
+    if (!map || map.isCity()) return
+
+    const levelDir = (down === map.goesDown()) ? +1 : -1
+    const newLevel = this.level + levelDir
+    if (newLevel < 0) {
+      // get exit pos from old level
+      this.loadLevel("city")
+      // set new pos
+    } else {
+      this.loadLevel(newLevel)
+    }
   }
 
   exec(...commands) {

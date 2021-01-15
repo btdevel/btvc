@@ -132,7 +132,7 @@ export default function GameScreen () {
           src={mainImg}
           style={{ width: 640, height: 400 }}
           alt='BT1 main screen'
-          style={loaded ? {} : { display: 'none' }}
+          // style={loaded ? {} : { display: 'none' }}
           onLoad={() => setIsLoaded(true)}
         />
       </BackgroundImgBox>

@@ -5,3 +5,7 @@ export function randomInt (max) {
 export function mapTo(x, x1, x2, y1, y2) {
   return ((x - x1) / (x2 - x1)) * (y2 - y1) + y1
 }
+
+export function mod(a, b) {
+  return ((a % b) + b) % b
+}

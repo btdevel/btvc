@@ -1,7 +1,3 @@
-export function mod(a, b) {
-    return ((a % b) + b) % b
-}
-
 export class Direction {
     static NORTH = 0
     static WEST = 1

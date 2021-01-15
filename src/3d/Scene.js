@@ -9,7 +9,7 @@ import Ground from './Ground'
 import Camera from './Camera'
 import Effects from './Effects'
 import MyStars from './MyStars'
-import { useLevel, useMap } from '../game/GameLogic'
+import { useMap } from '../game/GameLogic'
 
 
 export default function Scene() {

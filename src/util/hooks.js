@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+/* eslint-disable react-hooks/exhaustive-deps */
 export function useAsync(func, args) {
   // [result, loading, error] = 
   const [state, setState] = useState([undefined, true, false])

@@ -1,10 +1,11 @@
 import { setGameText } from './GameLogic'
 import Map from './Map'
-import { Direction, mod} from './Movement'
+import { Direction } from './Movement'
+import { mod } from '../util/math'
 
 export default class DungeonMap extends Map {
-  rows = 22
-  columns = 22
+  rows
+  columns
   loaded = false
   name = null
   level = null
@@ -13,7 +14,7 @@ export default class DungeonMap extends Map {
   constructor(level) {
     super()
     if (level === undefined) {
-      throw "Level is undefined"
+      throw Error("Level is undefined")
     }
     this.level = level
   }
@@ -24,7 +25,15 @@ export default class DungeonMap extends Map {
 
   async load() {
     const map = await loadLevel(this.level)
-    this.map = map.map
+    for (let prop in map) {
+      this[prop] = map[prop]
+    }
+
+    this.rows = this.height
+    this.columns = this.width
+    // this.map[27][5].actions = [["teleport", 0, 0, 0]]
+    this.map[0][0].actions = [["teleport", 'city', 27, 5]]
+    console.log("Loaded map: ", this)
     this.loaded = true
   }
 
@@ -47,20 +56,41 @@ export default class DungeonMap extends Map {
 }
 
 
-function transform_level(level, levnum) {
-  level.height = 22;
-  level.width = 22;
-  level.level_number = levnum;
-  const map = transform_map(level);
-  level.map = map;
-  level.name = map.fullName
-  return level;
+export async function loadLevel(level) {
+  const levelNum = level.toString().padStart(2, '0')
+
+  const levelRaw = {}
+  try {
+    const levelImport = import(`../assets/levels/level_${levelNum}.json`)
+    const levelBase = (await levelImport).default
+    Object.assign(levelRaw, levelBase)
+
+    const levelAmendImport = import(`../assets/levels/level_${levelNum}_amend.json`)
+    const levelExtra = (await levelAmendImport).default
+    Object.assign(levelRaw, levelExtra)
+  }
+  catch {
+    console.warn(`Could not load level ${level}`)
+  }
+  // console.log(levelRaw)
+  const map = transform_level(levelRaw, level)
+  return map;
 }
 
+function transform_level(levelRaw, level) {
+  const map = {}
 
+  const [width, height] = levelRaw.dim;
+  map.width = width
+  map.height = height
+  map.name = levelRaw.full_name
+  map.map = transform_map(levelRaw, width, height);
+  console.log("Raw: ", levelRaw)
+  console.log("Map: ", map)
+  return map;
+}
 
-const transform_map = (level) => {
-  const { width, height } = level;
+const transform_map = (level, width, height) => {
   const map = Array(height);
 
   for (let i = 0; i < height; i++) {
@@ -98,6 +128,8 @@ const transform_map = (level) => {
     map[i][j].actions = [["showMessage", msg]]
   }
 
+  return map;
+}
   // for (let encounter of level.encounters) {
   //   const [[j, i], [type, num]] = encounter;
   //   map[i][j].encounter_num_type = { num: num, type: type }
@@ -141,34 +173,9 @@ const transform_map = (level) => {
   //   }
   // }
 
-  return map;
-}
-
-
-
-export async function loadLevel(levnum) {
-  const lnum = levnum.toString().padStart(2, '0')
-
-  const levelRaw = {}
-  try {
-    const levelImport = import(`../assets/levels/level_${lnum}.json`)
-    const levelBase = (await levelImport).default
-    Object.assign(levelRaw, levelBase)
-
-    const levelAmendImport = import(`../assets/levels/level_${lnum}_amend.json`)
-    const levelExtra = (await levelAmendImport).default
-    Object.assign(levelRaw, levelExtra)
-  }
-  catch {
-    console.warn(`Could not load level ${levnum}`)
-  }
-  // console.log(levelRaw)
-  const level = transform_level(levelRaw, levnum)
-  return level;
-}
 
 export async function loadLevels() {
-  const levels = Array();
+  const levels = []
   for (let i = 0; i < 16; i++) {
     levels.push(loadLevel(i))
   }
@@ -176,25 +183,6 @@ export async function loadLevels() {
 }
 
 
-
-
-
-// import level00 from '../assets/levels/level_00.json'
-// import level01 from '../assets/levels/level_01.json'
-// import level02 from '../assets/levels/level_02.json'
-// import level03 from '../assets/levels/level_03.json'
-// import level04 from '../assets/levels/level_04.json'
-// import level05 from '../assets/levels/level_05.json'
-// import level06 from '../assets/levels/level_06.json'
-// import level07 from '../assets/levels/level_07.json'
-// import level08 from '../assets/levels/level_08.json'
-// import level09 from '../assets/levels/level_09.json'
-// import level10 from '../assets/levels/level_10.json'
-// import level11 from '../assets/levels/level_11.json'
-// import level12 from '../assets/levels/level_12.json'
-// import level13 from '../assets/levels/level_13.json'
-// import level14 from '../assets/levels/level_14.json'
-// import level15 from '../assets/levels/level_15.json'
 
 // http://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?f=17&t=910&p=3443#p3443
 //

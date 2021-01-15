@@ -1,9 +1,9 @@
 import React from 'react'
 import Map, { create2dArray } from './Map'
-import { Direction, mod} from './Movement'
+import { Direction } from './Movement'
 import cityMapJsonRaw from '../assets/levels/city.json'
 import { setGameText } from './GameLogic'
-import { mapTo } from '../util/math'
+import { mapTo, mod } from '../util/math'
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 
 
@@ -15,17 +15,9 @@ export class CityMap extends Map {
   level = "city"
   map = null
 
-  // type
-  // subtype
-  // name
-
   constructor() {
     super()
-
     this.load()
-
-    // this.subtype = create2dArray(this.rows, this.columns, 0)
-    // this.name = create2dArray(this.rows, this.columns, '')
   }
 
   isCity() {
@@ -34,6 +26,8 @@ export class CityMap extends Map {
 
   load() {
     this.parseJson(cityMapJsonRaw)
+    this.map[25][12].actions = [["showMessage", "Going south"]]
+    this.map[28][5].actions = [["teleport", 0, 0, 0]]
     this.loaded = true
   }
 
@@ -50,17 +44,10 @@ export class CityMap extends Map {
   }
 
   showMap(pos, dir) {
-    // const x = this.position.x * 10
-    // const y = this.position.y * 10
+    // Guild at 25,14,  const x = 200, const y = 86
+    // Mangar at 2, 24, const x = 42, const y = 138
 
-    // Guild at 25,14
-    // const x = 200
-    // const y = 86
-    // Mangar at 2, 24
-    // const x = 42
-    // const y = 138
     const x = mapTo(pos.x, 2, 25, 42, 200)
-    // const y = mapTo(pos.y, 14, 24, 86, 138)
     const y = mapTo(pos.y, 15, 5, 90, 140)
     const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
     dir = mod(dir, 4)
@@ -79,7 +66,6 @@ export class CityMap extends Map {
     this.columns = cityMapJsonRaw.pattern[0].length
     this.map = create2dArray(this.rows, this.columns, {})
 
-    const elem = {}
     for (let i = 0; i < this.columns; i++) {
       for (let j = 0; j < this.rows; j++) {
         const type = getHouseType(cityMapJsonRaw.pattern[this.rows - j - 1][i])
@@ -135,6 +121,8 @@ function getHouseType(jsonType) {
       return 1
     case 'A8': // city_gate"
       return 11
+    default:
+      console.error(`Unknown house type: ${jsonType}`)
   }
   return 0
 }

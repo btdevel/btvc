@@ -1,6 +1,6 @@
 import { setGameText } from "./GameLogic"
 import { execCommand } from "./KeyMap"
-import { mod } from "./Movement"
+import { mod } from '../util/math'
 
 export const create2dArray = (rows, columns, defaultVal) =>
     [...Array(rows).keys()].map(() => Array(columns).fill(defaultVal))
@@ -15,9 +15,6 @@ export default class Map {
     map
     startX
     startY
-
-    constructor() {
-    }
 
     showInfo(time_hours, pos, dir) {
         const time = mod(time_hours, 24)

@@ -4,7 +4,6 @@ import { PerspectiveCamera } from 'drei'
 import { gameState } from '../game/GameLogic'
 import { useSpring, animated } from 'react-spring'
 
-// const springConfig = { mass: 5, tension: 400, friction: 50, precision: 0.0001 }
 export const springConfigMove = { mass: 3, tension: 400, friction: 12.0, clamp: true }
 export const springConfigSlide = { mass: 2, tension: 1400, friction: 150 }
 export const springConfigWobble = { mass: 3, tension: 400, friction: 12.0 }

@@ -39,8 +39,8 @@ export default function DungeonLights () {
   return (
     <>
       <ambientLight args={[color, intensity]} ref={ambientRef} />
-      <PointLight color='lightred' position={[1, 5, 1.2]}/>
-      <PointLight color='lightred' position={[18, 10, 1.2]}/>
+      <PointLight color='lightyellow' position={[1, 5, 1.2]}/>
+      <PointLight color='lightyellow' position={[18, 10, 1.2]}/>
       <AnimatedPointLight position={position}/>
     </>
   )
