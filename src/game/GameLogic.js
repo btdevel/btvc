@@ -11,6 +11,7 @@ import { execCommand } from './KeyMap'
 import { mapTo } from '../util/math'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
+import { Direction, mod } from './Movement'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -31,6 +32,10 @@ function modifyState(func) {
   useStore.getState().modify(func)
 }
 
+export const modifyStatInternal_ = modifyState
+export const useStoreInternal_ = useStore
+
+export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
 export const useGameText = () => useStore(state => state.gameText)
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
@@ -53,17 +58,18 @@ class GameState {
   get map() { return useStore.getState().map }
 
   export = {
-    forward: () => this.move(1),
-    backward: () => this.move(-1),
+    forward: () => this.move(true),
+    backward: () => this.move(false),
     turn: this.turn,
     showInfo: this.showInfo,
     showMap: this.showMap,
+    showMessage: this.showMessage,
     exec: this.exec,
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
-    doDebugStuff: this.startGUI,
-    }
+    doDebugStuff: startGUI
+  }
 
   async init(config) {
     this.position.x = config.position.x
@@ -75,20 +81,15 @@ class GameState {
     this.setOrbitcontrols(config.orbitcontrols)
     await this.loadLevel(config.level)
 
-    const hour = config.hour
-    const dayLengthInMinutes = config.dayLengthInMinutes
-    const commands = config.initCommands
-
     const stepper = this.stepper
     stepper.pause()
     stepper.setSimSpeed(
-      TimeStepper.DAY / TimeStepper.MINUTE / dayLengthInMinutes
+      TimeStepper.DAY / TimeStepper.MINUTE / config.dayLengthInMinutes
     )
-    stepper.setSimTime(hour * TimeStepper.HOUR)
+    stepper.setSimTime(config.hour * TimeStepper.HOUR)
     stepper.resume()
-    // console.log('Init: ', this);
 
-    for (const command of commands) {
+    for (const command of config.initCommands) {
       console.log(command);
       execCommand(command, "init()")
     }
@@ -173,9 +174,9 @@ class GameState {
     })
   }
 
-  clearInfo() {
+  showMessage(msg = "") {
     modifyState(draft => {
-      draft.gameText = ''
+      draft.gameText = msg
     })
   }
 
@@ -229,29 +230,24 @@ class GameState {
     return this.time() / TimeStepper.HOUR
   }
 
-  move(i) {
 
-    const dxs = [0, -1, 0, 1]
-    const dys = [1, 0, -1, 0]
-    const dir = ((this.dir % 4) + 4) % 4
-    const dx = i * dxs[dir]
-    const dy = i * dys[dir]
-    const x = this.position.x + dx
-    const y = this.position.y + dy
+  move(forward) {
 
-    const level = this.level;
-    const map = this.map;
-    console.log(map)
-    if (level != 'city' || map.map[x][y].type === 0) {
-      this.position.x += dx
-      this.position.y += dy
+    const map = this.map
+    const dir = mod(this.dir + (forward ? 0 : 2), 4)
+
+    const [allowed, msg, new_x, new_y] = map.canMove(this.position.x, this.position.y, dir)
+    if (allowed) {
+      this.position.x = new_x
+      this.position.y = new_y
     }
-    this.clearInfo()
+
+    this.showMessage(msg)
   }
 
   turn(i) {
     this.dir += i
-    this.clearInfo()
+    this.showMessage()
   }
 
   exec(...commands) {

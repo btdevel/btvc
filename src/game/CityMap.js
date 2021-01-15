@@ -1,4 +1,5 @@
 import Map, { create2dArray } from './Map'
+import { Direction, mod} from './Movement'
 import cityMapJsonRaw from '../assets/levels/city.json'
 
 export class CityMap extends Map {
@@ -25,6 +26,14 @@ export class CityMap extends Map {
   load() {
     this.parseJson(cityMapJsonRaw)
     this.loaded = true
+  }
+
+  canMove(old_x, old_y, dir) {
+    // console.log("CityMap: ", this)
+    const new_x = mod(old_x + Direction.dx[dir], this.columns)
+    const new_y = mod(old_y + Direction.dy[dir], this.rows)
+    if (this.map[new_x][new_y].type !== 0) return [false, undefined, old_x, old_y]
+    return [true, undefined, new_x, new_y]
   }
 
 

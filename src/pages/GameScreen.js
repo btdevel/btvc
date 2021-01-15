@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Canvas } from 'react-three-fiber'
 import { ErrorBoundary } from 'react-error-boundary'
-import * as THREE from 'three'
 
 import TextView from './TextView'
 import PartyView from './PartyView'
 import PlayerView from './PlayerView'
-// import PlayerView from './PlayerViewTest'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
 import { useFullscreen, useOrbitcontrols, useOverlayText } from '../game/GameLogic'
@@ -71,6 +68,20 @@ const TextViewBox = styled.div`
   top: 30px;
 }}
 `
+
+const FullscreenTextViewBox = styled.div`
+  background-color: rgb(1,1,1,0.2);
+  // background-color: transparent;
+  color: white;
+  width: 264px;
+  height: 198px;
+  position: absolute;
+  left: 340px;
+  top: 30px;
+}}
+`
+
+
 const PartyViewBox = styled.div`
   background-color: transparent;
   color: transparent;
@@ -101,9 +112,13 @@ export default function GameScreen () {
   if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
+        <Fonts />
         <FullscreenBox>
           <PlayerView orbitControls={orbitcontrols} />
         </FullscreenBox>
+        <FullscreenTextViewBox id='textview'>
+          <TextView />
+        </FullscreenTextViewBox>
       </GamescreenBox>
     )
   }

@@ -5,7 +5,8 @@ import Scene from '../3d/Scene'
 import * as THREE from 'three'
 import GameControls from '../3d/GameControls'
 
-function PlayerView ({ orbitControls }) {
+function PlayerView({ orbitControls }) {
+
   return (
     <Canvas
       // shadowMap

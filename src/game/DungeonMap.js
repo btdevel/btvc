@@ -1,5 +1,5 @@
 import Map from './Map'
-
+import { Direction, mod} from './Movement'
 
 export default class DungeonMap extends Map {
   rows = 22
@@ -23,6 +23,19 @@ export default class DungeonMap extends Map {
     this.map = map.map
     this.loaded = true
   }
+
+  canMove(old_x, old_y, dir) {
+    // console.log("DungeonMap: ", this)
+    const wall = this.map[old_x][old_y]
+    const dirs = [wall.north, wall.west, wall.south, wall.east]
+    // setOverlayText(`${dirs}`)
+    const type = dirs[dir]
+    if (type === 1) return [false, "Ouch!", old_x, old_y]
+    const new_x = mod(old_x + Direction.dx[dir], this.columns)
+    const new_y = mod(old_y + Direction.dy[dir], this.rows)
+    return [true, undefined, new_x, new_y]
+  }
+
 }
 
 
@@ -54,14 +67,14 @@ const transform_map = (level) => {
 
       const spec = level.spec_data[i + j * width]
 
-      space.stairs_prev = (spec & 0b00000001) != 0;
-      space.stairs_next = (spec & 0b00000010) != 0;
-      // space.special     = (spec & 0b00000100)!=0;
-      space.darkness = (spec & 0b00001000) != 0;
-      space.trap = (spec & 0b00010000) != 0;
-      space.portal_down = (spec & 0b00100000) != 0;
-      space.portal_up = (spec & 0b01000000) != 0;
-      space.encounter = (spec & 0b10000000) != 0;
+      space.stairs_prev = (spec & 0b00000001) !== 0;
+      space.stairs_next = (spec & 0b00000010) !== 0;
+      // space.special     = (spec & 0b00000100)!==0;
+      space.darkness = (spec & 0b00001000) !== 0;
+      space.trap = (spec & 0b00010000) !== 0;
+      space.portal_down = (spec & 0b00100000) !== 0;
+      space.portal_up = (spec & 0b01000000) !== 0;
+      space.encounter = (spec & 0b10000000) !== 0;
 
       space.stairs_down = level.goes_down ? space.stairs_next : space.stairs_prev;
       space.stairs_up = level.goes_down ? space.stairs_prev : space.stairs_next;

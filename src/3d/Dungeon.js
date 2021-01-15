@@ -57,7 +57,6 @@ function Wall({ x, y, dir, wtype }) {
   }
   const rot = dir * 0.5 * Math.PI
 
-  console.log(wtype)
   const elems = []
   elems.push(<mesh key={[0, 0]} position={[x, y, 0]} rotation-order='ZXY' rotation={[Math.PI / 2, 0, rot]} material={materials[wtype]} geometry={wallGeom} />)
 
@@ -71,7 +70,8 @@ function Wall({ x, y, dir, wtype }) {
 }
 
 function createLevel(map, elements) {
-  console.log("Map: ", map)
+  // console.log("Map: ", map)
+  // console.warn("creating level")
   if (!map?.map) return {}
 
   const columns = map.columns
@@ -95,8 +95,6 @@ function createLevel(map, elements) {
 }
 
 export default function Dungeon({ map, level }) {
-
-  console.log(level)
 
   let elements = []
   createLevel(map, elements)

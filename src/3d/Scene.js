@@ -18,10 +18,11 @@ export default function Scene() {
   // get the map and pass it on to city or dungeon
   const isCity = level === 'city'
 
-  console.log(map)
+  // console.log(map)
+  // console.warn("rerendering scene")
 
   return (
-    <group>
+    <>
       <Camera />
       {isCity ? <Lights /> : <DungeonLights />}
       {isCity && <MySky />}
@@ -29,7 +30,7 @@ export default function Scene() {
       <Ground type={isCity ? "city" : "dungeon"}/>
       {isCity ? <City map={map} /> : <Dungeon map={map} level={level} />}
       <Effects />
-    </group>)
+    </>)
 
   // return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
 }
