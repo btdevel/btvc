@@ -43,7 +43,8 @@ configs:
   debugCellars:
     # configs: ["cellars", "night", "fullscreen", "debug"]
     # configs: ["cellars", "night", "facingEast", "debug"]
-    configs: ["cellars", "night", "facingNorth", "debug"]
+    # configs: ["cellars", "night", "facingNorth", "debug"]
+    configs: ["beforeScarletBard", "noon", "facingEast", "debug"]
   debugShadowCasting:
     configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
   debugSky:
@@ -85,6 +86,8 @@ configs:
     position: { x: 3, y: 15 }
   southQuarter:
     position: { x: 19, y: 4 }
+  beforeScarletBard:
+    position: { x: 27, y: 5 }
     dir: 1
   cellars:
     # position: { x: 1, y: 1 }

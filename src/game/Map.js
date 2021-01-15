@@ -1,4 +1,5 @@
 import { setGameText } from "./GameLogic"
+import { execCommand } from "./KeyMap"
 import { mod } from "./Movement"
 
 export const create2dArray = (rows, columns, defaultVal) =>
@@ -50,4 +51,14 @@ export default class Map {
         setGameText(gameText)
     }
 
+    enter(pos) {
+        const {x, y} = pos
+        const actions = this.map[x][y].actions
+        if (!actions) return
+
+        for (let action of actions) {
+            execCommand(action)
+        }
+
+    }
 }

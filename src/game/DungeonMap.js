@@ -95,49 +95,51 @@ const transform_map = (level) => {
     const [[j, i], msg] = msg_struct
     // console.log(`(${i},${j}) -> ${msg}`)
     map[i][j].message = msg;
-  }
-  for (let encounter of level.encounters) {
-    const [[j, i], [type, num]] = encounter;
-    map[i][j].encounter_num_type = { num: num, type: type }
+    map[i][j].actions = [["showMessage", msg]]
   }
 
-  for (let teleport of level.teleports) {
-    const [from, to] = teleport;
-    map[from[1]][from[0]].teleport_to = [to[1], to[0]];
-    map[to[1]][to[0]].teleport_from = [from[1], from[0]];
-  }
+  // for (let encounter of level.encounters) {
+  //   const [[j, i], [type, num]] = encounter;
+  //   map[i][j].encounter_num_type = { num: num, type: type }
+  // }
 
-  for (let point of level.hitpoint_damage) {
-    const [j, i] = point;
-    map[i][j].hitpoint_damage = true;
-  }
-  for (let point of level.smoke_zones) {
-    const [j, i] = point;
-    map[i][j].smoke_zone = true;
-  }
-  for (let point of level.antimagic_zones) {
-    const [j, i] = point;
-    map[i][j].antimagic_zone = true;
-  }
-  for (let point of level.spellpoint_restore) {
-    const [j, i] = point;
-    map[i][j].spellpoint_restore = true;
-  }
-  for (let point of level.spinners) {
-    const [j, i] = point;
-    map[i][j].spinner = true;
-  }
-  for (let point of level.stasis_chambers) {
-    const [j, i] = point;
-    map[i][j].stasis_chamber = true;
-  }
-  if (level.specials_info) {
-    for (let point of level.specials_info) {
-      const [[j, i], msg] = point;
-      map[i][j].special = msg;
-      // console.log({point: [i,j], msg: msg})
-    }
-  }
+  // for (let teleport of level.teleports) {
+  //   const [from, to] = teleport;
+  //   map[from[1]][from[0]].teleport_to = [to[1], to[0]];
+  //   map[to[1]][to[0]].teleport_from = [from[1], from[0]];
+  // }
+
+  // for (let point of level.hitpoint_damage) {
+  //   const [j, i] = point;
+  //   map[i][j].hitpoint_damage = true;
+  // }
+  // for (let point of level.smoke_zones) {
+  //   const [j, i] = point;
+  //   map[i][j].smoke_zone = true;
+  // }
+  // for (let point of level.antimagic_zones) {
+  //   const [j, i] = point;
+  //   map[i][j].antimagic_zone = true;
+  // }
+  // for (let point of level.spellpoint_restore) {
+  //   const [j, i] = point;
+  //   map[i][j].spellpoint_restore = true;
+  // }
+  // for (let point of level.spinners) {
+  //   const [j, i] = point;
+  //   map[i][j].spinner = true;
+  // }
+  // for (let point of level.stasis_chambers) {
+  //   const [j, i] = point;
+  //   map[i][j].stasis_chamber = true;
+  // }
+  // if (level.specials_info) {
+  //   for (let point of level.specials_info) {
+  //     const [[j, i], msg] = point;
+  //     map[i][j].special = msg;
+  //     // console.log({point: [i,j], msg: msg})
+  //   }
+  // }
 
   return map;
 }

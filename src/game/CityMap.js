@@ -41,7 +41,11 @@ export class CityMap extends Map {
     // console.log("CityMap: ", this)
     const new_x = mod(old_x + Direction.dx[dir], this.columns)
     const new_y = mod(old_y + Direction.dy[dir], this.rows)
-    if (this.map[new_x][new_y].type !== 0) return [false, undefined, old_x, old_y]
+    if (this.map[new_x][new_y].type !== 0) {
+      if (!this.map[new_x][new_y].actions) {
+        return [false, undefined, old_x, old_y]
+      }
+    }
     return [true, undefined, new_x, new_y]
   }
 

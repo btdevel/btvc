@@ -61,6 +61,8 @@ class GameState {
     forward: () => this.move(true),
     backward: () => this.move(false),
     turn: this.turn,
+    jump: this.jump,
+    teleport: this.teleport,
     showInfo: this.showInfo,
     showMap: this.showMap,
     showMessage: this.showMessage,
@@ -191,11 +193,24 @@ class GameState {
     }
 
     this.showMessage(msg)
+    this.map.enter(this.position)
   }
 
   turn(i) {
     this.dir += i
     this.showMessage()
+  }
+
+  jump(x, y) {
+    this.position.x = x
+    this.position.y = y
+    this.showMessage()
+  }
+
+  teleport(level, x, y) {
+    this.loadLevel(level)
+    this.position.x = x
+    this.position.y = y
   }
 
   exec(...commands) {
