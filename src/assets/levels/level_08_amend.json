@@ -1,24 +1,14 @@
-{    "specials_info": [
-        [
-            [
-                9, 
-                9
-            ], 
-            "An old man gives you this riddle in order to pass:\n\n Once man alive \n Now living death \n It drinketh blood \n N' stealeth breath.\n\n Answer: VAMPIRE.\n Wrong: Battle vs. [1 Master Sorcerer]"
-        ], 
-        [
-            [
-                0, 
-                0
-            ], 
-            " Important item: SILVER SQUARE"
-        ], 
-        [
-            [
-                0, 
-                19
-            ], 
-            "Magic Mouth Riddle:\n\n Past warscapes fought by men long dead,\n and treasures lost on bloodied fields,\n the One God lifts his thorn-crowned head,\n and lays a strength on friendly..\n\nAnswer: SHIELDS\n Item: YBARRASHIELD"
-        ]
+{
+  "full_name": "Harkyn's Castle Level 2",
+  "specials_info": [
+    [
+      [9, 9],
+      "An old man gives you this riddle in order to pass:\n\n Once man alive \n Now living death \n It drinketh blood \n N' stealeth breath.\n\n Answer: VAMPIRE.\n Wrong: Battle vs. [1 Master Sorcerer]"
+    ],
+    [[0, 0], " Important item: SILVER SQUARE"],
+    [
+      [0, 19],
+      "Magic Mouth Riddle:\n\n Past warscapes fought by men long dead,\n and treasures lost on bloodied fields,\n the One God lifts his thorn-crowned head,\n and lays a strength on friendly..\n\nAnswer: SHIELDS\n Item: YBARRASHIELD"
     ]
+  ]
 }

@@ -1,32 +1,21 @@
 {
-    "specials_info": [
-        [
-            [
-                8, 
-                12
-            ], 
-            "There is a large black coffin...\n If you open it: A Vampire Lord rises from the coffin...\n Battle vs. [1 Vampire Lord]"
-        ], 
-        [
-            [
-                8, 
-                21
-            ], 
-            "Two sleeping dragons awaken...\n Battle vs. [1 Red Dragon, 1 Red Dragon]"
-        ], 
-        [
-            [
-                9, 
-                20
-            ], 
-            "Magic Mouth Riddle:\n\n Name the greatest son of Odin and win his aid\n\n Answer: THOR\n Item: THOR FGN"
-        ], 
-        [
-            [
-                20, 
-                3
-            ], 
-            "When you step on this square, each door turns into a wall and each wall into a door, thus allowing you to progress to the stairs."
-        ]
+  "full_name": "Mangar's Tower Level 4",
+  "specials_info": [
+    [
+      [8, 12],
+      "There is a large black coffin...\n If you open it: A Vampire Lord rises from the coffin...\n Battle vs. [1 Vampire Lord]"
+    ],
+    [
+      [8, 21],
+      "Two sleeping dragons awaken...\n Battle vs. [1 Red Dragon, 1 Red Dragon]"
+    ],
+    [
+      [9, 20],
+      "Magic Mouth Riddle:\n\n Name the greatest son of Odin and win his aid\n\n Answer: THOR\n Item: THOR FGN"
+    ],
+    [
+      [20, 3],
+      "When you step on this square, each door turns into a wall and each wall into a door, thus allowing you to progress to the stairs."
     ]
+  ]
 }

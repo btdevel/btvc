@@ -1,47 +1,24 @@
 {
-        "specials_info": [
-        [
-            [
-                10, 
-                13
-            ], 
-            "Magic Mouth Riddle:\n\n Name the one of cold,\n foretold twofold.\n\n; Answer: STONE GOLEM\n Teleports you to 8N 9E",
-            [
-                8, 
-                9
-            ]
-        ], 
-        [
-            [
-                2, 
-                12
-            ], 
-            "Magic Mouth Riddle:\n\n Name the endless bypass and your path shall be guaranteed.\n\n Answer: SINISTER\n Opens the door at 6N 1E",
-            [
-                6, 
-                1
-            ]
-        ], 
-        [
-            [
-                20, 
-                2
-            ], 
-            "Important item: SILVER TRIANGLE"
-        ], 
-        [
-            [
-                1, 
-                4
-            ], 
-            "Crystal Golem: The CRYSTAL SWORD is the only weapon that beats this guardian."
-        ], 
-        [
-            [
-                13, 
-                17
-            ], 
-            "Kylearan\nImportant item: ONYX KEY to unlock Mangar's Tower (not he gates!)"
-        ]
+  "full_name": "Kylearan's Tower",
+  "specials_info": [
+    [
+      [10, 13],
+      "Magic Mouth Riddle:\n\n Name the one of cold,\n foretold twofold.\n\n; Answer: STONE GOLEM\n Teleports you to 8N 9E",
+      [8, 9]
+    ],
+    [
+      [2, 12],
+      "Magic Mouth Riddle:\n\n Name the endless bypass and your path shall be guaranteed.\n\n Answer: SINISTER\n Opens the door at 6N 1E",
+      [6, 1]
+    ],
+    [[20, 2], "Important item: SILVER TRIANGLE"],
+    [
+      [1, 4],
+      "Crystal Golem: The CRYSTAL SWORD is the only weapon that beats this guardian."
+    ],
+    [
+      [13, 17],
+      "Kylearan\nImportant item: ONYX KEY to unlock Mangar's Tower (not he gates!)"
     ]
+  ]
 }

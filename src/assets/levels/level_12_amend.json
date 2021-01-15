@@ -1,11 +1,9 @@
 {
-    "specials_info": [
-        [
-            [
-                15, 
-                4
-            ], 
-            "Magic Mouth Riddle:\n\n Two shapes yours, one's around;\n Speak the shape and final found\n\n Answer: CIRCLE\n Important Item: SILVER CIRCLE"
-        ]
+  "full_name": "Mangar's Tower Level 2",
+  "specials_info": [
+    [
+      [15, 4],
+      "Magic Mouth Riddle:\n\n Two shapes yours, one's around;\n Speak the shape and final found\n\n Answer: CIRCLE\n Important Item: SILVER CIRCLE"
     ]
+  ]
 }

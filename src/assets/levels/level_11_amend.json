@@ -1,11 +1,6 @@
 {
-    "specials_info": [
-        [
-            [
-                13, 
-                20
-            ], 
-            "A magic mouth teleports you to Level 2 13N 20E"
-        ]
-    ]
+  "full_name": "Mangar's Tower Level 1",
+  "specials_info": [
+    [[13, 20], "A magic mouth teleports you to Level 2 13N 20E"]
+  ]
 }

@@ -1,11 +1,6 @@
 {
-    "specials_info": [
-        [
-            [
-                19, 
-                20
-            ], 
-            " Witch King\n Battle vs. [1 Spectre]\n Important item: EYE"
-        ]
-    ]
+  "full_name": "Catacombs Level 3",
+  "specials_info": [
+    [[19, 20], " Witch King\n Battle vs. [1 Spectre]\n Important item: EYE"]
+  ]
 }

@@ -1,11 +1,6 @@
 {
-    "specials_info": [
-        [
-            [
-                9,
-                4
-            ],
-            " Statue of a Spidergod\n If searched: Battle vs [1 Spidergod]"
-        ]
-    ]
+  "full_name": "Sewers Level 1",
+  "specials_info": [
+    [[9, 4], " Statue of a Spidergod\n If searched: Battle vs [1 Spidergod]"]
+  ]
 }
