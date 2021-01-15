@@ -28,6 +28,10 @@ export class CityMap extends Map {
     // this.name = create2dArray(this.rows, this.columns, '')
   }
 
+  isCity() {
+    return true
+  }
+
   load() {
     this.parseJson(cityMapJsonRaw)
     this.loaded = true

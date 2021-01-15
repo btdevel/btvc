@@ -19,6 +19,10 @@ export default class DungeonMap extends Map {
     this.name = levelNames[level]
   }
 
+  isCity() {
+    return false
+  }
+
   async load() {
     const map = await loadLevel(this.level)
     this.map = map.map

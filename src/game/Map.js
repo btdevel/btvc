@@ -19,7 +19,7 @@ export default class Map {
     }
 
     showInfo(time_hours, pos, dir) {
-        const time = time_hours % 24
+        const time = mod(time_hours, 24)
         dir = mod(dir, 4)
 
         function pad(num, size) { return ('00' + num).substr(-size); }
@@ -28,13 +28,13 @@ export default class Map {
         const directions = ['north', 'west', 'south', 'east'];
         const timeOfDay = ['after midnite', 'early morning', 'mid morning',
             'noon', 'afternoon', 'dusk', 'evening', 'midnite']
-        const timeStr = timeOfDay[Math.floor(((time - 1.5 + 24) % 24) / 3)]
+        const timeStr = timeOfDay[Math.floor(mod(time - 1.5, 24)  / 3)]
 
         // https://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?t=1604
         // "present time of day: after midnite 0 - 3, midnite 4 - 7, evening 8 - b, dusk c - f, afternoon 10 - 13, noon 14 - 17, mid morning 18 - 1b, early morning 1c - 1f"  Seems to be set to 1f; i.e. early morning
 
         let gameText = ""
-        if (this.level === 'city') {
+        if (this.isCity()) {
             gameText = `You are on ?? Street facing ${directions[dir]}.
 
             It's now ${timeStr}.

@@ -94,7 +94,7 @@ function createLevel(map, elements) {
   }
 }
 
-export default function Dungeon({ map, level }) {
+export default function Dungeon({ map }) {
 
   let elements = []
   createLevel(map, elements)

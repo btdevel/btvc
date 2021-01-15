@@ -13,10 +13,8 @@ import { useLevel, useMap } from '../game/GameLogic'
 
 
 export default function Scene() {
-  const level = useLevel()
-  const map = useMap()
-  // get the map and pass it on to city or dungeon
-  const isCity = level === 'city'
+  const map = useMap() // get the map and pass it on to city or dungeon
+  const isCity = map.isCity()
 
   // console.log(map)
   // console.warn("rerendering scene")
@@ -28,7 +26,7 @@ export default function Scene() {
       {isCity && <MySky />}
       {isCity && <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />}
       <Ground type={isCity ? "city" : "dungeon"}/>
-      {isCity ? <City map={map} /> : <Dungeon map={map} level={level} />}
+      {isCity ? <City map={map} /> : <Dungeon map={map} />}
       <Effects />
     </>)
 
