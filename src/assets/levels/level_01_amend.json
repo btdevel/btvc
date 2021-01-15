@@ -1,5 +1,6 @@
 {
   "full_name": "Sewers Level 1",
+  "dim": [22, 22],
   "specials_info": [
     [[9, 4], " Statue of a Spidergod\n If searched: Battle vs [1 Spidergod]"]
   ]
