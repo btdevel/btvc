@@ -28,6 +28,8 @@ import gateImg from '../assets/images/city/gate.png'
 import gateAlpha from '../assets/images/city/gate_alpha.png'
 import { MeshStandardMaterial } from 'three'
 
+import { makeWallGeometry } from './util'
+
 // const houseGeometry = new THREE.BoxBufferGeometry(1, 1, 1)
 const eps = 1e-10
 const houseGeometry = new THREE.BoxBufferGeometry(1 - eps, 1 - eps, 1 - eps)
@@ -42,12 +44,12 @@ function load(img) {
 const materialProps = [
   // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
   /* 0: */ {},
-  /* 1: */ {map: load(house1Img), alphaMap: load(house1Alpha), transparent: true},
-  /* 2: */ {map: load(house2Img), alphaMap: load(house2Alpha), transparent: true},
+  /* 1: */ {map: load(house1Img), alphaMap: load(house1Alpha), transparent: !true},
+  /* 2: */ {map: load(house2Img), alphaMap: load(house2Alpha), transparent: !true},
   /* 3: */ {map: load(house3Img)},
   /* 4: */ {map: load(house4Img)},
-  /* 5: */ {map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmis), emissive: 0xFFFFFF},
-  /* 6: */ {map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: true, emissiveMap: load(tavernEmis), emissive: 0xFFFFFF },
+  /* 5: */ {map: load(guildImg), alphaMap: load(guildAlpha), transparent: !true, emissiveMap: load(guildEmis), emissive: 0xFFFFFF},
+  /* 6: */ {map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: !true, emissiveMap: load(tavernEmis), emissive: 0xFFFFFF },
   /* 7: */ {map: load(shopImg)},
   /* 8: */ {map: load(templeImg)},
   /* 9: */ {map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
@@ -69,16 +71,44 @@ const meshProps = [
   /* 11:*/  {renderOrder: 2 },
 ]
 
+const standardWallGeom = makeWallGeometry()
+const geoms = [
+  /* 0: */ {},
+  /* 1: */ standardWallGeom,
+  /* 2: */ makeWallGeometry(0.76, 0.98),
+  /* 3: */ standardWallGeom,
+  /* 4: */ standardWallGeom,
+  /* 5: */ makeWallGeometry(0.74, 1),
+  /* 6: */ makeWallGeometry(0.76, 1),
+  /* 7: */ standardWallGeom,
+  /* 8: */ standardWallGeom,
+  /* 9: */ standardWallGeom,
+  /* 10:*/ standardWallGeom,
+  /* 11:*/ standardWallGeom,
+]
+
 const materials = materialProps.map(props => new MeshStandardMaterial(props))
 
-export const House = forwardRef(({ type, x, y, props}, ref) => {
+export const House = forwardRef(({ type, x, y, props }, ref) => {
+  const pi2 = Math.PI / 2
+  const z = -eps/2
+  const d = 0.5
+  const xgeom = geoms[type]
   return (
-    <mesh rotation={[Math.PI/2, 0, 0]}
-      position={[x, y, -eps/2]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {houseGeometry} material = {materials[type]}>
-      {/* <boxBufferGeometry attach='geometry' args={[1, 1, 1]} /> */}
-      {/* <meshStandardMaterial attach='material' {...materialProps[type]} /> */}
-    </mesh>
+    <>
+      <mesh rotation-order="ZXY" rotation={[pi2, 0, 2*pi2]} position={[x, y+d, z]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {xgeom} material = {materials[type]} />
+      <mesh rotation-order="ZXY" rotation={[pi2, 0, 3*pi2]} position={[x-d, y, z]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {xgeom} material = {materials[type]} />
+      <mesh rotation-order="ZXY" rotation={[pi2, 0, 0*pi2]} position={[x, y-d, z]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry=  {xgeom} material = {materials[type]} />
+      <mesh rotation-order="ZXY" rotation={[pi2, 0, 1*pi2]} position={[x+d, y, z]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {xgeom} material = {materials[type]} />
+    </>
   )
+  // return (
+  //   <mesh rotation={[Math.PI/2, 0, 0]}
+  //     position={[x, y, -eps/2]} castShadow receiveShadow {...meshProps[type]} ref={ref} geometry = {houseGeometry} material = {materials[type]}>
+  //     {/* <boxBufferGeometry attach='geometry' args={[1, 1, 1]} /> */}
+  //     {/* <meshStandardMaterial attach='material' {...materialProps[type]} /> */}
+  //   </mesh>
+  // )
 })
 
 House.defaultProps = {

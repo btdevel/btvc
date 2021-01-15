@@ -1,19 +1,12 @@
-import React, { useEffect } from 'react'
-import { MeshBasicMaterial } from 'three'
-import { loadLevel } from '../game/DungeonMap'
-import { useAsync } from '../util/hooks'
+import React from 'react'
+import { makeWallGeometry } from './util'
 import * as THREE from 'three'
-// const cityMap = new CityMap()
+
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
 // import wallImg from '../assets/images/levels1/dungeon_wall.png'
 // import doorImg from '../assets/images/levels1/dungeon_door.png'
-
-
-const wallGeom = new THREE.PlaneBufferGeometry()
-
-
 
 const loader = new THREE.TextureLoader()
 function load(img) {
@@ -24,18 +17,17 @@ function load(img) {
   return texture
 }
 
-// const wallMat = new THREE.MeshBasicMaterial({ map: load(wallImg) })
+// const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
 const wallMat = new THREE.MeshStandardMaterial({ map: load(wallImg) })
 const doorMat = new THREE.MeshStandardMaterial({ map: load(doorImg) })
-// const sdoorMat = new THREE.MeshBasicMaterial({ color: 'red' })
 const sdoorMat = wallMat // It's secret after all...
-
-const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
-const floorMat = new THREE.MeshBasicMaterial({ color: colorCeiling })
-const ceilMat = new THREE.MeshBasicMaterial({ color: colorCeiling })
-
-
 const materials = [undefined, wallMat, doorMat, sdoorMat]
+
+
+const wallGeom = makeWallGeometry(1, 1)
+
+
+
 
 
 function Wall({ x, y, dir, wtype }) {
@@ -69,35 +61,28 @@ function Wall({ x, y, dir, wtype }) {
   return <group>{elems}</group>
 }
 
-function createLevel(map, elements) {
-  // console.log("Map: ", map)
-  // console.warn("creating level")
-  if (!map?.map) return {}
+function createLevel(map) {
+  if (!map?.map) return []
 
+  let elements = []
   const columns = map.columns
   const rows = map.rows
 
   for (let i = 0; i < columns; ++i) {
     for (let j = 0; j < rows; ++j) {
-      // const space = map.map[j][i]
-      // const dirs = [space.west, space.south, space.east, space.north]
       const space = map.map[i][j]
       const dirs = [space.north, space.west, space.south, space.east]
 
       for (let k = 0; k < 4; k++) {
-        // elements.push(<Wall key={`${i}-${j}-${k}`} x={i} y={j} dir={k} wtype={2} />)
         if (dirs[k]) {
           elements.push(<Wall key={`${i}-${j}-${k}`} x={i} y={j} dir={k} wtype={dirs[k]} />)
         }
       }
     }
   }
+  return elements
 }
 
 export default function Dungeon({ map }) {
-
-  let elements = []
-  createLevel(map, elements)
-
-  return <group>{elements}</group>
+  return <group>{createLevel(map)}</group>
 }

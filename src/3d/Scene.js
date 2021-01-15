@@ -14,6 +14,8 @@ import { useLevel, useMap } from '../game/GameLogic'
 
 export default function Scene() {
   const map = useMap() // get the map and pass it on to city or dungeon
+  if (!map) return <></>
+
   const isCity = map.isCity()
 
   // console.log(map)
