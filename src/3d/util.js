@@ -1,17 +1,28 @@
 import * as THREE from 'three'
 
 export function makeWallGeometry(a = 1, b = 1) {
-    const square = new THREE.Shape();
-    square.moveTo(0, 0)
-    square.lineTo(0, a)
-    if (a !== b) square.lineTo(0.5, b)
-    square.lineTo(1, a)
-    square.lineTo(1, 0)
-    square.closePath()
-    const geom = new THREE.ShapeGeometry(square);
-    geom.translate(-0.5, -0.5, 0)
-    return geom
-  }
+  const square = new THREE.Shape();
+  square.moveTo(0, 0)
+  square.lineTo(0, a)
+  if (a !== b) square.lineTo(0.5, b)
+  square.lineTo(1, a)
+  square.lineTo(1, 0)
+  square.closePath()
+  const geom = new THREE.ShapeGeometry(square);
+  geom.translate(-0.5, -0.5, 0)
+  return geom
+}
+
+export function makeShapeGeometry(p) {
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0)
+  for (let [x, y] of p) shape.lineTo(x, y)
+  shape.closePath()
+
+  const geom = new THREE.ShapeGeometry(shape);
+  geom.translate(-0.5, -0.5, 0)
+  return geom
+}
 
 const white = new THREE.Color(0xffffff)
 const black = new THREE.Color(0x000000)
@@ -41,7 +52,7 @@ export function createCheckeredTexture(color1 = white, color2 = black) {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
 
-  texture.repeat.set(4*500, 4*500);
+  texture.repeat.set(4 * 500, 4 * 500);
   return texture
 }
 
