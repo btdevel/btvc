@@ -17,7 +17,7 @@ function PointLight({ color=0xffffff, position }) {
 
 const AnimatedPointLight = animated(PointLight)
 
-export default function DungeonLights () {
+export default function DungeonLights ({map}) {
   const ambientRef = useRef()
 
   const startPos = gameState.position
@@ -39,8 +39,8 @@ export default function DungeonLights () {
   return (
     <>
       <ambientLight args={[color, intensity]} ref={ambientRef} />
-      <PointLight color='lightyellow' position={[1, 5, 1.2]}/>
-      <PointLight color='lightyellow' position={[18, 10, 1.2]}/>
+      {map.level==0 && <PointLight color='lightyellow' position={[1, 5, 1.2]}/>}
+      {map.level==0 && <PointLight color='lightyellow' position={[18, 10, 1.2]}/>}
       <AnimatedPointLight position={position}/>
     </>
   )

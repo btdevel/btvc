@@ -24,7 +24,7 @@ export default function Scene() {
   return (
     <>
       <Camera />
-      {isCity ? <Lights /> : <DungeonLights />}
+      {isCity ? <Lights /> : <DungeonLights map={map}/>}
       {isCity && <MySky />}
       {isCity && <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />}
       <Ground type={isCity ? "city" : "dungeon"}/>

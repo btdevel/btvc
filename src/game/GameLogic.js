@@ -61,6 +61,8 @@ class GameState {
     turn: this.turn,
     jump: this.jump,
     teleport: this.teleport,
+    stairsDown: () => this.takeStairs(true),
+    stairsUp: () => this.takeStairs(false),
     showInfo: this.showInfo,
     showMap: this.showMap,
     showMessage: this.showMessage,
@@ -214,12 +216,12 @@ class GameState {
     const map = this.map
     if (!map || map.isCity()) return
 
-    const levelDir = (down === map.goesDown()) ? +1 : -1
+    const levelDir = (down === map.goesDown) ? +1 : -1
     const newLevel = this.level + levelDir
-    if (newLevel < 0) {
-      // get exit pos from old level
-      this.loadLevel("city")
-      // set new pos
+    const minLevel = map.minLevel
+    if (newLevel < minLevel) {
+      const { x, y } = map.cityExitPos
+      this.teleport("city", x, y)
     } else {
       this.loadLevel(newLevel)
     }

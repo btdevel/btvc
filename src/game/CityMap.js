@@ -26,8 +26,11 @@ export class CityMap extends Map {
 
   load() {
     this.parseJson(cityMapJsonRaw)
-    this.map[25][12].actions = [["showMessage", "Going south"]]
     this.map[28][5].actions = [["teleport", 0, 0, 0]]
+    this.map[18][15].actions = [["teleport", 4, 0, 0]]
+    this.map[4][24].actions = [["teleport", 7, 0, 0]]
+    this.map[27][27].actions = [["teleport", 10, 0, 0]]
+    this.map[2][2].actions = [["teleport", 11, 0, 0]]
     this.loaded = true
   }
 
@@ -35,7 +38,8 @@ export class CityMap extends Map {
     // console.log("CityMap: ", this)
     const new_x = mod(old_x + Direction.dx[dir], this.columns)
     const new_y = mod(old_y + Direction.dy[dir], this.rows)
-    if (this.map[new_x][new_y].type !== 0) {
+    const type = this.map[new_x][new_y].type
+    if ( type !== 0 && type !== 10) {
       if (!this.map[new_x][new_y].actions) {
         return [false, undefined, old_x, old_y]
       }
