@@ -74,7 +74,7 @@ export function makeHouseGeometry(type) {
   const points3 = [[0, 48], [70, 15], [70, 0], [99, 0], [99, 5], [108, 0], [119, 0], [224, 42]]
   const points = [points1, points2, points3]
   const p = points[type].map(([x, y]) => [x / width, (height - y) / height])
-  return makeShapeGeometry([...p, [1, 0]])
+  return makeShapeGeometry([[0, 0], ...p, [1, 0]])
 }
 
 const standardWallGeom = makeWallGeometry()

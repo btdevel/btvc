@@ -15,7 +15,7 @@ export function makeWallGeometry(a = 1, b = 1) {
 
 export function makeShapeGeometry(p) {
   const shape = new THREE.Shape();
-  shape.moveTo(0, 0)
+  shape.moveTo(...p[0])
   for (let [x, y] of p) shape.lineTo(x, y)
   shape.closePath()
 
