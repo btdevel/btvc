@@ -1,6 +1,7 @@
 import React from 'react'
 import { loadTextureLinear, makeWallGeometry } from './util'
 import * as THREE from 'three'
+import VideoScreen from './VideoScreen'
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
@@ -64,6 +65,12 @@ function createLevel(map) {
       }
     }
   }
+
+  // elements.push(<VideoScreen key="test_video_screen" x={0} y={1} dir={0} trackNo={0}/>)
+  elements.push(<VideoScreen key="test_video_screen" x={3} y={2} dir={3} trackNo={0}/>)
+  elements.push(<VideoScreen key="test_video_screen" x={17} y={4} dir={1} trackNo={0}/>)
+  elements.push(<VideoScreen key="test_video_screen" x={17} y={5} dir={1} trackNo={0}/>)
+  elements.push(<VideoScreen key="test_video_screen" x={17} y={6} dir={1} trackNo={0}/>)
   return elements
 }
 
