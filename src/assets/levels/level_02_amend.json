@@ -1,13 +1,13 @@
 {
-  "full_name": "Sewers Level 2",
+  "fullName": "Sewers Level 2",
   "dim": [22, 22],
-  "specials_info": [
+  "specialProgramsInfo": [
     [
-      [4, 0],
+      [0, 4],
       " A light beam blocks the way during daytime. Don't try to cross it! Wait until its night."
     ],
     [
-      [4, 3],
+      [3, 4],
       " A magic mouth on the wall speaks:\nKnow this, that a man called Tarjan, thought to many to be insane, had through wizardly powers proclaimed himself a god in Skara Brae a hundred years ago. His image is locked in stone until made whole again..."
     ]
   ]

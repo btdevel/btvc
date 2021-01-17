@@ -1,5 +1,5 @@
 #! /bin/bash
-for((i=0; i<15; i++)); do
+for((i=0; i<16; i++)); do
     num=$(printf "%02d" $i)
     filename="level_$num.json"
     python2 convert_level.py $i > $filename

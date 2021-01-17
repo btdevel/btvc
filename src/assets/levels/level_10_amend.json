@@ -1,24 +1,24 @@
 {
-  "full_name": "Kylearan's Tower",
+  "fullName": "Kylearan's Tower",
   "dim": [22, 22],
-  "specials_info": [
+  "specialProgramsInfo": [
     [
-      [10, 13],
+      [13, 10],
       "Magic Mouth Riddle:\n\n Name the one of cold,\n foretold twofold.\n\n; Answer: STONE GOLEM\n Teleports you to 8N 9E",
-      [8, 9]
+      [9, 8]
     ],
     [
-      [2, 12],
+      [12, 2],
       "Magic Mouth Riddle:\n\n Name the endless bypass and your path shall be guaranteed.\n\n Answer: SINISTER\n Opens the door at 6N 1E",
-      [6, 1]
+      [1, 6]
     ],
-    [[20, 2], "Important item: SILVER TRIANGLE"],
+    [[2, 20], "Important item: SILVER TRIANGLE"],
     [
-      [1, 4],
+      [4, 1],
       "Crystal Golem: The CRYSTAL SWORD is the only weapon that beats this guardian."
     ],
     [
-      [13, 17],
+      [17, 13],
       "Kylearan\nImportant item: ONYX KEY to unlock Mangar's Tower (not he gates!)"
     ]
   ]

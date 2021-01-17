@@ -1,15 +1,16 @@
 {
-  "full_name": "Mangar's Tower Level 5",
+  "fullName": "Mangar's Tower Level 5",
   "dim": [22, 22],
-  "specials_info": [
+  "specialProgramsInfo": [
     [
-      [12, 19],
-      "Keymaster sells you a MASTER KEY for 50.000 gold pieces. With the MASTER KEY you can enter Mangar's Tower via the front gates."
+      [19, 12],
+      "Keymaster sells you a MASTER KEY for 50.000 gold pieces. With the MASTER KEY you can enter Mangar's Tower via the front gates.",
+      ["special", "keymaster"]
     ],
     [
-      [4, 10],
+      [10, 4],
       "Magic Mouth Riddle:\n\n Speak the seven of the One God and seek the lost stairs.\n\n Answer: LIE, WITH, PASSION, AND, BE, FOREVER, DAMNED\n Stairs at 9N 3E are available now.",
-      [9, 3]
+      ["makeStairs", 3, 9]
     ]
   ]
 }

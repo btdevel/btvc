@@ -1,10 +1,10 @@
 {
-  "full_name": "Catacombs Level 2",
+  "fullName": "Catacombs Level 2",
   "dim": [22, 22],
-  "specials_info": [
-    [[12, 10], "Bashar Kavilor\n Battle vs. [1 Master Sorcerer]"],
+  "specialProgramsInfo": [
+    [[10, 12], "Bashar Kavilor\n Battle vs. [1 Master Sorcerer]"],
     [
-      [13, 6],
+      [6, 13],
       "Bashar Kavilor's pet dragon \"Sphynx\" guards the treasure chamber\n Battle vs. [1 Grey Dragon]"
     ]
   ]

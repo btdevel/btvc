@@ -1,7 +1,7 @@
 {
-  "full_name": "Mangar's Tower Level 1",
+  "fullName": "Mangar's Tower Level 1",
   "dim": [22, 22],
-  "specials_info": [
-    [[13, 20], "A magic mouth teleports you to Level 2 13N 20E"]
+  "specialProgramsInfo": [
+    [[20, 13], "A magic mouth teleports you to Level 2 13N 20E", ["teleport", 2, 20, 13]]
   ]
 }

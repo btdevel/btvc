@@ -1,16 +1,16 @@
 {
-  "full_name": "Harkyn's Castle Level 1",
+  "fullName": "Harkyn's Castle Level 1",
   "dim": [22, 22],
-  "specials_info": [
+  "specialProgramsInfo": [
     [
-      [14, 9],
+      [9, 14],
       "Throne: If a bard sits down on, the secret door to the north opens. If other characters try to sit on the throne, they loose 15 HP."
     ],
-    [[18, 9], "Captain of the Guard\n Battle vs. [1 Master Ninja]"],
+    [[9, 18], "Captain of the Guard\n Battle vs. [1 Master Ninja]"],
     [
-      [6, 16],
+      [16, 6],
       "Six warriors in robes guard the room\n Battle vs. [6 Berserker]\nItems: robes protect vs. the 4 x 99 Berserkers"
     ],
-    [[0, 19], "Important item: CRYSTAL SWORD"]
+    [[19, 0], "Important item: CRYSTAL SWORD"]
   ]
 }

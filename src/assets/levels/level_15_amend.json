@@ -1,38 +1,38 @@
 {
-  "full_name": "Mangar's Tower Level 3",
+  "fullName": "Mangar's Tower Level 3",
   "dim": [22, 22],
-  "specials_info": [
+  "specialProgramsInfo": [
     [
-      [15, 10],
+      [10, 15],
       "A door appears when your party has the SILVER CIRCLE, SILVER SQUARE and SILVER TRIANGLE in the inventory."
     ],
     [
-      [21, 10],
+      [10, 21],
       "Magic Mouth Riddle:\n\n What can bind the mightiest foes?\n\n Answer: SPECTRE SNARE\n Item: SPECTRE SNARE"
     ],
     [
-      [8, 10],
+      [10, 8],
       "When Mangar is dead, Liches appear here (if you revisit this level)"
     ],
     [
-      [10, 21],
+      [21, 10],
       "Pool of boiling liquid. When diving in, the party gets teleported to 6N 10E",
-      [6, 10]
+      ["jump", 6, 10]
     ],
     [
-      [17, 0],
+      [0, 17],
       "Mangar's Treasure Trove\n Battle vs. [1 Black Dragon, 1 Black Dragon]"
     ],
     [
-      [1, 10],
+      [10, 1],
       "Magic Mouth:\n\nDeath to those who would attack the mighty one!\n\nHitpoints are drained!"
     ],
     [
-      [1, 20],
+      [20, 1],
       "One party member gets possessed and attacks the rest of the party."
     ],
     [
-      [20, 10],
+      [10, 20],
       "Mangar\n Battle vs. [2 Demon Lords, 3 Vampire Lords, 1 Mangar]\n\n If you win, you've beaten the game. Kylearan appears and gives each character 300.000 XP and Gold. The party gets teleported to the Adventurer's Guild."
     ]
   ]

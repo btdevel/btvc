@@ -31,8 +31,6 @@ export default class DungeonMap extends Map {
 
     this.rows = this.height
     this.columns = this.width
-    // this.map[27][5].actions = [["teleport", 0, 0, 0]]
-    // this.map[0][0].actions = [["teleport", 'city', 27, 5]]
     // console.log("Loaded map: ", this)
     this.loaded = true
   }
@@ -83,17 +81,18 @@ function transform_level(levelRaw, level) {
   const [width, height] = levelRaw.dim;
   map.width = width
   map.height = height
-  map.name = levelRaw.full_name
-  map.origName = levelRaw.dungeon_name
-  map.cityExitPos = { x: levelRaw.entry_position[1], y: levelRaw.entry_position[0] }
-  map.goesDown = levelRaw.goes_down
-  map.levelTeleports = levelRaw.level_teleport
+  map.name = levelRaw.fullName
+  map.origName = levelRaw.shortName
+  map.cityExitPos = levelRaw.cityExitPosition
+  map.goesDown = levelRaw.goesDown
+  map.levelTeleports = levelRaw.levelTeleport
   map.level = level
-  map.minLevel = levelRaw.level_teleport[0][0]
-  map.phaseDoor = levelRaw.phase_door // currently ignored
-  map.wallStyle = levelRaw.wall_style // currently ignored
+  map.minLevel = levelRaw.levelTeleport[0][0]
+  map.phaseDoor = levelRaw.phaseDoor // currently ignored
+  map.wallStyle = levelRaw.wallStyle // currently ignored
 
   map.lights = levelRaw.lights
+  map.videos = levelRaw.videos
 
   map.map = transform_map(levelRaw, width, height);
   // console.log("Raw: ", levelRaw)
@@ -114,31 +113,31 @@ const transform_map = (level, width, height) => {
     map[i] = Array(width);
     for (let j = 0; j < width; j++) {
       const space = {}
-      const walls = level.wall_data[i + j * width]
+
+      const walls = level.wallMap[i + j * width]
       space.north = (walls & 0b00000011) >> 0
       space.south = (walls & 0b00001100) >> 2
       space.east = (walls & 0b00110000) >> 4
       space.west = (walls & 0b11000000) >> 6
 
-      const spec = level.spec_data[i + j * width]
+      const event = level.eventMap[i + j * width]
+      space.stairsPrev = (event & 0b00000001) !== 0;
+      space.stairsNext = (event & 0b00000010) !== 0;
+      space.special = (event & 0b00000100) !== 0; // No clue what kind of special this could be...
+      space.darkness = (event & 0b00001000) !== 0;
+      space.trap = (event & 0b00010000) !== 0;
+      space.portalDown = (event & 0b00100000) !== 0;
+      space.portalUp = (event & 0b01000000) !== 0;
+      space.encounter = (event & 0b10000000) !== 0; // We have a special encounter field for that so why???
 
-      space.stairs_prev = (spec & 0b00000001) !== 0;
-      space.stairs_next = (spec & 0b00000010) !== 0;
-      // space.special     = (spec & 0b00000100)!==0;
-      space.darkness = (spec & 0b00001000) !== 0;
-      space.trap = (spec & 0b00010000) !== 0;
-      space.portal_down = (spec & 0b00100000) !== 0;
-      space.portal_up = (spec & 0b01000000) !== 0;
-      space.encounter = (spec & 0b10000000) !== 0;
+      space.stairsDown = level.goesDown ? space.stairsNext : space.stairsPrev;
+      space.stairsUp = level.goesDown ? space.stairsPrev : space.stairsNext;
 
-      space.stairs_down = level.goes_down ? space.stairs_next : space.stairs_prev;
-      space.stairs_up = level.goes_down ? space.stairs_prev : space.stairs_next;
-
-      if (space.stairs_down) {
+      if (space.stairsDown) {
         addAction(space, ["showMessage", "There are stairs going down here. Do you want to take them?"])
         addAction(space, "stairsDown")
       }
-      if (space.stairs_up) {
+      if (space.stairsUp) {
         addAction(space, ["showMessage", "There are stairs going up here. Do you want to take them?"])
         addAction(space, "stairsUp")
       }
@@ -149,61 +148,24 @@ const transform_map = (level, width, height) => {
   }
 
   for (let msg_struct of level.messages) {
-    const [[j, i], msg] = msg_struct
-    addAction(map[i][j], ["showMessage", msg])
+    const [[x, y], msg] = msg_struct
+    addAction(map[x][y], ["showMessage", msg])
+  }
+
+  for (let msg_struct of level.specialProgramsInfo) {
+    const [[x, y], msg, ...rest] = msg_struct
+    addAction(map[x][y], ["showMessage", msg])
   }
 
   for (let teleport of level.teleports) {
     const [from, to] = teleport;
-    const [i, j] = from
-    const [x, y] = to
-    addAction(map[i][j], ["jump", x, y])
+    const [x1, y1] = from
+    const [x2, y2] = to
+    addAction(map[x1][y1], ["jump", x2, y2])
   }
 
   return map;
 }
-// for (let encounter of level.encounters) {
-//   const [[j, i], [type, num]] = encounter;
-//   map[i][j].encounter_num_type = { num: num, type: type }
-// }
-
-// for (let teleport of level.teleports) {
-//   const [from, to] = teleport;
-//   map[from[1]][from[0]].teleport_to = [to[1], to[0]];
-//   map[to[1]][to[0]].teleport_from = [from[1], from[0]];
-// }
-
-// for (let point of level.hitpoint_damage) {
-//   const [j, i] = point;
-//   map[i][j].hitpoint_damage = true;
-// }
-// for (let point of level.smoke_zones) {
-//   const [j, i] = point;
-//   map[i][j].smoke_zone = true;
-// }
-// for (let point of level.antimagic_zones) {
-//   const [j, i] = point;
-//   map[i][j].antimagic_zone = true;
-// }
-// for (let point of level.spellpoint_restore) {
-//   const [j, i] = point;
-//   map[i][j].spellpoint_restore = true;
-// }
-// for (let point of level.spinners) {
-//   const [j, i] = point;
-//   map[i][j].spinner = true;
-// }
-// for (let point of level.stasis_chambers) {
-//   const [j, i] = point;
-//   map[i][j].stasis_chamber = true;
-// }
-// if (level.specials_info) {
-//   for (let point of level.specials_info) {
-//     const [[j, i], msg] = point;
-//     map[i][j].special = msg;
-//     // console.log({point: [i,j], msg: msg})
-//   }
-// }
 
 
 export async function loadLevels() {

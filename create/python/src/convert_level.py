@@ -17,8 +17,14 @@ def c64decode(buf):
 def make_tuples(l):
     return [(l[i], l[i+1]) for i in range(0,len(l),2) if l[i]!=255]
 
+# def make_coords(l):
+#     return [{'x': l[i+1], 'y': l[i]} for i in range(0,len(l),2) if l[i]!=255]
+def make_coords(l):
+    return [[l[i+1], l[i]] for i in range(0,len(l),2) if l[i]!=255]
+
 def make_list(l):
     return [x for x in l if x!=255]
+
 
 
 class Level(object): pass
@@ -27,35 +33,44 @@ def parse_level(lev_data):
 
     wall_sets = {0: "Sewers", 1: "Cellar", 2: "Catacombs", 3: "Mangar"}
     level = Level()
-    level.wall_data = lev_data[0x0000:0x0200]
-    level.spec_data = lev_data[0x0200:0x0400]
-    level.nmax = lev_data[0x0400:0x0408]
-    level.apar = lev_data[0x0408:0x0410]
-    level.level_teleport = zip(make_list(level.nmax), 
-                               [not bool(b) for b in level.apar])
-    level.monster_difficulty = lev_data[0x0410]
-    level.phase_door = not bool(lev_data[0x0411])
-    level.wall_style = wall_sets[lev_data[0x0412]]
-    level.entry_position = tuple(lev_data[0x0413:0x0415])
-    level.goes_down = not bool(lev_data[0x0415])
-    level.dungeon_name = c64decode(lev_data[0x0416:0x0420]).translate(None, '\\').strip()
-    level.spec_coord = make_tuples(list(lev_data[0x0420:0x0430]))
-    level.spec_prog = make_tuples(list(lev_data[0x0430:0x0440]))
-    level.specials = zip(level.spec_coord, level.spec_prog)
+    level.wallMap = lev_data[0x0000:0x0200] # keep raw
+    level.eventMap = lev_data[0x0200:0x0400] # keep raw
 
-    level.antimagic_zones = make_tuples(list(lev_data[0x0440:0x0460]))
-    level.telefrom_coord = make_tuples(list(lev_data[0x0460:0x0470]))
-    level.teleto_coord = make_tuples(list(lev_data[0x0470:0x0480]))
-    level.teleports = zip(level.telefrom_coord, level.teleto_coord)
-    level.spinners = make_tuples(list(lev_data[0x0480:0x0490]))
-    level.smoke_zones = make_tuples(list(lev_data[0x0490:0x04A0]))
-    level.hitpoint_damage = make_tuples(list(lev_data[0x04A0:0x04C0]))
-    level.spellpoint_restore = make_tuples(list(lev_data[0x04C0:0x04D0]))
-    level.stasis_chambers = make_tuples(list(lev_data[0x04D0:0x04E0]))
-    msg_coord = make_tuples(list(lev_data[0x04E0:0x04F0]))
-    level.encounter_coord = make_tuples(list(lev_data[0x04F0:0x0500]))
-    level.encounter_num_type = make_tuples(lev_data[0x0500:0x0510])
-    level.encounters = zip(level.encounter_coord, level.encounter_num_type)
+
+    nmax = lev_data[0x0400:0x0408] # level indicator
+    apar = lev_data[0x0408:0x0410] # aport arcane
+    level.levelTeleport = zip(make_list(nmax),
+                               [not bool(b) for b in apar])
+
+    level.monsterDifficulty = lev_data[0x0410]
+    level.phaseDoor = not bool(lev_data[0x0411])
+    level.wallStyle = wall_sets[lev_data[0x0412]]
+    level.cityExitPosition = make_coords(lev_data[0x0413:0x0415])[0] if lev_data[0x413]!=255 else []
+    level.goesDown = not bool(lev_data[0x0415])
+    level.shortName = c64decode(lev_data[0x0416:0x0420]).translate(None, '\\').strip()
+
+    spec_coord = make_coords(list(lev_data[0x0420:0x0430]))
+    spec_prog = make_tuples(list(lev_data[0x0430:0x0440]))
+    level.specialPrograms = zip(spec_coord, spec_prog)
+
+    level.antimagicZones = make_coords(list(lev_data[0x0440:0x0460]))
+
+    telefrom_coord = make_coords(list(lev_data[0x0460:0x0470]))
+    teleto_coord = make_coords(list(lev_data[0x0470:0x0480]))
+    level.teleports = zip(telefrom_coord, teleto_coord)
+
+    level.spinners = make_coords(list(lev_data[0x0480:0x0490]))
+
+    level.smokeZones = make_coords(list(lev_data[0x0490:0x04A0]))
+    level.hitpointDamage = make_coords(list(lev_data[0x04A0:0x04C0]))
+    level.spellpointRestore = make_coords(list(lev_data[0x04C0:0x04D0]))
+    level.stasisChambers = make_coords(list(lev_data[0x04D0:0x04E0]))
+
+    msg_coord = make_coords(list(lev_data[0x04E0:0x04F0]))
+
+    encounter_coord = make_coords(list(lev_data[0x04F0:0x0500]))
+    encounter_num_type = make_tuples(lev_data[0x0500:0x0510])
+    level.encounters = zip(encounter_coord, encounter_num_type)
 
     text_offset = list(lev_data[0x0510:0x0520])
     texts = c64decode(lev_data[0x0520:]).split("\\")
@@ -73,7 +88,7 @@ def level_as_json(levnum):
              return json.JSONEncoder.default(self, obj)
 
     level = parse_level(data[levnum])
-    print(json.dumps(level, sort_keys=False, indent=4, cls=LevelEncoder))
+    print(json.dumps(level, sort_keys=True, indent=4, cls=LevelEncoder))
 
 
 res_path = os.path.join("..", "res")

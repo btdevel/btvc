@@ -66,11 +66,13 @@ function createLevel(map) {
     }
   }
 
-  // elements.push(<VideoScreen key="test_video_screen" x={0} y={1} dir={0} trackNo={0}/>)
-  elements.push(<VideoScreen key="test_video_screen" x={3} y={2} dir={3} trackNo={0}/>)
-  elements.push(<VideoScreen key="test_video_screen" x={17} y={4} dir={1} trackNo={0}/>)
-  elements.push(<VideoScreen key="test_video_screen" x={17} y={5} dir={1} trackNo={0}/>)
-  elements.push(<VideoScreen key="test_video_screen" x={17} y={6} dir={1} trackNo={0}/>)
+  if (map.videos) {
+    for (let video of map.videos) {
+      const [[x, y], dir, trackNo, params] = video
+      elements.push(<VideoScreen key={`video-${x}-${y}-${dir}`} x={x} y={y} dir={dir} trackNo={trackNo} {...params} />)
+    }
+  }
+
   return elements
 }
 

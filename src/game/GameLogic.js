@@ -20,8 +20,7 @@ const useStore = create((set, get) => {
     fullscreen: false,
     orbitcontrols: false,
     level: 'city',
-    map: null,
-    tracks: []
+    map: null
   }
 })
 
@@ -34,7 +33,6 @@ export const useStoreInternal_ = useStore
 
 export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
 export const setGameText = (text) => modifyState(state => { state.gameText = text })
-export const addTrack = (track) => modifyState(state => { state.tracks = [...state.tracks, track] })
 
 export const useGameText = () => useStore(state => state.gameText)
 export const useOverlayText = () => useStore(state => state.overlayText)
@@ -42,8 +40,6 @@ export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
-
-export const useTracks = () => useStore(state => state.tracks)
 
 class GameState {
   stepper = new TimeStepper()
@@ -222,7 +218,7 @@ class GameState {
     const newLevel = this.level + levelDir
     const minLevel = map.minLevel
     if (newLevel < minLevel) {
-      const { x, y } = map.cityExitPos
+      const [x, y] = map.cityExitPos
       this.teleport("city", x, y)
     } else {
       this.loadLevel(newLevel)
