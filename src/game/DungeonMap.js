@@ -33,7 +33,7 @@ export default class DungeonMap extends Map {
     this.columns = this.width
     // this.map[27][5].actions = [["teleport", 0, 0, 0]]
     // this.map[0][0].actions = [["teleport", 'city', 27, 5]]
-    console.log("Loaded map: ", this)
+    // console.log("Loaded map: ", this)
     this.loaded = true
   }
 
@@ -94,8 +94,8 @@ function transform_level(levelRaw, level) {
   map.wallStyle = levelRaw.wall_style // currently ignored
 
   map.map = transform_map(levelRaw, width, height);
-  console.log("Raw: ", levelRaw)
-  console.log("Map: ", map)
+  // console.log("Raw: ", levelRaw)
+  // console.log("Map: ", map)
   return map;
 }
 

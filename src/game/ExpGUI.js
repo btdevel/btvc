@@ -8,7 +8,7 @@ function bindToStore(gui, name) {
     const gameState = useStoreInternal_.getState()
 
     const options = {}
-    console.log("GameState :", gameState)
+    // console.log("GameState :", gameState)
     options[name] = gameState[name]
 
 

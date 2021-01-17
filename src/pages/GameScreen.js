@@ -44,6 +44,7 @@ const PlayerViewBox = styled.div`
   position: absolute;
   left: 34px;
   top: 30px;
+  cursor: crosshair;
 `
 const TextOverlayBox = styled(PlayerViewBox)`
   background-color: transparent;

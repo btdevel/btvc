@@ -1,6 +1,9 @@
 import React from 'react'
 import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
 
+
+// https://github.com/felixturner/bad-tv-shader
+
 export default function Effects({enable = false}) {
   return (
     <>
