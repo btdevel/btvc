@@ -1,5 +1,9 @@
 {
   "full_name": "Wine Cellar",
   "dim": [22, 22],
-  "specials_info": []
+  "specials_info": [],
+  "lights": [
+    [[1, 5], {"color": "lightyellow"}],
+    [[18, 10], {"color": "lightyellow"}]
+  ]
 }

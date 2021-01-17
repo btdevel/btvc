@@ -32,16 +32,25 @@ export default function DungeonLights({ map }) {
     setPos({ position: [pos.x, pos.y, 0.4] })
   })
 
+  const lights = []
 
-
+  // Ambient light
   const color = 0xffffff
   const intensity = 0.09
-  return (
-    <>
-      <ambientLight args={[color, intensity]} ref={ambientRef} />
-      {map.level === 0 && <PointLight color='lightyellow' position={[1, 5, 1.2]} />}
-      {map.level === 0 && <PointLight color='lightyellow' position={[18, 10, 1.2]} />}
-      <AnimatedPointLight position={position} />
-    </>
-  )
+  lights.push(<ambientLight key="ambient" args={[color, intensity]} ref={ambientRef} />)
+
+  // Party light (todo: needs to be driven by spell/torch... info)
+  lights.push(<AnimatedPointLight key="party" position={position} />)
+
+  console.log("Map: ", map);
+  // Extra dungeon lights
+  if (map.lights) {
+    let num = 0
+    for (let extraLight of map.lights) {
+      num++
+      const [[x, y], params] = extraLight
+      lights.push(<PointLight color='lightyellow' {...params} position={[x, y, 1.2]} />)
+    }
+  }
+  return <>{lights}</>
 }

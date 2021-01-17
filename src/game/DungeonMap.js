@@ -93,6 +93,8 @@ function transform_level(levelRaw, level) {
   map.phaseDoor = levelRaw.phase_door // currently ignored
   map.wallStyle = levelRaw.wall_style // currently ignored
 
+  map.lights = levelRaw.lights
+
   map.map = transform_map(levelRaw, width, height);
   // console.log("Raw: ", levelRaw)
   // console.log("Map: ", map)
