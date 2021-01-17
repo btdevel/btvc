@@ -1,0 +1,8 @@
+#! /bin/bash
+for((i=0; i<15; i++)); do
+    num=$(printf "%02d" $i)
+    filename="level_$num.json"
+    python2 convert_level.py $i > $filename
+done
+npx prettier -w level*.json
+mv level_*.json ../../../src/assets/levels/

@@ -49,5 +49,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "http://zandere.de/webapps/bt"
+  "homepage": "http://zandere.de/webapps/bt",
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  }
 }
