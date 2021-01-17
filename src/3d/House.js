@@ -20,7 +20,8 @@ import templeImg from '../assets/images/city/temple.png'
 import castleImg from '../assets/images/city/castle.png'
 import castleAlpha from '../assets/images/city/castle_alpha.png'
 
-// import statueImg from '../assets/images/city/statue.png'
+import statueImg from '../assets/images/city/statue.png'
+import statueAlpha from '../assets/images/city/statue_alpha.png'
 import cityGateImg from '../assets/images/city/city_gate.png'
 import cityGateAlpha from '../assets/images/city/city_gate_alpha.png'
 import gateImg from '../assets/images/city/gate.png'
@@ -50,6 +51,7 @@ const materialProps = [
   /* 9: */ { map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
   /* 10:*/  { map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
   /* 11:*/  { map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
+  /* 12:*/  { map: load(statueImg), alphaMap: load(statueAlpha), transparent: true },
 ]
 const meshProps = [
   /* 0: */ {},
@@ -64,6 +66,7 @@ const meshProps = [
   /* 9: */ {},
   /* 10:*/  { renderOrder: 2 },
   /* 11:*/  { renderOrder: 2 },
+  /* 12: */ {},
 ]
 
 export function makeHouseGeometry(type) {
@@ -78,6 +81,7 @@ export function makeHouseGeometry(type) {
 }
 
 const standardWallGeom = makeWallGeometry()
+const gateGeom = makeWallGeometry().translate(0, 0, -0.45)
 const geoms = [
   /* 0: */ {},
   /* 1: */ standardWallGeom,
@@ -89,8 +93,9 @@ const geoms = [
   /* 7: */ standardWallGeom,
   /* 8: */ standardWallGeom,
   /* 9: */ standardWallGeom,
-  /* 10:*/ standardWallGeom,
-  /* 11:*/ standardWallGeom,
+  /* 10:*/ gateGeom,
+  /* 11:*/ gateGeom,
+  /* 12:*/ gateGeom,
 ]
 
 const materials = materialProps.map(props => new MeshStandardMaterial(props))

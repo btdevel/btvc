@@ -39,7 +39,7 @@ export class CityMap extends Map {
     const new_x = mod(old_x + Direction.dx[dir], this.columns)
     const new_y = mod(old_y + Direction.dy[dir], this.rows)
     const type = this.map[new_x][new_y].type
-    if ( type !== 0 && type !== 10) {
+    if ( type !== 0 && type !== 10 && type !== 12) { // empty, gate, statue
       if (!this.map[new_x][new_y].actions) {
         return [false, undefined, old_x, old_y]
       }
@@ -106,7 +106,7 @@ function getHouseType(jsonType) {
     case '2B': // review_board (house3)
       return 3
     case '60': // statue
-      return 0
+      return 12
     case '68': // gate
       return 10
     case '71': // madgod_temple
