@@ -24,6 +24,7 @@ export async function initializeVideo(ref) {
     if (!ref.current) return
 
     console.log("Initializing Video ")
+    AgoraRTC.setLogLevel(2)
     const client = await AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
     const appId = "73c22632975c4133b8de33f67f89b84b"
     // await client.join(appId, "test", "00673c22632975c4133b8de33f67f89b84bIADn8Pqf+jjUjqwZgF05z9f+b3GF9Ow7esJaJvNEykmADQx+f9gAAAAAEACpE93IoXQEYAEAAQChdARg")
@@ -45,4 +46,5 @@ export async function initializeVideo(ref) {
     addTrack([videoElement, videoTrack, microTrack])
     console.log("Initializing Video finished")
     return "Yeah!!"
+
 }
