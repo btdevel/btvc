@@ -66,8 +66,8 @@ function createLevel(map) {
     }
   }
 
-  if (map.videos) {
-    for (let video of map.videos) {
+  if (map.videoScreens) {
+    for (let video of map.videoScreens) {
       const [[x, y], dir, trackNo, params] = video
       elements.push(<VideoScreen key={`video-${x}-${y}-${dir}`} x={x} y={y} dir={dir} trackNo={trackNo} {...params} />)
     }

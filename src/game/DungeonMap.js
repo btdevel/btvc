@@ -96,7 +96,8 @@ function transform_level(levelRaw, level) {
   map.wallStyle = levelRaw.wallStyle // currently ignored
 
   map.lights = levelRaw.lights
-  map.videos = levelRaw.videos
+  map.videoScreens = levelRaw.videoScreens
+  map.videoFields = levelRaw.videoFields
 
   map.map = transform_map(levelRaw, width, height);
   // console.log("Raw: ", levelRaw)
