@@ -9,9 +9,6 @@ import LocationView from './LocationView'
 import Fonts from './Fonts'
 import { useFullscreen, useOrbitcontrols, useOverlayText } from '../game/GameLogic'
 
-import '../game/KeyMap'
-import '../game/MouseHandling'
-
 import mainImg from '../assets/images/main.png'
 
 function ErrorComponent () {
