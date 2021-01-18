@@ -3,6 +3,7 @@
 import os, sys
 import json
 import bt.extract.btfile as btfile
+from level_map_extra import make_map, addEvents
 
 def load_c64enc():
     data = btfile.load_file("MEMDUMP.BIN", msdos_bt1_path)
@@ -33,9 +34,9 @@ def parse_level(lev_data):
 
     wall_sets = {0: "Sewers", 1: "Cellar", 2: "Catacombs", 3: "Mangar"}
     level = Level()
-    level.wallMap = lev_data[0x0000:0x0200] # keep raw
-    level.eventMap = lev_data[0x0200:0x0400] # keep raw
-
+    wallMap = lev_data[0x0000:0x0200] # keep raw
+    eventMap = lev_data[0x0200:0x0400] # keep raw
+    level.map = make_map(wallMap)
 
     nmax = lev_data[0x0400:0x0408] # level indicator
     apar = lev_data[0x0408:0x0410] # aport arcane
@@ -74,7 +75,9 @@ def parse_level(lev_data):
 
     text_offset = list(lev_data[0x0510:0x0520])
     texts = c64decode(lev_data[0x0520:]).split("\\")
-    level.messages = zip(msg_coord, texts)
+    level.messages=zip(msg_coord, texts)
+
+    addEvents(level, eventMap)
     return level
 
 def level_as_json(levnum):
