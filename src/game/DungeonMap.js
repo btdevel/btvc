@@ -180,6 +180,12 @@ const transform_map = (level, width, height) => {
     console.log("Stairs up: " , x, y);
   }
 
+  for (let videoConf of level.videoFields) {
+    const [x, y] = videoConf // Needs string possibly
+    map[x][y].videoConf = "test"
+    console.log("Video screen: " , x, y);
+  }
+
   for (let msg_struct of level.messages) {
     const [[x, y], msg] = msg_struct
     addAction(map[x][y], ["showMessage", msg])

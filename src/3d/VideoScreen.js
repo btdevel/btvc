@@ -3,7 +3,7 @@ import * as THREE from 'three'
 import { makeShapeGeometry } from './util'
 import { Direction } from '../game/Movement'
 
-import { useTracks } from '../game/Video'
+import { useTrackInfo } from '../game/Video'
 
 const w = 0.0, b = 0.0, t = 0.0
 const screenGeom = makeShapeGeometry([[w, b], [w, 1 - t], [1 - w, 1 - t], [1 - w, b]])
@@ -21,15 +21,15 @@ export default function VideoScreen({ x, y, dir, trackNo, type }) {
     y += dist * Direction.dy[dir];
     const rot = dir * Math.PI / 2
 
-    const tracks = useTracks()
-    console.log(tracks)
+    const info = useTrackInfo(trackNo)
+    console.log("TrackNo: ", trackNo, x, y)
+    console.log("TrackInfo: ", info)
 
     let screenMat = defaultScreenMat
     let isSphere = (type === "sphere")
     let geom = isSphere ? sphereGeom : screenGeom
 
-    const info = tracks[trackNo]
-    if (info) {
+    if (info && info[1]) {
         const [trackContainer, videoTrack, microTrack] = info
         console.log("TrackInfo: ", info)
 

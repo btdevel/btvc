@@ -10,8 +10,8 @@ const VideoBox = styled.div`
   width: 100%;
   height: 100%;
   padding: 8px;
-  display: none;
 `
+// display: none;
 
 export default function VideoController() {
     const videoContainerRef = useRef()
@@ -19,10 +19,7 @@ export default function VideoController() {
 
     return (
         <>
-            <div>
-                {`${loading ? "Loading..." : "Loaded: "} result: ${result} error: ${error}`}
-            </div>
-            <VideoBox ref={videoContainerRef} id="videobox" />
+            {!loading && !error && <VideoBox ref={videoContainerRef} id="videobox" />}
         </>
     )
 }

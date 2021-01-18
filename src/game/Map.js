@@ -1,6 +1,7 @@
 import { setGameText } from "./GameLogic"
 import { execCommand } from "./KeyMap"
 import { mod } from '../util/math'
+import { startConference, stopConference } from './Video'
 
 export const create2dArray = (rows, columns, defaultVal) =>
     [...Array(rows).keys()].map(() => Array(columns).fill(defaultVal))
@@ -45,6 +46,10 @@ export default class Map {
         const { x, y } = pos
 
         // if !video field leave channel
+        const videoConf = this.map[x][y].videoConf
+        if (videoConf) {
+            startConference()
+        }
 
         if (how !== "stairs") {
             // check whether we are on stairs and ask
@@ -54,6 +59,9 @@ export default class Map {
 
         // if video field join channel
         // maybe the video stuff should go into configurable pre/post actions...
+        if (!videoConf) {
+            stopConference()
+        }
 
         const actions = this.map[x][y].actions
         if (actions) {
