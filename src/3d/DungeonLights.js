@@ -49,7 +49,7 @@ export default function DungeonLights({ map }) {
     for (let extraLight of map.lights) {
       num++
       const [[x, y], params] = extraLight
-      lights.push(<PointLight color='lightyellow' {...params} position={[x, y, 1.2]} />)
+      lights.push(<PointLight key={num} color='lightyellow' {...params} position={[x, y, 1.2]} />)
     }
   }
   return <>{lights}</>

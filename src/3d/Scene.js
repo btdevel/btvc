@@ -23,13 +23,18 @@ export default function Scene() {
 
   return (
     <>
-      <Camera />
+      <Camera key={map.level}/>
       {isCity ? <Lights /> : <DungeonLights map={map}/>}
       {isCity && <MySky />}
       {isCity && <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400} />}
       <Ground type={isCity ? "city" : "dungeon"}/>
       {isCity ? <City map={map} /> : <Dungeon map={map} />}
       <Effects />
+
+      {/* <fog attach="fog" args={['#AAAAAA', 0.01, 1]} /> */}
+      {/* <primitive attach='fog' object={new THREE.Fog(0xb6c1c5, 0.01, 1)} /> */}
+      {/* <primitive attach='fog' object={new THREE.Fog(0xb6c1c5, 0.01, 20)} /> */}
+      {/* <primitive attach='fog' object={new THREE.FogExp2('#AAAAAA', 1)} /> */}
     </>)
 
   // return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
