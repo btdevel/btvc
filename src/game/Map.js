@@ -26,36 +26,40 @@ export default class Map {
         const directions = ['north', 'west', 'south', 'east'];
         const timeOfDay = ['after midnite', 'early morning', 'mid morning',
             'noon', 'afternoon', 'dusk', 'evening', 'midnite']
-        const timeStr = timeOfDay[Math.floor(mod(time - 1.5, 24)  / 3)]
+        const timeStr = timeOfDay[Math.floor(mod(time - 1.5, 24) / 3)]
 
         // https://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?t=1604
         // "present time of day: after midnite 0 - 3, midnite 4 - 7, evening 8 - b, dusk c - f, afternoon 10 - 13, noon 14 - 17, mid morning 18 - 1b, early morning 1c - 1f"  Seems to be set to 1f; i.e. early morning
 
-        let gameText = ""
-        if (this.isCity()) {
-            gameText = `You are on ?? Street facing ${directions[dir]}.
 
-            It's now ${timeStr}.
+        let locationText = this.getLocationInfo()
+        const gameText = `${locationText} facing ${directions[dir]}.
 
-            [T: ${hours}:${minutes} X: ${pos.x} Y: ${pos.y}]`
-        } else {
-            gameText = `You are in ${this.name} facing ${directions[dir]}.
+        It's now ${timeStr}.
 
-            It's now ${timeStr}.
-
-            [T: ${hours}:${minutes} L: ${this.level} X: ${pos.x} Y: ${pos.y}]`
-        }
+        [T: ${hours}:${minutes} L: ${this.level} X: ${pos.x} Y: ${pos.y}]`
         setGameText(gameText)
     }
 
-    enter(pos) {
-        const {x, y} = pos
-        const actions = this.map[x][y].actions
-        if (!actions) return
+    enter(pos, how = "move") {
+        const { x, y } = pos
 
-        for (let action of actions) {
-            execCommand(action)
+        // if !video field leave channel
+
+        if (how !== "stairs") {
+            // check whether we are on stairs and ask
+            // if we take them exit before taking any other actions
+            // same with portals
         }
 
+        // if video field join channel
+        // maybe the video stuff should go into configurable pre/post actions...
+
+        const actions = this.map[x][y].actions
+        if (actions) {
+            for (let action of actions) {
+                execCommand(action)
+            }
+        }
     }
 }

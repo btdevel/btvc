@@ -31,6 +31,7 @@ export default class DungeonMap extends Map {
 
     this.rows = this.height
     this.columns = this.width
+    this.name = map.shortName
     // console.log("Loaded map: ", this)
     this.loaded = true
   }
@@ -51,6 +52,9 @@ export default class DungeonMap extends Map {
     setGameText("Sorry pal! Auto mapping was disabled on purpose...")
   }
 
+  getLocationInfo() {
+    return `You are in ${this.fullName}`
+  }
 }
 
 
@@ -81,8 +85,8 @@ function transform_level(levelRaw, level) {
   const [width, height] = levelRaw.dim;
   map.width = width
   map.height = height
-  map.name = levelRaw.fullName
-  map.origName = levelRaw.shortName
+  map.fullName = levelRaw.fullName
+  map.shortName = levelRaw.shortName
   map.cityExitPos = levelRaw.cityExitPosition
   map.goesDown = levelRaw.goesDown
   map.levelTeleports = levelRaw.levelTeleport
