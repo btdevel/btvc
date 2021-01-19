@@ -1,6 +1,7 @@
 {
   "fullName": "Harkyn's Castle Level 1",
   "dim": [22, 22],
+  "cityExitPosition": [5, 24],
   "specialProgramsInfo": [
     [
       [9, 14],

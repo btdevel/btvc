@@ -1,5 +1,6 @@
 {
     "fullName": "Catacombs Level 1",
+    "cityExitPosition": [17, 15],
     "dim": [22, 22],
     "specialProgramsInfo": []
 }

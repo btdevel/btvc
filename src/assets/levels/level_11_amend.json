@@ -1,5 +1,6 @@
 {
   "fullName": "Mangar's Tower Level 1",
+  "cityExitPosition": [2, 3],
   "dim": [22, 22],
   "specialProgramsInfo": [
     [[20, 13], "A magic mouth teleports you to Level 2 13N 20E", ["teleport", 2, 20, 13]]
