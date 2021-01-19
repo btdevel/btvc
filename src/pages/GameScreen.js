@@ -68,8 +68,8 @@ const TextViewBox = styled.div`
 `
 
 const FullscreenTextViewBox = styled.div`
-  background-color: rgb(1,1,1,0.2);
-  // background-color: transparent;
+  // background-color: rgb(1,1,1,0.2);
+  background-color: transparent;
   color: white;
   width: 264px;
   height: 198px;
