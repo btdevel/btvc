@@ -170,20 +170,22 @@ const transform_map = (level, width, height) => {
     const [x, y] = stairsDown
     addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
     addAction(map[x][y], "stairsDown")
-    console.log("Stairs down: " , x, y);
+    // console.log("Stairs down: " , x, y);
   }
 
   for (let stairsUp of level.stairsUp) {
     const [x, y] = stairsUp
     addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
     addAction(map[x][y], "stairsUp")
-    console.log("Stairs up: " , x, y);
+    // console.log("Stairs up: " , x, y);
   }
 
-  for (let videoConf of level.videoFields) {
-    const [x, y] = videoConf // Needs string possibly
-    map[x][y].videoConf = "test"
-    console.log("Video screen: " , x, y);
+  if (level.videoFields) {
+    for (let videoConf of level.videoFields) {
+      const [x, y] = videoConf // Needs string possibly
+      map[x][y].videoConf = "test"
+      // console.log("Video screen: ", x, y);
+    }
   }
 
   for (let msg_struct of level.messages) {

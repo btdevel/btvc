@@ -23,9 +23,12 @@ function mergeArrays(a, b) {
 }
 
 export const addTrackInfo = (id, trackInfo) => modifyState(state => {
+  console.log("AddTrack: ", id, trackInfo)
+  console.log("Before: ", state.tracks, state.ids)
   let index = state.ids.indexOf(id)
   if (index !== -1) {
     state.tracks[index] = mergeArrays(state.tracks[index], trackInfo)
+    console.log("Found: ", state.tracks, state.ids)
     return
   }
 
@@ -33,10 +36,12 @@ export const addTrackInfo = (id, trackInfo) => modifyState(state => {
   if (index !== -1) {
     state.tracks[index] = trackInfo
     state.ids[index] = id
+    console.log("Empty: ", state.tracks, state.ids)
   }
   else {
     state.tracks = [...state.tracks, trackInfo]
-    state.ids = [...state.ids, trackInfo]
+    state.ids = [...state.ids, id]
+    console.log("Append: ", state.tracks, state.ids)
   }
 })
 
@@ -68,7 +73,7 @@ const videoState = {
 function playInDiv(track, id) {
   const trackContainer = document.createElement('div')
   videoState.ref.current.appendChild(trackContainer)
-  trackContainer.id = id
+  trackContainer.id = "stream-div-" + id
   trackContainer.style.width = "320px";
   trackContainer.style.height = "240px";
   trackContainer.style.background = "#777777"
@@ -77,24 +82,31 @@ function playInDiv(track, id) {
   console.log('PlayInDiv: Playing in video element: ', videoElement)
   return videoElement
 }
+function removeDiv(id) {
+  const divId = "stream-div-" + id
+  const element = document.getElementById(divId)
+  if(element) element.remove()
+}
+
 
 async function onPublish(user, mediaType) {
   const track = await videoState.client.subscribe(user, mediaType);
   const id = user.uid
   if (mediaType === "video") {
-    const videoElement = playInDiv(track)
+    const videoElement = playInDiv(track, id)
     addTrackInfo(id, [videoElement, track, null])
-    console.log("subscribe video success");
+    console.log("Subscribe to video: ", id);
   }
   if (mediaType === "audio") {
     track.play();
     addTrackInfo(id, [null, null, track])
-    console.log("subscribe audio success");
+    console.log("Subscribe t audio: ", id);
   }
 }
 
 async function onUnpublish(user, mediaType) {
   removeTrackInfo(user.uid)
+  removeDiv(user.uid)
 }
 
 const defaultTimeout = 5 * 60
@@ -141,7 +153,7 @@ export async function startConference() {
   [videoState.microTrack, videoState.videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks()
 
   const videoElement = playInDiv(videoState.videoTrack, "self")
-  addTrackInfo("self", [videoElement, videoState.videoTrack, videoState.microTrack])
+  addTrackInfo("self", [videoElement, videoState.videoTrack, null])
 
   if (joinAllowed) videoState.client.publish([videoState.microTrack, videoState.videoTrack])
   videoState.initialized = true
@@ -162,6 +174,11 @@ export async function stopConference() {
     await videoState.client.leave()
   }
   videoState.client = null
+
+  const element = videoState.ref.current
+  while (element.firstChild) {
+    element.removeChild(element.firstChild)
+  }
 
   await videoState.microTrack.close()
   videoState.microTrack = null

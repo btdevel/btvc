@@ -22,8 +22,8 @@ export default function VideoScreen({ x, y, dir, trackNo, type }) {
     const rot = dir * Math.PI / 2
 
     const info = useTrackInfo(trackNo)
-    console.log("TrackNo: ", trackNo, x, y)
-    console.log("TrackInfo: ", info)
+    // console.log("TrackNo: ", trackNo, x, y)
+    // console.log("TrackInfo: ", info)
 
     let screenMat = defaultScreenMat
     let isSphere = (type === "sphere")
