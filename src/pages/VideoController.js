@@ -10,8 +10,9 @@ const VideoBox = styled.div`
   width: 100%;
   height: 100%;
   padding: 8px;
+  display: none;
 `
-// display: none;
+
 
 export default function VideoController() {
     const videoContainerRef = useRef()

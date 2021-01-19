@@ -10,10 +10,7 @@ import Camera, { addAudio } from './Camera'
 import Effects from './Effects'
 import MyStars from './MyStars'
 import { useMap } from '../game/GameLogic'
-import { AmbientAudio } from './Audio'
-
-import advSound from '../assets/sound/bt1amiga_adventurers-guild.mp3'
-// import advSound from '../assets/sound/bt1amiga_falkentynes_fury.mp3'
+import Audio from './Audio'
 
 export default function Scene() {
   const map = useMap() // get the map and pass it on to city or dungeon
@@ -30,9 +27,7 @@ export default function Scene() {
       {isCity ? <City map={map} /> : <Dungeon map={map} />}
       <Effects />
 
-      <AmbientAudio url='https://file-examples-com.github.io/uploads/2017/11/file_example_OOG_1MG.ogg'/>
-      {/* <AmbientAudio url='https://bardstaleonline.com/files/!music/bt1amiga_adventurers-guild.mp3'/> */}
-      {/* <AmbientAudio url='/assets/sound/bt1amiga_adventurers-guild.mp3' /> */}
+      {/* <Audio ambient url='https://file-examples-com.github.io/uploads/2017/11/file_example_OOG_1MG.ogg'/> */}
       {/* <AmbientAudio url={advSound} /> */}
 
       {/* <fog attach="fog" args={['#AAAAAA', 0.01, 1]} /> */}

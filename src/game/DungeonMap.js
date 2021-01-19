@@ -98,6 +98,7 @@ function transform_level(levelRaw, level) {
   map.lights = levelRaw.lights
   map.videoScreens = levelRaw.videoScreens
   map.videoFields = levelRaw.videoFields
+  map.audio = levelRaw.audio
 
   map.map = transform_map(levelRaw, width, height);
   // console.log("Raw: ", levelRaw)
@@ -127,32 +128,6 @@ const transform_map = (level, width, height) => {
       space.south = horzChars.indexOf(level.map[cy + 1][cx])
       space.east = vertChars.indexOf(level.map[cy][cx + 1])
       space.west = vertChars.indexOf(level.map[cy][cx - 1])
-
-
-
-      // const event = level.eventMap[i + j * width]
-      // space.stairsPrev = (event & 0b00000001) !== 0;
-      // space.stairsNext = (event & 0b00000010) !== 0;
-      // space.special = (event & 0b00000100) !== 0; // No clue what kind of special this could be...
-      // space.darkness = (event & 0b00001000) !== 0;
-      // space.trap = (event & 0b00010000) !== 0;
-      // space.portalDown = (event & 0b00100000) !== 0;
-      // space.portalUp = (event & 0b01000000) !== 0;
-      // space.encounter = (event & 0b10000000) !== 0; // We have a special encounter field for that so why???
-
-      // space.stairsDown = level.goesDown ? space.stairsNext : space.stairsPrev;
-      // space.stairsUp = level.goesDown ? space.stairsPrev : space.stairsNext;
-
-      // if (space.stairsDown) {
-      //   addAction(space, ["showMessage", "There are stairs going down here. Do you want to take them?"])
-      //   addAction(space, "stairsDown")
-      // }
-      // if (space.stairsUp) {
-      //   addAction(space, ["showMessage", "There are stairs going up here. Do you want to take them?"])
-      //   addAction(space, "stairsUp")
-      // }
-
-
       map[i][j] = space
     }
   }
@@ -168,23 +143,20 @@ const transform_map = (level, width, height) => {
 
   for (let stairsDown of level.stairsDown) {
     const [x, y] = stairsDown
-    addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
+    // addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
     addAction(map[x][y], "stairsDown")
-    // console.log("Stairs down: " , x, y);
   }
 
   for (let stairsUp of level.stairsUp) {
     const [x, y] = stairsUp
-    addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
+    // addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
     addAction(map[x][y], "stairsUp")
-    // console.log("Stairs up: " , x, y);
   }
 
   if (level.videoFields) {
     for (let videoConf of level.videoFields) {
       const [x, y] = videoConf // Needs string possibly
       map[x][y].videoConf = "test"
-      // console.log("Video screen: ", x, y);
     }
   }
 

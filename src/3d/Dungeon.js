@@ -2,6 +2,7 @@ import React from 'react'
 import { loadTextureLinear, makeWallGeometry } from './util'
 import * as THREE from 'three'
 import VideoScreen from './VideoScreen'
+import Audio from './Audio'
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
@@ -73,6 +74,13 @@ function createLevel(map) {
     }
   }
 
+
+  if (map.audio) {
+    for (let audio of map.audio) {
+      const [[x, y], song, params] = audio
+      elements.push(<Audio key={`audio-${x}-${y}-${song}`} x={x} y={y} song={song} {...params} />)
+    }
+  }
   return elements
 }
 
