@@ -1,6 +1,7 @@
 import AgoraRTC from "agora-rtc-sdk-ng";
 import create from 'zustand'
 import produce from 'immer'
+import { setGameText } from "./GameLogic";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -61,7 +62,10 @@ export const useTrackInfos = () => useStore(state => state.tracks)
 export const useTrackInfo = (i) => useStore(state => state.tracks[i])
 
 const appId = "73c22632975c4133b8de33f67f89b84b"
-const token = "00673c22632975c4133b8de33f67f89b84bIAChzCBGvBawGPAFoDmrefEx9wFYSbfx0cWkNyX8MFrSDAx+f9gAAAAAEACpE93IE2oHYAEAAQATagdg"
+const token = "00673c22632975c4133b8de33f67f89b84bIAAzMSCmcTOh0V0RHBrXdwUTIXikJ4VGZXCSyelBOhO13Qx+f9gAAAAAEABI+NBc9wAKYAEAAQD3AApg"
+// const token = "00673c22632975c4133b8de33f67f89b84bIAChzCBGvBawGPAFoDmrefEx9wFYSbfx0cWkNyX8MFrSDAx+f9gAAAAAEACpE93IE2oHYAEAAQATagdg" // expired key
+
+
 const joinAllowed = true
 
 const videoState = {
@@ -148,12 +152,37 @@ export async function startConference() {
   videoState.client.on("user-published", onPublish);
   videoState.client.on("user-unpublished", onUnpublish);
 
-  if (joinAllowed) { await videoState.client.join(appId, "test", token) }
+  if (joinAllowed) {
+    try {
+      AgoraRTC.setLogLevel(5)
+      setGameText("Trying to join video channel...")
+      await videoState.client.join(appId, "test", token)
+    }
+    catch (e) {
+      console.error("Error joining video channel...", e);
+      let cause = "Unknown reason..."
+      switch (e.code) {
+        case "CAN_NOT_GET_GATEWAY_SERVER":
+          if (e.message.match('invalid vendor key')) {
+            cause = "Invalid auth token..."
+          } else if (e.message.match('dynamic key expired')) {
+            cause = "Auth token probably expired..."
+          }
+      }
+      setGameText(`Could not join channel!\n${cause}`)
+      return
+    }
+    finally {
+      AgoraRTC.setLogLevel(2)
+    }
+    setGameText("Successfully joined...")
+  }
 
   [videoState.microTrack, videoState.videoTrack] = await AgoraRTC.createMicrophoneAndCameraTracks()
 
   const videoElement = playInDiv(videoState.videoTrack, "self")
-  addTrackInfo("self", [videoElement, videoState.videoTrack, null])
+  // addTrackInfo("self", [videoElement, videoState.videoTrack, null])
+  addTrackInfo("self", [videoElement, videoState.videoTrack, videoState.microTrack])
 
   if (joinAllowed) videoState.client.publish([videoState.microTrack, videoState.videoTrack])
   videoState.initialized = true
