@@ -37,37 +37,38 @@ function load(img) {
   return texture
 }
 
-const materialProps = [
-  // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
-  /* 0: */ {},
-  /* 1: */ { map: load(house1Img), alphaMap: load(house1Alpha), transparent: !true },
-  /* 2: */ { map: load(house2Img), alphaMap: load(house2Alpha), transparent: true },
-  /* 3: */ { map: load(house3Img) },
-  /* 4: */ { map: load(house4Img) },
-  /* 5: */ { map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmissive), emissive: 0xFFFFFF },
-  /* 6: */ { map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: true, emissiveMap: load(tavernEmissive), emissive: 0xFFFFFF },
-  /* 7: */ { map: load(shopImg) },
-  /* 8: */ { map: load(templeImg) },
-  /* 9: */ { map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
-  /* 10:*/  { map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
-  /* 11:*/  { map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
-  /* 12:*/  { map: load(statueImg), alphaMap: load(statueAlpha), transparent: true },
-]
-const meshProps = [
-  /* 0: */ {},
-  /* 1: */ {}, //renderOrder: 4 },
-  /* 2: */ {},//renderOrder: 3 },
-  /* 3: */ {},
-  /* 4: */ {},
-  /* 5: */ {},
-  /* 6: */ {},
-  /* 7: */ {},
-  /* 8: */ {},
-  /* 9: */ {},
-  /* 10:*/  { renderOrder: 2 },
-  /* 11:*/  { renderOrder: 2 },
-  /* 12: */ {},
-]
+// 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
+
+const materialProps = {
+  " ": {},
+  "1": { map: load(house1Img), alphaMap: load(house1Alpha), transparent: !true },
+  "2": { map: load(house2Img), alphaMap: load(house2Alpha), transparent: true },
+  "3": { map: load(house3Img) },
+  "4": { map: load(house4Img) },
+  "A": { map: load(guildImg), alphaMap: load(guildAlpha), transparent: true, emissiveMap: load(guildEmissive), emissive: 0xFFFFFF },
+  "P": { map: load(tavernImg), alphaMap: load(tavernAlpha), transparent: true, emissiveMap: load(tavernEmissive), emissive: 0xFFFFFF },
+  "G": { map: load(shopImg) },
+  "T": { map: load(templeImg) },
+  "C": { map: load(castleImg), alphaMap: load(castleAlpha), transparent: true },
+  "#": { map: load(gateImg), alphaMap: load(gateAlpha), transparent: true },
+  "|": { map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true },
+  "S": { map: load(statueImg), alphaMap: load(statueAlpha), transparent: true },
+}
+const meshProps = {
+  " ": {},
+  "1": {}, //renderOrder: 4 },
+  "2": {},//renderOrder: 3 },
+  "3": {},
+  "4": {},
+  "A": {},
+  "P": {},
+  "G": {},
+  "T": {},
+  "C": {},
+  "#": { renderOrder: 2 },
+  "|": { renderOrder: 2 },
+  "S": {},
+}
 
 export function makeHouseGeometry(type) {
   const width = 224
@@ -82,23 +83,31 @@ export function makeHouseGeometry(type) {
 
 const standardWallGeom = makeWallGeometry()
 const gateGeom = makeWallGeometry().translate(0, 0, -0.45)
-const geoms = [
-  /* 0: */ {},
-  /* 1: */ standardWallGeom,
-  /* 2: */ makeHouseGeometry(0),
-  /* 3: */ standardWallGeom,
-  /* 4: */ standardWallGeom,
-  /* 5: */ makeHouseGeometry(1),
-  /* 6: */ makeHouseGeometry(2),
-  /* 7: */ standardWallGeom,
-  /* 8: */ standardWallGeom,
-  /* 9: */ standardWallGeom,
-  /* 10:*/ gateGeom,
-  /* 11:*/ gateGeom,
-  /* 12:*/ gateGeom,
-]
+const geoms = {
+  " ": {},
+  "1": standardWallGeom,
+  "2": makeHouseGeometry(0),
+  "3": standardWallGeom,
+  "4": standardWallGeom,
+  "A": makeHouseGeometry(1),
+  "P": makeHouseGeometry(2),
+  "G": standardWallGeom,
+  "T": standardWallGeom,
+  "C": standardWallGeom,
+  "#": gateGeom,
+  "|": gateGeom,
+  "S": gateGeom,
+}
 
-const materials = materialProps.map(props => new MeshStandardMaterial(props))
+const objectMap = (obj, fn) =>
+  Object.fromEntries(
+    Object.entries(obj).map(
+      ([k, v], i) => [k, fn(v, k, i)]
+    )
+  )
+const materials = objectMap(materialProps, props => new MeshStandardMaterial(props))
+
+// const materials = materialProps.map(props => new MeshStandardMaterial(props))
 
 export const House = forwardRef(({ type, x, y, props }, ref) => {
   const pi2 = Math.PI / 2

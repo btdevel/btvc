@@ -41,7 +41,7 @@ export class CityMap extends Map {
     const new_x = mod(old_x + Direction.dx[dir], this.columns)
     const new_y = mod(old_y + Direction.dy[dir], this.rows)
     const type = this.map[new_x][new_y].type
-    if (type !== 0 && type !== 10 && type !== 12) { // empty, gate, statue
+    if (type !== ' ' && type !== '#' && type !== 'S') { // empty, gate, statue
       if (!this.map[new_x][new_y].actions) {
         return [false, undefined, old_x, old_y]
       }
@@ -69,25 +69,32 @@ export class CityMap extends Map {
   getLocationInfo() {
     const { x, y } = gameState.position
     const street = this.map[x][y].street
-    return `You are in ${street}`
+    return `You are on ${street}`
   }
 
 
   parseJson(cityMapJsonRaw) {
-    this.rows = cityMapJsonRaw.pattern[0].length
-    this.columns = cityMapJsonRaw.pattern[0].length
-    this.map = create2dArray(this.rows, this.columns, {})
+    const streetNames = cityMapJsonRaw.streetNames
 
-    this.streetNames = cityMapJsonRaw.street_names
-    for (let i = 0; i < this.columns; i++) {
-      for (let j = 0; j < this.rows; j++) {
+    const types = cityMapJsonRaw.types
+    const streets = cityMapJsonRaw.streets
+    const dirs = cityMapJsonRaw.dirs
+    const rows = types.length
+    const columns = types[0].length
+
+    this.width = columns
+    this.height = rows
+    this.map = create2dArray(this.width, this.height, {})
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
         const square = {}
-        const type = getHouseType(cityMapJsonRaw.pattern[this.rows - j - 1][i])
-        square.type = type
+        square.type = types[i][j]
+        square.dir = dirs[i][j]
+        square.street = streetNames[streets[i][j]]
 
-        const street = cityMapJsonRaw.streets[this.rows - j - 1][i]
-        square.street = this.streetNames[street]
-        this.map[i][j] = square
+        const x = j, y = rows - 1 - i
+        this.map[x][y] = square
       }
     }
   }
