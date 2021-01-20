@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
 import City from './City'
 import Dungeon from './Dungeon'
@@ -6,11 +6,10 @@ import Lights from './Lights'
 import DungeonLights from './DungeonLights'
 import MySky from './MySky'
 import Ground from './Ground'
-import Camera, { addAudio } from './Camera'
+import Camera from './Camera'
 import Effects from './Effects'
 import MyStars from './MyStars'
 import { useMap } from '../game/GameLogic'
-import Audio from './Audio'
 
 export default function Scene() {
   const map = useMap() // get the map and pass it on to city or dungeon
@@ -26,9 +25,6 @@ export default function Scene() {
       <Ground type={isCity ? "city" : "dungeon"} />
       {isCity ? <City map={map} /> : <Dungeon map={map} />}
       <Effects />
-
-      {/* <Audio ambient url='https://file-examples-com.github.io/uploads/2017/11/file_example_OOG_1MG.ogg'/> */}
-      {/* <AmbientAudio url={advSound} /> */}
 
       {/* <fog attach="fog" args={['#AAAAAA', 0.01, 1]} /> */}
       {/* <primitive attach='fog' object={new THREE.Fog(0xb6c1c5, 0.01, 1)} /> */}

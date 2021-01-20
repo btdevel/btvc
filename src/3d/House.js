@@ -1,5 +1,6 @@
-import React, { forwardRef } from 'react'
+import React from 'react'
 import * as THREE from 'three'
+import { objectMap } from './util'
 
 import house1Img from '../assets/images/city/house1.png'
 import house1Alpha from '../assets/images/city/house1_alpha.png'
@@ -28,7 +29,7 @@ import gateImg from '../assets/images/city/gate.png'
 import gateAlpha from '../assets/images/city/gate_alpha.png'
 import gate2Img from '../assets/images/city/gate2.png'
 import gate2Alpha from '../assets/images/city/gate2_alpha.png'
-import { MeshBasicMaterial, MeshStandardMaterial } from 'three'
+
 
 import { makeShapeGeometry, makeWallGeometry } from './util'
 
@@ -41,6 +42,7 @@ function load(img) {
 
 // 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
 
+// const dummyProps = { color: new THREE.Color("blue") }
 const materialProps = {
   " ": [{}],
   "1": [{ map: load(house1Img), alphaMap: load(house1Alpha), transparent: !true }],
@@ -56,6 +58,11 @@ const materialProps = {
   "|": [{ map: load(cityGateImg), alphaMap: load(cityGateAlpha), transparent: true }],
   "S": [{ map: load(statueImg), alphaMap: load(statueAlpha), transparent: true }],
 }
+const materials = objectMap(materialProps,
+  propsArray => propsArray.map(props => new THREE.MeshStandardMaterial(props)))
+
+
+
 const meshProps = {
   " ": [{}],
   "1": [{}], //renderOrder: 4 },
@@ -101,24 +108,14 @@ const geoms = {
   "S": [gateGeom],
 }
 
-const objectMap = (obj, fn) =>
-  Object.fromEntries(
-    Object.entries(obj).map(
-      ([k, v], i) => [k, fn(v, k, i)]
-    )
-  )
-const materials = objectMap(materialProps,
-  propsArray => propsArray.map(props => new MeshStandardMaterial(props)))
-
-const dummyMat = new MeshBasicMaterial({ color: new THREE.Color("blue") })
 
 // const materials = materialProps.map(props => new MeshStandardMaterial(props))
 function Wall({ face, type }) {
   function select(arr, i) {
     const l = arr.length
-    if (i == 3 && l < 4) i = 1
-    if (i == 2 && l < 3) i = 0
-    if (i == 1 && l < 2) i = 0
+    if (i === 3 && l < 4) i = 1
+    if (i === 2 && l < 3) i = 0
+    if (i === 1 && l < 2) i = 0
     return arr[i]
   }
   const pi2 = Math.PI / 2

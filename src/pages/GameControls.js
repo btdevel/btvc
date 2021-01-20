@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { handleKeyDown } from '../game/KeyMap'
 import { handleMouseDown, handleMouseMove, handleMouseUp } from '../game/MouseHandling'
 
@@ -11,7 +11,7 @@ export default function GameControls() {
     }
   }, [])
 
-  const [element, setElement] = useState(document)
+  const [element] = useState(document)
   // useEffect(() => {
   //   const el = document.getElementById('3dview')
   //   console.log('3DView: ', el)

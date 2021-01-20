@@ -168,7 +168,8 @@ const transform_map = (level, width, height) => {
   }
 
   for (let msg_struct of level.specialProgramsInfo) {
-    const [[x, y], msg, ...rest] = msg_struct
+    // const [[x, y], msg, ...rest] = msg_struct
+    const [[x, y], msg] = msg_struct
     addAction(map[x][y], ["showMessage", msg])
   }
 

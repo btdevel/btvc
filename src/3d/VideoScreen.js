@@ -30,7 +30,8 @@ export default function VideoScreen({ x, y, dir, trackNo, type }) {
     let geom = isSphere ? sphereGeom : screenGeom
 
     if (info && info[1]) {
-        const [trackContainer, videoTrack, microTrack] = info
+        const [trackContainer] = info
+        // const [, , audioTrack] = info => <Audio track={microTrack}/>
         console.log("TrackInfo: ", info)
 
         const videoTexture = new THREE.VideoTexture(trackContainer)

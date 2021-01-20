@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from 'drei'
 import Scene from '../3d/Scene'
@@ -7,18 +7,16 @@ import GameControls from './GameControls'
 
 function PlayerView({ orbitControls }) {
   return (
-    // <div ref={canvasRef}>
-      <Canvas
-        shadowMap={{
-          enabled: true,
-          type: THREE.PCFSoftShadowMap
-        }}
+    <Canvas
+      shadowMap={{
+        enabled: true,
+        type: THREE.PCFSoftShadowMap
+      }}
 
-      >
-        <Scene />
-        {orbitControls ? <OrbitControls /> : <GameControls />}
-      </Canvas>
-    // </div>
+    >
+      <Scene />
+      {orbitControls ? <OrbitControls /> : <GameControls />}
+    </Canvas>
   )
 }
 

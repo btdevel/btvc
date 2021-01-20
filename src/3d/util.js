@@ -80,3 +80,10 @@ export function loadTextureLinear(img) {
   // texture.anisotropy = 16;
   return texture
 }
+
+export const objectMap = (obj, fn) =>
+  Object.fromEntries(
+    Object.entries(obj).map(
+      ([k, v], i) => [k, fn(v, k, i)]
+    )
+  )

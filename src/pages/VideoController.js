@@ -16,7 +16,7 @@ const VideoBox = styled.div`
 
 export default function VideoController() {
     const videoContainerRef = useRef()
-    const [result, loading, error] = useAsync(initializeVideo, [videoContainerRef])
+    const [, loading, error] = useAsync(initializeVideo, [videoContainerRef])
 
     return (
         <>
