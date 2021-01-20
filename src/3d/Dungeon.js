@@ -51,17 +51,17 @@ function createLevel(map) {
   if (!map?.map) return []
 
   let elements = []
-  const columns = map.columns
-  const rows = map.rows
+  const width = map.width
+  const height = map.height
 
-  for (let i = 0; i < columns; ++i) {
-    for (let j = 0; j < rows; ++j) {
-      const space = map.map[i][j]
+  for (let x = 0; x < width; ++x) {
+    for (let y = 0; y < height; ++y) {
+      const space = map.map[x][y]
       const dirs = [space.north, space.west, space.south, space.east]
 
       for (let k = 0; k < 4; k++) {
         if (dirs[k]) {
-          elements.push(<Wall key={`${i}-${j}-${k}`} x={i} y={j} dir={k} wtype={dirs[k]} />)
+          elements.push(<Wall key={`${x}-${y}-${k}`} x={x} y={y} dir={k} wtype={dirs[k]} />)
         }
       }
     }

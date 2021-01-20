@@ -6,11 +6,12 @@ export default function City({ map }) {
 
   const elements = []
 
-  for (let i = 0; i < map.columns; i++) {
-    for (let j = 0; j < map.rows; j++) {
-      const type = map.map[i][j].type
+  for (let x = 0; x < map.width; x++) {
+    for (let y = 0; y < map.height; y++) {
+      const type = map.map[x][y].type
+      const dir = map.map[x][y].dir
       if (type != ' ') {
-        elements.push(<House key={[i,j]} type={type} x={i} y={j} />)
+        elements.push(<House key={[x, y]} x={x} y={y} type={type} dir={dir}/>)
       }
     }
   }

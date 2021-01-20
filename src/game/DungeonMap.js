@@ -1,11 +1,11 @@
 import { setGameText } from './GameLogic'
-import Map from './Map'
+import Map, { create2dArray } from './Map'
 import { Direction } from './Movement'
 import { mod } from '../util/math'
 
 export default class DungeonMap extends Map {
-  rows
-  columns
+  width
+  height
   loaded = false
   name = null
   level = null
@@ -29,8 +29,6 @@ export default class DungeonMap extends Map {
       this[prop] = map[prop]
     }
 
-    this.rows = this.height
-    this.columns = this.width
     this.name = map.shortName
     // console.log("Loaded map: ", this)
     this.loaded = true
@@ -43,8 +41,8 @@ export default class DungeonMap extends Map {
     // setOverlayText(`${dirs}`)
     const type = dirs[dir]
     if (type === 1) return [false, "Ouch!", old_x, old_y]
-    const new_x = mod(old_x + Direction.dx[dir], this.columns)
-    const new_y = mod(old_y + Direction.dy[dir], this.rows)
+    const new_x = mod(old_x + Direction.dx[dir], this.width)
+    const new_y = mod(old_y + Direction.dy[dir], this.height)
     return [true, undefined, new_x, new_y]
   }
 
@@ -113,22 +111,26 @@ function addAction(object, action) {
 }
 
 const transform_map = (level, width, height) => {
-  const map = Array(height);
+  const rows = height
+  const columns = width
 
-  for (let i = 0; i < height; i++) {
-    map[i] = Array(width);
-    for (let j = 0; j < width; j++) {
+  const map = create2dArray(width, height, {})
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < columns; j++) {
       const space = {}
 
       const horzChars = ' -DS'
       const vertChars = ' |DS'
-      const cx = i * 3 + 1
-      const cy = (height - j - 1) * 3 + 1
-      space.north = horzChars.indexOf(level.map[cy - 1][cx])
-      space.south = horzChars.indexOf(level.map[cy + 1][cx])
-      space.east = vertChars.indexOf(level.map[cy][cx + 1])
-      space.west = vertChars.indexOf(level.map[cy][cx - 1])
-      map[i][j] = space
+      const col = i * 3 + 1
+      const row = j * 3 + 1
+      space.north = horzChars.indexOf(level.map[row - 1][col])
+      space.south = horzChars.indexOf(level.map[row + 1][col])
+      space.east = vertChars.indexOf(level.map[row][col + 1])
+      space.west = vertChars.indexOf(level.map[row][col - 1])
+
+      const x = i, y = rows - 1 - j
+      map[x][y] = space
     }
   }
 

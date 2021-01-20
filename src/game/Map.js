@@ -3,16 +3,15 @@ import { execCommand } from "./KeyMap"
 import { mod } from '../util/math'
 import { startConference, stopConference } from './Video'
 
-export const create2dArray = (rows, columns, defaultVal) =>
-    [...Array(rows).keys()].map(() => Array(columns).fill(defaultVal))
+export const create2dArray = (width, height, defaultVal) =>
+    [...Array(width).keys()].map(() => Array(height).fill(defaultVal))
 
 export default class Map {
-    rows
-    columns
-    name
+    width
+    height
     loaded
-    name
     level
+    name
     map
     startX
     startY

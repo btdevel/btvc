@@ -9,8 +9,8 @@ import { gameState } from './GameLogic'
 
 
 export class CityMap extends Map {
-  rows = 30
-  columns = 30
+  width
+  height
   loaded = false
   name = "Skara Brae"
   level = "city"
@@ -38,8 +38,8 @@ export class CityMap extends Map {
 
   canMove(old_x, old_y, dir) {
     // console.log("CityMap: ", this)
-    const new_x = mod(old_x + Direction.dx[dir], this.columns)
-    const new_y = mod(old_y + Direction.dy[dir], this.rows)
+    const new_x = mod(old_x + Direction.dx[dir], this.width)
+    const new_y = mod(old_y + Direction.dy[dir], this.height)
     const type = this.map[new_x][new_y].type
     if (type !== ' ' && type !== '#' && type !== 'S') { // empty, gate, statue
       if (!this.map[new_x][new_y].actions) {
