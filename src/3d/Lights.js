@@ -6,6 +6,11 @@ import * as THREE from 'three'
 
 const makeVector3 = ([x, y, z]) => new THREE.Vector3(x, y, z)
 
+// const maxShadowUpdateDelay = 2
+// const minShadowUpdateSunDiff = 0.3
+const maxShadowUpdateDelay = 2
+const minShadowUpdateSunDiff = 0.05
+
 function computeLightParams(targetPos) {
   const theta = gameState.sun.elevation()
   const sunPos = makeVector3(gameState.sun.position())
@@ -42,10 +47,8 @@ export default function Lights() {
     if (sunRef.current) {
       sunRef.current.intensity = sunIntensity
 
-      const minDiff = 0.3
       const lastSunPos = sunRef.current.position
-
-      if (newSunPos.distanceTo(lastSunPos) > minDiff || clock.getElapsedTime() > 2) {
+      if (newSunPos.distanceTo(lastSunPos) > minShadowUpdateSunDiff || clock.getElapsedTime() > maxShadowUpdateDelay) {
         sunRef.current.position.copy(newSunPos)
         // console.log(clock.getElapsedTime(), lightPos);
         clock.start()

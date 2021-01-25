@@ -72,6 +72,7 @@ class GameState {
   }
 
   async init(config) {
+    this.config = config
     this.position.x = config.position.x
     this.position.y = config.position.y
     this.dir = config.dir

@@ -62,21 +62,21 @@ const materials = objectMap(materialProps,
   propsArray => propsArray.map(props => new THREE.MeshStandardMaterial(props)))
 
 
-
+const standardProps = {castShadow: true, receiveShadow: true}
 const meshProps = {
   " ": [{}],
-  "1": [{}], //renderOrder: 4 },
-  "2": [{}],//renderOrder: 3 },
-  "3": [{}],
-  "4": [{}],
-  "A": [{}],
-  "P": [{}],
-  "G": [{}],
-  "T": [{}],
-  "C": [{}],
-  "#": [{ renderOrder: 2 }],
-  "|": [{ renderOrder: 2 }],
-  "S": [{}],
+  "1": [standardProps], //renderOrder: 4 },
+  "2": [standardProps],//renderOrder: 3 },
+  "3": [standardProps],
+  "4": [standardProps],
+  "A": [standardProps],
+  "P": [standardProps],
+  "G": [standardProps],
+  "T": [standardProps],
+  "C": [standardProps],
+  "#": [{ ...standardProps, renderOrder: 2 }],
+  "|": [{ ...standardProps, renderOrder: 2 }],
+  "S": [{receiveShadow: true}],
 }
 
 export function makeHouseGeometry(type) {
@@ -91,7 +91,8 @@ export function makeHouseGeometry(type) {
 }
 
 const standardWallGeom = makeWallGeometry()
-const gateGeom = makeWallGeometry().translate(0, 0, -0.45 * 0)
+const gateGeom = makeWallGeometry()
+const statueGeom = makeWallGeometry().translate(0, 0, -0.3)
 const geoms = {
   " ": [{}],
   "1": [standardWallGeom],
@@ -105,7 +106,7 @@ const geoms = {
   "C": [standardWallGeom],
   "#": [gateGeom],
   "|": [gateGeom],
-  "S": [gateGeom],
+  "S": [statueGeom],
 }
 
 
@@ -127,7 +128,7 @@ function Wall({ face, type }) {
   const mat = select(materials[type], face)
   const props = select(meshProps[type], face)
 
-  return (<mesh rotation-order="ZXY" rotation={[pi2, 0, face * pi2]} position={[x, y, z]} castShadow receiveShadow {...props} geometry={geom} material={mat} />)
+  return (<mesh rotation-order="ZXY" rotation={[pi2, 0, face * pi2]} position={[x, y, z]} {...props} geometry={geom} material={mat} />)
 }
 
 export default function House({ x, y, type, dir, props }) {
