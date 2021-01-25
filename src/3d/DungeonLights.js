@@ -42,7 +42,6 @@ export default function DungeonLights({ map }) {
   // Party light (todo: needs to be driven by spell/torch... info)
   lights.push(<AnimatedPointLight key="party" position={position} />)
 
-  console.log("Map: ", map);
   // Extra dungeon lights
   if (map.lights) {
     let num = 0

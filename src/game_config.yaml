@@ -128,3 +128,9 @@ configs:
     dir: 0
     initCommands: ["welcomeMessage"]
     orbitcontrols: false
+    video: {
+      enable: true,
+      appId: "73c22632975c4133b8de33f67f89b84b",
+      token: "00673c22632975c4133b8de33f67f89b84bIAAqCtBUxgBw6205wkgFQ6YtSRM/11pQTAEypqOAfjEYZAx+f9gAAAAAEAC0V+LrfH8QYAEAAQB7fxBg",
+      exptoken: "00673c22632975c4133b8de33f67f89b84bIAAzMSCmcTOh0V0RHBrXdwUTIXikJ4VGZXCSyelBOhO13Qx+f9gAAAAAEABI+NBc9wAKYAEAAQD3AApg"
+    }

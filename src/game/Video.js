@@ -61,9 +61,6 @@ export const removeTrackInfo = (id) => modifyState(state => {
 export const useTrackInfos = () => useStore(state => state.tracks)
 export const useTrackInfo = (i) => useStore(state => state.tracks[i])
 
-const appId = "73c22632975c4133b8de33f67f89b84b"
-const token = "00673c22632975c4133b8de33f67f89b84bIAAzMSCmcTOh0V0RHBrXdwUTIXikJ4VGZXCSyelBOhO13Qx+f9gAAAAAEABI+NBc9wAKYAEAAQD3AApg"
-// const token = "00673c22632975c4133b8de33f67f89b84bIAChzCBGvBawGPAFoDmrefEx9wFYSbfx0cWkNyX8MFrSDAx+f9gAAAAAEACpE93IE2oHYAEAAQATagdg" // expired key
 
 
 const joinAllowed = true
@@ -71,7 +68,9 @@ const joinAllowed = true
 const videoState = {
   initialized: false,
   ref: null,
-  client: null
+  client: null,
+  appId: null,
+  token: null
 }
 
 function playInDiv(track, id) {
@@ -132,9 +131,15 @@ function startTimeout() {
   onTimeout()
 }
 
-export async function initializeVideo(ref) {
+export function initializeVideo(ref) {
   AgoraRTC.setLogLevel(2)
   videoState.ref = ref
+}
+
+
+export function initVideo(config) {
+  videoState.appId = config.video.appId
+  videoState.token = config.video.token
 }
 
 export async function startConference() {
@@ -156,7 +161,7 @@ export async function startConference() {
     try {
       AgoraRTC.setLogLevel(5)
       setGameText("Trying to join video channel...")
-      await videoState.client.join(appId, "test", token)
+      await videoState.client.join(videoState.appId, "test", videoState.token)
     }
     catch (e) {
       console.error("Error joining video channel...", e);

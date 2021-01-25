@@ -1,15 +1,19 @@
 import React from 'react'
 import GameScreen from './pages/GameScreen'
 import VideoController from './pages/VideoController'
-import { useAsyncFinish } from './util/hooks'
-import { init } from './game/GameConfig'
-import configfile from './game_config.yaml'
+import { useAsync } from './util/hooks'
+import configFile from './game_config.yaml'
+import { loadConfig } from './game/GameConfig'
+import { gameState } from './game/GameLogic'
+import { initVideo } from './game/Video'
 
 
 export default function App () {
-  const loaded = useAsyncFinish(init, [configfile])
+  const [config, loading, error] = useAsync(loadConfig, [configFile])
+  if (loading) return <div>Loading...</div>
 
-  if (!loaded) return <div>Loading...</div>
+  gameState.init(config)
+  initVideo(config)
 
   return (
     <>

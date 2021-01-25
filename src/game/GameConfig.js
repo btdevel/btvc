@@ -75,7 +75,7 @@ function queryAsObject() {
   return params
 }
 
-export async function init(configFile, finished) {
+export async function loadConfig(configFile) {
   const yaml = await loadYAML(configFile)
   const params = queryAsObject()
   mergeObject(yaml, params)
@@ -89,7 +89,5 @@ export async function init(configFile, finished) {
   config.commands = yaml.commands
 
   console.log('Init config: \n', YAML.safeDump(config))
-  gameState.init(config)
-
-  finished && finished()
+  return config
 }
