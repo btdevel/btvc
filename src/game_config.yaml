@@ -1,9 +1,7 @@
-# config: betterGame
 config: originalGame
-# config: debugStars
+# config: debugCurrent
 # config: debugCellars
-# config: debugShadowCasting
-# config: debugSky
+# config: betterGame
 
 keyMap:
   ArrowUp: "forward"
@@ -38,17 +36,18 @@ configs:
     configs: ["atGuildSouth", "facingNorth", "earlyMorning", "standard"]
   betterGame:
     configs: ["originalGame", "atGuild", "facingEast"]
+  debugCurrent:
+    configs: ["debugScarletBard"]
   debugStars:
     configs: ["night", "atCenter", "fast", "facingSouth", "fullscreen", "debug"]
   debugCellars:
-    # configs: ["cellars", "night", "fullscreen", "debug"]
-    # configs: ["cellars", "night", "facingEast", "debug"]
-    # configs: ["cellars", "night", "facingNorth", "debug"]
+    configs: ["cellars", "morning", "facingNorth", "debug"]
+  debugScarletBard:
     configs: ["beforeScarletBard", "noon", "facingEast", "debug"]
   debugShadowCasting:
     configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
   debugSky:
-    configs: ["atCenter", "noon", "fullscreen", "debug"]
+    configs: ["atCenter", "noon", "fullscreen", "fast", "debug"]
 
   # Game time configs
   standard:
