@@ -5,7 +5,7 @@
     "the statue of a Samurai warrior",
     "the statue of a Stone giant",
     "the statue of an Ogre Lord",
-    "a stone Golem",
+    "the statue of a stone Golem",
     "the statue of a Grey Dragon"
   ],
   "messages": [],
@@ -127,27 +127,5 @@
     "> ^ > ^^^^^^^^^^^    S  > <  <",
     ">   <^^^^^^^^^^^^^^^^^  > <^^>",
     "^^^^^^^^^^^^^^^^^^^^^^^^> <vv>"
-  ],
-  "old_types": {
-    "00": "none",
-    "01": "house1",
-    "02": "house2",
-    "03": "house3",
-    "04": "house4",
-    "0B": "guild",
-    "12": "tavern",
-    "1C": "shop",
-    "21": "temple",
-    "2B": "review_board",
-    "60": "statue",
-    "68": "gate",
-    "71": "madgod_temple",
-    "78": "sewer_entrance",
-    "81": "credits",
-    "89": "roscoe",
-    "91": "kylearans_tower",
-    "9B": "harkyns_castle",
-    "A1": "mangars_tower",
-    "A8": "city_gate"
-  }
+  ]
 }
