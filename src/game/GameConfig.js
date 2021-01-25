@@ -1,5 +1,7 @@
 import { gameState } from './GameLogic'
 import YAML from 'js-yaml'
+import { parse } from 'query-string'
+
 
 function mergeArray(obj1, obj2) {
   if (!obj1) return obj2
@@ -25,6 +27,7 @@ function mergeObject(obj1, obj2) {
 
 function mergeRecursive(name, yaml, cache) {
   // console.log('Recursively merging: ', name)
+  if (!cache) cache = {}
   if (cache[name]) {
     return cache[name]
   }
@@ -51,13 +54,37 @@ async function loadYAML(file) {
   return YAML.safeLoad(body)
 }
 
+function queryAsObject() {
+  function insert(obj, names, value) {
+    const name = names[0]
+    if (names.length === 1) {
+      const number = Number(value)
+      obj[name] = Number.isNaN(number) ? value : number
+    } else {
+      if (!obj[name]) obj[name] = {}
+      insert(obj[name], names.slice(1), value)
+    }
+    return obj
+  }
+
+  const rawParams = parse(document.location.search)
+  const params = {}
+  for (let name in rawParams) {
+    insert(params, name.split("."), rawParams[name])
+  }
+  return params
+}
+
 export async function init(configFile, finished) {
   const yaml = await loadYAML(configFile)
+  const params = queryAsObject()
+  mergeObject(yaml, params)
   console.log('Full config: ', yaml)
 
-  const defaultConfig = mergeRecursive('defaults', yaml, {})
-  const namedConfig = mergeRecursive(yaml.config, yaml, {})
+  const defaultConfig = mergeRecursive('defaults', yaml)
+  const namedConfig = mergeRecursive(yaml.config, yaml)
   const config = mergeObject(defaultConfig, namedConfig)
+  mergeObject(config, params)
   config.keyMap = yaml.keyMap
   config.commands = yaml.commands
 
