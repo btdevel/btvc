@@ -29,8 +29,10 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
     audio.translateY(y)
     useEffect(() => {
         const loader = new THREE.AudioLoader();
+        let isLoaded = false
         loader.load(url,
             function (audioBuffer) {
+                isLoaded = true
                 audio.setBuffer(audioBuffer);
                 audio.setLoop(loop)
                 audio.setVolume(volume)
@@ -47,7 +49,9 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
             }
         );
         return () => {
-            audio.stop()
+            if (isLoaded) {
+                audio.stop()
+            }
         }
     })
 
