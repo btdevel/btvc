@@ -30,8 +30,10 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
     useEffect(() => {
         const loader = new THREE.AudioLoader();
         let isLoaded = false
+        let isStopped = false
         loader.load(url,
             function (audioBuffer) {
+                if( isStopped ) return
                 isLoaded = true
                 audio.setBuffer(audioBuffer);
                 audio.setLoop(loop)
@@ -42,15 +44,17 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
                 audio.play();
             },
             function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             function (err) {
-                console.log('An error happened');
+                console.warn('Error loading audio: ' + url);
             }
         );
         return () => {
             if (isLoaded) {
                 audio.stop()
+            } else {
+                isStopped = true
             }
         }
     })
