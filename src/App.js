@@ -9,7 +9,7 @@ import { initVideo } from './game/Video'
 
 
 export default function App () {
-  const [config, loading, error] = useAsync(loadConfig, [configFile])
+  const [config, loading] = useAsync(loadConfig, [configFile])
   if (loading) return <div>Loading...</div>
 
   gameState.init(config)

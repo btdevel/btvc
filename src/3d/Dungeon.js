@@ -47,7 +47,7 @@ function Wall({ x, y, dir, wtype }) {
   return <group>{walls}</group>
 }
 
-function createLevel(map) {
+export function createLevel(map, createSquare) {
   if (!map?.map) return []
 
   let elements = []
@@ -56,14 +56,7 @@ function createLevel(map) {
 
   for (let x = 0; x < width; ++x) {
     for (let y = 0; y < height; ++y) {
-      const space = map.map[x][y]
-      const dirs = [space.north, space.west, space.south, space.east]
-
-      for (let k = 0; k < 4; k++) {
-        if (dirs[k]) {
-          elements.push(<Wall key={`${x}-${y}-${k}`} x={x} y={y} dir={k} wtype={dirs[k]} />)
-        }
-      }
+      createSquare(elements, x, y, map.map[x][y])
     }
   }
 
@@ -74,7 +67,6 @@ function createLevel(map) {
     }
   }
 
-
   if (map.audio) {
     for (let audio of map.audio) {
       const [[x, y], song, params] = audio
@@ -84,6 +76,16 @@ function createLevel(map) {
   return elements
 }
 
+function createWalls(elements, x, y, square) {
+  const dirs = [square.north, square.west, square.south, square.east]
+
+  for (let k = 0; k < 4; k++) {
+    if (dirs[k]) {
+      elements.push(<Wall key={`${x}-${y}-${k}`} x={x} y={y} dir={k} wtype={dirs[k]} />)
+    }
+  }
+}
+
 export default function Dungeon({ map }) {
-  return <group>{createLevel(map)}</group>
+  return <group>{createLevel(map, createWalls)}</group>
 }
