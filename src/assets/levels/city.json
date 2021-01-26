@@ -8,7 +8,23 @@
     "the statue of a stone Golem",
     "the statue of a Grey Dragon"
   ],
-  "messages": [],
+  "messages": [
+    [[25, 18], "Turn around and go south..."]
+  ],
+  "actions": [
+    [[28, 5], ["teleport", 0, 0, 0]],
+    [[18, 13], ["teleport", 4, 0, 0]],
+    [[18, 14], ["teleport", 4, 0, 0]],
+    [[18, 15], ["teleport", 4, 0, 0]],
+    [[18, 16], ["teleport", 4, 0, 0]],
+    [[4, 24], ["teleport", 7, 0, 0]],
+    [[27, 27], ["teleport", 10, 0, 0]],
+    [[2, 2], ["teleport", 11, 0, 0]],
+    [[25, 2], ["jump", 25, 6]]
+  ],
+  "audio": [
+    [[25, 15], "guild", {"volume": 0.1, "maxDistance": 5}]
+  ],
   "streetNames": {
     "0": "Alley",
     "1": "Rakhir",

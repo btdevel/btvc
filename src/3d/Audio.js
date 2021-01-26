@@ -21,7 +21,7 @@ export const songMap = {
 
 export const audioListener = new THREE.AudioListener();
 
-export default function Audio({ url, song = "", ambient = false, loop = true, volume = 0.2, x = 0, y = 0, dist = 1 }) {
+export default function Audio({ url, song = "", ambient = false, loop = true, volume = 0.2, x = 0, y = 0, dist = 1, rolloffFactor = 1, maxDistance = 10, distanceModel = "linear" }) {
     if (!url) url = songMap[song]
     const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener);
 
@@ -39,6 +39,9 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
                 audio.setLoop(loop)
                 audio.setVolume(volume)
                 if (!ambient) {
+                    audio.setRolloffFactor(rolloffFactor)
+                    audio.setMaxDistance(maxDistance)
+                    audio.setDistanceModel(distanceModel)
                     audio.setRefDistance(dist);
                 }
                 audio.play();

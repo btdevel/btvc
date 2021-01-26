@@ -12,7 +12,7 @@ export default class Map {
     loaded
     level
     name
-    map
+    squares
     startX
     startY
 
@@ -45,7 +45,7 @@ export default class Map {
         const { x, y } = pos
 
         // if !video field leave channel
-        const videoConf = this.map[x][y].videoConf
+        const videoConf = this.squares[x][y].videoConf
         if (videoConf) {
             startConference()
         }
@@ -62,11 +62,99 @@ export default class Map {
             stopConference()
         }
 
-        const actions = this.map[x][y].actions
+        const actions = this.squares[x][y].actions
         if (actions) {
             for (let action of actions) {
                 execCommand(action)
             }
         }
     }
+
+    async load() {
+        const map = await this.loadRawMap(this.level)
+        for (let prop in map) {
+            this[prop] = map[prop]
+        }
+        this.transformMapBaseData()
+        this.transformSquares()
+        this.addActions()
+
+        this.loaded = true
+    }
+
+    loadRawMap(level) {
+        throw "loadRawMap Must be implemented in derived class"
+    }
+
+    transformMap() {
+        throw "transformMap Must be implemented in derived class"
+    }
+
+    transformSquares() {
+        throw "transformSquares Must be implemented in derived class"
+    }
+
+    addActions() {
+        function addAction(object, action) {
+            if (object.actions === undefined) object.actions = []
+            // console.log("Actions: ", actions)
+            object.actions.push(action)
+        }
+        function values(obj) {
+            return obj ? obj : []
+        }
+        const map = this
+
+        if (map.goesDown) {
+            map.stairsDown = map.stairsNext
+            map.stairsUp = map.stairsPrevious
+        }
+        else {
+            map.stairsUp = map.stairsNext
+            map.stairsDown = map.stairsPrevious
+        }
+
+        const squares = map.squares
+
+        for (let stairsDown of values(map.stairsDown)) {
+            const [x, y] = stairsDown
+            // addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
+            addAction(squares[x][y], "stairsDown")
+        }
+
+        for (let stairsUp of values(map.stairsUp)) {
+            const [x, y] = stairsUp
+            // addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
+            addAction(squares[x][y], "stairsUp")
+        }
+
+        for (let videoConf of values(map.videoFields)) {
+            const [x, y] = videoConf // Needs string possibly
+            squares[x][y].videoConf = "test"
+        }
+
+        for (let actionStruct of values(map.actions)) {
+            const [[x, y], action] = actionStruct
+            addAction(squares[x][y], action)
+        }
+
+        for (let message of values(map.messages)) {
+            const [[x, y], msg] = message
+            addAction(squares[x][y], ["showMessage", msg])
+        }
+
+        for (let specialProg of values(map.specialProgramsInfo)) {
+            // const [[x, y], msg, ...rest] = msg_struct
+            const [[x, y], msg] = specialProg
+            addAction(squares[x][y], ["showMessage", msg])
+        }
+
+        for (let teleport of values(map.teleports)) {
+            const [from, to] = teleport;
+            const [x1, y1] = from
+            const [x2, y2] = to
+            addAction(squares[x1][y1], ["jump", x2, y2])
+        }
+    }
 }
+

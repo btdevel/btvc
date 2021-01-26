@@ -14,7 +14,7 @@ export class CityMap extends Map {
   loaded = false
   name = "Skara Brae"
   level = "city"
-  map = null
+  squares = null
 
 
   constructor() {
@@ -26,23 +26,62 @@ export class CityMap extends Map {
     return true
   }
 
-  load() {
-    this.parseJson(cityMapJsonRaw)
-    this.map[28][5].actions = [["teleport", 0, 0, 0]]
-    this.map[18][15].actions = [["teleport", 4, 0, 0]]
-    this.map[4][24].actions = [["teleport", 7, 0, 0]]
-    this.map[27][27].actions = [["teleport", 10, 0, 0]]
-    this.map[2][2].actions = [["teleport", 11, 0, 0]]
-    this.loaded = true
+  async loadRawMap() {
+    return cityMapJsonRaw
+  }
+
+  transformMapBaseData() {
+    const map = this
+    // const [width, height] = map.dim;
+    // map.width = width
+    // map.height = height
+    // map.dim = undefined
+    // map.name = map.shortName
+
+    // map.cityExitPos = map.cityExitPosition
+    // map.cityExitPosition = undefined
+
+    // map.minLevel = map.levelTeleport[0][0]
+    // map.phaseDoor = map.phaseDoor // currently ignored
+    // map.wallStyle = map.wallStyle // currently ignored
+
+  }
+
+  transformSquares() {
+    const streetNames = cityMapJsonRaw.streetNames
+
+    const types = cityMapJsonRaw.types
+    const streets = cityMapJsonRaw.streets
+    const dirs = cityMapJsonRaw.dirs
+    const rows = types.length
+    const columns = types[0].length
+
+    this.width = columns
+    this.height = rows
+    this.squares = create2dArray(this.width, this.height, {})
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        const square = {}
+        square.type = types[i][j]
+        square.dir = dirs[i][j]
+        square.street = streetNames[streets[i][j]]
+
+        const x = j, y = rows - 1 - i
+        this.squares[x][y] = square
+      }
+    }
+
+    // this.squares[28][5].actions = [["teleport", 0, 0, 0]]
   }
 
   canMove(old_x, old_y, dir) {
     // console.log("CityMap: ", this)
     const new_x = mod(old_x + Direction.dx[dir], this.width)
     const new_y = mod(old_y + Direction.dy[dir], this.height)
-    const type = this.map[new_x][new_y].type
+    const type = this.squares[new_x][new_y].type
     if (type !== ' ' && type !== '#' && type !== 'S') { // empty, gate, statue
-      if (!this.map[new_x][new_y].actions) {
+      if (!this.squares[new_x][new_y].actions) {
         return [false, undefined, old_x, old_y]
       }
     }
@@ -68,35 +107,10 @@ export class CityMap extends Map {
 
   getLocationInfo() {
     const { x, y } = gameState.position
-    const street = this.map[x][y].street
+    const street = this.squares[x][y].street
     return `You are on ${street}`
   }
 
 
-  parseJson(cityMapJsonRaw) {
-    const streetNames = cityMapJsonRaw.streetNames
-
-    const types = cityMapJsonRaw.types
-    const streets = cityMapJsonRaw.streets
-    const dirs = cityMapJsonRaw.dirs
-    const rows = types.length
-    const columns = types[0].length
-
-    this.width = columns
-    this.height = rows
-    this.map = create2dArray(this.width, this.height, {})
-
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < columns; j++) {
-        const square = {}
-        square.type = types[i][j]
-        square.dir = dirs[i][j]
-        square.street = streetNames[streets[i][j]]
-
-        const x = j, y = rows - 1 - i
-        this.map[x][y] = square
-      }
-    }
-  }
 
 }

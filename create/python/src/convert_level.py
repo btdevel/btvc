@@ -105,3 +105,65 @@ else:
     levnum=0
 
 level_as_json(levnum)
+
+
+
+
+
+
+# http://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?f=17&t=910&p=3443#p3443
+# # 000 - 001	Load Address of file
+# 002 - 201	Wall Map, one byte per cell (see below),
+#             lines are encoded south to north, west to east
+# 202 - 401	Event Map, one byte per cell (see below),
+#             lines are encoded south to north, west to east
+# 402 - 409	Level flags, relate to NMAx file (8 levels)
+# 40a - 411	Lock flags, teleport protected level FF, free level 00
+# 412		   monster level for random encounters
+# 413		   PHDO lock, 01 = PHDO locked, disabled
+# 414		   wall set style: 0 = sewer, 1 = Cellar, 2 = catacomb, 3 = Mangar
+# 415 - 416	point of return into Skara Brae map
+# 417		   dungeon direction, 00 = cellars, 03 = towers
+# 418 - 421   dungeon name (9 chars and dc)
+# 422 - 431	coordinates for up to 8 special events
+# 		      loaded from files (8 coors)
+# 432 - 441	indices into file load table to evaluate file
+# 		      number to be loaded from there (see below)
+# 442 - 461	anti magic (16 coors)
+# 462 - 471	teleport FROM coors (8 coors)
+# 472 - 481	teleport TO coors (8 coors)
+# 482 - 491	Spinners (8 coors)
+# 492 - 4a1	Smoke (8 coors)
+# 4a2 - 4c1	HP damage zone (16 coors)
+# 4c2 - 4d1	SP regeneration zone (8 coors)
+# 4d2 - 4e1	Stasis chambers (8 coors)
+# 4e2 - 4f1	cells with messages, same sequence as following texts (8 coors)
+# 4f2 - 501	forced encounters, inavoidable fights (8 coors)
+# 502 - 511	type and number of opps from 4f2
+# 512 - 521	text offset, low/high byte, in file text starts actually
+# 		      when you substract -FD20 (8 pairs)
+# 522 - eof	texts
+# _______________________________________________________
+
+# 002 - 201 Wall Map, one byte per cell (see below)
+
+# each byte represent 1 cell. The bits 0 and 1 for the north side,
+# bits 2 and 3 for the south side, bits 4 and 5 east and bits
+# 6 and 7 west.
+
+# 00 = no walls
+# 01 = wall
+# 10 = door
+# 11 = secret door
+# _______________________________________________________
+
+# 202 - 401 Event flags
+
+# bit 0 	set if there are stairs to previous level, depending on 417 up or down
+# bit 1 	set if there are stairs to next level, depending on 417 up or down
+# bit 2 	set if there is a special
+# bit 3 	set if there's darkness
+# bit 4 	set if there's a trap.
+# bit 5 	set if there's a portal down
+# bit 6 	set if there's a portal up
+# bit 7 	set if there's a random encounter scheduled for this tile.

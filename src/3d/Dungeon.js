@@ -1,8 +1,8 @@
 import React from 'react'
-import { loadTextureLinear, makeWallGeometry } from './util'
 import * as THREE from 'three'
 import VideoScreen from './VideoScreen'
 import Audio from './Audio'
+import { loadTextureLinear, makeWallGeometry } from './util'
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
@@ -48,7 +48,7 @@ function Wall({ x, y, dir, wtype }) {
 }
 
 export function createLevel(map, createSquare) {
-  if (!map?.map) return []
+  if (!map?.squares) return []
 
   let elements = []
   const width = map.width
@@ -56,7 +56,7 @@ export function createLevel(map, createSquare) {
 
   for (let x = 0; x < width; ++x) {
     for (let y = 0; y < height; ++y) {
-      createSquare(elements, x, y, map.map[x][y])
+      createSquare(elements, x, y, map.squares[x][y])
     }
   }
 

@@ -9,7 +9,7 @@ export default class DungeonMap extends Map {
   loaded = false
   name = null
   level = null
-  map = null
+  squares = null
 
   constructor(level) {
     super()
@@ -23,20 +23,9 @@ export default class DungeonMap extends Map {
     return false
   }
 
-  async load() {
-    const map = await loadLevel(this.level)
-    for (let prop in map) {
-      this[prop] = map[prop]
-    }
-
-    this.name = map.shortName
-    // console.log("Loaded map: ", this)
-    this.loaded = true
-  }
-
   canMove(old_x, old_y, dir) {
     // console.log("DungeonMap: ", this)
-    const wall = this.map[old_x][old_y]
+    const wall = this.squares[old_x][old_y]
     const dirs = [wall.north, wall.west, wall.south, wall.east]
     // setOverlayText(`${dirs}`)
     const type = dirs[dir]
@@ -53,201 +42,76 @@ export default class DungeonMap extends Map {
   getLocationInfo() {
     return `You are in ${this.fullName}`
   }
+
+  async loadRawMap(level) {
+    return await loadMap(level)
+  }
+
+  transformMapBaseData() {
+    const map = this
+    const [width, height] = map.dim;
+    map.width = width
+    map.height = height
+    map.dim = undefined
+    map.name = map.shortName
+
+    map.cityExitPos = map.cityExitPosition
+    map.cityExitPosition = undefined
+
+    map.minLevel = map.levelTeleport[0][0]
+    map.phaseDoor = map.phaseDoor // currently ignored
+    map.wallStyle = map.wallStyle // currently ignored
+  }
+
+  transformSquares() {
+    const map = this
+    const rows = map.height
+    const columns = map.width
+
+    map.squares = create2dArray(map.width, map.height, {})
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        const square = {}
+
+        const horzChars = ' -DS'
+        const vertChars = ' |DS'
+        const col = i * 3 + 1
+        const row = j * 3 + 1
+        square.north = horzChars.indexOf(map.map[row - 1][col])
+        square.south = horzChars.indexOf(map.map[row + 1][col])
+        square.east = vertChars.indexOf(map.map[row][col + 1])
+        square.west = vertChars.indexOf(map.map[row][col - 1])
+
+        const x = i, y = rows - 1 - j
+        map.squares[x][y] = square
+      }
+    }
+    map.map = undefined
+  }
+
 }
 
 
-export async function loadLevel(level) {
-  const levelNum = level.toString().padStart(2, '0')
+export async function loadMap(level) {
+  const levelNumPadded = level.toString().padStart(2, '0')
 
-  const levelRaw = {}
+  const map = {}
   try {
-    const levelImport = import(`../assets/levels/level_${levelNum}.json`)
+    const levelImport = import(`../assets/levels/level_${levelNumPadded}.json`)
     const levelBase = (await levelImport).default
-    Object.assign(levelRaw, levelBase)
+    Object.assign(map, levelBase)
 
-    const levelAmendImport = import(`../assets/levels/level_${levelNum}_amend.json`)
+    const levelAmendImport = import(`../assets/levels/level_${levelNumPadded}_amend.json`)
     const levelExtra = (await levelAmendImport).default
-    Object.assign(levelRaw, levelExtra)
+    Object.assign(map, levelExtra)
   }
   catch {
     console.warn(`Could not load level ${level}`)
   }
-  // console.log(levelRaw)
-  const map = transform_level(levelRaw, level)
-  return map;
-}
-
-function transform_level(levelRaw, level) {
-  const map = {}
-
-  const [width, height] = levelRaw.dim;
-  map.width = width
-  map.height = height
-  map.fullName = levelRaw.fullName
-  map.shortName = levelRaw.shortName
-  map.cityExitPos = levelRaw.cityExitPosition
-  map.goesDown = levelRaw.goesDown
-  map.levelTeleports = levelRaw.levelTeleport
-  map.level = level
-  map.minLevel = levelRaw.levelTeleport[0][0]
-  map.phaseDoor = levelRaw.phaseDoor // currently ignored
-  map.wallStyle = levelRaw.wallStyle // currently ignored
-
-  map.lights = levelRaw.lights
-  map.videoScreens = levelRaw.videoScreens
-  map.videoFields = levelRaw.videoFields
-  map.audio = levelRaw.audio
-
-  map.map = transform_map(levelRaw, width, height);
-  // console.log("Raw: ", levelRaw)
-  // console.log("Map: ", map)
-  return map;
-}
-
-function addAction(object, action) {
-  if (object.actions === undefined) object.actions = []
-  // console.log("Actions: ", actions)
-  object.actions.push(action)
-}
-
-const transform_map = (level, width, height) => {
-  const rows = height
-  const columns = width
-
-  const map = create2dArray(width, height, {})
-
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < columns; j++) {
-      const space = {}
-
-      const horzChars = ' -DS'
-      const vertChars = ' |DS'
-      const col = i * 3 + 1
-      const row = j * 3 + 1
-      space.north = horzChars.indexOf(level.map[row - 1][col])
-      space.south = horzChars.indexOf(level.map[row + 1][col])
-      space.east = vertChars.indexOf(level.map[row][col + 1])
-      space.west = vertChars.indexOf(level.map[row][col - 1])
-
-      const x = i, y = rows - 1 - j
-      map[x][y] = space
-    }
-  }
-
-  if (level.goesDown) {
-    level.stairsDown = level.stairsNext
-    level.stairsUp = level.stairsPrevious
-  }
-  else {
-    level.stairsUp = level.stairsNext
-    level.stairsDown = level.stairsPrevious
-  }
-
-  for (let stairsDown of level.stairsDown) {
-    const [x, y] = stairsDown
-    // addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
-    addAction(map[x][y], "stairsDown")
-  }
-
-  for (let stairsUp of level.stairsUp) {
-    const [x, y] = stairsUp
-    // addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
-    addAction(map[x][y], "stairsUp")
-  }
-
-  if (level.videoFields) {
-    for (let videoConf of level.videoFields) {
-      const [x, y] = videoConf // Needs string possibly
-      map[x][y].videoConf = "test"
-    }
-  }
-
-  for (let msg_struct of level.messages) {
-    const [[x, y], msg] = msg_struct
-    addAction(map[x][y], ["showMessage", msg])
-  }
-
-  for (let msg_struct of level.specialProgramsInfo) {
-    // const [[x, y], msg, ...rest] = msg_struct
-    const [[x, y], msg] = msg_struct
-    addAction(map[x][y], ["showMessage", msg])
-  }
-
-  for (let teleport of level.teleports) {
-    const [from, to] = teleport;
-    const [x1, y1] = from
-    const [x2, y2] = to
-    addAction(map[x1][y1], ["jump", x2, y2])
-  }
-
   return map;
 }
 
 
-export async function loadLevels() {
-  const levels = []
-  for (let i = 0; i < 16; i++) {
-    levels.push(loadLevel(i))
-  }
-  return levels;
-}
 
 
-
-// http://bardstale.brotherhood.de/talefiles/forum/viewtopic.php?f=17&t=910&p=3443#p3443
-//
-// 000 - 001	Load Address of file
-// 002 - 201	Wall Map, one byte per cell (see below),
-//             lines are encoded south to north, west to east
-// 202 - 401	Event Map, one byte per cell (see below),
-//             lines are encoded south to north, west to east
-// 402 - 409	Level flags, relate to NMAx file (8 levels)
-// 40a - 411	Lock flags, teleport protected level FF, free level 00
-// 412		   monster level for random encounters
-// 413		   PHDO lock, 01 = PHDO locked, disabled
-// 414		   wall set style: 0 = sewer, 1 = Cellar, 2 = catacomb, 3 = Mangar
-// 415 - 416	point of return into Skara Brae map
-// 417		   dungeon direction, 00 = cellars, 03 = towers
-// 418 - 421   dungeon name (9 chars and dc)
-// 422 - 431	coordinates for up to 8 special events
-// 		      loaded from files (8 coors)
-// 432 - 441	indices into file load table to evaluate file
-// 		      number to be loaded from there (see below)
-// 442 - 461	anti magic (16 coors)
-// 462 - 471	teleport FROM coors (8 coors)
-// 472 - 481	teleport TO coors (8 coors)
-// 482 - 491	Spinners (8 coors)
-// 492 - 4a1	Smoke (8 coors)
-// 4a2 - 4c1	HP damage zone (16 coors)
-// 4c2 - 4d1	SP regeneration zone (8 coors)
-// 4d2 - 4e1	Stasis chambers (8 coors)
-// 4e2 - 4f1	cells with messages, same sequence as following texts (8 coors)
-// 4f2 - 501	forced encounters, inavoidable fights (8 coors)
-// 502 - 511	type and number of opps from 4f2
-// 512 - 521	text offset, low/high byte, in file text starts actually
-// 		      when you substract -FD20 (8 pairs)
-// 522 - eof	texts
-// _______________________________________________________
-
-// 002 - 201 Wall Map, one byte per cell (see below)
-
-// each byte represent 1 cell. The bits 0 and 1 for the north side,
-// bits 2 and 3 for the south side, bits 4 and 5 east and bits
-// 6 and 7 west.
-
-// 00 = no walls
-// 01 = wall
-// 10 = door
-// 11 = secret door
-// _______________________________________________________
-
-// 202 - 401 Event flags
-
-// bit 0 	set if there are stairs to previous level, depending on 417 up or down
-// bit 1 	set if there are stairs to next level, depending on 417 up or down
-// bit 2 	set if there is a special
-// bit 3 	set if there's darkness
-// bit 4 	set if there's a trap.
-// bit 5 	set if there's a portal down
-// bit 6 	set if there's a portal up
-// bit 7 	set if there's a random encounter scheduled for this tile.
