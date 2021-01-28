@@ -202,6 +202,7 @@ class GameState {
   jump(x, y) {
     this.position.x = x
     this.position.y = y
+    this.jumped = true
     this.showMessage()
   }
 
@@ -209,6 +210,7 @@ class GameState {
     this.loadLevel(level)
     this.position.x = x
     this.position.y = y
+    this.jumped = true
   }
 
   takeStairs(down) {

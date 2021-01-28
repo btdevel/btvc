@@ -31,8 +31,10 @@ export default function Camera() {
     const dPhi = gameState.dPhi
     const dTheta = gameState.dTheta
 
-    setPos({ position: [pos.x, pos.y, 0] })
-    setRot({ rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta })
+    const immediate = gameState.jumped
+    setPos({ position: [pos.x, pos.y, 0], immediate: immediate })
+    setRot({ rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate })
+    gameState.jumped = false
   })
 
   return (<AnimatedCamera
