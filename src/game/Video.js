@@ -149,22 +149,25 @@ export async function startConference() {
 
   const { client } = videoState
   switch (client.connectionState) {
-    case "DISCONNECTED":
+    case "DISCONNECTED":   // falls through
     case "DISCONNECTING":
       break; // We are disconnecting or already disconnected, let's try to reconnect
-    case "CONNECTING":
-    case "RECONNECTING":
+    case "CONNECTING":   // falls through
+    case "RECONNECTING":    // falls through
     case "CONNECTED":
       return // We are already (re)connecting or connected, do nothing
+    default:
+      throw new Error(`Unknown connection state: ${client.connectionState}`)
   }
 
   console.log("Initializing Video...")
   try {
-    AgoraRTC.setLogLevel(5)
+    AgoraRTC.setLogLevel(4)
     setGameText("Trying to join video channel...")
     await videoState.client.join(videoState.appId, videoState.channel, videoState.token)
   }
   catch (e) {
+    console.warn("Caught connection error: ", e);
     let cause = "Unknown reason..."
     switch (e.code) {
       case "CAN_NOT_GET_GATEWAY_SERVER":
@@ -173,14 +176,15 @@ export async function startConference() {
         } else if (e.message.match('dynamic key expired')) {
           cause = "Auth token probably expired..."
         }
+        break
       case "OPERATION_ABORTED":
       case "WS_ABORT":
         setGameText("")
         return
       default:
-        console.error("Error joining video channel...", e);
         cause = "Reason: " + e.message
     }
+    console.log("Cause: ", cause);
     setGameText(`Could not join channel!\n${cause}`)
     return
   }
@@ -211,14 +215,16 @@ export async function stopConference() {
 
   const { client } = videoState
   switch (client.connectionState) {
-    case "DISCONNECTING":
+    case "DISCONNECTING":    // falls through
     case "DISCONNECTED":
       return; // We are already disconnected or disconnecting, just return
-    case "RECONNECTING":
+    case "RECONNECTING":      // falls through
     case "CONNECTING":
-      console.warn("Stopping video while connecting...");
+      console.warn("Stopping video while connecting...");    // falls through
     case "CONNECTED":
       break // We are connected (re)connecting, can proceed
+    default:
+      throw new Error(`Unknown connection state: ${client.connectionState}`)
   }
 
 
