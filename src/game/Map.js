@@ -83,15 +83,15 @@ export default class Map {
     }
 
     loadRawMap(level) {
-        throw "loadRawMap Must be implemented in derived class"
+        throw new Error("loadRawMap Must be implemented in derived class")
     }
 
     transformMap() {
-        throw "transformMap Must be implemented in derived class"
+        throw new Error("transformMap Must be implemented in derived class")
     }
 
     transformSquares() {
-        throw "transformSquares Must be implemented in derived class"
+        throw new Error("transformSquares Must be implemented in derived class")
     }
 
     addActions() {

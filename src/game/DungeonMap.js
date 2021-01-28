@@ -59,8 +59,8 @@ export default class DungeonMap extends Map {
     map.cityExitPosition = undefined
 
     map.minLevel = map.levelTeleport[0][0]
-    map.phaseDoor = map.phaseDoor // currently ignored
-    map.wallStyle = map.wallStyle // currently ignored
+    // map.phaseDoor = map.phaseDoor // currently ignored
+    // map.wallStyle = map.wallStyle // currently ignored
   }
 
   transformSquares() {
