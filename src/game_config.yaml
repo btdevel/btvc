@@ -22,6 +22,7 @@ keyMap:
 
   1: ["loadLevel", "city"]
   2: ["loadLevel", 0]
+  y: "toggleFly"
 
 commands:
   turnLeft: ["turn", 1]

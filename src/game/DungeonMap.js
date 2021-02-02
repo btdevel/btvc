@@ -23,16 +23,14 @@ export default class DungeonMap extends Map {
     return false
   }
 
-  canMove(old_x, old_y, dir) {
+  canMove(old_x, old_y, dir, new_x, new_y) {
     // console.log("DungeonMap: ", this)
     const wall = this.squares[old_x][old_y]
     const dirs = [wall.north, wall.west, wall.south, wall.east]
     // setOverlayText(`${dirs}`)
     const type = dirs[dir]
-    if (type === 1) return [false, "Ouch!", old_x, old_y]
-    const new_x = mod(old_x + Direction.dx[dir], this.width)
-    const new_y = mod(old_y + Direction.dy[dir], this.height)
-    return [true, undefined, new_x, new_y]
+    if (type === 1) return [false, "Ouch!"]
+    return [true, undefined]
   }
 
   showMap(pos, dir) {

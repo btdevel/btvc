@@ -8,6 +8,7 @@ import { execCommand } from './KeyMap'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
 import { mod } from '../util/math'
+import { Direction } from './Movement'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -45,6 +46,7 @@ class GameState {
   stepper = new TimeStepper()
   position = { x: 0, y: 0 }
   dir = 0
+  flyMode = false
   dPhi = 0
   dTheta = 0
   keyMap = {}
@@ -67,6 +69,7 @@ class GameState {
     exec: this.exec,
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
+    toggleFly: () => { this.flyMode = !this.flyMode },
     loadLevel: this.loadLevel,
     doDebugStuff: startGUI
   }
@@ -184,14 +187,22 @@ class GameState {
 
     const map = this.map
     const dir = mod(this.dir + (forward ? 0 : 2), 4)
+    const old_x = this.position.x
+    const old_y = this.position.y
 
-    const [allowed, msg, new_x, new_y] = map.canMove(this.position.x, this.position.y, dir)
-    this.showMessage(msg)
-    if (!allowed) return
+    const new_x = mod(old_x + Direction.dx[dir], map.width)
+    const new_y = mod(old_y + Direction.dy[dir], map.height)
+    if (!this.flyMode) {
+      const [allowed, msg] = map.canMove(this.position.x, this.position.y, dir, new_x, new_y)
+      this.showMessage(msg)
+      if (!allowed) return
+    }
 
     this.position.x = new_x
     this.position.y = new_y
-    this.map.enter(this.position)
+    if (!this.flyMode) {
+      this.map.enter(this.position)
+    }
   }
 
   turn(i) {

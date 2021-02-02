@@ -75,17 +75,15 @@ export class CityMap extends Map {
     // this.squares[28][5].actions = [["teleport", 0, 0, 0]]
   }
 
-  canMove(old_x, old_y, dir) {
+  canMove(old_x, old_y, dir, new_x, new_y) {
     // console.log("CityMap: ", this)
-    const new_x = mod(old_x + Direction.dx[dir], this.width)
-    const new_y = mod(old_y + Direction.dy[dir], this.height)
     const type = this.squares[new_x][new_y].type
     if (type !== ' ' && type !== '#' && type !== 'S') { // empty, gate, statue
       if (!this.squares[new_x][new_y].actions) {
-        return [false, undefined, old_x, old_y]
+        return [false, undefined]
       }
     }
-    return [true, undefined, new_x, new_y]
+    return [true, undefined]
   }
 
   showMap(pos, dir) {
