@@ -9,7 +9,8 @@
     "the statue of a Grey Dragon"
   ],
   "messages": [
-    [[25, 18], "Turn around and go south..."]
+    [[25, 18], "Turn around and go south..."],
+    [[1, 15], "The city gates are blocked by a huge snow drift."]
   ],
   "actions": [
     [[28, 5], ["teleport", 0, 0, 0]],
@@ -23,7 +24,7 @@
     [[25, 2], ["jump", 25, 6]]
   ],
   "audio": [
-    [[25, 15], "guild", {"volume": 0.1, "maxDistance": 5}]
+    [[25, 15], "guild", {"volume": 0.3, "dist": 1, "maxDistance": 5}]
   ],
   "streetNames": {
     "0": "Alley",
