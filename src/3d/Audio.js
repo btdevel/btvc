@@ -20,20 +20,27 @@ export const songMap = {
 }
 
 export const audioListener = new THREE.AudioListener();
+// audioListener.up = new THREE.Vector3(0, 0, 1)
 
-export default function Audio({ url, song = "", ambient = false, loop = true, volume = 0.2, x = 0, y = 0, dist = 1, rolloffFactor = 1, maxDistance = 10, distanceModel = "linear" }) {
+export default function Audio({ url, song = "", ambient = false, loop = true, volume = 0.2, x = 0, y = 0, dist = 1, rolloffFactor = 1, maxDistance = 10, distanceModel = "linear", cone = undefined }) {
     if (!url) url = songMap[song]
     const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener);
 
     audio.translateX(x)
     audio.translateY(y)
+    if (cone) {
+        const pi2 = Math.PI / 2
+        audio.setRotationFromEuler(new THREE.Euler(pi2, (2 + cone[0]) * pi2, 0), "XYZ")
+    }
+    audio.up = new THREE.Vector3(0, 0, 1)
+
     useEffect(() => {
         const loader = new THREE.AudioLoader();
         let isLoaded = false
         let isStopped = false
         loader.load(url,
             function (audioBuffer) {
-                if( isStopped ) return
+                if (isStopped) return
                 isLoaded = true
                 audio.setBuffer(audioBuffer);
                 audio.setLoop(loop)
@@ -43,6 +50,9 @@ export default function Audio({ url, song = "", ambient = false, loop = true, vo
                     audio.setMaxDistance(maxDistance)
                     audio.setDistanceModel(distanceModel)
                     audio.setRefDistance(dist);
+                    if (cone) {
+                        audio.setDirectionalCone(...cone.slice(1))
+                    }
                 }
                 audio.play();
             },
