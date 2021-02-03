@@ -59,7 +59,7 @@ const materialProps = {
   "S": [{ map: load(statueImg), alphaMap: load(statueAlpha), transparent: true }],
 }
 const materials = objectMap(materialProps,
-  propsArray => propsArray.map(props => new THREE.MeshStandardMaterial(props)))
+  propsArray => propsArray.map(props => new THREE.MeshStandardMaterial({side: THREE.DoubleSide, ...props})))
 
 
 const standardProps = {castShadow: true, receiveShadow: true}
@@ -136,8 +136,9 @@ export default function House({ x, y, type, dir, props }) {
   // console.log(dir);
   dir = 2 + '^<v>'.indexOf(dir)
   // console.log(dir);
+  const eps = 0.001
   return (
-    <group position={[x, y, 0]} rotation-order="ZXY" rotation-z={dir * pi2}>
+    <group position={[x, y, 0]} rotation-order="ZXY" rotation-z={dir * pi2} scale={[1-eps, 1-eps, 1]}>
       <Wall face={0} type={type} />
       <Wall face={1} type={type} />
       <Wall face={2} type={type} />
