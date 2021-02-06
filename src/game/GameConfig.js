@@ -47,7 +47,7 @@ function mergeRecursive(name, yaml, cache) {
   return object
 }
 
-async function loadYAML(file) {
+export async function loadYAML(file) {
   const response = await fetch(file)
   const body = await response.text()
 
@@ -75,6 +75,10 @@ function queryAsObject() {
   return params
 }
 
+export function dumpConfig(yaml) {
+  return YAML.safeDump(yaml)
+}
+
 export async function loadConfig(configFile) {
   const yaml = await loadYAML(configFile)
   const params = queryAsObject()
@@ -88,6 +92,6 @@ export async function loadConfig(configFile) {
   config.keyMap = yaml.keyMap
   config.commands = yaml.commands
 
-  console.log('Init config: \n', YAML.safeDump(config))
+  console.log('Init config: \n', dumpConfig(config))
   return config
 }

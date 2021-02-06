@@ -12,8 +12,8 @@ import { Direction } from './Movement'
 
 import { initVideo } from './Video'
 import configFile from '../game_config.yaml'
-// import programFile from '../programs.yaml'
-import { loadConfig } from './GameConfig'
+import programFile from '../programs.yaml'
+import { loadConfig, loadYAML, dumpConfig } from './GameConfig'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -72,6 +72,7 @@ class GameState {
     showMap: this.showMap,
     showMessage: this.showMessage,
     exec: this.exec,
+    program: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
     toggleFly: () => { this.flyMode = !this.flyMode },
@@ -88,6 +89,10 @@ class GameState {
     this.dir = config.dir
     this.keyMap = config.keyMap
     this.commands = config.commands
+
+    const programs = await loadYAML(programFile)
+    console.log("Programs: ", dumpConfig(programs))
+    this.programs = programs.programs
 
     this.setOrbitcontrols(config.orbitcontrols)
     await this.loadLevel(config.level)
@@ -254,6 +259,15 @@ class GameState {
     for (let command of commands) {
       execCommand(command, "exec()")
     }
+  }
+
+  execProgram(prog, ...args) {
+    console.log("Executing program: ", prog, " with args: ", ...args);
+    const program = this.programs[prog]
+    if (!program) {
+      console.warn("Unknown program: ", prog);
+    }
+    console.log(prog, ": ", dumpConfig(program));
   }
 
 }
