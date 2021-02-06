@@ -4,6 +4,7 @@ import { PerspectiveCamera } from 'drei'
 import { gameState } from '../game/GameLogic'
 import { useSpring, animated } from 'react-spring'
 import { audioListener } from './Audio'
+import * as THREE from 'three'
 
 export const springConfigMove = { mass: 3, tension: 400, friction: 12.0, clamp: true }
 export const springConfigSlide = { mass: 2, tension: 1400, friction: 150 }
@@ -38,9 +39,15 @@ export default function Camera() {
     gameState.jumped = false
   })
 
+  function interp(...args) {
+    // console.log(args);
+    const [x, y, z] = args
+    // console.log(x)
+    return [x, y, z]
+  }
   return (<AnimatedCamera
     makeDefault
-    position={position}
+    position={position.interpolate(interp)}
     rotation-x={rotationX}
     rotation-z={rotationZ}
     rotation-order='YZX'
@@ -50,7 +57,6 @@ export default function Camera() {
     far={550}
     on
   >
-    {/* <audioListener /> */}
     <primitive object={audioListener} />
   </AnimatedCamera>
 
