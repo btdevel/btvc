@@ -9,6 +9,7 @@ import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
 import { mod } from '../util/math'
 import { Direction } from './Movement'
+import imageMap from './Images'
 
 import { initVideo } from './Video'
 import configFile from '../game_config.yaml'
@@ -22,6 +23,7 @@ const useStore = create((set, get) => {
     modify: modify,
 
     overlayText: '',
+    overlayImage: '',
     gameText: '',
     fullscreen: false,
     orbitcontrols: false,
@@ -38,10 +40,12 @@ export const modifyStatInternal_ = modifyState
 export const useStoreInternal_ = useStore
 
 export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
+export const setOverlayImage = (url) => modifyState(state => { state.overlayImage = url })
 export const setGameText = (text) => modifyState(state => { state.gameText = text })
 
 export const useGameText = () => useStore(state => state.gameText)
 export const useOverlayText = () => useStore(state => state.overlayText)
+export const useOverlayImage = () => useStore(state => state.overlayImage)
 export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
 export const useLevel = () => useStore(state => state.level)
@@ -56,6 +60,7 @@ class GameState {
   dTheta = 0
   keyMap = {}
   commands = {}
+  program = []
 
   get level() { return useStore.getState().level }
   get map() { return useStore.getState().map }
@@ -75,8 +80,10 @@ class GameState {
     program: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
-    toggleFly: () => { this.flyMode = !this.flyMode },
     loadLevel: this.loadLevel,
+    nextLevel: () => {this.loadLevel(this.level + 1)},
+    prevLevel: () => {this.loadLevel(this.level - 1)},
+    toggleFly: () => { this.flyMode = !this.flyMode },
     doDebugStuff: startGUI
   }
 
