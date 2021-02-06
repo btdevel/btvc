@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 
 /* eslint-disable react-hooks/exhaustive-deps */
 export function useAsync(func, args) {
-  // [result, loading, error] = 
+  // [result, loading, error] =
+  if( args === undefined ) args = []
   const [state, setState] = useState([undefined, true, false])
   useEffect(() => {
     async function callFunc() {

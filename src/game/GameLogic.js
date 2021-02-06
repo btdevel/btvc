@@ -10,6 +10,11 @@ import DungeonMap from './DungeonMap'
 import { mod } from '../util/math'
 import { Direction } from './Movement'
 
+import { initVideo } from './Video'
+import configFile from '../game_config.yaml'
+// import programFile from '../programs.yaml'
+import { loadConfig } from './GameConfig'
+
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
 
@@ -74,7 +79,9 @@ class GameState {
     doDebugStuff: startGUI
   }
 
-  async init(config) {
+  async init() {
+    const config = await loadConfig(configFile)
+
     this.config = config
     this.position.x = config.position.x
     this.position.y = config.position.y
@@ -96,6 +103,10 @@ class GameState {
     for (const command of config.initCommands) {
       console.log(command);
       execCommand(command, "init()")
+    }
+
+    if (config.video.enable) {
+      initVideo(config)
     }
   }
 
@@ -248,4 +259,4 @@ class GameState {
 }
 
 export const gameState = new GameState()
-
+export const gameInit = () => gameState.init()
