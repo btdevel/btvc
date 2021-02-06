@@ -10,10 +10,19 @@
   ],
   "messages": [
     [[25, 18], "Turn around and go south..."],
-    [[1, 15], "The city gates are blocked by a huge snow drift."]
+    [[1, 15], "The city gates are blocked by a huge snow drift."],
+    [[22, 28], "Guild"],
+    [[21, 28], "Badhr Kilnfest"],
+    [[20, 28], "Falkentynes Fury"],
+    [[19, 28], "Lucklaran"],
+    [[18, 28], "Seekers Ballad"],
+    [[17, 28], "The Travellers Tune"],
+    [[16, 28], "Waylands Watch"]
   ],
   "actions": [
+    [[26, 15], ["program", "emptyHouse"]],
     [[28, 5], ["teleport", 0, 0, 0]],
+    [[28, 4], ["program", "scarletBard"]],
     [[18, 13], ["teleport", 4, 0, 0]],
     [[18, 14], ["teleport", 4, 0, 0]],
     [[18, 15], ["teleport", 4, 0, 0]],
@@ -25,7 +34,14 @@
   ],
   "audio": [
     [[24, 15], "guild", {"volume": 0.3, "dist": 1, "maxDistance": 5, "cone": [3, 180, 190, 0.0]}],
-    [[28, 5], "seekers_ballad", {"volume": 0.1, "dist": 1, "maxDistance": 5, "cone": [1, 180, 190, 0.0]}]
+    [[28, 5], "seekers_ballad", {"volume": 0.1, "dist": 1, "maxDistance": 5, "cone": [1, 180, 190, 0.0]}],
+    [[22, 28], "0", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[21, 28], "1", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[20, 28], "2", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[19, 28], "3", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[18, 28], "4", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[17, 28], "5", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
+    [[16, 28], "6", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}]
   ],
   "streetNames": {
     "0": "Alley",

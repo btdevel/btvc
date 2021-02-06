@@ -7,11 +7,11 @@ import PartyView from './PartyView'
 import PlayerView from './PlayerView'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
-import { useFullscreen, useOrbitcontrols, useOverlayText } from '../game/GameLogic'
+import { useFullscreen, useOrbitcontrols, useOverlayImage, useOverlayText } from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
 
-function ErrorComponent () {
+function ErrorComponent() {
   return <></>
 }
 
@@ -43,6 +43,14 @@ const PlayerViewBox = styled.div`
   top: 30px;
   cursor: crosshair;
 `
+const ImageOverlayBox = styled.div`
+  background-color: transparent;
+  width: 222px;
+  height: 176px;
+  position: absolute;
+  left: 34px;
+  top: 30px;
+`
 const TextOverlayBox = styled(PlayerViewBox)`
   background-color: transparent;
   font-family: arial;
@@ -66,7 +74,6 @@ const TextViewBox = styled.div`
   top: 30px;
 }}
 `
-
 const FullscreenTextViewBox = styled.div`
   // background-color: rgb(1,1,1,0.2);
   background-color: transparent;
@@ -78,8 +85,6 @@ const FullscreenTextViewBox = styled.div`
   top: 30px;
 }}
 `
-
-
 const PartyViewBox = styled.div`
   background-color: transparent;
   color: transparent;
@@ -90,20 +95,21 @@ const PartyViewBox = styled.div`
   top: 262px;
 }}
 `
-function Conditional ({ render, children, otherwise }) {
+function Conditional({ render, children, otherwise }) {
   if (render) {
     return children
   }
   return otherwise
 }
 
-function LoadScreen () {
+function LoadScreen() {
   return <div>Loading Skara Brae...</div>
 }
 
-export default function GameScreen () {
+export default function GameScreen() {
   const [loaded, setIsLoaded] = useState(false)
   const overlayText = useOverlayText()
+  const overlayImageUrl = useOverlayImage()
   const fullscreen = useFullscreen()
   const orbitcontrols = useOrbitcontrols()
 
@@ -128,7 +134,7 @@ export default function GameScreen () {
       <BackgroundImgBox>
         <img
           src={mainImg}
-          style={{ width: 640, height: 400 }}
+          style={{ width: 640, height: 400, imageRendering: "crisp-edges" }}
           alt='BT1 main screen'
           // style={loaded ? {} : { display: 'none' }}
           onLoad={() => setIsLoaded(true)}
@@ -142,6 +148,7 @@ export default function GameScreen () {
           </ErrorBoundary>
         </PlayerViewBox>
         <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
+        <ImageOverlayBox>{overlayImageUrl && <img src={overlayImageUrl} width="100%" height="100%" style={{imageRendering: "crisp-edges"}}/>}</ImageOverlayBox>
 
         <LocationViewBox id='locationview'>
           <LocationView />
