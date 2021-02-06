@@ -1,0 +1,44 @@
+programs:
+  madgodTemple:
+    - ["overlayImage", "inside/temple"]
+    - ["textQuestion", "... What wilt thou say?"]
+    - ["answerEquals", "TARJAN", ["subprogram", "madgodEnter"], ["subprogram", "madgodWrongAnswer"]]
+
+  madgodEnter:
+    - ["showMessage", "Speak not the name ..."]
+    - ["waitForKeyPress"]
+    - ["teleport", 4, 0, 0]
+
+  madgodWrongAnswer:
+    - ["showMessage", "... Infidel... "]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+
+  stairsDown:
+    - ["yesNoQuestion", "There are stairs going down here. Do you want to take them?"]
+    - ["answerEquals", "YES", ["stairsDown"], []]
+
+  # stairsUp, portalUp, portalDown
+
+  emptyHouse:
+    - ["overlayImage", "inside/empty"]
+    - ["location", "Empty House"]
+    - ["showMessage", "You are in an empty house."]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  stables:
+    - ["overlayImage", "inside/empty"]
+    - ["location", "Empty House"]
+    - ["showMessage", "You are in an empty house."]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  # stables:
+  # cityGate:
+
+  # enterCastle:
+  # enterKylearan:
+  # pub:
+  # scarletBard:
