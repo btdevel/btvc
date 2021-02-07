@@ -148,7 +148,7 @@ export default function GameScreen() {
           </ErrorBoundary>
         </PlayerViewBox>
         <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
-        <ImageOverlayBox>{overlayImageUrl && <img src={overlayImageUrl} width="100%" height="100%" style={{imageRendering: "crisp-edges"}}/>}</ImageOverlayBox>
+        <ImageOverlayBox>{overlayImageUrl && <img src={overlayImageUrl} width="100%" height="100%" alt="" style={{imageRendering: "crisp-edges"}}/>}</ImageOverlayBox>
 
         <LocationViewBox id='locationview'>
           <LocationView />

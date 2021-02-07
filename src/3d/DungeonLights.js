@@ -9,8 +9,16 @@ export const springConfigSlow = { mass: 2, tension: 1000, friction: 300.0 }
 // const AnimatedLight = animated(PointLight)
 
 function PointLight({ color = 0xffffff, position }) {
+  // const [intensity, distance, decay] = [2, 5, 2]
+  // const longDistance = [3, 7, 2]
+
+  // const longDistance = [3, 19, 1]
+  // const medDistance = [3, 4, 2]
+  const shortDistance = [5, 2, 2]
+  const [intensity, distance, decay] = shortDistance
   return <group>
-    <pointLight args={[color, 2, 3, 2]} position={position} />
+    {/* <pointLight args={[color, 2, 3, 2]} position={position} /> */}
+    <pointLight args={[color, intensity, distance, decay]} position={position} />
     {/* <pointLight args={[color, 2, 10, 6]} position={position}/> */}
   </group>
 }

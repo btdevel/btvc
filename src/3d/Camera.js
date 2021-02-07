@@ -4,7 +4,6 @@ import { PerspectiveCamera } from 'drei'
 import { gameState } from '../game/GameLogic'
 import { useSpring, animated } from 'react-spring'
 import { audioListener } from './Audio'
-import * as THREE from 'three'
 
 export const springConfigMove = { mass: 3, tension: 400, friction: 12.0, clamp: true }
 export const springConfigSlide = { mass: 2, tension: 1400, friction: 150 }

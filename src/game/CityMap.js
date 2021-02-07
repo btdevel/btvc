@@ -1,6 +1,5 @@
 import React from 'react'
 import Map, { create2dArray } from './Map'
-import { Direction } from './Movement'
 import cityMapJsonRaw from '../assets/levels/city.json'
 import { setGameText } from './GameLogic'
 import { mapTo, mod } from '../util/math'
@@ -28,23 +27,6 @@ export class CityMap extends Map {
 
   async loadRawMap() {
     return cityMapJsonRaw
-  }
-
-  transformMapBaseData() {
-    const map = this
-    // const [width, height] = map.dim;
-    // map.width = width
-    // map.height = height
-    // map.dim = undefined
-    // map.name = map.shortName
-
-    // map.cityExitPos = map.cityExitPosition
-    // map.cityExitPosition = undefined
-
-    // map.minLevel = map.levelTeleport[0][0]
-    // map.phaseDoor = map.phaseDoor // currently ignored
-    // map.wallStyle = map.wallStyle // currently ignored
-
   }
 
   transformSquares() {

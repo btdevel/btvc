@@ -1,7 +1,5 @@
 import { setGameText } from './GameLogic'
 import Map, { create2dArray } from './Map'
-import { Direction } from './Movement'
-import { mod } from '../util/math'
 
 export default class DungeonMap extends Map {
   width

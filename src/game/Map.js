@@ -86,12 +86,12 @@ export default class Map {
         throw new Error("loadRawMap Must be implemented in derived class")
     }
 
-    transformMap() {
-        throw new Error("transformMap Must be implemented in derived class")
+    transformMapBaseData() {
+        // Can be overwritte in derived class
     }
 
     transformSquares() {
-        throw new Error("transformSquares Must be implemented in derived class")
+        // Can be overwritte in derived class
     }
 
     addActions() {

@@ -1,6 +1,5 @@
 import React from 'react'
 import * as THREE from 'three'
-import { objectMap } from './util'
 
 import house1Img from '../assets/images/city/house1.png'
 import house1Alpha from '../assets/images/city/house1_alpha.png'
@@ -40,9 +39,6 @@ function load(img) {
   texture.minFilter = THREE.LinearFilter
   return texture
 }
-
-// 1: {map: load(house1Img), displacementMap: load(house1Bump), displacementScale: 0.0},
-// const dummyProps = { color: new THREE.Color("blue") }
 
 function makeMaterial({ map, alphaMap, transparent, emissiveMap, emissive, doubleSide }) {
   function internalMakeMaterial(map, alphaMap = undefined, transparent = !!alphaMap, emissiveMap = undefined, emissive = (emissiveMap && 0xFFFFFF), doubleSide = true) {
