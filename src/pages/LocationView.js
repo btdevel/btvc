@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { useMap } from '../game/GameLogic'
+import { useLocation } from '../game/GameLogic'
 
 const LocationViewBox = styled.div`
   box-sizing: border-box;
@@ -13,7 +13,6 @@ const LocationViewBox = styled.div`
 `
 
 export default function LocationView() {
-  const map = useMap()
-  const text = map?.name
+  const text = useLocation()
   return <LocationViewBox style={{textAlign: 'center'}}>{text}</LocationViewBox>
 }

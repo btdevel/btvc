@@ -28,7 +28,8 @@ const useStore = create((set, get) => {
     fullscreen: false,
     orbitcontrols: false,
     level: 'city',
-    map: null
+    map: null,
+    location: ''
   }
 })
 
@@ -41,11 +42,13 @@ export const useStoreInternal_ = useStore
 
 export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
 export const setOverlayImage = (url) => modifyState(state => { state.overlayImage = url })
+export const setLocation = (text) => modifyState(state => { state.location = text })
 export const setGameText = (text) => modifyState(state => { state.gameText = text })
 
-export const useGameText = () => useStore(state => state.gameText)
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useOverlayImage = () => useStore(state => state.overlayImage)
+export const useLocation = () => useStore(state => state.location)
+export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
 export const useLevel = () => useStore(state => state.level)
@@ -76,6 +79,7 @@ class GameState {
     showInfo: this.showInfo,
     showMap: this.showMap,
     showMessage: this.showMessage,
+    location: setLocation,
     exec: this.exec,
     program: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
@@ -134,6 +138,7 @@ class GameState {
     modifyState(draft => {
       draft.level = level
       draft.map = map
+      draft.location = map.name
     })
   }
 
