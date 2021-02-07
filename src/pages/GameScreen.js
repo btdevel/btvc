@@ -106,10 +106,20 @@ function LoadScreen() {
   return <div>Loading Skara Brae...</div>
 }
 
+
+function OverlayTextView() {
+  const overlayText = useOverlayText()
+  return <>{overlayText}</>
+}
+
+function OverlayImageView() {
+  const overlayImageUrl = useOverlayImage()
+  if (overlayImageUrl) return <img src={overlayImageUrl} width="100%" height="100%" alt="" style={{ imageRendering: "crisp-edges" }} />
+  return <></>
+}
+
 export default function GameScreen() {
   const [loaded, setIsLoaded] = useState(false)
-  const overlayText = useOverlayText()
-  const overlayImageUrl = useOverlayImage()
   const fullscreen = useFullscreen()
   const orbitcontrols = useOrbitcontrols()
 
@@ -147,8 +157,8 @@ export default function GameScreen() {
             <PlayerView orbitControls={orbitcontrols} />
           </ErrorBoundary>
         </PlayerViewBox>
-        <TextOverlayBox id='3doverlay'>{overlayText}</TextOverlayBox>
-        <ImageOverlayBox>{overlayImageUrl && <img src={overlayImageUrl} width="100%" height="100%" alt="" style={{imageRendering: "crisp-edges"}}/>}</ImageOverlayBox>
+        <TextOverlayBox id='3doverlay'><OverlayTextView /></TextOverlayBox>
+        <ImageOverlayBox><OverlayImageView /></ImageOverlayBox>
 
         <LocationViewBox id='locationview'>
           <LocationView />
