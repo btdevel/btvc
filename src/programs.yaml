@@ -1,4 +1,24 @@
 programs:
+  emptyHouse:
+    - ["overlayImage", "inside/empty"]
+    - ["location", "Empty House"]
+    - ["showMessage", "You are in an empty house."]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  stables:
+    - ["overlayImage", "inside/empty"]
+    - ["location", "Empty House"]
+    - ["showMessage", "You are in an empty house."]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  scarletBard:
+    - ["overlayImage", "inside/pub"]
+    - ["location", "Scarlet Bard"]
+    - ["showMessage", "Hail, travelers! Step to the bar and I'll draw you a tankard.\nYou can:\nOrder a drink\nTalk to barkeep"]
+    - ["teleport", 0, 0, 0]
+
   madgodTemple:
     - ["overlayImage", "inside/temple"]
     - ["textQuestion", "... What wilt thou say?"]
@@ -21,19 +41,6 @@ programs:
 
   # stairsUp, portalUp, portalDown
 
-  emptyHouse:
-    - ["overlayImage", "inside/empty"]
-    - ["location", "Empty House"]
-    - ["showMessage", "You are in an empty house."]
-    - ["waitForKeyPress", "(EXIT)"]
-    - ["returnToCity"]
-
-  stables:
-    - ["overlayImage", "inside/empty"]
-    - ["location", "Empty House"]
-    - ["showMessage", "You are in an empty house."]
-    - ["waitForKeyPress", "(EXIT)"]
-    - ["returnToCity"]
 
   # stables:
   # cityGate:
@@ -41,4 +48,3 @@ programs:
   # enterCastle:
   # enterKylearan:
   # pub:
-  # scarletBard:

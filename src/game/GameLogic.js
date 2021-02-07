@@ -64,6 +64,7 @@ class GameState {
   keyMap = {}
   commands = {}
   program = []
+  programRunning = false
 
   get level() { return useStore.getState().level }
   get map() { return useStore.getState().map }
@@ -79,14 +80,15 @@ class GameState {
     showInfo: this.showInfo,
     showMap: this.showMap,
     showMessage: this.showMessage,
+    overlayImage: (name) => setOverlayImage(imageMap[name]),
     location: setLocation,
     exec: this.exec,
     program: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
-    nextLevel: () => {this.loadLevel(this.level + 1)},
-    prevLevel: () => {this.loadLevel(this.level - 1)},
+    nextLevel: () => { this.loadLevel(this.level + 1) },
+    prevLevel: () => { this.loadLevel(this.level - 1) },
     toggleFly: () => { this.flyMode = !this.flyMode },
     doDebugStuff: startGUI
   }
@@ -123,6 +125,24 @@ class GameState {
 
     if (config.video.enable) {
       initVideo(config)
+    }
+
+    setInterval(() => this.tic(), 200)
+  }
+
+  tic() {
+    // console.log("Tic...");
+    if (this.programRunning) {
+      if (this.program.length) {
+        const command = this.program.shift()
+        console.log("Executing: ", command);
+        execCommand(command)
+      } else {
+        setLocation(this.map.name)
+        setOverlayImage(null)
+        setGameText()
+        this.programRunning = false
+      }
     }
   }
 
@@ -278,8 +298,11 @@ class GameState {
     const program = this.programs[prog]
     if (!program) {
       console.warn("Unknown program: ", prog);
+      return
     }
     console.log(prog, ": ", dumpConfig(program));
+    this.program = [...program]
+    this.programRunning = true
   }
 
 }
