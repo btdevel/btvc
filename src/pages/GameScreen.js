@@ -121,14 +121,13 @@ function OverlayImageView() {
 export default function GameScreen() {
   const [loaded, setIsLoaded] = useState(false)
   const fullscreen = useFullscreen()
-  const orbitcontrols = useOrbitcontrols()
 
   if (fullscreen) {
     return (
       <GamescreenBox id='gamescreen'>
         <Fonts />
         <FullscreenBox>
-          <PlayerView orbitControls={orbitcontrols} />
+          <PlayerView />
         </FullscreenBox>
         <FullscreenTextViewBox id='textview'>
           <TextView />
@@ -154,7 +153,7 @@ export default function GameScreen() {
       <Conditional render={loaded} otherwise={<LoadScreen />}>
         <PlayerViewBox id='3dview'>
           <ErrorBoundary FallbackComponent={ErrorComponent}>
-            <PlayerView orbitControls={orbitcontrols} />
+            <PlayerView />
           </ErrorBoundary>
         </PlayerViewBox>
         <TextOverlayBox id='3doverlay'><OverlayTextView /></TextOverlayBox>

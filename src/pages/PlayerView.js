@@ -1,11 +1,14 @@
 import React from 'react'
 import { Canvas } from 'react-three-fiber'
 import { OrbitControls } from 'drei'
+import GameControls from './GameControls'
 import Scene from '../3d/Scene'
 import * as THREE from 'three'
-import GameControls from './GameControls'
+import { useOrbitcontrols } from '../game/GameLogic'
 
-function PlayerView({ orbitControls }) {
+function PlayerView() {
+  const orbitControls = useOrbitcontrols()
+
   return (
     <Canvas
       shadowMap={{
