@@ -1,0 +1,1177 @@
+Race:
+Class: 
+Lvl:
+ SpPt:
+Exper:
+Gold:
+   (POOL GOLD)
+   (TRADE GOLD)
+Trade gold to who?
+How much will you give to him?
+Conj:
+ Sorc:
+Magi:
+ Wizd:
+ do you wish to:
+Trade the item
+Drop the item
+quip the item
+
+Human
+Dwarf
+Hobbit
+Half-Elf
+Half-Orc
+Gnome
+
+St:
+IQ:
+Dx: 
+Cn:
+Lk: 
+HP:
+
+Who does
+ want to give the 
+ to?
+ has no room for that item!
+
+Who do you wish to cast the spell?
+Sorry, 
+ is in no condition to cast a spell.
+You can only cast that in combat.
+Spell to cast:
+He has no magic powers!!
+What type of spell:
+Conjurer
+Magician
+Sorcerer
+Wizard
+
+Move who?
+To where?
+
+Play tune #
+1)Falkens Fury
+2)Seekers Ballad
+3)Waylands Watch
+4)Badhr Kilnfest
+5)Traveller tune
+6)Lucklaran
+
+Who wishes to use an item?
+Thou art not a spell caster!
+Who will play?
+He can't sing.
+He has no instrument to play.
+ plays a tune
++1 to 
+
+LO 9876 1234 1234 Pa BRIAN THE FIST
+LO 9999` EL CID
+-9   96 MARKUS
+-3   83 SIR GRADY
+2   64 MERLIN
+-1   96 OMAR
+0   62
+
+     (EXIT)    
+     (DONE)    
+   (CONTINUE)
+    (CANCEL) 
+Not enough gold.
+
+Torch
+Lamp
+Broadsword
+Short Sword
+Dagger
+War Axe
+Halbard
+Mace
+Staff
+Buckler
+Tower Shield
+Leather Armor
+Chain Mail
+Scale Armor
+Plate Armor
+Robes
+Helm
+Leather Glvs.
+Gauntlets
+Mandolin
+Harp
+Flute
+Mthr Sword
+Mthr Shield
+Mthr Chain
+Mthr Scale
+Samurai Fgn
+Bracers [6]
+Bardsword
+Fire Horn
+Lightwand
+Mthr Dagger
+Mthr Helm
+Mthr Gloves
+Mthr Axe
+Mthr Mace
+Mthr Plate
+Ogre Fgn
+Lak's Lyre
+Shield Ring
+Dork Ring
+Fin's Flute
+Kael's Axe
+Blood Axe
+Dayblade
+Shield Staff
+Elf Cloak
+Hawkblade
+Admt Sword
+Admt Shield
+Admt Dagger
+Admt Helm
+Admt Gloves
+Admt Mace
+Broom
+Pureblade
+Exorwand
+Ali's Carpet
+Magic Mouth
+Luckshield
+Giant Fgn
+Admt Chain
+Admt Scale
+Admt Plate
+Bracers [4]
+Arcshield
+Pure Shield
+Mage Staff
+War Staff
+Thief Dagger
+Soul Mace
+Wither Staff
+Sorcerstaff
+Sword of Pak
+Heal Harp
+Galt's Flute
+Frost Horn
+Dmnd Sword
+Dmnd Shield
+Dmnd Dagger
+Dmnd Helm
+Golem Fgn
+Titan Fgn
+Conjurstaff
+Arc's Hammer
+Staff of Lor
+Powerstaff
+Mournblade
+Dragonshield
+Dmnd Plate
+Wargloves
+Lorehelm
+Dragonwand
+Kiels Compass
+Speedboots
+Flame Horn
+Truthdrum
+Spiritdrum
+Pipes of Pan
+Ring of Power
+Deathring
+Ybarrashield
+Spectre Mace
+Dag Stone
+Arc's Eye
+Ogrewand
+Spirithelm
+Dragon Fgn
+Mage Fgn
+Troll Ring
+Troll Staff
+Onyx Key
+Crystal Sword
+Stoneblade
+Travelhelm
+Death Dagger
+Mongo Fgn
+Lich Fgn
+Master Key
+WizWand
+Silvr Square
+Silvr Circle
+Silvr Triang
+Thor Fgn
+Old Man Fgn
+Spectre Snare
+
+Item
+Weapon
+Shield
+Armor
+Helm
+Gloves
+Instrument
+Figurine
+Ring
+Wand
+Misc. Item
+
+Warrior
+Paladin
+Rogue
+Bard
+Hunter
+Monk
+Conjurer
+Magician
+Sorcerer
+Wizard
+
+ swings at 
+ slashes at 
+ kicks at 
+ punches at 
+ claws at 
+ tears at 
+ bites at 
+ gnaws on 
+ stabs at 
+ slices at 
+ slams 
+ strikes at 
+ gropes at 
+ reaches toward 
+ peers at 
+ stares at
+
+, killing 
+ and poisons 
+ and drains a level from 
+ and inflicts insanity on 
+ and withers 
+ and possesses 
+ and stones 
+ and critically hits
+
+Before you, you see 
+The sudden scream of battle brings your party to a halt. You face 
+The denizens of this mystic place assault you without warning. You see 
+You face death itself in the form of
+
+ and fries it for 
+ and froze it for 
+ and shocks it for 
+ and drains it for 
+ and burns it for 
+ and chokes it for 
+ and steams it for 
+ and fries him for 
+ and froze him for 
+ and shocks him for 
+ and drains him for 
+ and burns him for 
+ and chokes him for 
+ and steams him for
+
+is fried for 
+is frozen for 
+is shocked for 
+is drained for 
+is burnt for 
+is choked for 
+is steamed for
+
+north
+east
+south
+west
+
+strength.
+I.Q.
+dexterity.
+constitution.
+luck.
+
+MIND JAB
+PHASE BLUR
+LOCATE TRAPS
+HYPNOTIC IMAGE
+DISBELIEVE
+TARGET-DUMMY
+MIND FIST
+WORD OF FEAR
+WIND WOLF
+VANISHING SPELL
+SECOND SIGHT
+CURSE
+CAT EYES
+WIND WARRIOR
+INVISIBILITY
+WIND OGRE
+DISRUPT ILL.
+MIND BLADE
+WIND DRAGON
+MIND WARP
+WINDGIANT
+SORCERER SIGHT
+MAGE FLAME
+ARC FIRE
+SORCERER SHIELD
+TRAP ZAP
+FREEZE FOES
+MAGIC COMPASS
+BATTLESKILL
+WORD OF HEALING
+MAGESTAR
+LESSER REV.
+LEVITATION
+WARSTRIKE
+INSTANT WOLF
+FLESH RESTORE
+POISON STRIKE
+GREATER REV.
+WRATH OF VAL.
+SHOCK-SPHERE
+INSTANT OGRE
+MAJOR LEV.
+FLESH ANEW
+APPORT ARCANE
+VORPAL PLATING
+AIR ARMOR
+STEELIGHT SPELL
+SCRY SITE
+HOLY WATER
+WITHER STRIKE
+MAGE GAUNTLETS
+AREA ENCHANT
+MYSTIC SHIELD
+OGRESTRENGTH
+MITHRIL MIGHT
+STARFLARE
+SPECTRE TOUCH
+DRAGON BREATH
+STONELIGHT
+ANTI-MAGIC
+ANIMATED SWORD
+STONE TOUCH
+PHASE DOOR
+MYSTICAL ARMOR
+RESTORATION
+DEATHSTRIKE
+SUMMON DEAD
+REPEL DEAD
+LESSER SUMMON
+DEMON BANE
+SUMMON PHANTOM
+DISPOSSESS
+PRIME SUMMONING
+ANIMATE DEAD
+SPELL BIND
+DEMON STRIKE
+SPELL SPIRIT
+BEYOND DEATH
+GREATER SUMMON
+
+  level^^s^
+ and the party misses an attack
+Dummy
+Joe the Sword   
+Thor(
+MAFLARFISOSHTRZP
+FRFOMACOBASKWOHL
+MASTLERELEVIWAST
+INWOFLREPOST
+GRREWROVSHSP
+INOGMALE
+FLANAPAR
+MIJAPHBLLOTRHYIM
+DISBTADUMIFIFEAR
+WIWOVANISESICURS
+CAEYWIWAINVI
+WIOGDIILMIBL
+WIDRMIWP
+WIGISOSI
+VOPLAIARSTLISCSI
+HOWAWISTMAGAAREN
+MYSHOGSTMIMISTFL
+SPTODRBRSTSI
+ANMAANSWSTTO
+PHDOYMCA
+RESTDEST
+SUDEREDE
+LESUDEBA
+SUPHDISP
+PRSUANDE
+SPBIDMST
+SPSPBEDE
+GRSU
+
+ at 
+ but it fizzles!
+ but it had no effect!
+ casts a spell
+ does not require 
+ experience points 
+ has found a
+ in gold. Who will pay?
+ lost his voice!
+ makes a light
+ point^^s^ of damage
+, but misses!
+Attack:
+him!
+No spell by that name.
+Pausing ! !
+Use on:
+
+"Wrong!"
+You don't know this spell
+Not enough spell points.
+You can't use that.
+Your pockets are full.
+There is already a person by that name on the disk.
+Use item #(1-8)
+
+Kobold^^s^
+Hobbit^^s^
+Gnome^^s^
+Dwar^f^ves^
+Thie^f^ves^
+Hobgoblin^^s^
+Conjurer^^s^
+Magician^^s^
+Orc^^s^
+Skeleton^^s^
+Nomad^^s^
+Spider^^s^
+Mad Dog^^s^
+Barbarian^^s^
+Mercenar^y^ies^
+Wol^f^ves^
+Jade Monk^^s^
+Half Orc^^s^
+Swordsm^an^en^
+Zombie^^s^
+Conjurer^^s^
+Magician^^s^
+Sorcerer^^s^
+Wizard^^s^
+Samurai
+Black Widow^^s^
+Assassin^^s^
+Werewol^f^ves^
+Ogre^^s^
+Wight^^s^
+Statue^^s^
+Bladesm^an^en^
+Goblin Lord^^s^
+Master Thie^f^ves^
+Conjurer^^s^
+Magician^^s^
+Sorcerer^^s^
+Wizard^^s^
+Ninja^^s^
+Spinner^^s^
+Scarlet Monk^^s^
+Doppleganger^^s^
+Stone Giant^^s^
+Ogre Magician^^s^
+Jackalwere^^s^
+Stone Elemental^^s^
+Blue Dragon^^s^
+Seeker^^s^
+Dwarf King^^s^
+Samurai Lord^^s^
+Ghoul^^s^
+Conjurer^^s^
+Magician^^s^
+Sorcerer^^s^
+Wizard^^s^
+Azure Monk^^s^
+Weretiger^^s^
+Hydra^^s^
+Green Dragon^^s^
+Wraith^^s^
+Lurker^^s^
+Fire Giant^^s^
+Copper Dragon^^s^
+Ivory Monk^^s^
+Shadow^^s^
+Berserker^^s^
+Conjurer^^s^
+Magician^^s^
+Sorcerer^^s^
+Wizard^^s^
+White Dragon^^s^
+Ice Giant^^s^
+Eye Sp^y^ies^
+Ogre Lord^^s^
+Body Snatcher^^s^
+Xorn^^s^
+Phantom^^s^
+Lesser Demon^^s^
+Fred^^s^
+Conjurer^^s^
+Magician^^s^
+Sorcerer^^s^
+Wizard^^s^
+Master Ninja^^s^
+War Giant^^s^
+Warrior Elite^^s^
+Bone Crusher^^s^
+Ghost^^s^
+Grey Dragon^^s^
+Basilisk^^s^
+Evil Eye^^s^
+Mimic^^s^
+Golem^^s^
+Vampire^^s^
+Demon^^s^
+Bandersnatch^^es^
+Maze Dweller^^s^
+Mongo^^s^
+Mangar Guard^^s^
+Gimp^^s^
+Red Dragon^^s^
+Titan^^s^
+Master Conjurer^^s^
+Master Magician^^s^
+Master Sorcerer^^s^
+Mind Shadow^^s^
+Spectre^^s^
+Cloud Giant^^s^
+Beholder^^s^
+Vampire Lord^^s^
+Greater Demon^^s^
+Master Wizard^^s^
+Mad God^^s^
+Maze Master^^s^
+Death Denizen^^s^
+Jabberwock^^s^
+Black Dragon^^s^
+Mangar
+Crystal Golem^^s^
+Soul Sucker^^s^
+Storm Giant^^s^
+Ancient Enem^y^ies^
+Balrog^^s^
+Lich^^es^
+Archmage^^s^
+Demon Lord^^s^
+Old M^an^en^
+
+DEAD
+STON
+POIS
+NUTS
+POSS
+OLD
+PARA
+
+<Faster...>
+<Slower...>
+
+Error trying to open file '
+Error reading file '
+Error reading file '
+Error on creating file '
+Please insert the
+ disk in drive '
+ disk in a drive
+ and hit any key when ready.
+Disk error trying to
+write
+read
+ the disk.
+ Retry
+ Ignore
+PARTY
+The party disbelieves!
+ breathes
+
+You face 
+, and are 
+ below,
+ above,
+ square^^s^ north
+ square^^s^ east of the entry stairs.
+ and are in Skara Brae.
+
+Sorry, bud
+Alas, your party has expired, but has gone to adventurer heaven.
+
+ at the party...
+some 
+repelled the spell!
+ killing 
+DOPPLEGANGER    and a 
+ appears!
+  North
+  East
+  Up
+Done
+Cancel
+     
+, and hits for 
+[a] 
+A Doppleganger jumps into your party!
+hostile party members!
+, and 
+Your foes see through your illusion!
+Do you wish to continue?
+You still face 
+ chops at 
+ swings at 
+, and hits 
+ times 
+for 
+The 
+ advance^s^^!
+ has no instrument to play.
+ plays a tune...
+Treasure!
+Each character receives 
+for valor and battle knowledge, and 
+ pieces of gold.
+ found a
+
+There is dissention in your ranks...
+Will your stalwart band choose to
+Fight or
+Run?
+
+has these options this battle round:
+Party attack
+Attack foes
+Defend
+Cast a spell
+Use an item
+Hide in shadows
+Bard song
+Select an option.
+
+Not a combat spell.
+Use these attack commands?
+Member #[1-
+
+Thou art in the Guild of Adventurers.
+Add member
+Remove member
+Create a member
+Delete a member
+Save party
+Leave game
+Enter the city
+Sorry, the roster is full.
+What party!
+Name to save party under?
+That name is already in use.
+Do you still want to use it?
+Leave the game?
+You must have a party to enter the city.
+
+The guild
+The guild
+No room to add new members.
+Error trying to read in 
+What party!
+Pick the party member to save to disk and remove from the party.
+Sorry, the roster is full.
+Select a race for your new character:
+    (REROLL)
+Enter the new member's name.
+You can't delete a member in your party from the disk.
+This will permanently remove 
+ from the disk! Do you wish to do this?
+File not found.
+error trying to save member in slot 
+. name not found in name table!
+Error on write.
+That member is already in the party.
+error on party write.
+Error on creating party file.
+Error on read.
+Error trying to find 
+Sorry, I got a disk error trying to read him in.
+*.TPW
+
+
+Alley
+Rakhir
+Blacksmith
+Main
+Trumpet
+Gray Knife
+Stonework
+Emerald
+Hawk Scabard
+Bard Blazon
+Tempest
+Fargoer
+a Blue Highway
+Night Archer
+Serpentskin
+Corbomite
+Sinister
+Marksman
+Dilvish
+Death Archer
+
+"What street lies between Night Archer and Emerald?"
+"What is the name of the central square?"
+"Name the street that faces north into Kylearan's Tower?"
+"Identify the street that snakes through the city just north of the central square?"
+"What street cuts into Blue Highway west of Stonework?"
+TEMPEST
+GRAN PLAZ
+HAWK SCABBARD
+SERPENT
+GREY KNIFE
+
+north.
+east.
+south.
+west.
+
+the statue of a Samurai warrior
+the statue of a Stone giant
+the statue of an Ogre Lord
+a stone Golem
+the statue of a Grey Dragon
+
+midnight.
+after midnight.
+early morning.
+mid-morning.
+noon.
+afternoon.
+dusk.
+evening.
+
+Skara Brae
+Skara Brae
+You are on 
+ facing 
+You're in the Grand Plaz.
+It's now 
+Skara Brae
+
+Empty building
+Sorry, friends, all the horses have been eaten by creatures!
+You're in an empty building.
+
+City Gate
+I don't know. code == 
+You stand before the city gates, which are blocked by a gigantic snow drift.
+
+"The guardians can be deadly," the barkeep smirks.
+"A taste of wine might turn to ready adventure," the barkeep chuckles.
+"Look for the Review Board on Trumpet Street," the barkeep whispers.
+"The gates cannot be scaled, but an entrance always exists," the barkeep stutters.
+"The Stone Golem has been spoken of twofold," the barkeep smiles.
+"The Spectre Snare can draw in even the mightiest," the barkeep grumbles.
+Hail, travelers! Step to the bar and I'll draw you a tankard.
+You can:
+Order a drink
+Talk to barkeep
+Who will drink?
+Seat thyself, 
+. We've got...
+Beer
+Mead
+Foul spirits
+Ginger Ale
+Wine
+What'll it be?
+You don't feel too well.
+The girls in the tavern are not impressed.
+The barkeep says, "Go down to the cellar and pick out a bottle."
+Not bad!!
+Who will talk to the barkeep?
+"Talk ain't cheap," the barkeep says.
+How much will you tip him?
+"Money talks, buddy," he says.
+Scarlet Bard
+Sinister Inn
+Dragonbreath
+Ask Y'Mother
+Archmage Inn
+Skull Tavern
+Drawnblade
+Tavern
+
+The shoppe is closed at night.
+The Shoppe
+Welcome to Garth's Equipment Shoppe, oh wealthy travellers!
+Which of you is interested in my fine wares?
+Greetings, 
+. Would you like to:
+Buy an item.
+Sell an item.
+Identify item.
+Pool gold.
+Done.
+You have:
+ gold.
+The Shoppe
+You have no items.
+Which item:
+That item is known already.
+Done!>
+
+Guardian
+You stand before a gate, which is guarded by 
+. You can:
+Attack it.
+Leave it.
+
+Iron Gate
+You stand before an iron gate, beyond which stands
+Mangar's
+Kylearan's
+ tower.
+
+Welcome, oh weary ones, to our humble temple. Who needeth healing?
+ is in bad shape, indeed. It will cost 
+The priests lay hands on him...
+...and he is healed!
+ has been drained of life force. It will cost 
+ has wounds which need tending. It will cost 
+any healing.
+1OO Blessings
+Great gods
+Greater gods
+Thief Temple
+Tmpl of Kiosk
+Greatest gods
+
+Mad God
+TARJAN
+This is the temple of the Mad God. What is thy business, unbeliever?
+Speak to priest
+Only those who know the name of the Mad One are welcome.
+What wilt thou say?
+"Quit thy babbling," the priest says.
+"Speak not the name of the High One so loudly, lest he awaken," the priest says. "Enter the catacombs, believer."
+
+Review board
+The review Board is closed for the evening. The guild 
+leaders will meet with you in the morning.
+Wouldst thou like to be reviewed for:
+Advancement
+Spell Acquiring
+Class Change
+Who seeks knowledge of the mystic arts?
+Thou art at the highest level of spell ability!
+Thou cannot acquire new spells yet.
+ spell level 
+ will cost thee 
+ in gold. 
+The spell Sages refuse to teach you until you can pay!
+Will you pay?
+The Spell Sages have taught you the lore.
+Which mage seeks to change his class?
+Thou must know at least 3 spell levels in your present art first.
+Conjurer
+Magician
+Sorcerer
+Wizard
+Thou cannot change to an old class!
+Done!
+The Guild leaders prepare to weigh thy merits.
+Who shall be reviewed?
+The head of the review board speaks, "Before we allow you to advance, you must demonstrate your knowledge of Skara Brae."
+"You had best study your maps more."
+"Well done!"
+The guild leaders deem that 
+ still needth 
+prior to advancement...
+ hath earned a level of advancement...
+
+Roscoe's
+Welcome, my friends, to Roscoe's Energy Emporium. Who needeth spell points restored?
+restoration.
+ has some definite spell point problems. It will cost 
+Roscoe re-energizes him.
+
+Amber Tower
+This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up 
+to a lofty level of chambers. You can:
+Take stairs
+
+Portal...
+There is an entrance to the city sewers here. Do you wish to take it?
+
+Castle
+This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign 
+threatens trespassers with death. You can:
+Take stairs up
+
+Magic mouth
+A magic mouth on the wall speaks to you: "Despised 
+ones, none save Mangar may enter his demesne."
+
+The Tower
+This is the entry chamber to Mangar's Tower. A stairwell leads up to the 
+first level of traps and terrors. You can:
+Take stairs
+
+THE BARD'S TALE IBM was from an original design by Michael Cranford.
+It was created at Interplay Productions, in Newport Beach, California.
+Interplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:
+Todd Camasta
+(Artwork)
+Troy P. Worrell
+(Programming)
+Dave Warhol
+Aarn Abbey
+(Music)
+Brian Fargo
+(Dungeons)
+Joe Ybarra
+(Producer)
+Bard's Tale
+
+Ouch!!
+
+A wandering creature offers to join your party. You can:
+Allow it to join
+Fight it
+
+There are stairs near.
+There is a trap near.
+There is something special near.
+Darkness!
+Smoke in your eyes!
+There are stairs here, going 
+down
+. Do you wish to take them?
+
+POISON NEEDLE
+BLADES
+DARTS
+GAS CLOUD
+SHOCKER
+CRAZYCLOUD
+MINDTRAP
+
+Chest
+There is a chest here. Will you:
+Examine it
+Open chest
+Disarm it
+Trap Zap
+Leave chest
+Who will cast it?
+Who will examine it?
+It looks like a 
+You found nothing.
+He already checked.
+Who will disarm it?
+Enter trap name:
+Disarm failed!
+You disarmed it!
+Who will open it?
+You set off a 
+pit!
+spiked pit!
+timed Warstrike spell!
+poison gas cloud!
+tripwire, which caused poison darts to shoot!
+tripwire, which caused a stone block to fall!
+tripwire, which caused several crossbows to fire at you!
+Basilisk snare!
+WITH
+PASSION
+FOREVER
+DAMNED
+
+There are stairs here, which seem to go a long way up. Do you wish to take them?
+
+Spidergod
+There is a statue of a large spider here. you can
+Search it
+That was not a wise move!
+
+Mouth...
+
+Bashar Kavilor
+I think you're in trouble.
+
+Witch King
+n eye.
+Throne
+
+The sound of grating stone is heard.
+Ouch! That hurt!
+Guard Captain
+Robed Men
+You found some robes.
+ Crystal sword.
+
+Old man
+"What say thee?"
+VAMPIRE
+"Pass at your leisure," the Master Sorcerer says.
+"Wrong," he says.
+ silver square.
+Mouth...
+SHIELDS
+ found a shield.
+Old statue
+It appears harmless.
+An old man
+Will you:
+Answer question
+Fight him
+"Speak up, youngster!"
+SKULL
+SKULL TAVERN
+"Pass, oh learned ones," he says.
+"Wrong," the old man says.
+Mouth...
+STONE GOLEM
+Mouth...
+SINISTER
+"Right..."
+ silver triangle.
+Golem!
+Kylearan
+ got a key.
+Mouth...
+Perseverence in all things."
+Mouth...
+CIRCLE
+ silver circle.
+Keymaster
+"What say thee?"
+Buy item
+Fight him
+Who will pay?
+ got a key.
+Mouth...
+"Well done, oh faithful one."
+Mouth...
+THOR
+ figurine.
+Mouth...
+SPECTRE SNARE
+ found something.
+
+There is a pool of boiling liquid here. Will you:
+Dive in
+Mouth...
+Mangar!
+Kylearan
+
+_A magic mouth on the wall speaks to you, saying this:
+
+A light beam from the surface is mirrored down here and focused to a burning ray, blocking the corridor. Do you wish to:
+Try crossing
+You try but are unable to pass through burning ray of light!
+
+A magic mouth on the wall speaks: Know this, that a man called Tarjan, thought to many to be insane, had through wizardly powers
+...proclaimed himself a god in Skara Brae a hundred years ago. His image is locked in stone until made whole again...
+
+You have entered the living chambers of Bashar Kavilor, the High Priest.
+He screams, "Infidel! Face now the wrath of a servant of the Mad One!"
+
+This is the High Priest's treasure chamber. His pet dragon, Sphynx, peers at you hungrily. "Sphynx eat now," it growls.
+
+Before you lies the ancient burial chamber of King Aildrek, now a creature
+of darkness. "Now, mortal man, I will drink of your souls," he hisses.
+
+You are at the Baron's throne. Who wishes to sit on it?
+
+You see the Captain of the Guard standing before you.
+"Die, scum!" he screams as he runs insanely toward you.
+
+Before you stand six warriors, dressed in bright green robes. "Intruders!"
+ They scream battle cries as they run toward you with drawn swords.
+
+A wizened man appears before you, saying, "Answer this riddle to pass:"
+"Once man alive
+Now living death
+It drinketh blood
+N' stealeth breath."
+Will you:
+Answer riddle
+Fight him
+
+A magic mouth on the wall speaks to you, saying this riddle:
+Past warscapes fought by men long dead, and treasures lost on bloodied fields, 
+the One God lifts his thorn-crowned head, and lays a strength on friendly..
+
+An old statue of a fifteen foot tall warrior stands before you. Will you:
+Approach it
+
+An old man stands before you saying, "Answer this question to pass:
+What tavern lies off Night Archer street?"
+
+Name the one of cold, foretold twofold:"
+
+Name the endless byway and your path shall be guaranteed:"
+
+A crystal statue comes to life before you, ready to attack! Will you:
+Fight it
+Something is happening to the golem's shattered body...
+
+Greetings! I am Kylearan, oh perseverent ones, the good wizard of Skara Brae. Put away your weapons, for I am your ally, not an enemy.
+You have passed my tests, and can now continue on to your true quest, the source of evil in Skara Brae -- Mangar the Dark, my nemesis.
+Mangar's tower, at the opposite corner of Skara Brae, is a five level deathtrap, which can only be entered by use of an onyx key.
+Good luck, and remember, seeing is not always believing.
+Kylearan vanishes.
+
+Two shapes yours,
+  one's around;
+ Speak the shape
+  and final found"
+
+An old man is here, and says to you:
+"I am the Keymaster. I have something to sell you for the low price of 50000 gold pieces."
+
+The man speaks briefly and 6 friends appear. "Most unfriendly," he says. His friends look very angry.
+
+Speak the seven of the One God, in Sequence, and seek the lost stairs:"
+
+There is a large black coffin in this tomb. Do you wish to:
+Open it
+A Vampire Lord rises from the coffin. He seems rather disturbed.
+
+Your music caused two sleeping dragons to continue slumbering.
+Two sleeping dragons awaken at your passage. "Hmm, humans for dinner again,
+ Gor," says the small one. "Why don't we get any pork up here?"
+
+Name the greatest son of Odin and win his aid."
+
+On the wall to the north are etched 3 geometric shapes: a square, a circle, and a triangle.
+
+What can bind the mightiest foes?"
+
+This is Mangar's treasure trove. Two dragons are here, and they're very hungry. I think you're in some real trouble.
+
+Death to those who would attack the mighty one!"
+
+You stand in the antechamber of Mangar the Dark, evil Archmage of Skara 
+Brae. Mangar glares at you with deep hatred. "Die, mortals!" he screams.
+With a wave of his hand a few of his close friends drop by. They don't look like a fun group.
+
+Kylearan, the good Archmage, appears before you in a flash of light. "Well
+ done!" he cries, beaming. "Your quest in Skara Brae is now finished!"
+"The evil one is now defeated, and his spell of winter will soon end."
+"You will all, as a symbol of my gratitude, receive a gold and experience bonus of 300,000 units. Fare well and live long!"
+Kylearan vanishes.
+
+` `#`+`An Eye levitates from 
+ and goes into the statue's empty socket.
+The statue comes to life!
+
+You are being teleported!
+Robed Men
+The legions of Baron Harkyn stand before you, recognizing you as intruders, "Death to them!" they scream.
+
+TRAP! You've hit a 
