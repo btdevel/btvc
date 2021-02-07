@@ -40,12 +40,13 @@ function load(img) {
   return texture
 }
 
-function makeMaterial({ map, alphaMap, transparent, emissiveMap, emissive, doubleSide }) {
-  function internalMakeMaterial(map, alphaMap = undefined, transparent = !!alphaMap, emissiveMap = undefined, emissive = (emissiveMap && 0xFFFFFF), doubleSide = true) {
-    const props = { map: load(map), alphaMap: load(alphaMap), transparent, emissiveMap: load(emissiveMap), emissive, side: doubleSide ? THREE.DoubleSide : THREE.FrontSide }
-    return new THREE.MeshStandardMaterial(props)
-  }
-  return internalMakeMaterial(map, alphaMap, transparent, emissiveMap, emissive, doubleSide)
+function makeMaterial({ map, alphaMap = undefined, transparent = !!alphaMap, emissiveMap = undefined, emissive = emissiveMap ? 0xFFFFFF : 0, doubleSide = true }) {
+  const side = doubleSide ? THREE.DoubleSide : THREE.FrontSide
+  const props = { transparent, emissive, side }
+  if (map) props['map'] = load(map)
+  if (alphaMap) props['alphaMap'] = load(alphaMap)
+  if (emissiveMap) props['emissiveMap'] = load(emissiveMap)
+  return new THREE.MeshStandardMaterial(props)
 }
 
 const materials = {
