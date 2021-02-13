@@ -83,6 +83,7 @@ export default function Lights() {
         shadow-camera-far={40}
         shadow-mapSize-width={shadowMapSize}
         shadow-mapSize-height={shadowMapSize}
+        shadow-bias={-0.001}
         ref={sunRef}
       >
         {debug && <axesHelper args={[5]} />}
