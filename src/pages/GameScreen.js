@@ -7,7 +7,7 @@ import PartyView from './PartyView'
 import PlayerView from './PlayerView'
 import LocationView from './LocationView'
 import Fonts from './Fonts'
-import { useFullscreen, useOrbitcontrols, useOverlayImage, useOverlayText } from '../game/GameLogic'
+import { useFullscreen, useOverlayImage, useOverlayText } from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
 

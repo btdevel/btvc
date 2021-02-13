@@ -95,10 +95,10 @@ export default class Map {
     }
 
     addActions() {
-        function addAction(object, action) {
-            if (object.actions === undefined) object.actions = []
+        function addAction(square, action) {
+            if (square.actions === undefined) square.actions = []
             // console.log("Actions: ", actions)
-            object.actions.push(action)
+            square.actions.push(action)
         }
         function values(obj) {
             return obj ? obj : []
