@@ -48,6 +48,9 @@ export class CityMap extends Map {
         square.type = types[i][j]
         square.dir = dirs[i][j]
         square.street = streetNames[streets[i][j]]
+        if (['1', '2', '3', '4'].includes(square.type)) {
+          square.actions = [['program', 'emptyHouse']]
+        }
 
         const x = j, y = rows - 1 - i
         this.squares[x][y] = square

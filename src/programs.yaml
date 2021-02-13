@@ -1,28 +1,83 @@
 programs:
   emptyHouse:
     - ["overlayImage", "inside/empty"]
-    - ["location", "Empty House"]
-    - ["showMessage", "You are in an empty house."]
+    - ["location", "Empty Building"]
+    - ["showMessage", "You are in an empty building."]
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
   stables:
     - ["overlayImage", "inside/empty"]
-    - ["location", "Empty House"]
-    - ["showMessage", "You are in an empty house."]
+    - ["location", "Empty Building"]
+    - [
+        "showMessage",
+        "Sorry, friends, all the horses have been eaten by creatures!.",
+      ]
+    - ["showMessage", "You are in an empty building."]
     - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  cityGate:
+    - ["overlayImage", "city/city_gate"]
+    - ["location", "City Gate"]
+    - [
+        "showMessage",
+        "You stand before the city gates, which are blocked by a gigantic snow drift.",
+      ]
+    - ["waitForKeyPress", "(EXIT)"]
+    - ["returnToCity"]
+
+  credits:
+    - ["overlayImage", "inside/credits"]
+    - [
+        "showMessage",
+        "THE BARD'S TALE IBM was from an original design by Michael Cranford.\nIt was created at Interplay Productions, in Newport Beach, California.\nInterplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:\nTodd Camasta\n(Artwork)\nTroy P. Worrell\n(Programming)\nDave Warhol\nAarn Abbey\n(Music)\nBrian Fargo\n(Dungeons)\nJoe Ybarra\n(Producer)\n",
+      ]
+    - ["returnToCity"]
+
+  guild:
+    - ["overlayImage", "inside/guild"]
+    - ["returnToCity"]
+
+  reviewBoard:
+    - ["overlayImage", "inside/review"]
+    - ["returnToCity"]
+
+  roscoes:
+    - ["overlayImage", "inside/roscoes"]
+    - ["returnToCity"]
+
+  shop:
+    - ["overlayImage", "inside/shop"]
     - ["returnToCity"]
 
   scarletBard:
     - ["overlayImage", "inside/pub"]
     - ["location", "Scarlet Bard"]
-    - ["showMessage", "Hail, travelers! Step to the bar and I'll draw you a tankard.\nYou can:\nOrder a drink\nTalk to barkeep"]
+    - [
+        "showMessage",
+        "Hail, travelers! Step to the bar and I'll draw you a tankard.\nYou can:\nOrder a drink\nTalk to barkeep",
+      ]
     - ["teleport", 0, 0, 0]
 
   madgodTemple:
     - ["overlayImage", "inside/temple"]
+    - ["location", "Mad God"]
+    - [
+        "showMessage",
+        "This is the temple of the Mad God. What is thy business, unbeliever?",
+      ]
+    - ["teleport", 4, 0, 0]
+
+  madgodTempleX:
+    - ["overlayImage", "inside/temple"]
     - ["textQuestion", "... What wilt thou say?"]
-    - ["answerEquals", "TARJAN", ["subprogram", "madgodEnter"], ["subprogram", "madgodWrongAnswer"]]
+    - [
+        "answerEquals",
+        "TARJAN",
+        ["subprogram", "madgodEnter"],
+        ["subprogram", "madgodWrongAnswer"],
+      ]
 
   madgodEnter:
     - ["showMessage", "Speak not the name ..."]
@@ -34,17 +89,40 @@ programs:
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
+  harkynsCastle:
+    - ["overlayImage", "inside/castle"]
+    - ["location", "Castle"]
+    - [
+        "showMessage",
+        "This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign threatens trespassers with death. You can:\nTake stairs up",
+      ]
+    - ["teleport", 7, 0, 0]
+
+  kylearansTower:
+    - ["overlayImage", "inside/stairs"]
+    - ["location", "Amber Tower"]
+    - [
+        "showMessage",
+        "This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up to a lofty level of chambers. You can:\nTake stairs",
+      ]
+    - ["teleport", 10, 0, 0]
+
+  mangarsTower:
+    - ["overlayImage", "inside/stairs"]
+    - ["location", "The Tower"]
+    - [
+        "showMessage",
+        "This is the entry chamber to Mangar's Tower. A stairwell leads up to the first level of traps and terrors. You can:\nTake stairs",
+      ]
+    - ["teleport", 11, 0, 0]
 
   stairsDown:
-    - ["yesNoQuestion", "There are stairs going down here. Do you want to take them?"]
+    - [
+        "yesNoQuestion",
+        "There are stairs going down here. Do you want to take them?",
+      ]
     - ["answerEquals", "YES", ["stairsDown"], []]
 
   # stairsUp, portalUp, portalDown
-
-
-  # stables:
-  # cityGate:
-
-  # enterCastle:
-  # enterKylearan:
-  # pub:
+  # pub
+  # temple

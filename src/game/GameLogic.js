@@ -75,6 +75,7 @@ class GameState {
     turn: this.turn,
     jump: this.jump,
     teleport: this.teleport,
+    returnToCity: this.returnToCity,
     stairsDown: () => this.takeStairs(true),
     stairsUp: () => this.takeStairs(false),
     showInfo: this.showInfo,
@@ -104,7 +105,7 @@ class GameState {
     this.commands = config.commands
 
     const programs = await loadYAML(programFile)
-    console.log("Programs: ", dumpConfig(programs))
+    // console.log("Programs: ", dumpConfig(programs))
     this.programs = programs.programs
 
     this.setOrbitcontrols(config.orbitcontrols)
@@ -219,6 +220,11 @@ class GameState {
   }
 
   togglePause() {
+    console.log("pausing")
+    // setLocation("this.map.name")
+    setOverlayImage(null)
+    // setGameText()
+
     this.stepper.setPaused(!this.stepper.isPaused())
   }
 
@@ -230,6 +236,21 @@ class GameState {
     return this.time() / TimeStepper.HOUR
   }
 
+  savePosition() {
+    this.saved = {
+      position: {
+        x: this.position.x,
+        y: this.position.y
+      },
+      dir: this.dir
+    }
+  }
+
+  restorePosition() {
+    this.position.x = this.saved.position.x
+    this.position.y = this.saved.position.y
+    this.dir = this.saved.dir
+  }
 
   move(forward) {
 
@@ -246,6 +267,7 @@ class GameState {
       if (!allowed) return
     }
 
+    if (map.isCity()) this.savePosition()
     this.position.x = new_x
     this.position.y = new_y
     if (!this.flyMode) {
@@ -270,6 +292,10 @@ class GameState {
     this.position.x = x
     this.position.y = y
     this.jumped = true
+  }
+
+  returnToCity() {
+    this.restorePosition()
   }
 
   takeStairs(down) {
@@ -300,7 +326,8 @@ class GameState {
       console.warn("Unknown program: ", prog);
       return
     }
-    console.log(prog, ": ", dumpConfig(program));
+    const dump = {}; dump[prog] = program
+    console.log("Program: ", dumpConfig(dump));
     this.program = [...program]
     this.programRunning = true
   }

@@ -10,7 +10,6 @@
   ],
   "messages": [
     [[25, 18], "Turn around and go south..."],
-    [[1, 15], "The city gates are blocked by a huge snow drift."],
     [[22, 28], "Guild"],
     [[21, 28], "Badhr Kilnfest"],
     [[20, 28], "Falkentynes Fury"],
@@ -20,17 +19,22 @@
     [[16, 28], "Waylands Watch"]
   ],
   "actions": [
-    [[26, 15], ["program", "emptyHouse"]],
-    [[28, 5], ["teleport", 0, 0, 0]],
-    [[28, 4], ["program", "scarletBard"]],
-    [[18, 13], ["teleport", 4, 0, 0]],
-    [[18, 14], ["teleport", 4, 0, 0]],
-    [[18, 15], ["teleport", 4, 0, 0]],
-    [[18, 16], ["teleport", 4, 0, 0]],
-    [[4, 24], ["teleport", 7, 0, 0]],
-    [[27, 27], ["teleport", 10, 0, 0]],
-    [[2, 2], ["teleport", 11, 0, 0]],
-    [[25, 2], ["jump", 25, 6]]
+    [[24, 15], ["program", "guild"]],
+    [[26, 15], ["program", "credits"]],
+    [[26, 18], ["program", "shop"]],
+    [[23, 20], ["program", "reviewBoard"]],
+    [[12, 21], ["program", "roscoes"]],
+    [[1, 15], ["program", "cityGate"]],
+    [[4, 15], ["program", "stables"]],
+    [[28, 5], ["program", "scarletBard"]],
+    [[18, 13], ["program", "madgodTemple"]],
+    [[18, 14], ["program", "madgodTemple"]],
+    [[18, 15], ["program", "madgodTemple"]],
+    [[18, 16], ["program", "madgodTemple"]],
+    [[4, 24], ["program", "harkynsCastle"]],
+    [[27, 27], ["program", "kylearansTower"]],
+    [[2, 2], ["program", "mangarsTower"]],
+    [[25, 2], ["jump", 25, 7]]
   ],
   "audio": [
     [[24, 15], "guild", {"volume": 0.3, "dist": 1, "maxDistance": 5, "cone": [3, 180, 190, 0.0]}],
