@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { useFrame } from 'react-three-fiber'
-import { Sky } from 'drei'
+import { useFrame } from '@react-three/fiber'
+import { Sky } from '@react-three/drei'
 import { gameState } from '../game/GameLogic'
 
 export default function MySky() {

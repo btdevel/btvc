@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import * as THREE from 'three'
 import starImg from '../assets/images/textures/star.png'
 import { gameState } from '../game/GameLogic'
-import { useFrame } from 'react-three-fiber'
+import { useFrame } from '@react-three/fiber'
 
 export default function Stars ({ number, box, minDist, color, size, sprite }) {
-  const starGeo = new THREE.Geometry()
+  const starGeo = new THREE.BufferGeometry()
 
+  number = 0 // todo: remove when I know what to do instead of starGeo.vertices.push
   for (let i = 0; i < 2 * number; i++) {
     let star = new THREE.Vector3(
       box * (2.0 * Math.random() - 1.0),

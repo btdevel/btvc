@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 
-import { useFrame } from 'react-three-fiber'
-import { useSpring, animated } from 'react-spring'
+import { useFrame } from '@react-three/fiber'
+import { useSpring, animated } from '@react-spring/three'
 
 import { gameState } from '../game/GameLogic'
 export const springConfigSlide = { mass: 2, tension: 1400, friction: 150 }

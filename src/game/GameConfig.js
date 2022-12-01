@@ -50,7 +50,7 @@ export async function loadYAML(file) {
   const response = await fetch(file)
   const body = await response.text()
 
-  return YAML.safeLoad(body)
+  return YAML.load(body)
 }
 
 function queryAsObject() {
@@ -75,7 +75,7 @@ function queryAsObject() {
 }
 
 export function dumpConfig(yaml) {
-  return YAML.safeDump(yaml)
+  return YAML.dump(yaml)
 }
 
 export async function loadConfig(configFile) {

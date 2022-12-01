@@ -1,6 +1,5 @@
 import React from 'react'
-import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from 'react-postprocessing'
-
+import { EffectComposer, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 
 // https://github.com/felixturner/bad-tv-shader
 

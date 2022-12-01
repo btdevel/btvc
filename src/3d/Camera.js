@@ -1,9 +1,10 @@
 import React from 'react'
-import { useFrame } from 'react-three-fiber'
-import { PerspectiveCamera } from 'drei'
+import { useFrame } from '@react-three/fiber'
+import { PerspectiveCamera } from '@react-three/drei'
 import { gameState } from '../game/GameLogic'
-import { useSpring, animated } from 'react-spring'
+import { useSpring, animated } from '@react-spring/three'
 import { audioListener } from './Audio'
+
 
 export const springConfigMove = { mass: 3, tension: 400, friction: 12.0, clamp: true }
 export const springConfigSlide = { mass: 2, tension: 1400, friction: 150 }

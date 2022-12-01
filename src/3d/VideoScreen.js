@@ -9,7 +9,7 @@ const w = 0.0, b = 0.0, t = 0.0
 const screenGeom = makeShapeGeometry([[w, b], [w, 1 - t], [1 - w, 1 - t], [1 - w, b]])
 screenGeom.scale(0.9, 0.6, 1).translate(0, 0.1, 0)
 
-const sphereGeom = new THREE.SphereBufferGeometry(0.4, 20, 20)
+const sphereGeom = new THREE.SphereGeometry(0.4, 20, 20)
 sphereGeom.translate(0, 0.2, 0)
 
 // const screenGeom = wallGeom

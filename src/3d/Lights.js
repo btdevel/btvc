@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useFrame } from 'react-three-fiber'
+import { useFrame } from '@react-three/fiber'
 import { gameState } from '../game/GameLogic'
 import { radians } from '../game/Sun'
 import * as THREE from 'three'

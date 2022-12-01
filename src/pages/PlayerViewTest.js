@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { Canvas } from 'react-three-fiber'
-import { OrbitControls } from 'drei'
+import { Canvas } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
 import Scene from '../3d/Scene'
 import * as THREE from 'three'
 import Ground from '../3d/Ground'
@@ -10,7 +10,7 @@ import City from '../3d/City'
 function Plane ({ position }) {
   return (
     <mesh position={position} rotation={[0.5 * Math.PI, 0, 0]} receiveShadow>
-      <planeBufferGeometry attach='geometry' args={[100, 100]} />
+      <planeGeometry attach='geometry' args={[100, 100]} />
       <meshStandardMaterial
         attach='material'
         side={THREE.DoubleSide}

@@ -20,7 +20,7 @@ export default function Ground({ type }) {
 
   return (
     <mesh position={[0, 0, -0.5]} receiveShadow>
-      <planeBufferGeometry attach='geometry' args={[1000, 1000]} />
+      <planeGeometry attach='geometry' args={[1000, 1000]} />
       <meshStandardMaterial attach='material' side={THREE.DoubleSide} map={texture} />
     </mesh>
   )
