@@ -47,7 +47,7 @@ export default function Camera() {
   }
   return (<AnimatedCamera
     makeDefault
-    position={position.interpolate(interp)}
+    position={position.to(interp)}
     rotation-x={rotationX}
     rotation-z={rotationZ}
     rotation-order='YZX'

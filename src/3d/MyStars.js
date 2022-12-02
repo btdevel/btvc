@@ -8,18 +8,21 @@ import { useFrame } from '@react-three/fiber'
 export default function Stars ({ number, box, minDist, color, size, sprite }) {
   const starGeo = new THREE.BufferGeometry()
 
-  number = 0 // todo: remove when I know what to do instead of starGeo.vertices.push
-  for (let i = 0; i < 2 * number; i++) {
-    let star = new THREE.Vector3(
-      box * (2.0 * Math.random() - 1.0),
-      box * (2.0 * Math.random() - 1.0),
-      box * (2.0 * Math.random() - 1.0)
-    )
-    // console.log(star.x);
-    if (star.length() <= box && star.length() > minDist) {
-      starGeo.vertices.push(star)
+  let vertices = new Float32Array(3*number);
+  for (let i = 0; i < number; i++) {
+    while( true ) {
+      let star = new THREE.Vector3(
+        box * (2.0 * Math.random() - 1.0),
+        box * (2.0 * Math.random() - 1.0),
+        box * (2.0 * Math.random() - 1.0)
+      )
+      if (star.length() <= box && star.length() > minDist) {
+        star.toArray(vertices, 3*i)
+        break;
+      }
     }
   }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
 
   let starMaterial = new THREE.PointsMaterial({
     color,
