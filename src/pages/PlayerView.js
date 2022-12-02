@@ -11,12 +11,14 @@ function PlayerView() {
 
   return (
     <Canvas
-      // todo: need to reenable this...
-      // shadowMap={{
-      //   enabled: true,
-      //   type: THREE.PCFSoftShadowMap
-      // }}
-
+      shadows={{
+        enabled: true,
+        type: THREE.PCFShadowMap
+      }}
+      gl={{
+        toneMapping: THREE.NoToneMapping,
+        outputEncoding: THREE.LinearEncoding,
+      }}
     >
       <Scene />
       {orbitControls ? <OrbitControls /> : <GameControls />}
