@@ -140,14 +140,24 @@ export default function House({ x, y, type, dir, props }) {
   // console.log(dir);
   dir = 2 + '^<v>'.indexOf(dir)
   // console.log(dir);
-  const eps = 0.001
+  const epsXY = 0.1
+  const epsZ = 0.2
+  // The inner walls remove some shadow artifacts around the floor (but not all)
   return (
-    <group position={[x, y, 0]} rotation-order="ZXY" rotation-z={dir * pi2} scale={[1 - eps, 1 - eps, 1]}>
-      <Wall face={0} type={type} />
-      <Wall face={1} type={type} />
-      <Wall face={2} type={type} />
-      <Wall face={3} type={type} />
-    </group>
+    <>
+      <group position={[x, y, -epsZ]} rotation-order="ZXY" rotation-z={dir * pi2} scale={[1 - epsXY, 1 - epsXY, 1]}>
+        <Wall face={0} type={type} />
+        <Wall face={1} type={type} />
+        <Wall face={2} type={type} />
+        <Wall face={3} type={type} />
+      </group>
+       <group position={[x, y, 0]} rotation-order="ZXY" rotation-z={dir * pi2} scale={[1, 1, 1]}>
+        <Wall face={0} type={type} />
+        <Wall face={1} type={type} />
+        <Wall face={2} type={type} />
+        <Wall face={3} type={type} />
+      </group>
+    </>
   )
 }
 
