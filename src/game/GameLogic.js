@@ -7,7 +7,7 @@ import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 import { execCommand } from './KeyMap'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
-import { mod } from '../util/math'
+import { mod, clamp } from '../util/math'
 import { Direction } from './Movement'
 import imageMap from './Images'
 
@@ -130,6 +130,14 @@ class GameState {
 
     setInterval(() => this.tic(), 200)
   }
+
+  setViewAngles(diffX, diffY) {
+    const maxPhi = radians(135)
+    const maxTheta = radians(45)
+    this.dPhi = clamp(-diffX / 100, -maxPhi, maxPhi)
+    this.dTheta = clamp(-diffY / 100, -maxTheta, maxTheta)
+  }
+
 
   tic() {
     // console.log("Tic...");

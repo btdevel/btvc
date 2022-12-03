@@ -12,7 +12,7 @@ export function useAsync(func, args) {
         setState([result, false, false])
       }
       catch(error) {
-        console.log('Got error: ', error);
+        console.log('Got error: ', error, ' calling function: ', func);
         setState([error, false, true])
       }
     }

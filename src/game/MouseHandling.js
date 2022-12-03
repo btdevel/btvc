@@ -1,14 +1,4 @@
 import { gameState } from './GameLogic'
-import { radians } from './Sun'
-
-const maxPhi = radians(135)
-const maxTheta = radians(45)
-const clamp = (t, a, b) => Math.max(Math.min(t, b), a)
-
-export function setViewAngles (diffX, diffY) {
-  gameState.dPhi = clamp(-diffX / 100, -maxPhi, maxPhi)
-  gameState.dTheta = clamp(-diffY / 100, -maxTheta, maxTheta)
-}
 
 export function addMouseHandlers(el, useCapture) {
   let isPressed = false
@@ -17,7 +7,7 @@ export function addMouseHandlers(el, useCapture) {
   let useRightMouse = true;
 
   function setAngles (x, y) {
-    setViewAngles(x-xStart, y-yStart)
+    gameState.setViewAngles(x-xStart, y-yStart)
   }
 
   function handleMouseDown (event) {
