@@ -28,10 +28,12 @@ function bindToStore(gui, name) {
 }
 
 export function startGUI(gameState) {
-    const gui = new DAT.GUI()
-    gui.closed = true
-    bindToStore(gui, 'fullscreen')
-    bindToStore(gui, 'orbitcontrols')
+    if( false ) {
+        const gui = new DAT.GUI()
+        gui.closed = true
+        bindToStore(gui, 'fullscreen')
+        bindToStore(gui, 'orbitcontrols')
+    }
 }
 
 // export default function ExpGUI() {

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { useLocation } from '../game/GameLogic'
 
-const LocationViewBox = styled.div`
+const LocationTextBox = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
@@ -12,7 +12,7 @@ const LocationViewBox = styled.div`
   color: white;
 `
 
-export default function LocationView() {
+export default function LocationTextView() {
   const text = useLocation()
-  return <LocationViewBox style={{textAlign: 'center'}}>{text}</LocationViewBox>
+  return <LocationTextBox id='location-text' style={{textAlign: 'center'}}>{text}</LocationTextBox>
 }

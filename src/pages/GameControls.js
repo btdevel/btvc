@@ -8,11 +8,11 @@ export default function GameControls() {
   const [doc] = useState(document)
 
   const enableMouseHandling = true
-  const mouseElementId = 'gamescreen'
+  const mouseElementId = 'party-view'
   const mouseUseCapture = false
 
   const enableGestures = true
-  const gesturesElementId = 'gamescreen'
+  const gesturesElementId = 'party-view'
   const enableMouseSwipes = true
 
   // Handle keyboard events
@@ -26,6 +26,7 @@ export default function GameControls() {
 
 
   // Handle mouse events directly
+  // todo: could also be done by HammerJS pan events
   useEffect(() => {
     if (enableMouseHandling && doc) {
       const element = doc.getElementById(mouseElementId)

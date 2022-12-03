@@ -14,9 +14,9 @@ export default function TextView() {
   const text = useGameText();
   if (typeof text === "string") {
     const lines = text.split("\n").map((line, i) => <React.Fragment key={i}>{line}<br /></React.Fragment>)
-    return <TextViewBox>{lines}</TextViewBox>
+    return <TextViewBox id='text-view-box'>{lines}</TextViewBox>
   }
   else {
-    return <TextViewBox>{text}</TextViewBox>
+    return <TextViewBox id='text-view-box'>{text}</TextViewBox>
   }
 }

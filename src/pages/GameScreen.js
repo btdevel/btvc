@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import TextView from './TextView'
+import PartyRoasterView from './PartyRoasterView'
 import PartyView from './PartyView'
-import PlayerView from './PlayerView'
-import LocationView from './LocationView'
+import LocationTextView from './LocationTextView'
 import Fonts from './Fonts'
 import { useFullscreen, useOverlayImage, useOverlayText } from '../game/GameLogic'
 
@@ -15,11 +15,13 @@ function ErrorComponent() {
   return <></>
 }
 
-const GamescreenBox = styled.div`
+const GameScreenBox = styled.div`
   width: 640px;
   height: 400px;
+  // The following does not work with the threejs camera (displaces it; we'd need a correction for that too...)
+  //transform: translate(-50%, -50%) scale(2) translate(50%, 50%) ;  
 `
-const BackgroundImgBox = styled.div`
+const BackgroundImageBox = styled.div`
   width: 640px;
   height: 400px;
   position: absolute;
@@ -34,7 +36,7 @@ const FullscreenBox = styled.div`
   left: 0;
   top: 0;
 `
-const PlayerViewBox = styled.div`
+const PartyViewBox = styled.div`
   background-color: black;
   width: 222px;
   height: 176px;
@@ -51,13 +53,13 @@ const ImageOverlayBox = styled.div`
   left: 34px;
   top: 30px;
 `
-const TextOverlayBox = styled(PlayerViewBox)`
+const TextOverlayBox = styled(PartyViewBox)`
   background-color: transparent;
   font-family: arial;
   font-size: 10px;
   color: white;
 `
-const LocationViewBox = styled.div`
+const LocationTextBox = styled.div`
   background-color: black;
   width: 222px;
   height: 24px;
@@ -72,10 +74,8 @@ const TextViewBox = styled.div`
   position: absolute;
   left: 340px;
   top: 30px;
-}}
 `
 const FullscreenTextViewBox = styled.div`
-  // background-color: rgb(1,1,1,0.2);
   background-color: transparent;
   color: white;
   width: 264px;
@@ -83,9 +83,8 @@ const FullscreenTextViewBox = styled.div`
   position: absolute;
   left: 340px;
   top: 30px;
-}}
 `
-const PartyViewBox = styled.div`
+const PartyRoasterBox = styled.div`
   background-color: transparent;
   color: transparent;
   width: 596px;
@@ -93,7 +92,6 @@ const PartyViewBox = styled.div`
   position: absolute;
   left: 22px;
   top: 262px;
-}}
 `
 function Conditional({ render, children, otherwise }) {
   if (render) {
@@ -124,23 +122,23 @@ export default function GameScreen() {
 
   if (fullscreen) {
     return (
-      <GamescreenBox id='gamescreen'>
+      <GameScreenBox id='game-screen'>
         <Fonts />
         <FullscreenBox>
-          <PlayerView />
+          <PartyView id='party-view'/>
         </FullscreenBox>
-        <FullscreenTextViewBox id='textview'>
+        <FullscreenTextViewBox id='text-view'>
           <TextView />
         </FullscreenTextViewBox>
-      </GamescreenBox>
+      </GameScreenBox>
     )
   }
 
   return (
-    <GamescreenBox id='gamescreen'>
+    <GameScreenBox id='game-screen'>
       <Fonts />
 
-      <BackgroundImgBox>
+      <BackgroundImageBox id='background-image'>
         <img
           src={mainImg}
           style={{ width: 640, height: 400, imageRendering: "crisp-edges" }}
@@ -148,29 +146,35 @@ export default function GameScreen() {
           // style={loaded ? {} : { display: 'none' }}
           onLoad={() => setIsLoaded(true)}
         />
-      </BackgroundImgBox>
+      </BackgroundImageBox>
 
       <Conditional render={loaded} otherwise={<LoadScreen />}>
-        <PlayerViewBox id='3dview'>
-          <ErrorBoundary FallbackComponent={ErrorComponent}>
-            <PlayerView />
-          </ErrorBoundary>
-        </PlayerViewBox>
-        <TextOverlayBox id='3doverlay'><OverlayTextView /></TextOverlayBox>
-        <ImageOverlayBox><OverlayImageView /></ImageOverlayBox>
+        <div id='party-view'>
+          <PartyViewBox id='3d-view'>
+            <ErrorBoundary FallbackComponent={ErrorComponent}>
+              <PartyView />
+            </ErrorBoundary>
+          </PartyViewBox>
+          <ImageOverlayBox id='3d-image-overlay'>
+            <OverlayImageView />
+          </ImageOverlayBox>
+          <TextOverlayBox id='3d-text-overlay'>
+            <OverlayTextView />
+          </TextOverlayBox>
+        </div>
 
-        <LocationViewBox id='locationview'>
-          <LocationView />
-        </LocationViewBox>
+        <LocationTextBox id='location-view'>
+          <LocationTextView />
+        </LocationTextBox>
 
-        <TextViewBox id='textview'>
+        <TextViewBox id='text-view'>
           <TextView />
         </TextViewBox>
 
-        <PartyViewBox>
-          <PartyView />
-        </PartyViewBox>
+        <PartyRoasterBox id='party-roaster'>
+          <PartyRoasterView />
+        </PartyRoasterBox>
       </Conditional>
-    </GamescreenBox>
+    </GameScreenBox>
   )
 }
