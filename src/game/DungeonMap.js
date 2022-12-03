@@ -1,5 +1,6 @@
 import {setGameText} from './GameLogic'
 import Map, {create2dArray} from './Map'
+import {mergeObject} from "../util/merging";
 
 export default class DungeonMap extends Map {
   width
@@ -101,6 +102,11 @@ export async function loadMap(level) {
     const levelAmendImport = import(`../assets/levels/level_${levelNumPadded}_amend.json`)
     const levelExtra = (await levelAmendImport).default
     Object.assign(map, levelExtra)
+
+    if( map._merge) {
+      mergeObject(map, map._merge)
+      delete map._merge
+    }
   } catch {
     console.warn(`Could not load level ${level}`)
   }
