@@ -1,7 +1,5 @@
-import { gameState } from '../game/GameLogic'
+import {gameState} from "./GameLogic";
 
-
-// todo: move to gamelogic
 export function execCommand(command, key) {
   const [funcname, ...args] = (typeof command === 'string') ? [command, []] : command
 
@@ -26,19 +24,4 @@ export function execCommand(command, key) {
   }
 
   func.apply(gameState, args)
-}
-
-export function handleKeyDown (event) {
-  // const {code, key} = event
-  const { key } = event
-
-  if (!key) return
-
-  const command = gameState.keyMap[key]
-  // console.log('command: ', command);
-  if (!command) return
-
-  execCommand(command, `keypress: ${key}`)
-
-  event.preventDefault()
 }

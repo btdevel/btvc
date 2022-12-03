@@ -1,20 +1,20 @@
 import create from 'zustand'
 import produce from 'immer'
 import TimeStepper from './TimeStepper'
-import { CityMap } from './CityMap'
-import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
+import {CityMap} from './CityMap'
+import {declination, elevation, hour_angle, radians, sunPosition} from './Sun'
 
-import { execCommand } from '../controls/KeyMap'
-import { startGUI } from './ExpGUI'
+import {startGUI} from './ExpGUI'
 import DungeonMap from './DungeonMap'
-import { mod, clamp } from '../util/math'
-import { Direction } from './Movement'
+import {clamp, mod} from '../util/math'
+import {Direction} from './Movement'
 import imageMap from './Images'
 
-import { initVideo } from './Video'
+import {initVideo} from './Video'
 import configFile from '../game_config.yaml'
 import programFile from '../programs.yaml'
-import { loadConfig, loadYAML, dumpConfig } from './GameConfig'
+import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
+import {execCommand} from "./ExecCommand";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))

@@ -1,7 +1,7 @@
-import { setGameText } from "./GameLogic"
-import { execCommand } from "../controls/KeyMap"
+import {setGameText} from "./GameLogic"
 import { mod } from '../util/math'
 import { startConference, stopConference } from './Video'
+import {execCommand} from "./ExecCommand";
 
 export const create2dArray = (width, height, defaultVal) =>
     [...Array(width).keys()].map(() => Array(height).fill(defaultVal))
