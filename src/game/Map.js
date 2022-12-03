@@ -1,5 +1,5 @@
 import { setGameText } from "./GameLogic"
-import { execCommand } from "./KeyMap"
+import { execCommand } from "../controls/KeyMap"
 import { mod } from '../util/math'
 import { startConference, stopConference } from './Video'
 

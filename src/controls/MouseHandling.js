@@ -1,4 +1,4 @@
-import { gameState } from './GameLogic'
+import { gameState } from '../game/GameLogic'
 
 export function addMouseHandlers(startElem, stopMoveElem, useCapture) {
   let isPressed = false

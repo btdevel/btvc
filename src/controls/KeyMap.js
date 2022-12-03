@@ -1,7 +1,7 @@
 import { gameState } from '../game/GameLogic'
 
 
-
+// todo: move to gamelogic
 export function execCommand(command, key) {
   const [funcname, ...args] = (typeof command === 'string') ? [command, []] : command
 

@@ -4,7 +4,7 @@ import TimeStepper from './TimeStepper'
 import { CityMap } from './CityMap'
 import { radians, hour_angle, declination, elevation, sunPosition } from './Sun'
 
-import { execCommand } from './KeyMap'
+import { execCommand } from '../controls/KeyMap'
 import { startGUI } from './ExpGUI'
 import DungeonMap from './DungeonMap'
 import { mod, clamp } from '../util/math'

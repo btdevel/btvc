@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { handleKeyDown } from '../game/KeyMap'
-import { addMouseHandlers } from '../game/MouseHandling'
+import { handleKeyDown } from './KeyMap'
+import { addMouseHandlers } from './MouseHandling'
 import Hammer from 'hammerjs'
 import { gameState } from '../game/GameLogic'
 

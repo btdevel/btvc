@@ -1,10 +1,9 @@
 import React from 'react'
 import Map, { create2dArray } from './Map'
 import cityMapJsonRaw from '../assets/levels/city.json'
-import { setGameText } from './GameLogic'
+import { gameState, setGameText } from './GameLogic'
 import { mapTo, mod } from '../util/math'
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
-import { gameState } from './GameLogic'
 
 
 export class CityMap extends Map {

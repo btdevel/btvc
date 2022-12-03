@@ -1,6 +1,6 @@
 import React from 'react'
-import GameScreen from './pages/GameScreen'
-import VideoController from './pages/VideoController'
+import GameScreen from './views/GameScreen'
+import VideoController from './views/VideoController'
 import {useAsyncFinish} from './util/hooks'
 import {gameInit} from './game/GameLogic'
 
