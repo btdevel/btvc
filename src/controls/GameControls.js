@@ -5,16 +5,16 @@ import {handleKeyDown} from './KeyHandling'
 import {addMouseHandlers} from './MouseHandling'
 import {gameState} from '../game/GameLogic'
 
-export default function GameControls() {
+export default function GameControls({partyViewRef, screenRef}) {
   const [doc] = useState(document)
 
   const enableMouseHandling = true
-  const mouseElementId = 'party-view'
-  const mouseElementId2 = 'game-screen'
+  const mouseStartRef = partyViewRef
+  const mouseMoveRef = screenRef
   const mouseUseCapture = false
 
   const enableGestures = true
-  const gesturesElementId = 'party-view'
+  const gesturesElementRef = partyViewRef
   const enableMouseSwipes = true
 
   // Handle keyboard events
@@ -26,21 +26,20 @@ export default function GameControls() {
     }
   }, [doc])
 
-
   // Handle mouse events directly
   // todo: could also be done by HammerJS pan events
   useEffect(() => {
-    if (enableMouseHandling && doc) {
-      const startElem = doc.getElementById(mouseElementId)
-      const stopElem = doc.getElementById(mouseElementId2)
+    if (enableMouseHandling && mouseStartRef.current && mouseMoveRef.current) {
+      const startElem = mouseStartRef.current
+      const stopElem = mouseMoveRef.current
       return addMouseHandlers(startElem, stopElem, mouseUseCapture)
     }
-  }, [enableMouseHandling, mouseUseCapture, doc])
+  }, [enableMouseHandling, mouseUseCapture, mouseStartRef, mouseMoveRef])
 
   // Handle mouse gestures by HammerJS
   useEffect(() => {
-    if (enableGestures && doc) {
-      const element = doc.getElementById(gesturesElementId)
+    if (enableGestures && gesturesElementRef.current) {
+      const element = gesturesElementRef.current
       const gestures = new Hammer(element);
 
       gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05});
@@ -55,7 +54,7 @@ export default function GameControls() {
         gestures.destroy()
       }
     }
-  }, [enableGestures, enableMouseSwipes, doc])
+  }, [enableGestures, enableMouseSwipes, gesturesElementRef])
 
   return <></>
 }

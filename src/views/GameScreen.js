@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef} from 'react'
 import {ErrorBoundary} from 'react-error-boundary'
 import styled from 'styled-components'
 
@@ -7,6 +7,7 @@ import TextView from './TextView'
 import PartyRoasterView from './PartyRoasterView'
 import PartyView from './PartyView'
 import LocationTextView from './LocationTextView'
+import GameControls from '../controls/GameControls'
 import {useFullscreen, useOverlayImage, useOverlayText} from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
@@ -94,17 +95,6 @@ const PartyRoasterBox = styled.div`
   top: 262px;
 `
 
-function Conditional({render, children, otherwise}) {
-  if (render) {
-    return children
-  }
-  return otherwise
-}
-
-function LoadScreen() {
-  return <div>Loading Skara Brae...</div>
-}
-
 
 function OverlayTextView() {
   const overlayText = useOverlayText()
@@ -119,25 +109,27 @@ function OverlayImageView() {
 }
 
 export default function GameScreen() {
-  const [loaded, setIsLoaded] = useState(false)
   const fullscreen = useFullscreen()
+  const gameScreenRef = useRef()
+  const partyViewRef = useRef()
 
   if (fullscreen) {
     return (
-      <GameScreenBox id='game-screen'>
+      <GameScreenBox id='game-screen' ref={gameScreenRef}>
         <Fonts/>
-        <FullscreenBox>
-          <PartyView id='party-view'/>
+        <FullscreenBox ref={partyViewRef}>
+          <PartyView id='party-view' />
+          <FullscreenTextViewBox id='text-view'>
+            <TextView/>
+          </FullscreenTextViewBox>
         </FullscreenBox>
-        <FullscreenTextViewBox id='text-view'>
-          <TextView/>
-        </FullscreenTextViewBox>
+        <GameControls screenRef={gameScreenRef} partyViewRef={partyViewRef}/>
       </GameScreenBox>
     )
   }
 
   return (
-    <GameScreenBox id='game-screen'>
+    <GameScreenBox id='game-screen' ref={gameScreenRef}>
       <Fonts/>
 
       <BackgroundImageBox id='background-image'>
@@ -145,38 +137,36 @@ export default function GameScreen() {
           src={mainImg}
           style={{width: 640, height: 400, imageRendering: "crisp-edges"}}
           alt='BT1 main screen'
-          // style={loaded ? {} : { display: 'none' }}
-          onLoad={() => setIsLoaded(true)}
         />
       </BackgroundImageBox>
 
-      <Conditional render={loaded} otherwise={<LoadScreen/>}>
-        <div id='party-view'>
-          <PartyViewBox id='3d-view'>
-            <ErrorBoundary FallbackComponent={ErrorComponent}>
-              <PartyView/>
-            </ErrorBoundary>
-          </PartyViewBox>
-          <ImageOverlayBox id='3d-image-overlay'>
-            <OverlayImageView/>
-          </ImageOverlayBox>
-          <TextOverlayBox id='3d-text-overlay'>
-            <OverlayTextView/>
-          </TextOverlayBox>
-        </div>
+      <PartyViewGroupBox id='party-view' ref={partyViewRef}>
+        <PartyViewBox id='3d-view' >
+          <ErrorBoundary FallbackComponent={ErrorComponent}>
+            <PartyView />
+          </ErrorBoundary>
+        </PartyViewBox>
+        <ImageOverlayBox id='3d-image-overlay'>
+          <OverlayImageView/>
+        </ImageOverlayBox>
+        <TextOverlayBox id='3d-text-overlay'>
+          <OverlayTextView/>
+        </TextOverlayBox>
+      </PartyViewGroupBox>
 
-        <LocationTextBox id='location-view'>
-          <LocationTextView/>
-        </LocationTextBox>
+      <LocationTextBox id='location-view'>
+        <LocationTextView/>
+      </LocationTextBox>
 
-        <TextViewBox id='text-view'>
-          <TextView/>
-        </TextViewBox>
+      <TextViewBox id='text-view'>
+        <TextView/>
+      </TextViewBox>
 
-        <PartyRoasterBox id='party-roaster'>
-          <PartyRoasterView/>
-        </PartyRoasterBox>
-      </Conditional>
+      <PartyRoasterBox id='party-roaster'>
+        <PartyRoasterView/>
+      </PartyRoasterBox>
+
+      <GameControls screenRef={gameScreenRef} partyViewRef={partyViewRef}/>
     </GameScreenBox>
   )
 }
