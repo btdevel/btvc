@@ -11,10 +11,8 @@ function PartyView() {
         enabled: true,
         type: THREE.PCFShadowMap
       }}
-      gl={{
-        toneMapping: THREE.NoToneMapping,
-        outputEncoding: THREE.LinearEncoding,
-      }}
+      linear
+      flat
     >
       <Scene/>
     </Canvas>

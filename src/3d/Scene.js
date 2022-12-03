@@ -25,12 +25,5 @@ export default function Scene() {
       <Ground type={isCity ? "city" : "dungeon"}/>
       {isCity ? <City map={map}/> : <Dungeon map={map}/>}
       <Effects/>
-
-      {/* <fog attach="fog" args={['#AAAAAA', 0.01, 1]} /> */}
-      {/* <primitive attach='fog' object={new THREE.Fog(0xb6c1c5, 0.01, 1)} /> */}
-      {/* <primitive attach='fog' object={new THREE.Fog(0xb6c1c5, 0.01, 20)} /> */}
-      {/* <primitive attach='fog' object={new THREE.FogExp2('#AAAAAA', 1)} /> */}
     </>)
-
-  // return level === 'city' ? <CityScene /> : <DungeonScene level={level} />
 }
