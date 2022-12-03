@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import {initializeVideo} from '../game/Video'
 import {useAsync} from '../util/hooks';
-
+import noise from "../assets/images/other/noise.mp4";
 
 const VideoBox = styled.div`
   box-sizing: border-box;
@@ -13,7 +13,6 @@ const VideoBox = styled.div`
   display: none;
 `
 
-
 export default function VideoController() {
   const videoContainerRef = useRef()
   const [, loading, error] = useAsync(initializeVideo, [videoContainerRef])
@@ -21,6 +20,11 @@ export default function VideoController() {
   return (
     <>
       {!loading && !error && <VideoBox ref={videoContainerRef} id="videobox"/>}
+      <VideoBox id='noisebox'>
+        <video id="video" loop playsInline autoPlay>
+          <source src={noise} type='video/mp4;'/>
+        </video>
+      </VideoBox>
     </>
   )
 }
