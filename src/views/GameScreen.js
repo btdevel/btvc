@@ -36,25 +36,25 @@ const FullscreenBox = styled.div`
   left: 0;
   top: 0;
 `
-const PartyViewBox = styled.div`
+const PartyViewGroupBox = styled.div`
   background-color: black;
   width: 222px;
   height: 176px;
   position: absolute;
   left: 34px;
   top: 30px;
-  cursor: crosshair;
 `
-const ImageOverlayBox = styled.div`
-  background-color: transparent;
-  width: 222px;
-  height: 176px;
+const PartyViewBox = styled.div`
+  background-color: black;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  left: 34px;
-  top: 30px;
+  cursor: all-scroll;
 `
-const TextOverlayBox = styled(PartyViewBox)`
+const ImageOverlayBox = styled(PartyViewBox)`
   background-color: transparent;
+`
+const TextOverlayBox = styled(ImageOverlayBox)`
   font-family: arial;
   font-size: 10px;
   color: white;
