@@ -1,6 +1,6 @@
 import { gameState } from './GameLogic'
 
-export function addMouseHandlers(el, useCapture) {
+export function addMouseHandlers(startElem, stopMoveElem, useCapture) {
   let isPressed = false
   let xStart = 0
   let yStart = 0
@@ -40,21 +40,21 @@ export function addMouseHandlers(el, useCapture) {
     }
   }
 
-  el.addEventListener('mousedown', handleMouseDown, useCapture)
-  el.addEventListener('mousemove', handleMouseMove, useCapture)
-  el.addEventListener('mouseup', handleMouseUp, useCapture)
-  el.addEventListener('mouseleave', handleMouseUp, useCapture)
+  startElem.addEventListener('mousedown', handleMouseDown, useCapture)
+  stopMoveElem.addEventListener('mousemove', handleMouseMove, useCapture)
+  stopMoveElem.addEventListener('mouseup', handleMouseUp, useCapture)
+  stopMoveElem.addEventListener('mouseleave', handleMouseUp, useCapture)
   if( useRightMouse ) {
-    el.addEventListener('contextmenu', handleMouseDown, useCapture);
+    startElem.addEventListener('contextmenu', handleMouseDown, useCapture);
   }
-  console.log("Added mouse event listener to: ", el)
+  console.log("Added mouse event listener to: ", startElem)
 
   return () => {
-    console.log("Removing mouse event listener from: ", el)
-    el.removeEventListener('mousedown', handleMouseDown, useCapture)
-    el.removeEventListener('mousemove', handleMouseMove, useCapture)
-    el.removeEventListener('mouseup', handleMouseUp, useCapture)
-    el.removeEventListener('mouseleave', handleMouseUp, useCapture)
-    el.removeEventListener('contextmenu', handleMouseDown, useCapture)
+    console.log("Removing mouse event listener from: ", startElem)
+    startElem.removeEventListener('mousedown', handleMouseDown, useCapture)
+    stopMoveElem.removeEventListener('mousemove', handleMouseMove, useCapture)
+    stopMoveElem.removeEventListener('mouseup', handleMouseUp, useCapture)
+    stopMoveElem.removeEventListener('mouseleave', handleMouseUp, useCapture)
+    startElem.removeEventListener('contextmenu', handleMouseDown, useCapture)
   }
 }

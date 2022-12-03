@@ -9,6 +9,7 @@ export default function GameControls() {
 
   const enableMouseHandling = true
   const mouseElementId = 'party-view'
+  const mouseElementId2 = 'game-screen'
   const mouseUseCapture = false
 
   const enableGestures = true
@@ -29,8 +30,9 @@ export default function GameControls() {
   // todo: could also be done by HammerJS pan events
   useEffect(() => {
     if (enableMouseHandling && doc) {
-      const element = doc.getElementById(mouseElementId)
-      return addMouseHandlers(element, mouseUseCapture)
+      const startElem = doc.getElementById(mouseElementId)
+      const stopElem = doc.getElementById(mouseElementId2)
+      return addMouseHandlers(startElem, stopElem, mouseUseCapture)
     }
   }, [enableMouseHandling, mouseUseCapture, doc])
 
@@ -40,7 +42,7 @@ export default function GameControls() {
       const element = doc.getElementById(gesturesElementId)
       const gestures = new Hammer(element);
 
-      gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+      gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05 });
       const enableSwipe = (ev) => (enableMouseSwipes || ev.pointerType !== "mouse")
       gestures.on('swipeleft', (ev) => enableSwipe(ev) && gameState.turn(1))
       gestures.on('swiperight', (ev) => enableSwipe(ev) && gameState.turn(-1))
