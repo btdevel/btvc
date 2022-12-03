@@ -9,7 +9,7 @@ const w = 0.0, b = 0.0, t = 0.0
 const screenGeom = makeShapeGeometry([[w, b], [w, 1 - t], [1 - w, 1 - t], [1 - w, b]])
 screenGeom.scale(0.9, 0.6, 1).translate(0, 0.046, 0)
 
-const sphereGeom = new THREE.SphereGeometry(0.4, 20, 20)
+const sphereGeom = new THREE.SphereGeometry(0.2, 20, 20)
 sphereGeom.translate(0, 0.2, 0)
 
 // const screenGeom = wallGeom
@@ -33,42 +33,39 @@ function createVideoTexture(source, isSphere) {
   return videoTexture
 }
 
-export default function VideoScreen({x, y, dir, trackNo, type}) {
-  const dist = 0.35
-  x += dist * Direction.dx[dir];
-  y += dist * Direction.dy[dir];
-  const rot = dir * Math.PI / 2
 
-  const info = useTrackInfo(trackNo)
-  // console.log("TrackNo: ", trackNo, x, y)
-  // console.log("TrackInfo: ", info)
-
-  let screenMat = defaultScreenMat
-  let isSphere = (type === "sphere")
-  let geom = isSphere ? sphereGeom : screenGeom
+function createVideoMaterial(info, isSphere) {
   let haveVideoStream = info && info[1]
-
+  let videoContainer = null
   if (haveVideoStream) {
     const [trackContainer] = info
     // const [, , audioTrack] = info => <Audio track={microTrack}/>
     console.log("TrackInfo: ", info)
-
-    const videoTexture = createVideoTexture(trackContainer, isSphere)
-
-    screenMat = new THREE.MeshBasicMaterial({
-      map: videoTexture,
-      side: THREE.DoubleSide
-    })
-  }
-  else {
+    videoContainer = trackContainer
+  } else {
     const noiseVideoContainer = document.getElementById('video')
-    const videoTexture = createVideoTexture(noiseVideoContainer, isSphere)
-
-    screenMat = new THREE.MeshBasicMaterial({
-      map: videoTexture,
-      side: THREE.DoubleSide
-    })
+    videoContainer = noiseVideoContainer
   }
+
+  const videoTexture = createVideoTexture(videoContainer, isSphere)
+  let screenMat = new THREE.MeshBasicMaterial({
+    map: videoTexture,
+    side: THREE.DoubleSide
+  })
+  return screenMat;
+}
+
+export default function VideoScreen({x, y, dir, trackNo, type}) {
+  const info = useTrackInfo(trackNo)
+  let isSphere = (type === "sphere")
+
+  const dist = isSphere ? 0 : 0.35
+  x += dist * Direction.dx[dir];
+  y += dist * Direction.dy[dir];
+  const rot = dir * Math.PI / 2
+
+  let geom = isSphere ? sphereGeom : screenGeom
+  let screenMat = createVideoMaterial(info, isSphere);
 
   return (
       <mesh position={[x, y, 0]} rotation-order='ZXY' rotation={[Math.PI / 2, 0, rot]}
