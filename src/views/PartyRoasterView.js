@@ -19,27 +19,27 @@ const CharacterLineBox = styled.div`
   text-shadow: 1px 1px #777;
 `
 const attrInfo = {
-  number: { pos: -62, type: 'num' },
-  name: { pos: 4, type: 'upp' },
-  ac: { pos: 220, type: 'num' },
-  hp: { pos: 300, type: 'num' },
-  cnd: { pos: 374, type: 'num' },
-  sp: { pos: 456, type: 'num' },
-  cls: { pos: 534, type: 'cap' },
+  number: {pos: -62, type: 'num'},
+  name: {pos: 4, type: 'upp'},
+  ac: {pos: 220, type: 'num'},
+  hp: {pos: 300, type: 'num'},
+  cnd: {pos: 374, type: 'num'},
+  sp: {pos: 456, type: 'num'},
+  cls: {pos: 534, type: 'cap'},
 }
 const Attribute = styled.div`
   position: absolute;
   left: ${props => attrInfo[props.attr].pos + 20}px;
   width: 60px;
   text-align: ${props =>
-    attrInfo[props.attr].type === 'num' ? 'right' : 'left'};
+  attrInfo[props.attr].type === 'num' ? 'right' : 'left'};
   background-color: transparent;
   text-transform: ${props =>
-    attrInfo[props.attr].type === 'cap' ? 'capitalize' : 'uppercase'};
+  attrInfo[props.attr].type === 'cap' ? 'capitalize' : 'uppercase'};
   ...extra;
 `
 
-function CharacterLineDisplay ({ number, name, ac, hp, cnd, sp, cls }) {
+function CharacterLineDisplay({number, name, ac, hp, cnd, sp, cls}) {
   const id = `character-${number}`
   return (
     <CharacterLineBox number={number} id={id}>
@@ -54,9 +54,9 @@ function CharacterLineDisplay ({ number, name, ac, hp, cnd, sp, cls }) {
   )
 }
 
-export default function LocationView () {
+export default function LocationView() {
   return (
-    <PartyRoasterViewBox id='party-roaster-box' style={{ textAlign: 'center' }}>
+    <PartyRoasterViewBox id='party-roaster-box' style={{textAlign: 'center'}}>
       <CharacterLineDisplay
         number={1}
         name='Gimli'

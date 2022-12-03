@@ -1,8 +1,10 @@
 import React from 'react'
-import Map, { create2dArray } from './Map'
+
+import Map, {create2dArray} from './Map'
+import {gameState, setGameText} from './GameLogic'
+import {mapTo, mod} from '../util/math'
+
 import cityMapJsonRaw from '../assets/levels/city.json'
-import { gameState, setGameText } from './GameLogic'
-import { mapTo, mod } from '../util/math'
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 
 
@@ -80,19 +82,26 @@ export class CityMap extends Map {
     dir = mod(dir, 4)
 
     setGameText(
-      <div style={{ width: '100%', height: '100%' }}>
-        <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae" />
-        <div style={{ fontSize: 12, fontWeight: 'bold', fontFamily: 'sans', color: 'red', position: 'absolute', left: x, top: y }}>{arrows[dir]}</div>
+      <div style={{width: '100%', height: '100%'}}>
+        <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae"/>
+        <div style={{
+          fontSize: 12,
+          fontWeight: 'bold',
+          fontFamily: 'sans',
+          color: 'red',
+          position: 'absolute',
+          left: x,
+          top: y
+        }}>{arrows[dir]}</div>
       </div>
     )
   }
 
   getLocationInfo() {
-    const { x, y } = gameState.position
+    const {x, y} = gameState.position
     const street = this.squares[x][y].street
     return `You are on ${street}`
   }
-
 
 
 }

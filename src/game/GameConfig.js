@@ -1,5 +1,5 @@
 import YAML from 'js-yaml'
-import { parse } from 'query-string'
+import {parse} from 'query-string'
 
 
 function mergeArray(obj1, obj2) {
@@ -14,8 +14,7 @@ function mergeObject(obj1, obj2) {
     const value = obj2[prop]
     if (Array.isArray(value)) {
       obj1[prop] = mergeArray(obj1[prop], value)
-    }
-    else if (typeof value === 'object') {
+    } else if (typeof value === 'object') {
       obj1[prop] = mergeObject(obj1[prop], value)
     } else {
       obj1[prop] = value

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { handleKeyDown } from './KeyHandling'
-import { addMouseHandlers } from './MouseHandling'
+import React, {useEffect, useState} from 'react'
 import Hammer from 'hammerjs'
-import { gameState } from '../game/GameLogic'
+
+import {handleKeyDown} from './KeyHandling'
+import {addMouseHandlers} from './MouseHandling'
+import {gameState} from '../game/GameLogic'
 
 export default function GameControls() {
   const [doc] = useState(document)
@@ -42,7 +43,7 @@ export default function GameControls() {
       const element = doc.getElementById(gesturesElementId)
       const gestures = new Hammer(element);
 
-      gestures.get('swipe').set({ direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05 });
+      gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05});
       const enableSwipe = (ev) => (enableMouseSwipes || ev.pointerType !== "mouse")
       gestures.on('swipeleft', (ev) => enableSwipe(ev) && gameState.turn(1))
       gestures.on('swiperight', (ev) => enableSwipe(ev) && gameState.turn(-1))

@@ -2,9 +2,9 @@ import {gameState} from '../game/GameLogic'
 import {execCommand} from "../game/ExecCommand";
 
 
-export function handleKeyDown (event) {
+export function handleKeyDown(event) {
   // const {code, key} = event
-  const { key } = event
+  const {key} = event
 
   if (!key) return
 

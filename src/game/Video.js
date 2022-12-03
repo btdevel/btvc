@@ -1,8 +1,9 @@
-import AgoraRTC from "agora-rtc-sdk-ng";
 import create from 'zustand'
 import produce from 'immer'
-import { setGameText } from "./GameLogic";
-import { mergeArrays } from "../util/util"
+import AgoraRTC from "agora-rtc-sdk-ng";
+
+import {setGameText} from "./GameLogic";
+import {mergeArrays} from "../util/util"
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -17,7 +18,6 @@ const useStore = create((set, get) => {
 function modifyState(func) {
   useStore.getState().modify(func)
 }
-
 
 
 export const addTrackInfo = (id, trackInfo) => modifyState(state => {
@@ -35,8 +35,7 @@ export const addTrackInfo = (id, trackInfo) => modifyState(state => {
     state.tracks[index] = trackInfo
     state.ids[index] = id
     console.log("Empty: ", state.tracks, state.ids)
-  }
-  else {
+  } else {
     state.tracks = [...state.tracks, trackInfo]
     state.ids = [...state.ids, id]
     console.log("Append: ", state.tracks, state.ids)
@@ -59,7 +58,6 @@ export const useTrackInfos = () => useStore(state => state.tracks)
 export const useTrackInfo = (i) => useStore(state => state.tracks[i])
 
 
-
 const videoState = {
   ref: null,
   client: null,
@@ -79,6 +77,7 @@ function playInDiv(track, id) {
   console.log('PlayInDiv: Playing in video element: ', videoElement)
   return videoElement
 }
+
 function removeDiv(id) {
   const divId = "stream-div-" + id
   const element = document.getElementById(divId)
@@ -108,6 +107,7 @@ async function onUnpublish(user, mediaType) {
 
 const defaultTimeout = 5 * 60
 const defaultRefresh = 5
+
 function startTimeout() {
   videoState.timeoutAt = Date.now() + 1000 * defaultTimeout
   if (videoState.timeoutRunning) return
@@ -117,8 +117,7 @@ function startTimeout() {
       videoState.timeoutRunning = false
       stopConference()
       console.log("Timing out now");
-    }
-    else {
+    } else {
       setTimeout(onTimeout, defaultRefresh)
     }
   }
@@ -131,7 +130,7 @@ export function initializeVideo(ref) {
 
 export function initVideo(config) {
   AgoraRTC.setLogLevel(2)
-  videoState.client = AgoraRTC.createClient({ mode: "rtc", codec: "h264" });
+  videoState.client = AgoraRTC.createClient({mode: "rtc", codec: "h264"});
   videoState.client.on("user-published", onPublish);
   videoState.client.on("user-unpublished", onUnpublish);
   videoState.client.on("")
@@ -142,12 +141,11 @@ export function initVideo(config) {
 }
 
 
-
 export async function startConference() {
   startTimeout()
   if (!(videoState.ref && videoState.client)) return
 
-  const { client } = videoState
+  const {client} = videoState
   switch (client.connectionState) {
     case "DISCONNECTED":   // falls through
     case "DISCONNECTING":
@@ -165,8 +163,7 @@ export async function startConference() {
     AgoraRTC.setLogLevel(4)
     setGameText("Trying to join video channel...")
     await videoState.client.join(videoState.appId, videoState.channel, videoState.token)
-  }
-  catch (e) {
+  } catch (e) {
     console.warn("Caught connection error: ", e);
     let cause = "Unknown reason..."
     switch (e.code) {
@@ -187,8 +184,7 @@ export async function startConference() {
     console.log("Cause: ", cause);
     setGameText(`Could not join channel!\n${cause}`)
     return
-  }
-  finally {
+  } finally {
     AgoraRTC.setLogLevel(2)
   }
   setGameText("Successfully joined...");
@@ -202,8 +198,7 @@ export async function startConference() {
   addTrackInfo("self", [videoElement, videoState.videoTrack, videoState.microTrack])
   try {
     await videoState.client.publish([videoState.microTrack, videoState.videoTrack])
-  }
-  catch (e) {
+  } catch (e) {
     if (e.code !== "OPERATION_ABORTED") throw e;
   }
 
@@ -213,7 +208,7 @@ export async function startConference() {
 export async function stopConference() {
   if (!(videoState.ref && videoState.client)) return
 
-  const { client } = videoState
+  const {client} = videoState
   switch (client.connectionState) {
     case "DISCONNECTING":    // falls through
     case "DISCONNECTED":

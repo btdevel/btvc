@@ -1,10 +1,11 @@
 import React from 'react'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
-import GameControls from '../controls/GameControls'
-import Scene from '../3d/Scene'
 import * as THREE from 'three'
-import { useOrbitcontrols } from '../game/GameLogic'
+import {Canvas} from '@react-three/fiber'
+import {OrbitControls} from '@react-three/drei'
+
+import Scene from '../3d/Scene'
+import GameControls from '../controls/GameControls'
+import {useOrbitcontrols} from '../game/GameLogic'
 
 function PartyView() {
   const orbitControls = useOrbitcontrols()
@@ -20,8 +21,8 @@ function PartyView() {
         outputEncoding: THREE.LinearEncoding,
       }}
     >
-      <Scene />
-      {orbitControls ? <OrbitControls /> : <GameControls />}
+      <Scene/>
+      {orbitControls ? <OrbitControls/> : <GameControls/>}
     </Canvas>
   )
 }

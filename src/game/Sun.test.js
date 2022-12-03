@@ -1,5 +1,5 @@
-import {declination, radians, elevation, degree, hour_angle, sunPosition} from './Sun'
-import TimeStepper from './TimeStepper'
+import {declination, elevation, hour_angle, sunPosition} from './Sun'
+import {degree, radians} from "../util/math";
 
 test('radians', () => {
   expect(radians(0)).toBe(0)
@@ -15,9 +15,9 @@ test('degree', () => {
 
 test('declination', () => {
   expect(degree(declination(-10))).toBeCloseTo(-23.45)
-  expect(degree(declination(0.5*365-10))).toBeCloseTo(23.45)
-  expect(degree(declination(0.25*365-10))).toBeCloseTo(0)
-  expect(degree(declination(0.75*365-10))).toBeCloseTo(0)
+  expect(degree(declination(0.5 * 365 - 10))).toBeCloseTo(23.45)
+  expect(degree(declination(0.25 * 365 - 10))).toBeCloseTo(0)
+  expect(degree(declination(0.75 * 365 - 10))).toBeCloseTo(0)
 })
 
 test('hour_angle', () => {

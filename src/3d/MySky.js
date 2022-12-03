@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import { Sky } from '@react-three/drei'
-import { gameState } from '../game/GameLogic'
+import React, {useRef} from 'react'
+import {useFrame} from '@react-three/fiber'
+import {Sky} from '@react-three/drei'
+import {gameState} from '../game/GameLogic'
 
 export default function MySky() {
   const sunRef = useRef()
@@ -12,7 +12,7 @@ export default function MySky() {
     if (sunRef.current) {
       const [x, y, z] = gameState.sun.position()
       const uniforms = sunRef.current.material.uniforms
-      if( !sunInitialized ) {
+      if (!sunInitialized) {
         uniforms.up.value.x = 0
         uniforms.up.value.y = 0
         uniforms.up.value.z = 1
@@ -37,10 +37,5 @@ export default function MySky() {
 
   const [x, y, z] = gameState.sun.position()
 
-  return <Sky ref={sunRef} distance={1000} sunPosition={[x, y, z]} />
-
-  // todo: "up" should be set initially, but does not work that way (otherwise we can have initial flickering)
-  // const upVec = THREE.Vector3(0, 0, 1)
-  // uniforms={{up: upVec}} />
-  // uniforms-up-x={0} uniforms-up-y={0} uniforms-up-z={1}/>
+  return <Sky ref={sunRef} distance={1000} sunPosition={[x, y, z]}/>
 }

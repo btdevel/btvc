@@ -1,5 +1,5 @@
-import { setGameText } from './GameLogic'
-import Map, { create2dArray } from './Map'
+import {setGameText} from './GameLogic'
+import Map, {create2dArray} from './Map'
 
 export default class DungeonMap extends Map {
   width
@@ -101,8 +101,7 @@ export async function loadMap(level) {
     const levelAmendImport = import(`../assets/levels/level_${levelNumPadded}_amend.json`)
     const levelExtra = (await levelAmendImport).default
     Object.assign(map, levelExtra)
-  }
-  catch {
+  } catch {
     console.warn(`Could not load level ${level}`)
   }
   return map;

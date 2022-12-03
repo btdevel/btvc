@@ -1,8 +1,8 @@
-import React, { useRef } from 'react'
+import React, {useRef} from 'react'
 import styled from 'styled-components'
 
-import { initializeVideo } from '../game/Video'
-import { useAsync } from '../util/hooks';
+import {initializeVideo} from '../game/Video'
+import {useAsync} from '../util/hooks';
 
 
 const VideoBox = styled.div`
@@ -15,12 +15,12 @@ const VideoBox = styled.div`
 
 
 export default function VideoController() {
-    const videoContainerRef = useRef()
-    const [, loading, error] = useAsync(initializeVideo, [videoContainerRef])
+  const videoContainerRef = useRef()
+  const [, loading, error] = useAsync(initializeVideo, [videoContainerRef])
 
-    return (
-        <>
-            {!loading && !error && <VideoBox ref={videoContainerRef} id="videobox" />}
-        </>
-    )
+  return (
+    <>
+      {!loading && !error && <VideoBox ref={videoContainerRef} id="videobox"/>}
+    </>
+  )
 }

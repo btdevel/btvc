@@ -1,13 +1,12 @@
-import React, { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import { gameState } from '../game/GameLogic'
-import { radians } from '../game/Sun'
+import React, {useRef} from 'react'
 import * as THREE from 'three'
+import {useFrame} from '@react-three/fiber'
+
+import {gameState} from '../game/GameLogic'
+import {radians} from "../util/math";
 
 const makeVector3 = ([x, y, z]) => new THREE.Vector3(x, y, z)
 
-// const maxShadowUpdateDelay = 2
-// const minShadowUpdateSunDist = 0.3
 const maxShadowUpdateDelay = 2
 const minShadowUpdateDelay = 0.2
 const minShadowUpdateSunDist = 0.05
@@ -40,7 +39,7 @@ export default function Lights() {
 
 
   useFrame(() => {
-    const { ambientIntensity, sunIntensity, newSunPos } = computeLightParams(targetPos)
+    const {ambientIntensity, sunIntensity, newSunPos} = computeLightParams(targetPos)
 
     if (ambientRef.current) {
       ambientRef.current.intensity = ambientIntensity
@@ -58,17 +57,17 @@ export default function Lights() {
     }
   })
 
-  const { ambientIntensity, sunIntensity, newSunPos } = computeLightParams(targetPos)
+  const {ambientIntensity, sunIntensity, newSunPos} = computeLightParams(targetPos)
   const color = 0xffffff
   const shadowCamWidth = 20
   const shadowMapSize = 8 * 512
   const debug = false
   return (
     <>
-      <ambientLight args={[color, ambientIntensity]} ref={ambientRef} />
+      <ambientLight args={[color, ambientIntensity]} ref={ambientRef}/>
 
       <object3D position={targetPos} ref={targetRef}>
-        {debug && <axesHelper />}
+        {debug && <axesHelper/>}
       </object3D>
 
       <directionalLight
@@ -88,12 +87,12 @@ export default function Lights() {
         shadow-bias={-0.001}
         ref={sunRef}
       >
-        {debug && <axesHelper args={[5]} />}
+        {debug && <axesHelper args={[5]}/>}
       </directionalLight>
 
       {debug && sunRef.current &&
         <cameraHelper args={[sunRef.current.shadow.camera]}>
-          <axesHelper args={[5]} />
+          <axesHelper args={[5]}/>
         </cameraHelper>
       }
     </>

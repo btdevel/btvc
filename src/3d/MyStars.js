@@ -1,23 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import * as THREE from 'three'
-import starImg from '../assets/images/textures/star.png'
-import { gameState } from '../game/GameLogic'
-import { useFrame } from '@react-three/fiber'
+import {useFrame} from '@react-three/fiber'
 
-export default function Stars ({ number, box, minDist, color, size, sprite }) {
+import {gameState} from '../game/GameLogic'
+
+import starImg from '../assets/images/textures/star.png'
+
+export default function Stars({number, box, minDist, color, size, sprite}) {
   const starGeo = new THREE.BufferGeometry()
 
-  let vertices = new Float32Array(3*number);
+  let vertices = new Float32Array(3 * number);
   for (let i = 0; i < number; i++) {
-    while( true ) {
+    while (true) {
       let star = new THREE.Vector3(
         box * (2.0 * Math.random() - 1.0),
         box * (2.0 * Math.random() - 1.0),
         box * (2.0 * Math.random() - 1.0)
       )
       if (star.length() <= box && star.length() > minDist) {
-        star.toArray(vertices, 3*i)
+        star.toArray(vertices, 3 * i)
         break;
       }
     }
@@ -27,7 +29,7 @@ export default function Stars ({ number, box, minDist, color, size, sprite }) {
   let starMaterial = new THREE.PointsMaterial({
     color,
     size,
-    opacity: 0.9, 
+    opacity: 0.9,
     transparent: true,
     map: sprite ? new THREE.TextureLoader().load(starImg) : undefined
   })
@@ -42,14 +44,14 @@ export default function Stars ({ number, box, minDist, color, size, sprite }) {
     stars.material.opacity = opacity
   })
 
-  return <primitive object={stars} />
+  return <primitive object={stars}/>
 }
 
 Stars.propTypes = {
   number: PropTypes.number,
   box: PropTypes.number,
   mindDist: PropTypes.number,
-  color: PropTypes.oneOfType( [PropTypes.number, PropTypes.string] ),
+  color: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   size: PropTypes.number,
   sprite: PropTypes.bool
 }

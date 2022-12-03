@@ -1,13 +1,13 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
+import {ErrorBoundary} from 'react-error-boundary'
 import styled from 'styled-components'
-import { ErrorBoundary } from 'react-error-boundary'
 
+import Fonts from './Fonts'
 import TextView from './TextView'
 import PartyRoasterView from './PartyRoasterView'
 import PartyView from './PartyView'
 import LocationTextView from './LocationTextView'
-import Fonts from './Fonts'
-import { useFullscreen, useOverlayImage, useOverlayText } from '../game/GameLogic'
+import {useFullscreen, useOverlayImage, useOverlayText} from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
 
@@ -93,7 +93,8 @@ const PartyRoasterBox = styled.div`
   left: 22px;
   top: 262px;
 `
-function Conditional({ render, children, otherwise }) {
+
+function Conditional({render, children, otherwise}) {
   if (render) {
     return children
   }
@@ -112,7 +113,8 @@ function OverlayTextView() {
 
 function OverlayImageView() {
   const overlayImageUrl = useOverlayImage()
-  if (overlayImageUrl) return <img src={overlayImageUrl} width="100%" height="100%" alt="" style={{ imageRendering: "crisp-edges" }} />
+  if (overlayImageUrl) return <img src={overlayImageUrl} width="100%" height="100%" alt=""
+                                   style={{imageRendering: "crisp-edges"}}/>
   return <></>
 }
 
@@ -123,12 +125,12 @@ export default function GameScreen() {
   if (fullscreen) {
     return (
       <GameScreenBox id='game-screen'>
-        <Fonts />
+        <Fonts/>
         <FullscreenBox>
           <PartyView id='party-view'/>
         </FullscreenBox>
         <FullscreenTextViewBox id='text-view'>
-          <TextView />
+          <TextView/>
         </FullscreenTextViewBox>
       </GameScreenBox>
     )
@@ -136,43 +138,43 @@ export default function GameScreen() {
 
   return (
     <GameScreenBox id='game-screen'>
-      <Fonts />
+      <Fonts/>
 
       <BackgroundImageBox id='background-image'>
         <img
           src={mainImg}
-          style={{ width: 640, height: 400, imageRendering: "crisp-edges" }}
+          style={{width: 640, height: 400, imageRendering: "crisp-edges"}}
           alt='BT1 main screen'
           // style={loaded ? {} : { display: 'none' }}
           onLoad={() => setIsLoaded(true)}
         />
       </BackgroundImageBox>
 
-      <Conditional render={loaded} otherwise={<LoadScreen />}>
+      <Conditional render={loaded} otherwise={<LoadScreen/>}>
         <div id='party-view'>
           <PartyViewBox id='3d-view'>
             <ErrorBoundary FallbackComponent={ErrorComponent}>
-              <PartyView />
+              <PartyView/>
             </ErrorBoundary>
           </PartyViewBox>
           <ImageOverlayBox id='3d-image-overlay'>
-            <OverlayImageView />
+            <OverlayImageView/>
           </ImageOverlayBox>
           <TextOverlayBox id='3d-text-overlay'>
-            <OverlayTextView />
+            <OverlayTextView/>
           </TextOverlayBox>
         </div>
 
         <LocationTextBox id='location-view'>
-          <LocationTextView />
+          <LocationTextView/>
         </LocationTextBox>
 
         <TextViewBox id='text-view'>
-          <TextView />
+          <TextView/>
         </TextViewBox>
 
         <PartyRoasterBox id='party-roaster'>
-          <PartyRoasterView />
+          <PartyRoasterView/>
         </PartyRoasterBox>
       </Conditional>
     </GameScreenBox>

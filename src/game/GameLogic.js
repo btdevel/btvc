@@ -1,20 +1,20 @@
 import create from 'zustand'
 import produce from 'immer'
-import TimeStepper from './TimeStepper'
-import {CityMap} from './CityMap'
-import {declination, elevation, hour_angle, radians, sunPosition} from './Sun'
 
-import {startGUI} from './ExpGUI'
-import DungeonMap from './DungeonMap'
-import {clamp, mod} from '../util/math'
-import {Direction} from './Movement'
-import imageMap from './Images'
-
-import {initVideo} from './Video'
-import configFile from '../game_config.yaml'
-import programFile from '../programs.yaml'
 import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
 import {execCommand} from "./ExecCommand";
+import {CityMap} from './CityMap'
+import DungeonMap from './DungeonMap'
+import {Direction} from './Movement'
+import {declination, elevation, hour_angle, sunPosition} from './Sun'
+import {startGUI} from './ExpGUI'
+import {initVideo} from './Video'
+import imageMap from './Images'
+import TimeStepper from '../util/TimeStepper'
+import {clamp, mod, radians} from '../util/math'
+
+import configFile from '../game_config.yaml'
+import programFile from '../programs.yaml'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -40,10 +40,18 @@ function modifyState(func) {
 export const modifyStatInternal_ = modifyState
 export const useStoreInternal_ = useStore
 
-export const setOverlayText = (text) => modifyState(state => { state.overlayText = text })
-export const setOverlayImage = (url) => modifyState(state => { state.overlayImage = url })
-export const setLocation = (text) => modifyState(state => { state.location = text })
-export const setGameText = (text) => modifyState(state => { state.gameText = text })
+export const setOverlayText = (text) => modifyState(state => {
+  state.overlayText = text
+})
+export const setOverlayImage = (url) => modifyState(state => {
+  state.overlayImage = url
+})
+export const setLocation = (text) => modifyState(state => {
+  state.location = text
+})
+export const setGameText = (text) => modifyState(state => {
+  state.gameText = text
+})
 
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useOverlayImage = () => useStore(state => state.overlayImage)
@@ -56,7 +64,7 @@ export const useMap = () => useStore(state => state.map)
 
 class GameState {
   stepper = new TimeStepper()
-  position = { x: 0, y: 0 }
+  position = {x: 0, y: 0}
   dir = 0
   flyMode = false
   dPhi = 0
@@ -66,8 +74,13 @@ class GameState {
   program = []
   programRunning = false
 
-  get level() { return useStore.getState().level }
-  get map() { return useStore.getState().map }
+  get level() {
+    return useStore.getState().level
+  }
+
+  get map() {
+    return useStore.getState().map
+  }
 
   export = {
     forward: () => this.move(true),
@@ -88,9 +101,15 @@ class GameState {
     toggleFullscreen: this.toggleFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
-    nextLevel: () => { this.loadLevel(this.level + 1) },
-    prevLevel: () => { this.loadLevel(this.level - 1) },
-    toggleFly: () => { this.flyMode = !this.flyMode },
+    nextLevel: () => {
+      this.loadLevel(this.level + 1)
+    },
+    prevLevel: () => {
+      this.loadLevel(this.level - 1)
+    },
+    toggleFly: () => {
+      this.flyMode = !this.flyMode
+    },
     doDebugStuff: startGUI
   }
 
@@ -334,7 +353,8 @@ class GameState {
       console.warn("Unknown program: ", prog);
       return
     }
-    const dump = {}; dump[prog] = program
+    const dump = {};
+    dump[prog] = program
     console.log("Program: ", dumpConfig(dump));
     this.program = [...program]
     this.programRunning = true
