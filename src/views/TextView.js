@@ -8,7 +8,7 @@ const TextViewBox = styled.div`
   width: 100%;
   height: 100%;
   padding: 8px;
-  font-family: 'C64Font';
+  font-family: '8BitFont';
 `
 
 export default function TextView() {
