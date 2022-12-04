@@ -75,8 +75,8 @@ function HelpText2() {
 }
 
 
-export default function Help() {
-  const [show, setShow] = useState(false);
+export default function Help({initialShow = true}) {
+  const [show, setShow] = useState(initialShow);
   const close = () => setShow(false);
 
   return (

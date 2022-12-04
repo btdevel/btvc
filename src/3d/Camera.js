@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'
@@ -12,6 +12,14 @@ export const springConfigSlide = {mass: 2, tension: 1400, friction: 150}
 export const springConfigWobble = {mass: 3, tension: 400, friction: 12.0}
 
 const AnimatedCamera = animated(PerspectiveCamera)
+
+function resumeListener() {
+  const context = audioListener.context
+  if( context.state === 'suspended') {
+    console.log("Resuming audio context...")
+    context.resume()
+  }
+}
 
 export default function Camera() {
   const startPos = gameState.position
@@ -40,16 +48,24 @@ export default function Camera() {
     gameState.jumped = false
   })
 
-  function interp(...args) {
-    // console.log(args);
-    const [x, y, z] = args
-    // console.log(x)
-    return [x, y, z]
-  }
+  useEffect(()=> {
+    // We do this here (not in Audio, since here is where we have/need our listener
+    // Note, that only mouse and touch events seem to indicate to the typical browsers
+    // that the user has interacted with the page, but no keyboard events (sigh)
+    const event_types = ['click', 'contextmenu', 'touchstart']
+    for( let type of event_types) {
+      document.addEventListener(type, resumeListener)
+    }
+    return () => {
+      for( let type of event_types) {
+        document.removeEventListener(type, resumeListener)
+      }
+    }
+  })
 
   return (<AnimatedCamera
       makeDefault
-      position={position.to(interp)}
+      position={position.to(Array)}
       rotation-x={rotationX}
       rotation-z={rotationZ}
       rotation-order='YZX'

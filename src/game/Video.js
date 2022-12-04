@@ -96,7 +96,7 @@ async function onPublish(user, mediaType) {
   if (mediaType === "audio") {
     track.play();
     addTrackInfo(id, [null, null, track])
-    console.log("Subscribe t audio: ", id);
+    console.log("Subscribe to audio: ", id);
   }
 }
 
