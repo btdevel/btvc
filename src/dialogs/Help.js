@@ -1,45 +1,6 @@
 import React, { useState } from 'react';
-import {Carousel, Modal, Button, Accordion} from "react-bootstrap";
-import styled from 'styled-components'
+import {PopupBox, Button, Entries, Entry, Link} from "./DialogElements";
 
-
-const HelpBox = styled.div`
-  width: 640px;
-  height: 400px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 50px;
-`
-
-function PopupBox({ header, subheader, children, show, close }) {
-  return (
-    <>
-      <Modal show={show} onHide={close}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            {header}
-            <br/>{subheader}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{children}</Modal.Body>
-      </Modal>
-    </>
-  );
-}
-
-function Entries({children}) {
-  return (<Accordion alwaysOpen={false} defaultActiveKey={1}>{children}</Accordion>)
-}
-
-function Entry({number, header, children}) {
-  return (
-  <Accordion.Item eventKey={number}>
-    <Accordion.Header >{header}</Accordion.Header>
-    <Accordion.Body>{children}</Accordion.Body>
-  </Accordion.Item>
-  )
-}
 
 function HelpText() {
   // todo: read from yaml
@@ -69,6 +30,12 @@ function HelpText() {
           Well, it's a bit complicated. Best you get a token from me currently.<br/>
           Go to agora and get a license
         </Entry>
+        <Entry number={5} header="Bugs">
+          This program was developed by a professional and is thus -by definition-
+          bug-free. However, if you messed up and want to blame that on
+          the developer of this fine piece of software go to
+          <Link href="https://github.com/btdevel/btvc/issues"/> and do so.
+        </Entry>
       </Entries>
     </>
   )
@@ -78,18 +45,11 @@ function HelpText() {
 export default function Help({initialShow = true}) {
   const [show, setShow] = useState(initialShow);
   const close = () => setShow(false);
+  const open = () => setShow(true);
 
   return (
     <>
-      <Button
-        onClick={() => setShow(true) }
-        id='help-button'
-        variant='secondary'
-        size='sm'
-        style={{margin: '10px'}}
-      >
-        Show Help
-      </Button>
+      <Button onClick={open} id='help-button'>Show Help</Button>
       <PopupBox header="Bards's Tale Video Chat Client" show={show} close={close}>
         <HelpText />
       </PopupBox>

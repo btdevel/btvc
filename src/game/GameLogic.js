@@ -74,6 +74,8 @@ class GameState {
   program = []
   programRunning = false
 
+  canGrabKeyboard = true
+
   get level() {
     return useStore.getState().level
   }

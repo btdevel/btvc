@@ -1,6 +1,8 @@
 /* For Bootstrap CSS customization see e.g.:*
 /*  - https://getbootstrap.com/docs/5.2/customize/css-variables/ */
 /*  - https://getbootstrap.com/docs/5.2/components/accordion/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/modal/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/button/#variables */
 
 :root {
     --bs-body-font-family: "8BitFont";
@@ -10,6 +12,8 @@
     --amiga-wb-color-orange: #ff8800;
     --amiga-wb-color-white: #ffffff;
     --amiga-wb-color-black: #000020;
+
+    --bardstale-grey: #aaaaaa;
 }
 
 .modal {
@@ -81,15 +85,23 @@
 
 
 
-.btn-secondary {
+.btn-primary {
+    /*color: var(--amiga-wb-color-blue);*/
+    /*background: var(--amiga-wb-color-white);*/
+    color: var(--amiga-wb-color-black);
+    background: var(--bardstale-grey);
+    border-color: var(--amiga-wb-color-black);
     border-radius: 0px;
     border-width: 2px;
-    color: var(--amiga-wb-color-blue);
-    border-color: var(--amiga-wb-color-black);
-    background: var(--amiga-wb-color-white);
 }
-.btn-secondary:hover {
+.btn-primary:hover {
     color: var(--amiga-wb-color-orange);
-    border-color: var(--amiga-wb-color-black);
     background: var(--amiga-wb-color-white);
+    border-color: var(--amiga-wb-color-black);
 }
+:not(.btn-check) + .btn:active {
+    color: var(--amiga-wb-color-black);
+    background: var(--amiga-wb-color-orange);
+    border-color: var(--amiga-wb-color-black);
+}
+
