@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import {initializeVideo} from '../game/Video'
 import {useAsync} from '../util/hooks';
-import noise from "../assets/images/other/noise.mp4";
+import noise from "../assets/videos/noise.mp4";
 
 const VideoBox = styled.div`
   box-sizing: border-box;
