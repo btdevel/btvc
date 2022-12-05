@@ -25,11 +25,11 @@ export default function Camera() {
   const startPos = gameState.position
   const startAngle = gameState.angle()
 
-  const [{position}, setPos] = useSpring(() => ({
+  const [{position}, posApi] = useSpring(() => ({
     position: [startPos.x, startPos.y, 0],
     config: springConfigSlide
   }))
-  const [{rotationZ, rotationX}, setRot] = useSpring(() => ({
+  const [{rotationZ, rotationX}, rotApi] = useSpring(() => ({
     rotationZ: startAngle,
     rotationX: Math.PI / 2,
     config: springConfigSlide
@@ -43,8 +43,8 @@ export default function Camera() {
     const z = gameState.flyMode ? 1 : 0
 
     const immediate = gameState.jumped
-    setPos({position: [pos.x, pos.y, z], immediate: immediate})
-    setRot({rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate})
+    posApi.start({position: [pos.x, pos.y, z], immediate: immediate})
+    rotApi.start({rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate})
     gameState.jumped = false
   })
 

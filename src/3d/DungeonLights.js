@@ -30,7 +30,7 @@ export default function DungeonLights({map}) {
   const ambientRef = useRef()
 
   const startPos = gameState.position
-  const [{position}, setPos] = useSpring(() => ({
+  const [{position}, posApi] = useSpring(() => ({
     position: [startPos.x, startPos.y, 2],
     // config: springConfigSlide
     config: springConfigSlow
@@ -38,7 +38,7 @@ export default function DungeonLights({map}) {
 
   useFrame(() => {
     const pos = gameState.position
-    setPos({position: [pos.x, pos.y, 0.4]})
+    posApi.start({position: [pos.x, pos.y, 0.4]})
   })
 
   const lights = []
