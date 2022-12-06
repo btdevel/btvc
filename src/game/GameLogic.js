@@ -162,18 +162,20 @@ class GameState {
 
   tic() {
     // console.log("Tic...");
-    if (this.programRunning) {
-      if (this.program.length) {
-        const command = this.program.shift()
-        console.log("Executing: ", command);
-        execCommand(command)
-      } else {
-        setLocation(this.map.name)
-        setOverlayImage(null)
-        setGameText()
-        this.programRunning = false
-      }
+    if (!this.programRunning) return
+
+    if (!this.program.length) {
+      setLocation(this.map.name)
+      setOverlayImage(null)
+      setGameText()
+      this.programRunning = false
+      return
     }
+
+    const command = this.program.shift()
+    console.log("Executing: ", command);
+    const retval = execCommand(command)
+    console.log("Command returned: ", retval);
   }
 
   async loadLevel(level) {
