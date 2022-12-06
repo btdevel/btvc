@@ -60,14 +60,7 @@ export default function Audio({
       function (audioBuffer) {
         if (isStopped) return
         isLoaded = true
-        // audio.setBuffer(audioBuffer);
-
-        const oscillator = audioListener.context.createOscillator();
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime( 440, audio.context.currentTime );
-        oscillator.start( 0 );
-        audio.setNodeSource(oscillator)
-
+        audio.setBuffer(audioBuffer);
 
         // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics
         // https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
@@ -76,19 +69,15 @@ export default function Audio({
         audio.setLoop(loop)
         audio.setVolume(volume)
         if (!ambient) {
-          audio.setRolloffFactor(1.7)
-          // audio.setMaxDistance(3)
-          audio.setDistanceModel("exponential")
-          audio.setRefDistance(0.5);
+          audio.setRolloffFactor(rolloffFactor)
+          audio.setMaxDistance(maxDistance)
+          audio.setDistanceModel(distanceModel)
+          audio.setRefDistance(dist);
           if (cone) {
-            // audio.setDirectionalCone(...cone.slice(1))
+            audio.setDirectionalCone(...cone.slice(1))
           }
         }
-        if( x==24 && y==15) {
-          audio.play();
-          console.log(audio.panner)
-          console.log(audio.panner.maxDistance)
-        }
+        audio.play();
       },
       function (xhr) {
         // console.log((xhr.loaded / xhr.total * 100) + '% loaded');

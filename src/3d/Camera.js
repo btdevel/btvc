@@ -2,10 +2,8 @@ import React, {useEffect} from 'react'
 import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'
-import * as THREE from 'three'
 import {getAudioListener} from './Audio'
 import {gameState} from '../game/GameLogic'
-import {Quaternion, Vector3} from "three";
 
 
 export const springConfigMove = {mass: 3, tension: 400, friction: 12.0, clamp: true}
@@ -48,33 +46,7 @@ export default function Camera() {
     const immediate = gameState.jumped
     posApi.start({position: [pos.x, pos.y, z], immediate: immediate})
     rotApi.start({rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate})
-  })
-
-  document.addEventListener('contextmenu', ()=>{
-    // console.log(audioListener)
-    console.log(audioListener.context)
-    console.log(audioListener.context.listener)
-    audioListener.updateMatrixWorld()
-    const up = audioListener.up
-    console.log(up)
-
-    // const _position$1 = /*@__PURE__*/ new Vector3();
-    // const _quaternion$1 = /*@__PURE__*/ new Quaternion();
-    // const _scale$1 = /*@__PURE__*/ new Vector3();
-    // const _orientation$1 = /*@__PURE__*/ new Vector3();
-    // audioListener.matrixWorld.decompose( _position$1, _quaternion$1, _scale$1 );
-    // up.set( 0, 1, 0 ).applyQuaternion( _quaternion$1 );
-    // console.log(up)
-
-    // up.x = 0
-    // up.y = 0
-    // up.z = 1
-    // console.log('Pos', audioListener.context.listener.positionX)
-    // const audioCtx = new AudioContext()
-    // const audioListener2 = audioCtx.listener
-    // console.log(audioCtx)
-    // console.log(audioListener2)
-    // console.log(audioListener.context.listener.getOrientation())
+    gameState.jumped = false
   })
 
   useEffect(()=> {
