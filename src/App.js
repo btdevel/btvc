@@ -15,8 +15,8 @@ export default function App() {
     <>
       <GameScreen/>
       <VideoController/>
-      <Help initialShow={true}/>
-      <Settings/>
+      <Help initialShow={!true}/>
+      <Settings initialShow={true}/>
     </>
   );
 }

@@ -136,7 +136,7 @@ export function initVideo(config) {
   videoState.client.on("")
 
   videoState.appId = config.video.appId
-  videoState.channel = "test"
+  videoState.channel = config.video.channel
   videoState.token = config.video.token
 }
 
@@ -165,12 +165,12 @@ export async function startConference() {
     await videoState.client.join(videoState.appId, videoState.channel, videoState.token)
   } catch (e) {
     console.warn("Caught connection error: ", e);
-    let cause = "Unknown reason..."
+    let cause = "Reason: " + e.code
     switch (e.code) {
       case "CAN_NOT_GET_GATEWAY_SERVER":
         if (e.message.match('invalid vendor key')) {
           cause = "Invalid auth token..."
-        } else if (e.message.match('dynamic key expired')) {
+        } else if (e.message.match('dynamic key')) {
           cause = "Auth token probably expired..."
         }
         break
@@ -179,7 +179,6 @@ export async function startConference() {
         setGameText("")
         return
       default:
-        cause = "Reason: " + e.message
     }
     console.log("Cause: ", cause);
     setGameText(`Could not join channel!\n${cause}`)
