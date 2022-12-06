@@ -1,0 +1,107 @@
+/* For Bootstrap CSS customization see e.g.:*
+/*  - https://getbootstrap.com/docs/5.2/customize/css-variables/ */
+/*  - https://getbootstrap.com/docs/5.2/components/accordion/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/modal/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/button/#variables */
+
+:root {
+    --bs-body-font-family: "8BitFont";
+    --bs-font-sans-serif: courier, Times;
+
+    --amiga-wb-color-blue: #0057af;
+    --amiga-wb-color-orange: #ff8800;
+    --amiga-wb-color-white: #ffffff;
+    --amiga-wb-color-black: #000020;
+
+    --bardstale-grey: #aaaaaa;
+}
+
+.modal {
+    --bs-modal-color: var(--amiga-wb-color-white);
+    --bs-modal-width: 620px;
+
+    --bs-modal-header-padding: 0.5rem 1rem;
+    --bs-modal-header-border-width: 2px;
+
+    --bs-modal-border-width: 2px;
+    --bs-modal-border-radius: 0px;
+    --bs-modal-border-color: var(--amiga-wb-color-white);
+
+    --bs-modal-bg: var(--amiga-wb-color-blue);
+}
+
+.modal-header .btn-close {
+    opacity: 1;
+    background: transparent;
+    color: var(--amiga-wb-color-black);
+    font-size: larger;
+    padding-bottom: 1rem;
+    xpadding-bottom: calc(var(--bs-modal-header-padding-y) * .5);
+}
+
+.modal-title.h4 {
+    font-size: 1.2rem;
+    white-space: nowrap;
+}
+
+.btn-close::before {
+    content: "X";
+}
+.btn-close:hover {
+    color: var(--amiga-wb-color-orange);
+}
+
+.accordion {
+    --bs-accordion-border-radius: 0px;
+    --bs-accordion-border-width: 2px;
+    --bs-accordion-border-color: var(--amiga-wb-color-black);
+
+    /*--bs-accordion-active-color: var(--amiga-wb-color-orange);*/
+    /*--bs-accordion-active-bg: var(--amiga-wb-color-white);*/
+    --bs-accordion-active-color: var(--amiga-wb-color-white);
+    --bs-accordion-active-bg: var(--amiga-wb-color-orange);
+
+    --bs-accordion-inner-border-radius: 0rem;
+
+    --bs-accordion-btn-color: var(--amiga-wb-color-black);
+    --bs-accordion-btn-bg: var(--amiga-wb-color-orange);
+    --bs-accordion-btn-focus-border-color: none;
+    --bs-accordion-btn-focus-box-shadow: none;
+    --bs-accordion-btn-padding-x: 0.5rem;
+    --bs-accordion-btn-padding-y: 0.25rem;
+    --bs-accordion-btn-icon: none;
+    --bs-accordion-btn-active-icon: none;
+    --bs-accordion-btn-icon-transform: translate(calc(-0.5*var(--bs-accordion-btn-icon-width))) rotate(-0.5turn);
+}
+.accordion-button {
+    text-transform: uppercase;
+}
+.accordion-button:not(.collapsed) {
+    border-bottom: var(--bs-accordion-border-color) solid 2px;
+}
+.accordion-button::after {
+    content: "v";
+}
+
+
+
+.btn-primary {
+    /*color: var(--amiga-wb-color-blue);*/
+    /*background: var(--amiga-wb-color-white);*/
+    color: var(--amiga-wb-color-black);
+    background: var(--bardstale-grey);
+    border-color: var(--amiga-wb-color-black);
+    border-radius: 0px;
+    border-width: 2px;
+}
+.btn-primary:hover {
+    color: var(--amiga-wb-color-orange);
+    background: var(--amiga-wb-color-white);
+    border-color: var(--amiga-wb-color-black);
+}
+:not(.btn-check) + .btn:active {
+    color: var(--amiga-wb-color-black);
+    background: var(--amiga-wb-color-orange);
+    border-color: var(--amiga-wb-color-black);
+}
+

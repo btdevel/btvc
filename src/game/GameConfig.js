@@ -1,30 +1,8 @@
 import YAML from 'js-yaml'
-import { parse } from 'query-string'
+import {parse} from 'query-string'
+import {mergeObject} from "../util/merging";
 
-
-function mergeArray(obj1, obj2) {
-  if (!obj1) return obj2
-  return [...obj1, ...obj2]
-}
-
-function mergeObject(obj1, obj2) {
-  if (!obj1) return obj2
-
-  for (const prop in obj2) {
-    const value = obj2[prop]
-    if (Array.isArray(value)) {
-      obj1[prop] = mergeArray(obj1[prop], value)
-    }
-    else if (typeof value === 'object') {
-      obj1[prop] = mergeObject(obj1[prop], value)
-    } else {
-      obj1[prop] = value
-    }
-  }
-  return obj1
-}
-
-function mergeRecursive(name, yaml, cache) {
+export function mergeRecursive(name, yaml, cache) {
   // console.log('Recursively merging: ', name)
   if (!cache) cache = {}
   if (cache[name]) {
@@ -50,7 +28,7 @@ export async function loadYAML(file) {
   const response = await fetch(file)
   const body = await response.text()
 
-  return YAML.safeLoad(body)
+  return YAML.load(body)
 }
 
 function queryAsObject() {
@@ -75,7 +53,7 @@ function queryAsObject() {
 }
 
 export function dumpConfig(yaml) {
-  return YAML.safeDump(yaml)
+  return YAML.dump(yaml)
 }
 
 export async function loadConfig(configFile) {

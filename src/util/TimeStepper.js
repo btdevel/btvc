@@ -1,38 +1,38 @@
 export default class TimeStepper {
-  
-  constructor (tSim, simSpeed, paused) {
+
+  constructor(tSim, simSpeed, paused) {
     this.tReal = this.getSystemTime()
-    this.tSim = tSim!==undefined ? tSim : 0.0
-    this.simSpeed = simSpeed!==undefined ? simSpeed : 1.0
-    this.paused = paused!==undefined ? paused : false
+    this.tSim = tSim !== undefined ? tSim : 0.0
+    this.simSpeed = simSpeed !== undefined ? simSpeed : 1.0
+    this.paused = paused !== undefined ? paused : false
   }
 
-  getSystemTime () {
+  getSystemTime() {
     return Date.now() / 1000.0
   }
 
-  getSimTime () {
+  getSimTime() {
     this.step()
-    return this.tSim 
+    return this.tSim
   }
 
-  setSimTime (tSim) {
+  setSimTime(tSim) {
     this.tSim = tSim
   }
 
-  getSimSpeed () {
+  getSimSpeed() {
     return this.simSpeed
   }
 
-  setSimSpeed (simSpeed) {
+  setSimSpeed(simSpeed) {
     this.simSpeed = simSpeed
   }
 
-  isPaused () {
+  isPaused() {
     return this.paused
   }
 
-  setPaused (paused) {
+  setPaused(paused) {
     if (paused) {
       this.step()
     } else {
@@ -41,8 +41,8 @@ export default class TimeStepper {
     this.paused = paused
   }
 
-  step (tRealNew) {
-    if( tRealNew === undefined ) {
+  step(tRealNew) {
+    if (tRealNew === undefined) {
       tRealNew = this.getSystemTime()
     }
     const dtReal = tRealNew - this.tReal
@@ -51,26 +51,26 @@ export default class TimeStepper {
     this.tSim += dtSim
   }
 
-  accelerate (factor) {
+  accelerate(factor) {
     this.step()
     this.simSpeed *= factor
   }
 
-  decelerate (factor) {
+  decelerate(factor) {
     this.step()
     this.simSpeed /= factor
   }
 
-  reverse () {
+  reverse() {
     this.step()
     this.simSpeed = -this.simSpeed
   }
 
-  pause () {
+  pause() {
     this.setPaused(true)
   }
 
-  resume () {
+  resume() {
     this.setPaused(false)
   }
 }

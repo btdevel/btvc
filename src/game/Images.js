@@ -17,20 +17,20 @@ import otherHeaven from '../assets/images/other/heaven.png'
 import insideGuild from '../assets/images/amiga/bt1-48.gif'
 
 const imageMap = {
-    'inside/castle': insideCastle,
-    'inside/credits': insideCredits,
-    'inside/empty': insideEmpty,
-    'inside/guild': insideGuild,
-    'inside/pub': insidePub,
-    'inside/review': insideReview,
-    'inside/roscoes': insideRoscoes,
-    'inside/shop': insideShop,
-    'inside/stairs': insideStairs,
-    'inside/temple': insideTemple,
-    'city/city_gate': cityCityGate,
-    'city/gate': cityGate,
-    'city/statue': cityStatue,
-    'other/heaven': otherHeaven,
+  'inside/castle': insideCastle,
+  'inside/credits': insideCredits,
+  'inside/empty': insideEmpty,
+  'inside/guild': insideGuild,
+  'inside/pub': insidePub,
+  'inside/review': insideReview,
+  'inside/roscoes': insideRoscoes,
+  'inside/shop': insideShop,
+  'inside/stairs': insideStairs,
+  'inside/temple': insideTemple,
+  'city/city_gate': cityCityGate,
+  'city/gate': cityGate,
+  'city/statue': cityStatue,
+  'other/heaven': otherHeaven,
 
 }
 

@@ -57,14 +57,16 @@ export function createCheckeredTexture(color1 = white, color2 = black) {
 }
 
 export function lighten(color, add) {
-  const { h, s, l } = color.getHSL()
+  const {h, s, l} = color.getHSL()
   const newColor = new THREE.Color()
   return newColor.setHSL(h, s, l + add)
 }
+
 // const floorColor = new THREE.Color("rgb(0, 85, 68)")
 
 
 const loader = new THREE.TextureLoader()
+
 export function loadTextureRepeat(img, repeat) {
   const texture = loader.load(img)
   texture.wrapS = THREE.RepeatWrapping
