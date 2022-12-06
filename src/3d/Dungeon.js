@@ -1,16 +1,11 @@
 import React from 'react'
 import * as THREE from 'three'
-
-import VideoScreen from './VideoScreen'
-import Audio from './Audio'
 import {loadTextureLinear, makeWallGeometry} from './util'
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
-// import wallImg from '../assets/images/levels1/dungeon_wall.png'
-// import doorImg from '../assets/images/levels1/dungeon_door.png'
+import {createLevel} from "./LevelBase";
 
-// const colorCeiling = new THREE.Color("rgb(0, 85, 68)")
 const wallMat = new THREE.MeshStandardMaterial({map: loadTextureLinear(wallImg)})
 const doorMat = new THREE.MeshStandardMaterial({map: loadTextureLinear(doorImg)})
 const secretDoorMat = wallMat // It's secret after all...
@@ -47,35 +42,6 @@ function Wall({x, y, dir, wtype}) {
     }
   }
   return <group>{walls}</group>
-}
-
-export function createLevel(map, createSquare) {
-  if (!map?.squares) return []
-
-  let elements = []
-  const width = map.width
-  const height = map.height
-
-  for (let x = 0; x < width; ++x) {
-    for (let y = 0; y < height; ++y) {
-      createSquare(elements, x, y, map.squares[x][y])
-    }
-  }
-
-  if (map.videoScreens) {
-    for (let video of map.videoScreens) {
-      const [[x, y], dir, trackNo, params] = video
-      elements.push(<VideoScreen key={`video-${x}-${y}-${dir}`} x={x} y={y} dir={dir} trackNo={trackNo} {...params} />)
-    }
-  }
-
-  if (map.audio) {
-    for (let audio of map.audio) {
-      const [[x, y], song, params] = audio
-      elements.push(<Audio key={`audio-${x}-${y}-${song}`} x={x} y={y} song={song} {...params} />)
-    }
-  }
-  return elements
 }
 
 function createWalls(elements, x, y, square) {

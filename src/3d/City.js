@@ -1,7 +1,7 @@
 import React from 'react'
 
 import House from './House'
-import {createLevel} from './Dungeon'
+import {createLevel} from "./LevelBase";
 
 function createHouse(elements, x, y, square) {
   const type = square.type

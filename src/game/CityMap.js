@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Map, {create2dArray} from './Map'
+import MapBase, {create2dArray} from './MapBase'
 import {gameState, setGameText} from './GameLogic'
 import {mapTo, mod} from '../util/math'
 
@@ -8,7 +8,7 @@ import cityMapJsonRaw from '../assets/levels/city.json'
 import cityMapImg from '../assets/images/city/bt1-skara-brae.jpg'
 
 
-export class CityMap extends Map {
+export class CityMap extends MapBase {
   width
   height
   loaded = false
@@ -83,7 +83,7 @@ export class CityMap extends Map {
 
     setGameText(
       <div style={{width: '100%', height: '100%'}}>
-        <img height='100%' width='100%' src={cityMapImg} alt="Map of Skara Brae"/>
+        <img height='100%' width='100%' src={cityMapImg} alt="MapBase of Skara Brae"/>
         <div style={{
           fontSize: 12,
           fontWeight: 'bold',
