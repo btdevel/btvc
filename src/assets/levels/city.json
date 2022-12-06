@@ -37,7 +37,7 @@
     [[25, 2], ["jump", 25, 7]]
   ],
   "audio": [
-    [[24, 15], "guild", {"volume": 0.3, "dist": 1, "maxDistance": 5, "cone": [3, 180, 190, 0.0]}],
+    [[24, 15], "guild", {"volume": 0.3, "dist": 0.1, "maxDistance": 5, "cone": [3, 180, 190, 0.0]}],
     [[28, 5], "seekers_ballad", {"volume": 0.1, "dist": 1, "maxDistance": 5, "cone": [1, 180, 190, 0.0]}],
     [[22, 28], "0", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
     [[21, 28], "1", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],

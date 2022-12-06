@@ -55,19 +55,30 @@ export default function Audio({
       function (audioBuffer) {
         if (isStopped) return
         isLoaded = true
-        audio.setBuffer(audioBuffer);
+        // audio.setBuffer(audioBuffer);
+        const oscillator = audioListener.context.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime( 440, audio.context.currentTime );
+        oscillator.start( 0 );
+        audio.setNodeSource(oscillator)
+
+
         audio.setLoop(loop)
         audio.setVolume(volume)
         if (!ambient) {
-          audio.setRolloffFactor(rolloffFactor)
-          audio.setMaxDistance(maxDistance)
-          audio.setDistanceModel(distanceModel)
-          audio.setRefDistance(dist);
+          audio.setRolloffFactor(1.7)
+          // audio.setMaxDistance(3)
+          audio.setDistanceModel("exponential")
+          audio.setRefDistance(0.5);
           if (cone) {
-            audio.setDirectionalCone(...cone.slice(1))
+            // audio.setDirectionalCone(...cone.slice(1))
           }
         }
-        audio.play();
+        if( x==24 && y==15) {
+          audio.play();
+          console.log(audio.panner)
+          console.log(audio.panner.maxDistance)
+        }
       },
       function (xhr) {
         // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
