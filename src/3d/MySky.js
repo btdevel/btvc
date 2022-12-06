@@ -3,6 +3,11 @@ import {useFrame} from '@react-three/fiber'
 import {Sky} from '@react-three/drei'
 import {gameState} from '../game/GameLogic'
 
+import {Mesh} from 'three';
+import {Sky as SkyImpl} from 'three-stdlib';
+class MySkyImpl extends Mesh {
+}
+
 export default function MySky() {
   const sunRef = useRef()
   let sunInitialized = false
