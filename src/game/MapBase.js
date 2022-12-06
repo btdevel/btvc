@@ -6,7 +6,7 @@ import {mod} from '../util/math'
 export const create2dArray = (width, height, defaultVal) =>
   [...Array(width).keys()].map(() => Array(height).fill(defaultVal))
 
-export default class Map {
+export default class MapBase {
   width
   height
   loaded
