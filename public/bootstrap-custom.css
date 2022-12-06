@@ -96,7 +96,7 @@
 }
 .btn-primary:hover {
     color: var(--amiga-wb-color-orange);
-    background: var(--amiga-wb-color-white);
+    background: var(--bardstale-grey);
     border-color: var(--amiga-wb-color-black);
 }
 :not(.btn-check) + .btn:active {
