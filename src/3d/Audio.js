@@ -19,11 +19,14 @@ export const songMap = {
   6: waylands_watch, waylands_watch,
 }
 
-let globalAudioListener = null
 export function getAudioListener() {
-  if( !globalAudioListener ) globalAudioListener = new THREE.AudioListener()
-  globalAudioListener.up.set(0, 0, 1)
-  return globalAudioListener
+  let audioListener = getAudioListener.audioListener
+  if( !audioListener ) {
+    audioListener = new THREE.AudioListener()
+    audioListener.up.set(0, 0, 1) // bug in AudioListener, up is not rotated according to camera coord system
+    getAudioListener.audioListener = audioListener
+  }
+  return audioListener
 }
 
 export default function Audio({
@@ -31,17 +34,21 @@ export default function Audio({
                                 song = "",
                                 ambient = false,
                                 loop = true,
-                                volume = 0.2,
                                 x = 0,
                                 y = 0,
-                                dist = 1,
-                                rolloffFactor = 1,
-                                maxDistance = 10,
-                                distanceModel = "linear",
+                                volume = 0.5,
+                                distanceModel = "exponential",
+                                refDistance = 0.5,
+                                rolloffFactor = 2,
+                                maxDistance = 5,
                                 cone = undefined
                               }) {
-  const audioListener = getAudioListener()
+  if( song && url) {
+    console.warn("Should not pass `url` and `song` to Audio.")
+  }
   if (!url) url = songMap[song]
+
+  const audioListener = getAudioListener()
   const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener);
 
   audio.translateX(x)
@@ -61,18 +68,18 @@ export default function Audio({
         if (isStopped) return
         isLoaded = true
         audio.setBuffer(audioBuffer);
+        audio.setLoop(loop)
 
         // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics
         // https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
         // https://www.desmos.com/calculator/lzxfqvwoqq?lang=de
 
-        audio.setLoop(loop)
         audio.setVolume(volume)
         if (!ambient) {
+          audio.setDistanceModel(distanceModel)
+          audio.setRefDistance(refDistance);
           audio.setRolloffFactor(rolloffFactor)
           audio.setMaxDistance(maxDistance)
-          audio.setDistanceModel(distanceModel)
-          audio.setRefDistance(dist);
           if (cone) {
             audio.setDirectionalCone(...cone.slice(1))
           }

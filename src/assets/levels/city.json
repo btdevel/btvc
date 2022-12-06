@@ -9,14 +9,14 @@
     "the statue of a Grey Dragon"
   ],
   "messages": [
-    [[25, 18], "Turn around and go south..."],
-    [[22, 28], "Guild"],
-    [[21, 28], "Badhr Kilnfest"],
-    [[20, 28], "Falkentynes Fury"],
-    [[19, 28], "Lucklaran"],
-    [[18, 28], "Seekers Ballad"],
-    [[17, 28], "The Travellers Tune"],
-    [[16, 28], "Waylands Watch"]
+    [[23, 28], "Sound test ahead..."],
+    [[22, 28], "Now playing #1: Guild"],
+    [[20, 28], "Now playing #2: Badhr Kilnfest"],
+    [[18, 28], "Now playing #3: Falkentynes Fury"],
+    [[16, 28], "Now playing #4: Lucklaran"],
+    [[14, 28], "Now playing #5: Seekers Ballad"],
+    [[12, 28], "Now playing #6: The Travellers Tune"],
+    [[10, 28], "Now playing #7: Waylands Watch"]
   ],
   "actions": [
     [[24, 15], ["program", "guild"]],
@@ -37,15 +37,15 @@
     [[25, 2], ["jump", 25, 7]]
   ],
   "audio": [
-    [[24, 15], "guild", {"volume": 0.3, "dist": 0.1, "maxDistance": 5, "cone": [3, 180, 190, 0.0]}],
-    [[28, 5], "seekers_ballad", {"volume": 0.1, "dist": 1, "maxDistance": 5, "cone": [1, 180, 190, 0.0]}],
-    [[22, 28], "0", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[21, 28], "1", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[20, 28], "2", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[19, 28], "3", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[18, 28], "4", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[17, 28], "5", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}],
-    [[16, 28], "6", {"volume": 0.3, "dist": 0.5, "maxDistance": 1}]
+    [[24, 15], "guild"],
+    [[28, 5], "seekers_ballad"],
+    [[22, 28], "0", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[20, 28], "1", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[18, 28], "2", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[16, 28], "3", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[14, 28], "4", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[12, 28], "5", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}],
+    [[10, 28], "6", {"volume": 0.5, "distanceModel": "linear", "refDistance": 0.2, "rolloffFactor": 1, "maxDistance": 0.5}]
   ],
   "streetNames": {
     "0": "Alley",
