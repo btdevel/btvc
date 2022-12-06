@@ -3,7 +3,7 @@ import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'
 
-import {audioListener} from './Audio'
+import {getAudioListener} from './Audio'
 import {gameState} from '../game/GameLogic'
 
 
@@ -14,6 +14,7 @@ export const springConfigWobble = {mass: 3, tension: 400, friction: 12.0}
 const AnimatedCamera = animated(PerspectiveCamera)
 
 function resumeListener() {
+  const audioListener = getAudioListener()
   const context = audioListener.context
   if( context.state === 'suspended') {
     console.log("Resuming audio context...")
@@ -22,6 +23,7 @@ function resumeListener() {
 }
 
 export default function Camera() {
+  const audioListener = getAudioListener()
   const startPos = gameState.position
   const startAngle = gameState.angle()
 
