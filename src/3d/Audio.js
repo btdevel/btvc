@@ -19,8 +19,12 @@ export const songMap = {
   6: waylands_watch, waylands_watch,
 }
 
-export const audioListener = new THREE.AudioListener();
-// audioListener.up = new THREE.Vector3(0, 0, 1)
+let globalAudioListener = null
+export function getAudioListener() {
+  if( !globalAudioListener ) globalAudioListener = new THREE.AudioListener()
+  globalAudioListener.up.set(0, 0, 1)
+  return globalAudioListener
+}
 
 export default function Audio({
                                 url,
@@ -36,6 +40,7 @@ export default function Audio({
                                 distanceModel = "linear",
                                 cone = undefined
                               }) {
+  const audioListener = getAudioListener()
   if (!url) url = songMap[song]
   const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener);
 
@@ -56,12 +61,17 @@ export default function Audio({
         if (isStopped) return
         isLoaded = true
         // audio.setBuffer(audioBuffer);
+
         const oscillator = audioListener.context.createOscillator();
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime( 440, audio.context.currentTime );
         oscillator.start( 0 );
         audio.setNodeSource(oscillator)
 
+
+        // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics
+        // https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
+        // https://www.desmos.com/calculator/lzxfqvwoqq?lang=de
 
         audio.setLoop(loop)
         audio.setVolume(volume)
