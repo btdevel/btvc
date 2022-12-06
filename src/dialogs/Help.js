@@ -49,7 +49,7 @@ export default function Help({initialShow = true}) {
 
   return (
     <>
-      <Button onClick={open} id='help-button'>Show Help</Button>
+      <Button onClick={open} id='help-button'>Help</Button>
       <PopupBox header="Bards's Tale Video Chat Client" show={show} close={close}>
         <HelpText />
       </PopupBox>

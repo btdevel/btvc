@@ -1,8 +1,8 @@
 import {setGameText} from './GameLogic'
-import Map, {create2dArray} from './Map'
+import MapBase, {create2dArray} from './MapBase'
 import {mergeObject} from "../util/merging";
 
-export default class DungeonMap extends Map {
+export default class DungeonMap extends MapBase {
   width
   height
   loaded = false
