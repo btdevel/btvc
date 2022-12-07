@@ -5,7 +5,7 @@ import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
 import {execCommand} from "./ExecCommand";
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
-import {Direction} from './Movement'
+import {Direction, moveDir, normalizeDir} from './Movement'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
 import {startGUI} from './ExpGUI'
 import {initVideo} from './Video'
@@ -282,14 +282,11 @@ class GameState {
   }
 
   move(forward) {
-
     const map = this.map
-    const dir = mod(this.dir + (forward ? 0 : 2), 4)
-    const old_x = this.position.x
-    const old_y = this.position.y
-
-    const new_x = mod(old_x + Direction.dx[dir], map.width)
-    const new_y = mod(old_y + Direction.dy[dir], map.height)
+    const dir = normalizeDir(this.dir, forward)
+    const new_x = moveDir(this.position.x, dir, true, map.width)
+    const new_y = moveDir(this.position.y, dir, false, map.height)
+    console.log(this.dir, this.position, dir, new_x, new_y)
     if (!this.flyMode) {
       const [allowed, msg] = map.canMove(this.position.x, this.position.y, dir, new_x, new_y)
       this.showMessage(msg)
@@ -305,6 +302,8 @@ class GameState {
   }
 
   turn(i) {
+    // we don't wrap around here (mod 4) because that would cause problems with the smooth 3d rotation
+    // rather we always use mod 4 in map computations
     this.dir += i
     this.showMessage()
   }

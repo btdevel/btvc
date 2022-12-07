@@ -24,10 +24,9 @@ export default class DungeonMap extends MapBase {
 
   canMove(old_x, old_y, dir, new_x, new_y) {
     // console.log("DungeonMap: ", this)
-    const wall = this.squares[old_x][old_y]
-    const dirs = [wall.north, wall.west, wall.south, wall.east]
-    // setOverlayText(`${dirs}`)
-    const type = dirs[dir]
+    const wallTypes = this.squares[old_x][old_y]
+    const wallTypeInDir = [wallTypes.north, wallTypes.west, wallTypes.south, wallTypes.east]
+    const type = wallTypeInDir[dir]
     if (type === 1) return [false, "Ouch!"]
     return [true, undefined]
   }

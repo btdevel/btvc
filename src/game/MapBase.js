@@ -2,6 +2,7 @@ import {setGameText} from "./GameLogic"
 import {execCommand} from "./ExecCommand";
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
+import {getDirName} from "./Movement";
 
 export const create2dArray = (width, height, defaultVal) =>
   [...Array(width).keys()].map(() => Array(height).fill(defaultVal))
@@ -18,7 +19,6 @@ export default class MapBase {
 
   showInfo(time_hours, pos, dir) {
     const time = mod(time_hours, 24)
-    dir = mod(dir, 4)
 
     function pad(num, size) {
       return ('00' + num).substr(-size);
@@ -26,7 +26,7 @@ export default class MapBase {
 
     const hours = pad(Math.floor(time), 2)
     const minutes = pad(Math.floor((time - hours) * 60), 2)
-    const directions = ['north', 'west', 'south', 'east'];
+    const direction = getDirName(dir)
     const timeOfDay = ['after midnite', 'early morning', 'mid morning',
       'noon', 'afternoon', 'dusk', 'evening', 'midnite']
     const timeStr = timeOfDay[Math.floor(mod(time - 1.5, 24) / 3)]
@@ -36,7 +36,7 @@ export default class MapBase {
 
 
     let locationText = this.getLocationInfo()
-    const gameText = `${locationText} facing ${directions[dir]}.
+    const gameText = `${locationText} facing ${direction}.
 
         It's now ${timeStr}.
 
