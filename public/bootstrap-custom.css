@@ -5,7 +5,7 @@
 /*  - https://getbootstrap.com/docs/5.2/components/button/#variables */
 
 :root {
-    --bs-body-font-family: "8BitFont";
+    --bs-body-font-family: "8BitFont", courier, helvetica;
     --bs-font-sans-serif: courier, Times;
 
     --amiga-wb-color-blue: #0057af;

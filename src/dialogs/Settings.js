@@ -27,7 +27,6 @@ function SettingsDialog({save}) {
   let [token, setToken] = useState(gameState.config.video.token)
   let wrap = func => (event=>func(event.target.value))
   let wrapc = func => (event=>func(event.target.checked))
-  let foo = 3
 
   useEffect(() => {
     if( save ) {

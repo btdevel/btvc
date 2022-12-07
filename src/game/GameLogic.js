@@ -5,16 +5,15 @@ import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
 import {execCommand} from "./ExecCommand";
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
-import {Direction} from './Movement'
+import {moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
-import {startGUI} from './ExpGUI'
 import {initVideo} from './Video'
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
-import {clamp, mod, radians} from '../util/math'
+import {clamp, radians} from '../util/math'
 
-import configFile from '../game_config.yaml'
-import programFile from '../programs.yaml'
+import configFile from '../assets/config/game_config.yaml'
+import programFile from '../assets/config/programs.yaml'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -26,7 +25,6 @@ const useStore = create((set, get) => {
     overlayImage: '',
     gameText: '',
     fullscreen: false,
-    orbitcontrols: false,
     level: 'city',
     map: null,
     location: ''
@@ -58,7 +56,6 @@ export const useOverlayImage = () => useStore(state => state.overlayImage)
 export const useLocation = () => useStore(state => state.location)
 export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
-export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
 
@@ -112,7 +109,6 @@ class GameState {
     toggleFly: () => {
       this.flyMode = !this.flyMode
     },
-    doDebugStuff: startGUI
   }
 
   async init() {
@@ -129,7 +125,6 @@ class GameState {
     // console.log("Programs: ", dumpConfig(programs))
     this.programs = programs.programs
 
-    this.setOrbitcontrols(config.orbitcontrols)
     await this.loadLevel(config.level)
 
     const stepper = this.stepper
@@ -216,12 +211,6 @@ class GameState {
     })
   }
 
-  setOrbitcontrols(onoff) {
-    modifyState(draft => {
-      draft.orbitcontrols = onoff
-    })
-  }
-
   sun = {
     latitude: radians(51),
     day: 180,
@@ -282,14 +271,10 @@ class GameState {
   }
 
   move(forward) {
-
     const map = this.map
-    const dir = mod(this.dir + (forward ? 0 : 2), 4)
-    const old_x = this.position.x
-    const old_y = this.position.y
-
-    const new_x = mod(old_x + Direction.dx[dir], map.width)
-    const new_y = mod(old_y + Direction.dy[dir], map.height)
+    const dir = normalizeDir(this.dir, forward)
+    const new_x = moveDir(this.position.x, dir, true, map.width)
+    const new_y = moveDir(this.position.y, dir, false, map.height)
     if (!this.flyMode) {
       const [allowed, msg] = map.canMove(this.position.x, this.position.y, dir, new_x, new_y)
       this.showMessage(msg)
@@ -305,6 +290,8 @@ class GameState {
   }
 
   turn(i) {
+    // we don't wrap around here (mod 4) because that would cause problems with the smooth 3d rotation
+    // rather we always use mod 4 in map computations
     this.dir += i
     this.showMessage()
   }

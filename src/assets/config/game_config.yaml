@@ -116,10 +116,6 @@ configs:
   debug:
     initCommands:
       - "doDebugStuff"
-  orbitcontrols:
-    initCommands:
-      - "toggleFullscreen"
-    orbitcontrols: true
 
   # This is included in every config
   defaults:
@@ -129,7 +125,6 @@ configs:
     position: { x: 0, y: 0 }
     dir: 0
     initCommands: ["welcomeMessage"]
-    orbitcontrols: false
     video:
       enabled: true
       appId: "0dc426f8235842b3b4b7828a0d89d51b"
@@ -140,9 +135,12 @@ configs:
       volume: 0.2
       decayParams: {}
     rendering:
-      stars: true
-      starCount: 1000
-      sky: true
-      skyShader: true
-      shadows: true
-      shadowMapSize: 512
+      stars:
+        enabled: true
+        count: 1000
+      sky:
+        enabled: true
+        useShader: true
+      shadows:
+        enabled: true
+        shadowMapSize: 512

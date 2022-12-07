@@ -2,7 +2,7 @@ import React from 'react'
 import * as THREE from 'three'
 
 import {makeShapeGeometry} from './util'
-import {Direction} from '../game/Movement'
+import {Direction} from '../game/Direction'
 import {useTrackInfo} from '../game/Video'
 
 const w = 0.0, b = 0.0, t = 0.0
