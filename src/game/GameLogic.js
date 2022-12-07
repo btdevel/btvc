@@ -7,7 +7,6 @@ import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
 import {Direction, moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
-import {startGUI} from './ExpGUI'
 import {initVideo} from './Video'
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
@@ -26,7 +25,6 @@ const useStore = create((set, get) => {
     overlayImage: '',
     gameText: '',
     fullscreen: false,
-    orbitcontrols: false,
     level: 'city',
     map: null,
     location: ''
@@ -58,7 +56,6 @@ export const useOverlayImage = () => useStore(state => state.overlayImage)
 export const useLocation = () => useStore(state => state.location)
 export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
-export const useOrbitcontrols = () => useStore(state => state.orbitcontrols)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
 
@@ -112,7 +109,6 @@ class GameState {
     toggleFly: () => {
       this.flyMode = !this.flyMode
     },
-    doDebugStuff: startGUI
   }
 
   async init() {
@@ -129,7 +125,6 @@ class GameState {
     // console.log("Programs: ", dumpConfig(programs))
     this.programs = programs.programs
 
-    this.setOrbitcontrols(config.orbitcontrols)
     await this.loadLevel(config.level)
 
     const stepper = this.stepper
@@ -213,12 +208,6 @@ class GameState {
   toggleFullscreen() {
     modifyState(draft => {
       draft.fullscreen = !draft.fullscreen
-    })
-  }
-
-  setOrbitcontrols(onoff) {
-    modifyState(draft => {
-      draft.orbitcontrols = onoff
     })
   }
 
