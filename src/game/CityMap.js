@@ -1,6 +1,6 @@
 import React from 'react'
 
-import MapBase, {create2dArray} from './MapBase'
+import MapBase, {createMap} from './MapBase'
 import {gameState, setGameText} from './GameLogic'
 import {mapTo, mod} from '../util/math'
 
@@ -41,7 +41,7 @@ export class CityMap extends MapBase {
 
     this.width = columns
     this.height = rows
-    this.squares = create2dArray(this.width, this.height, {})
+    this.squares = createMap(this.width, this.height, {})
 
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {

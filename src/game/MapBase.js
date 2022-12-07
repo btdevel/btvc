@@ -3,9 +3,9 @@ import {execCommand} from "./ExecCommand";
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
 import {getDirName} from "./Direction";
+import {create2dArray} from "../util/arrays";
 
-export const create2dArray = (width, height, defaultVal) =>
-  [...Array(width).keys()].map(() => Array(height).fill(defaultVal))
+export const createMap = create2dArray
 
 export default class MapBase {
   width
