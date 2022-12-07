@@ -13,8 +13,8 @@ import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
 import {clamp, mod, radians} from '../util/math'
 
-import configFile from '../game_config.yaml'
-import programFile from '../programs.yaml'
+import configFile from '../assets/config/game_config.yaml'
+import programFile from '../assets/config/programs.yaml'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
