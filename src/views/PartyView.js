@@ -2,7 +2,7 @@ import React from 'react'
 import * as THREE from 'three'
 import {Canvas} from '@react-three/fiber'
 
-import Scene from '../3d/Scene'
+import Scene from '../three/Scene'
 
 function PartyView() {
   return (
