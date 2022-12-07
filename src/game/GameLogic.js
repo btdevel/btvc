@@ -1,7 +1,7 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
+import {dumpConfig, loadConfig, loadYAML} from './ConfigLoader'
 import {execCommand} from "./ExecCommand";
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
