@@ -27,8 +27,8 @@ export const Button = styled(RSButton)`
   --bs-btn-border-radius: 0.25rem;
 `
 
-export function Entries({children}) {
-  return (<Accordion alwaysOpen={false} defaultActiveKey={1}>{children}</Accordion>)
+export function Entries({children, ...params}) {
+  return (<Accordion {...params}>{children}</Accordion>)
 }
 
 export function Entry({number, header, children}) {
