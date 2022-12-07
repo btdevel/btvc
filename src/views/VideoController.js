@@ -1,9 +1,8 @@
 import React, {useRef, useEffect} from 'react'
 import styled from 'styled-components'
 
-import {gameState} from "../game/GameLogic"
+import {useVideoConfig} from "../game/GameLogic"
 import {setVideoElementRef, startVideoClient, stopVideoClient} from '../game/Video'
-import {useAsync} from '../util/hooks'
 import noise from "../assets/videos/noise.mp4"
 
 const VideoBox = styled.div`
@@ -16,7 +15,7 @@ const VideoBox = styled.div`
 
 export default function VideoController() {
   const videoContainerRef = useRef()
-  const videoConfig = gameState.config.video // todo: needs to be served by zustand
+  const videoConfig = useVideoConfig()
 
   useEffect(() => {
     setVideoElementRef(videoContainerRef)
@@ -28,6 +27,7 @@ export default function VideoController() {
       console.log('Starting video client with config: ', videoConfig)
       startVideoClient(videoConfig)
       return () => {
+        console.log('Stopping video client.')
         stopVideoClient()
       }
     }

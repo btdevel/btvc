@@ -3,7 +3,7 @@ import {PopupBox, Button, Entries, Entry} from "./DialogElements";
 import Form from 'react-bootstrap/Form'
 import styled from 'styled-components';
 
-import {gameState} from '../game/GameLogic'
+import {gameState, useVideoConfig, setVideoConfig} from '../game/GameLogic'
 
 Form.Control=styled(Form.Control)`
   border: 2px solid var(--amiga-wb-color-black);
@@ -21,22 +21,22 @@ Form.Check=styled(Form.Check)`
 
 function SettingsDialog({save}) {
   // todo: read from yaml
-  let [videoEnabled, setVideoEnabled] = useState(gameState.config.video.enabled)
-  let [appId, setAppId] = useState(gameState.config.video.appId)
-  let [channel, setChannel] = useState(gameState.config.video.channel)
-  let [token, setToken] = useState(gameState.config.video.token)
+  const videoConfig = useVideoConfig()
+  const [videoEnabled, setVideoEnabled] = useState(videoConfig.enabled)
+  const [appId, setAppId] = useState(videoConfig.appId)
+  const [channel, setChannel] = useState(videoConfig.channel)
+  const [token, setToken] = useState(videoConfig.token)
   let wrap = func => (event=>func(event.target.value))
   let wrapc = func => (event=>func(event.target.checked))
 
   useEffect(() => {
     if( save ) {
-      gameState.config.video.enabled = videoEnabled
-      gameState.config.video.appId = appId
-      gameState.config.video.channel = channel
-      gameState.config.video.token = token
+      const newVideoConfig = {enabled: videoEnabled, appId: appId, channel: channel, token: token}
+      console.log("Saving video config: ", newVideoConfig)
+      setVideoConfig(newVideoConfig)
       // gameState.saveConfig()
     }
-  })
+  }, [save])
 
   return (
     <>

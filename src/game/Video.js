@@ -180,6 +180,8 @@ export async function startConference() {
           cause = "Invalid auth token..."
         } else if (e.message.match('dynamic key')) {
           cause = "Auth token probably expired..."
+        } else if (e.message.match('invalid token')) {
+          cause = "Auth token seems to be invalid..."
         }
         break
       case "OPERATION_ABORTED":
