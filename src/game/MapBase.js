@@ -2,7 +2,7 @@ import {setGameText} from "./GameLogic"
 import {execCommand} from "./ExecCommand";
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
-import {getDirName} from "./Movement";
+import {getDirName} from "./Direction";
 
 export const create2dArray = (width, height, defaultVal) =>
   [...Array(width).keys()].map(() => Array(height).fill(defaultVal))

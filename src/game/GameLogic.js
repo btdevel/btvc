@@ -5,7 +5,7 @@ import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
 import {execCommand} from "./ExecCommand";
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
-import {Direction, moveDir, normalizeDir} from './Movement'
+import {Direction, moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
 import {startGUI} from './ExpGUI'
 import {initVideo} from './Video'
@@ -286,7 +286,6 @@ class GameState {
     const dir = normalizeDir(this.dir, forward)
     const new_x = moveDir(this.position.x, dir, true, map.width)
     const new_y = moveDir(this.position.y, dir, false, map.height)
-    console.log(this.dir, this.position, dir, new_x, new_y)
     if (!this.flyMode) {
       const [allowed, msg] = map.canMove(this.position.x, this.position.y, dir, new_x, new_y)
       this.showMessage(msg)
