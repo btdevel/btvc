@@ -1,9 +1,10 @@
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 import styled from 'styled-components'
 
-import {initializeVideo} from '../game/Video'
-import {useAsync} from '../util/hooks';
-import noise from "../assets/videos/noise.mp4";
+import {gameState} from "../game/GameLogic"
+import {setVideoElementRef, startVideoClient, stopVideoClient} from '../game/Video'
+import {useAsync} from '../util/hooks'
+import noise from "../assets/videos/noise.mp4"
 
 const VideoBox = styled.div`
   box-sizing: border-box;
@@ -15,11 +16,26 @@ const VideoBox = styled.div`
 
 export default function VideoController() {
   const videoContainerRef = useRef()
-  const [, loading, error] = useAsync(initializeVideo, [videoContainerRef])
+  const videoConfig = gameState.config.video // todo: needs to be served by zustand
+
+  useEffect(() => {
+    setVideoElementRef(videoContainerRef)
+    return () => {setVideoElementRef(null)}
+  }, [videoContainerRef])
+
+  useEffect(() => {
+    if( videoConfig.enabled ) {
+      console.log('Starting video client with config: ', videoConfig)
+      startVideoClient(videoConfig)
+      return () => {
+        stopVideoClient()
+      }
+    }
+  }, [videoConfig])
 
   return (
     <>
-      {!loading && !error && <VideoBox ref={videoContainerRef} id="videobox"/>}
+      <VideoBox ref={videoContainerRef} id="videobox"/>
       <VideoBox id='noisebox'>
         <video id="video" loop playsInline autoPlay>
           <source src={noise} type='video/mp4;'/>

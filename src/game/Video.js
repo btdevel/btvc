@@ -124,20 +124,28 @@ function startTimeout() {
   onTimeout()
 }
 
-export function initializeVideo(ref) {
+export function setVideoElementRef(ref) {
   videoState.ref = ref
 }
 
-export function initVideo(config) {
+export function startVideoClient(videoConfig) {
   AgoraRTC.setLogLevel(2)
   videoState.client = AgoraRTC.createClient({mode: "rtc", codec: "h264"});
   videoState.client.on("user-published", onPublish);
   videoState.client.on("user-unpublished", onUnpublish);
-  videoState.client.on("")
 
-  videoState.appId = config.video.appId
-  videoState.channel = config.video.channel
-  videoState.token = config.video.token
+  videoState.appId = videoConfig.appId
+  videoState.channel = videoConfig.channel
+  videoState.token = videoConfig.token
+}
+
+export function stopVideoClient() {
+  stopConference()
+  videoState.client.removeAllListeners()
+  videoState.appId = null
+  videoState.channel = null
+  videoState.token = null
+
 }
 
 

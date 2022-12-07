@@ -140,10 +140,6 @@ class GameState {
       execCommand(command, "init()")
     }
 
-    if (config.video.enable) {
-      initVideo(config)
-    }
-
     setInterval(() => this.tic(), 200)
   }
 
