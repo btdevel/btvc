@@ -1,15 +1,7 @@
-import {Accordion, Button as RSButton, Modal} from "react-bootstrap";
 import React from "react";
+import {Accordion, Button as RSButton, Modal} from "react-bootstrap";
 import styled from "styled-components";
 
-const HelpBox = styled.div`
-  width: 640px;
-  height: 400px;
-  position: absolute;
-  left: 0;
-  top: 0;
-  padding: 50px;
-`
 
 export function PopupBox({header, subheader, children, show, close}) {
   return (
