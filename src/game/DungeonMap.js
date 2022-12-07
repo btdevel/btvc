@@ -1,5 +1,5 @@
 import {setGameText} from './GameLogic'
-import MapBase, {create2dArray} from './MapBase'
+import MapBase, {createMap} from './MapBase'
 import {mergeObject} from "../util/merging";
 
 export default class DungeonMap extends MapBase {
@@ -24,10 +24,9 @@ export default class DungeonMap extends MapBase {
 
   canMove(old_x, old_y, dir, new_x, new_y) {
     // console.log("DungeonMap: ", this)
-    const wall = this.squares[old_x][old_y]
-    const dirs = [wall.north, wall.west, wall.south, wall.east]
-    // setOverlayText(`${dirs}`)
-    const type = dirs[dir]
+    const wallTypes = this.squares[old_x][old_y]
+    const wallTypeInDir = [wallTypes.north, wallTypes.west, wallTypes.south, wallTypes.east]
+    const type = wallTypeInDir[dir]
     if (type === 1) return [false, "Ouch!"]
     return [true, undefined]
   }
@@ -65,7 +64,7 @@ export default class DungeonMap extends MapBase {
     const rows = map.height
     const columns = map.width
 
-    map.squares = create2dArray(map.width, map.height, {})
+    map.squares = createMap(map.width, map.height, {})
 
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
