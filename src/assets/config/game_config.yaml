@@ -1,5 +1,5 @@
-#config: originalGame
-config: debugStars
+config: originalGame
+#config: debugStars
 #config: debugCellars
 #config: betterGame
 
