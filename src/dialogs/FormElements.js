@@ -20,7 +20,7 @@ Form.Check = styled(Form.Check)`
       border: 2px solid var(--amiga-wb-color-black);
       box-shadow: none;
     }
-    &:checked {
+    &:checked: {
       color: var(--amiga-wb-color-black);
       background-color: var(--amiga-wb-color-white);
       border-color: var(--amiga-wb-color-black);
