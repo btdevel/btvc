@@ -103,6 +103,7 @@ function SettingsDialog({save}) {
 
 
 export default function Settings({initialShow = false}) {
+  console.log("Showing settings...")
   const [show, setShow] = useState(initialShow);
   const close = () => setShow(false);
   const open = () => setShow(true);

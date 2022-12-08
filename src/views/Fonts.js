@@ -5,7 +5,7 @@ import AmigaFont from '../assets/fonts/amiga4ever.ttf'
 
 const Fonts = createGlobalStyle`
     @font-face {
-        font-family: '8BitFont';
+        font-family: 'EightBit';
         src: url(${C64Font}) format('truetype');
     }
 `;
