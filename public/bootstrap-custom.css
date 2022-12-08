@@ -14,6 +14,11 @@
     --amiga-wb-color-black: #000020;
 
     --bardstale-grey: #aaaaaa;
+    user-select: none;
+    caret-color: transparent;
+}
+input {
+    caret-color: var(--amiga-wb-color-orange);
 }
 
 .modal {
