@@ -1,65 +1,9 @@
-import React, {useEffect, useId, useState} from 'react';
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
+
 import {Button, Entries, Entry, PopupBox} from "./DialogElements";
-import Form from 'react-bootstrap/Form'
-import styled from 'styled-components';
 
 import {gameState, setVideoConfig, useVideoConfig} from '../game/GameLogic'
-
-Form.Control = styled(Form.Control)`
-  border: 2px solid var(--amiga-wb-color-black);
-  border-radius: 0px;
-  &:focus{
-    border: 2px solid var(--amiga-wb-color-black);
-    box-shadow: none;
-  }
-`
-Form.Text = styled(Form.Text)`
-  margin-left: 1rem;
-`
-Form.Check = styled(Form.Check)`
-  input {
-    border: 2px solid var(--amiga-wb-color-black);
-    border-radius: 0px;
-    &:focus {
-      border: 2px solid var(--amiga-wb-color-black);
-      box-shadow: none;
-    }
-    &:checked: {
-      color: var(--amiga-wb-color-black);
-      background-color: var(--amiga-wb-color-white);
-      border-color: var(--amiga-wb-color-black);
-    }
-  }
-`
-
-function Group({children}) {
-  const id = useId()
-  return (
-    <Form.Group className="mb-3" controlId={id}>
-      {children}
-    </Form.Group>
-  )
-}
-
-function Checkbox({label, value, onChange}) {
-  return (
-    <Group>
-      <Form.Check type="checkbox" label={label} checked={value} onChange={ev => onChange(ev.target.checked)}/>
-    </Group>
-  )
-}
-
-function TextInput({label, placeholder, value, onChange, comment}) {
-  return (
-    <Group>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control type="text" placeholder={placeholder} value={value} onChange={ev => onChange(ev.target.value)}/>
-      {comment && <Form.Text className="text-muted">{comment}</Form.Text>}
-    </Group>
-  )
-
-}
-
+import {Checkbox, Form, RangeInput, TextInput} from "./FormElements";
 
 function SettingsDialog({save}) {
   // todo: read from yaml
