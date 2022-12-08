@@ -27,3 +27,15 @@ export function useAsyncFinish(func, args) {
   const [, loading,] = useAsync(func, args)
   return !loading
 }
+
+export default function useFontFaceReady() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    document.fonts.ready.then(() => {
+      setReady(true);
+    })
+  }, [])
+
+  return ready;
+}

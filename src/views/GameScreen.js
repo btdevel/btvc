@@ -2,7 +2,6 @@ import React, {useRef} from 'react'
 import {ErrorBoundary} from 'react-error-boundary'
 import styled from 'styled-components'
 
-import Fonts from './Fonts'
 import TextView from './TextView'
 import PartyRoasterView from './PartyRoasterView'
 import PartyView from './PartyView'
@@ -116,7 +115,6 @@ export default function GameScreen() {
   if (fullscreen) {
     return (
       <GameScreenBox id='game-screen' ref={gameScreenRef}>
-        <Fonts/>
         <FullscreenBox ref={partyViewRef}>
           <PartyView id='party-view' />
           <FullscreenTextViewBox id='text-view'>
@@ -130,7 +128,6 @@ export default function GameScreen() {
 
   return (
     <GameScreenBox id='game-screen' ref={gameScreenRef}>
-      <Fonts/>
 
       <BackgroundImageBox id='background-image'>
         <img
