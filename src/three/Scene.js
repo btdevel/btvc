@@ -4,11 +4,11 @@ import City from './City'
 import Dungeon from './Dungeon'
 import Lights from './Lights'
 import DungeonLights from './DungeonLights'
-import MySky from './MySky'
+import Sky from './Sky'
 import Ground from './Ground'
 import Camera from './Camera'
 import Effects from './Effects'
-import MyStars from './MyStars'
+import Stars from './Stars'
 import {useGraphicsConfig, useMap} from '../game/GameLogic'
 
 export default function Scene() {
@@ -20,10 +20,10 @@ export default function Scene() {
 
   return (<>
     <Camera key={map.level}/>
-    {isCity ? <Lights/> : <DungeonLights map={map}/>}
-    {isCity && <MySky/>}
+    {isCity ? <Lights shadows={config.shadows.enabled} shadowMapSize={config.shadows.shadowMapSize}/> : <DungeonLights map={map}/>}
+    {isCity && config.sky.enabled && <Sky/>}
     {isCity && config.stars.enabled &&
-      <MyStars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
+      <Stars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
     <Ground type={isCity ? "city" : "dungeon"}/>
     {isCity ? <City map={map}/> : <Dungeon map={map}/>}
     <Effects/>

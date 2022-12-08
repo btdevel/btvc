@@ -144,4 +144,4 @@ configs:
         useShader: true
       shadows:
         enabled: true
-        shadowMapSize: 512
+        shadowMapSize: 4096

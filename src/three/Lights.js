@@ -29,7 +29,7 @@ function computeLightParams(targetPos) {
   return {ambientIntensity, sunIntensity, newSunPos}
 }
 
-export default function Lights() {
+export default function Lights({shadows, shadowMapSize}) {
 
   const ambientRef = useRef()
   const sunRef = useRef()
@@ -60,7 +60,7 @@ export default function Lights() {
   const {ambientIntensity, sunIntensity, newSunPos} = computeLightParams(targetPos)
   const color = 0xffffff
   const shadowCamWidth = 20
-  const shadowMapSize = 8 * 512
+  // const shadowMapSize = 8 * 512
   const debug = false
   return (
     <>
@@ -75,7 +75,7 @@ export default function Lights() {
         intensity={sunIntensity}
         position={newSunPos}
         target={targetRef.current}
-        castShadow
+        castShadow={shadows}
         shadow-camera-left={-shadowCamWidth}
         shadow-camera-right={shadowCamWidth}
         shadow-camera-bottom={-shadowCamWidth}
@@ -98,10 +98,3 @@ export default function Lights() {
     </>
   )
 }
-
-// var gui = new dat.GUI();
-// gui.add( light.shadow.camera, 'top' ).min( 1 ).max( 100000 ).onChange( function ( value ) {
-//     light.shadow.camera.bottom = -value;
-//     light.shadow.camera.left = value;
-//     light.shadow.camera.right = -value;
-// });

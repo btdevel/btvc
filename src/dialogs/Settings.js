@@ -8,11 +8,19 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
   const graphicsConfig = useGraphicsConfig()
   const [starsEnabled, setStarsEnabled] = useState(graphicsConfig.stars.enabled)
   const [starsCount, setStarsCount] = useState(graphicsConfig.stars.count)
+  const [skyEnabled, setSkyEnabled] = useState(graphicsConfig.sky.enabled)
+  const [skyUseShader, setSkyUseShader] = useState(graphicsConfig.sky.useShader)
+  const [shadowsEnabled, setShadowsEnabled] = useState(graphicsConfig.shadows.enabled)
+  const [shadowMapSize, setShadowMapSize] = useState(graphicsConfig.shadows.shadowMapSize)
 
   useImperativeHandle(ref, () => {
     return {
       saveTemp() {
-        const newGraphicsConfig = {stars: { enabled: starsEnabled, count: starsCount}}
+        const newGraphicsConfig = {
+          stars: { enabled: starsEnabled, count: starsCount},
+          sky: {enabled: skyEnabled, useShader: skyUseShader},
+          shadows: {enabled: shadowsEnabled, shadowMapSize: shadowMapSize}
+        }
         console.log("Saving graphics config: ", newGraphicsConfig)
         setGraphicsConfig(newGraphicsConfig)
       },
@@ -22,15 +30,24 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
       reset() {
         setStarsEnabled(graphicsConfig.stars.enabled)
         setStarsCount(graphicsConfig.stars.count)
+        setSkyEnabled(graphicsConfig.sky.enabled)
+        setSkyUseShader(graphicsConfig.sky.useShader)
+        setShadowsEnabled(graphicsConfig.shadows.enabled)
+        setShadowMapSize(graphicsConfig.shadows.shadowMapSize)
       }
     }
-  }, [starsEnabled, starsCount, graphicsConfig])
+  }, [starsEnabled, starsCount, skyEnabled, skyUseShader, shadowsEnabled, shadowMapSize, graphicsConfig])
 
   return (<Form>
     <Checkbox label="Enable Stars" value={starsEnabled} onChange={setStarsEnabled}/>
     <RangeInput label="Number of stars" placeholder="Enter number of stars" value={starsCount} min={0} max={3000} onChange={setStarsCount}
-    disabled={!starsEnabled}/>
-  </Form>)
+                disabled={!starsEnabled}/>
+    <Checkbox label="Enable Sky" value={skyEnabled} onChange={setSkyEnabled}/>
+    <Checkbox label="Use Sky Shader" disabled={!skyEnabled} value={skyUseShader} onChange={setSkyUseShader}/>
+    <Checkbox label="Enable Shadows" value={shadowsEnabled} onChange={setShadowsEnabled}/>
+    <RangeInput label="Shadow Map Size" value={shadowMapSize} min={128} max={4096} step={128} onChange={setShadowMapSize}
+                disabled={!shadowsEnabled}/>
+    </Form>)
 })
 
 const VideoForm = forwardRef(function VideoForm(props, ref) {

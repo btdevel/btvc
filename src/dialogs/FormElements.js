@@ -12,6 +12,12 @@ function Group({children}) {
   )
 }
 
+Form.Label = styled(Form.Label)`
+  color: ${props => props.disabled ? "#ccc" : "#000"};
+`
+
+
+
 Form.Check = styled(Form.Check)`
   input {
     border: 2px solid var(--amiga-wb-color-black);
@@ -28,10 +34,10 @@ Form.Check = styled(Form.Check)`
   }
 `
 
-export function Checkbox({label, value, onChange}) {
+export function Checkbox({label, value, onChange, ...props}) {
   return (
     <Group>
-      <Form.Check type="checkbox" label={label} checked={value} onChange={ev => onChange(ev.target.checked)}/>
+      <Form.Check type="checkbox" label={label} checked={value} {...props} onChange={ev => onChange(ev.target.checked)}/>
     </Group>
   )
 }
@@ -47,30 +53,30 @@ Form.Control = styled(Form.Control)`
 Form.Text = styled(Form.Text)`
   margin-left: 1rem;
 `
-export function TextInput({label, placeholder, value, onChange, comment}) {
+export function TextInput({label, placeholder, value, onChange, comment, ...props}) {
   return (
     <Group>
       <Form.Label>{label}</Form.Label>
-      <Form.Control type="text" placeholder={placeholder} value={value} onChange={ev => onChange(ev.target.value)}/>
+      <Form.Control type="text" placeholder={placeholder} value={value} {...props} onChange={ev => onChange(ev.target.value)}/>
       {comment && <Form.Text className="text-muted">{comment}</Form.Text>}
     </Group>
   )
 }
 
-export function NumberInput({label, placeholder, value, onChange, comment}) {
+export function NumberInput({label, placeholder, value, onChange, comment, disabled, ...props}) {
   return (
     <Group>
       <Form.Label>{label}</Form.Label>
-      <Form.Control type="number" placeholder={placeholder} value={value} onChange={ev => onChange(ev.target.value)}/>
+      <Form.Control type="number" placeholder={placeholder} value={value} disabled={disabled} {...props} onChange={ev => onChange(ev.target.value)}/>
       {comment && <Form.Text className="text-muted">{comment}</Form.Text>}
     </Group>
   )
 }
-export function RangeInput({label, placeholder, value, onChange, comment, ...props}) {
+export function RangeInput({label, placeholder, value, onChange, comment, disabled, ...props}) {
   return (
     <Group>
-      <Form.Label>{label}</Form.Label>
-      <Form.Range value={value} tooltip="on" {...props} onChange={ev => onChange(ev.target.value)}/>
+      <Form.Label disabled={disabled}>{label}</Form.Label>
+      <Form.Range value={value} tooltip="on" {...props} disabled={disabled} onChange={ev => onChange(ev.target.value)}/>
       {comment && <Form.Text className="text-muted">{comment}</Form.Text>}
     </Group>
   )
