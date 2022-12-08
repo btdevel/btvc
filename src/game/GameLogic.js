@@ -54,6 +54,9 @@ export const setConfig = (config) => modifyState(state => {
 export const setVideoConfig = (videoConfig) => modifyState(state => {
   state.config.video = videoConfig
 })
+export const setGraphicsConfig = (graphicsConfig) => modifyState(state => {
+  state.config.graphics = graphicsConfig
+})
 
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useOverlayImage = () => useStore(state => state.overlayImage)
@@ -62,8 +65,11 @@ export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
-export const useConfig = () => useStore(state => state.config)
-export const useVideoConfig = () => useStore(state => state.config?.video)
+
+const identity = (x) => x
+export const useConfig = (func = identity) => useStore(state => func(state.config))
+export const useVideoConfig = (func = identity) => useStore(state => func(state.config?.video))
+export const useGraphicsConfig = (func = identity) => useStore(state => func(state.config?.graphics))
 
 class GameState {
   stepper = new TimeStepper()
@@ -117,6 +123,7 @@ class GameState {
     toggleFly: () => {
       this.flyMode = !this.flyMode
     },
+    doDebugStuff: () => {/* currently nothing*/}
   }
 
   async init() {

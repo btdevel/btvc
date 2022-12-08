@@ -134,7 +134,7 @@ configs:
       enabled: true
       volume: 0.2
       decayParams: {}
-    rendering:
+    graphics:
       stars:
         enabled: true
         count: 1000
