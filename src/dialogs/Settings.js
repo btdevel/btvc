@@ -68,8 +68,7 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
     </Form>)
 })
 
-function SettingsDialog({save}) {
-  // todo: read from yaml
+const SettingsDialog = forwardRef(function SettingsDialog(props, ref) {
   const graphicsFormRef = useRef()
   const videoFormRef = useRef()
 
@@ -78,6 +77,12 @@ function SettingsDialog({save}) {
   const resetForms = callOnRefs(allRefs, ref => ref.reset())
   const saveFormsPerm = callOnRefs(allRefs, ref => ref.savePerm())
   const saveFormsTemp = callOnRefs(allRefs, ref => ref.saveTemp())
+  useImperativeHandle(ref, () => ({
+      saveTemp: saveFormsTemp,
+      savePerm: saveFormsPerm,
+      reset: resetForms
+    }), [resetForms, saveFormsPerm, saveFormsTemp])
+
   return (
     <>
       <Entries alwaysOpen={false} defaultActiveKey={2}>
@@ -96,7 +101,7 @@ function SettingsDialog({save}) {
       <Button onClick={saveFormsTemp}>Save for session</Button>
     </>
   )
-}
+})
 
 
 export default function Settings({initialShow = false}) {
@@ -104,6 +109,7 @@ export default function Settings({initialShow = false}) {
   const [show, setShow] = useState(initialShow);
   const ref = useRef()
   const close = () => {
+    ref.current.saveTemp()
     setShow(false)
   }
   
@@ -117,7 +123,7 @@ export default function Settings({initialShow = false}) {
     <>
       <Button onClick={open} id='settings-button'>Settings</Button>
       <PopupBox header="BTVCC Settings" show={show} close={close}>
-        <SettingsDialog />
+        <SettingsDialog ref={ref}/>
       </PopupBox>
     </>
   )
