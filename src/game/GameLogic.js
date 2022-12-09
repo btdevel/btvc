@@ -13,7 +13,7 @@ import {clamp, radians} from '../util/math'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
-import {saveGraphicsConfig, saveVideoConfig} from "./Storage";
+import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -31,6 +31,8 @@ const useStore = create((set, get) => {
     config: {}
   }
 })
+
+export const useGameStore = useStore
 
 function modifyState(func) {
   useStore.getState().modify(func)
@@ -52,6 +54,18 @@ export const setGameText = (text) => modifyState(state => {
 export const setConfig = (config) => modifyState(state => {
   state.config = config
 })
+export const setGameConfig = (gameConfig, save = false) => {
+  modifyState(state => {
+    state.config.audio = gameConfig
+  })
+  if (save) saveGameConfig(gameConfig)
+}
+export const setAudioConfig = (audioConfig, save = false) => {
+  modifyState(state => {
+    state.config.audio = audioConfig
+  })
+  if (save) saveAudioConfig(audioConfig)
+}
 export const setVideoConfig = (videoConfig, save = false) => {
   modifyState(state => {
     state.config.video = videoConfig
@@ -75,6 +89,8 @@ export const useMap = () => useStore(state => state.map)
 
 const identity = (x) => x
 export const useConfig = (func = identity) => useStore(state => func(state.config))
+export const useGameConfig = (func = identity) => useStore(state => func(state.config?.game))
+export const useAudioConfig = (func = identity) => useStore(state => func(state.config?.audio))
 export const useVideoConfig = (func = identity) => useStore(state => func(state.config?.video))
 export const useGraphicsConfig = (func = identity) => useStore(state => func(state.config?.graphics))
 

@@ -4,7 +4,8 @@ import {loadTextureLinear, makeWallGeometry} from './util'
 
 import wallImg from '../assets/images/levels1/dungeon_wall_imp.png'
 import doorImg from '../assets/images/levels1/dungeon_door_imp.png'
-import {createLevel} from "./LevelBase";
+import {createLevel} from "./LevelBase"
+import {useAudioConfig, useVideoConfig} from "../game/GameLogic"
 
 const wallMat = new THREE.MeshStandardMaterial({map: loadTextureLinear(wallImg)})
 const doorMat = new THREE.MeshStandardMaterial({map: loadTextureLinear(doorImg)})
@@ -55,5 +56,7 @@ function createWalls(elements, x, y, square) {
 }
 
 export default function Dungeon({map}) {
-  return <group>{createLevel(map, createWalls)}</group>
+  const videoEnabled = useVideoConfig((videoConfig) => videoConfig.enabled)
+  const audioEnabled = useAudioConfig((audioConfig) => audioConfig.enabled)
+  return <group>{createLevel(map, createWalls, videoEnabled, audioEnabled)}</group>
 }

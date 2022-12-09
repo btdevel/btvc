@@ -1,4 +1,4 @@
-import {setGameText} from "./GameLogic"
+import {setGameText, useGameStore, useVideoConfig} from "./GameLogic"
 import {execCommand} from "./ExecCommand";
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
@@ -48,13 +48,15 @@ export default class MapBase {
     const {x, y} = pos
 
     // if !video field leave channel
+    // const videoConfig = useVideoConfig.getState()
+    const videoConfig = useGameStore.getState().config.video
     const videoConf = this.squares[x][y].videoConf
-    if (videoConf) {
+    if (videoConfig.enabled && videoConf) {
       startConference()
     }
 
     if (how !== "stairs") {
-      // check whether we are on stairs and ask
+      // todo: check whether we are on stairs and ask
       // if we take them exit before taking any other actions
       // same with portals
     }
