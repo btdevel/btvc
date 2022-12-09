@@ -77,8 +77,8 @@ const AudioForm = forwardRef(function AudioForm(props, ref) {
         setAudioConfig(newAudioConfig, perm)
       },
       reset() {
-        setAudioEnabled(audioConfig.stars.enabled)
-        setAudioVolume(audioConfig.stars.count)
+        setAudioEnabled(audioConfig.enabled)
+        setAudioVolume(audioConfig.volume)
       }
     }
   }, [audioEnabled, audioVolume, audioConfig])
