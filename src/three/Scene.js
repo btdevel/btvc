@@ -15,17 +15,27 @@ export default function Scene() {
   const map = useMap() // get the map and pass it on to city or dungeon
   const config = useGraphicsConfig()
 
-  if (!map) return <></>
-  const isCity = map.isCity()
+  if (!map) {
+    return <></>
+  } else if (map.isCity()) {
+    return (<>
+      <Camera key={map.level}/>
+      <Lights shadows={config.shadows.enabled} shadowMapSize={config.shadows.shadowMapSize}/>
+      {config.sky.enabled && <Sky/>}
+      {config.stars.enabled &&
+        <Stars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
+      <Ground type="city"/>
+      <City map={map}/>
+      <Effects/>
+    </>)
+  } else {
+    return (<>
+      <Camera key={map.level}/>
+      <DungeonLights map={map}/>
+      <Ground type="dungeon"/>
+      <Dungeon map={map}/>
+      <Effects/>
+    </>)
+  }
 
-  return (<>
-    <Camera key={map.level}/>
-    {isCity ? <Lights shadows={config.shadows.enabled} shadowMapSize={config.shadows.shadowMapSize}/> : <DungeonLights map={map}/>}
-    {isCity && config.sky.enabled && <Sky/>}
-    {isCity && config.stars.enabled &&
-      <Stars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
-    <Ground type={isCity ? "city" : "dungeon"}/>
-    {isCity ? <City map={map}/> : <Dungeon map={map}/>}
-    <Effects/>
-  </>)
 }
