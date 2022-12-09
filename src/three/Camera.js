@@ -1,11 +1,9 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'
-
-import {getAudioListener} from './Audio'
 import {gameState} from '../game/GameLogic'
-import {invokeOnGesture} from "../util/event";
+import AudioListener from "./AudioListener"
 
 
 export const springConfigMove = {mass: 3, tension: 400, friction: 12.0, clamp: true}
@@ -14,17 +12,7 @@ export const springConfigWobble = {mass: 3, tension: 400, friction: 12.0}
 
 const AnimatedCamera = animated(PerspectiveCamera)
 
-function resumeListener() {
-  const audioListener = getAudioListener()
-  const context = audioListener.context
-  if( context.state === 'suspended') {
-    console.log("Resuming audio context...")
-    context.resume()
-  }
-}
-
 export default function Camera() {
-  const audioListener = getAudioListener()
   const startPos = gameState.position
   const startAngle = gameState.angle()
 
@@ -51,13 +39,6 @@ export default function Camera() {
     gameState.jumped = false
   })
 
-  useEffect(()=> {
-    // We do this here (not in Audio, since here is where we have/need our listener
-    // Note, that only mouse and touch events seem to indicate to the typical browsers
-    // that the user has interacted with the page, but no keyboard events (sigh)
-    return invokeOnGesture(resumeListener)
-  }, [])
-
   return (<AnimatedCamera
       makeDefault
       position={position.to(Array)}
@@ -70,7 +51,7 @@ export default function Camera() {
       far={550}
       on
     >
-      <primitive object={audioListener}/>
+      <AudioListener/>
     </AnimatedCamera>
 
   )

@@ -1,9 +1,9 @@
-import {setGameText, useGameStore, useVideoConfig} from "./GameLogic"
-import {execCommand} from "./ExecCommand";
+import {setGameText, useGameStore} from "./GameLogic"
+import {execCommand} from "./ExecCommand"
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
-import {getDirName} from "./Direction";
-import {create2dArray} from "../util/arrays";
+import {getDirName} from "./Direction"
+import {create2dArray} from "../util/arrays"
 
 export const createMap = create2dArray
 
