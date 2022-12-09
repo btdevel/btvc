@@ -1,27 +1,19 @@
 import YAML from 'js-yaml'
 import {parse} from 'query-string'
 import {mergeObject} from "../util/merging";
+import {loadGraphicsConfig, loadVideoConfig} from "./Storage";
 
-export function mergeRecursive(name, yaml, cache) {
+export function mergeRecursive(gameConfig, targetConfig, name) {
   // console.log('Recursively merging: ', name)
-  if (!cache) cache = {}
-  if (cache[name]) {
-    return cache[name]
-  }
-
-  const object = yaml.configs[name]
-  cache[name] = object
-
-  if (!object) {
+  const config = gameConfig.configs[name]
+  if (!config) {
     console.warn('Could not find config: ', name)
-    return {}
+    return
   }
-
-  for (const baseName of object.configs || []) {
-    const newObject = mergeRecursive(baseName, yaml, cache)
-    mergeObject(object, newObject)
+  for (const baseName of config.basedOn || []) {
+    mergeRecursive(gameConfig, config, baseName)
   }
-  return object
+  mergeObject(targetConfig, config)
 }
 
 export async function loadYAML(file) {
@@ -57,18 +49,25 @@ export function dumpConfig(yaml) {
 }
 
 export async function loadConfig(configFile) {
-  const yaml = await loadYAML(configFile)
+  // Load the config file (usually assets/config/gameConfig.json)
+  let config = await loadYAML(configFile)
+  // Load configs from localStorage and merge in
+  const storage = {
+    video: loadVideoConfig(),
+    graphics: loadGraphicsConfig()
+  }
+  config = mergeObject(config, storage)
+  // If configs are specified in the url params, merge them in as well
   const params = queryAsObject()
-  mergeObject(yaml, params)
-  console.log('Full config: ', yaml)
+  config = mergeObject(config, params)
+  console.log('Fully loaded config: \n', dumpConfig(config))
 
-  const defaultConfig = mergeRecursive('defaults', yaml)
-  const namedConfig = mergeRecursive(yaml.config, yaml)
-  const config = mergeObject(defaultConfig, namedConfig)
-  mergeObject(config, params)
-  config.keyMap = yaml.keyMap
-  config.commands = yaml.commands
+  // Merge in Game defaults
+  mergeRecursive(config, config, 'defaults')
+  // Merge in values from named config (e.g. originalGame)
+  mergeRecursive(config, config, config.configName)
+  delete config.configs
+  console.log('Fully merged config "', config.configName, '": \n', dumpConfig(config))
 
-  console.log('Init config: \n', dumpConfig(config))
   return config
 }

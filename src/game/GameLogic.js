@@ -13,6 +13,7 @@ import {clamp, radians} from '../util/math'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
+import {saveGraphicsConfig, saveVideoConfig} from "./Storage";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -51,12 +52,18 @@ export const setGameText = (text) => modifyState(state => {
 export const setConfig = (config) => modifyState(state => {
   state.config = config
 })
-export const setVideoConfig = (videoConfig) => modifyState(state => {
-  state.config.video = videoConfig
-})
-export const setGraphicsConfig = (graphicsConfig) => modifyState(state => {
-  state.config.graphics = graphicsConfig
-})
+export const setVideoConfig = (videoConfig, save = false) => {
+  modifyState(state => {
+    state.config.video = videoConfig
+  })
+  if (save) saveVideoConfig(videoConfig)
+}
+export const setGraphicsConfig = (graphicsConfig, save = false) => {
+  modifyState(state => {
+    state.config.graphics = graphicsConfig
+  })
+  if (save) saveGraphicsConfig(graphicsConfig)
+}
 
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useOverlayImage = () => useStore(state => state.overlayImage)
