@@ -2,7 +2,16 @@ import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} fro
 
 import {Button, Entries, Entry, PopupBox} from "./DialogElements";
 import {Checkbox, Form, RangeInput, TextInput} from "./FormElements";
-import {gameState, setGraphicsConfig, setVideoConfig, useGraphicsConfig, useVideoConfig} from '../game/GameLogic'
+import {
+  gameState,
+  setAudioConfig,
+  setGraphicsConfig,
+  setVideoConfig,
+  useAudioConfig,
+  useGraphicsConfig,
+  useVideoConfig
+} from '../game/GameLogic'
+import produce from "immer";
 
 const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
   const graphicsConfig = useGraphicsConfig()
@@ -15,15 +24,16 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
 
   useImperativeHandle(ref, () => {
     return {
-      newConfig() {
-        return {
-          stars: {enabled: starsEnabled, count: starsCount},
-          sky: {enabled: skyEnabled, useShader: skyUseShader},
-          shadows: {enabled: shadowsEnabled, shadowMapSize: shadowMapSize}
-        }
-      },
       save(perm = false) {
-        const newGraphicsConfig = this.newConfig()
+        const newGraphicsConfig = produce(graphicsConfig, (config) => {
+          config.stars.enabled = starsEnabled
+          config.stars.count = starsCount
+          config.sky.enabled = skyEnabled
+          config.sky.useShader = skyUseShader
+          config.shadows.enabled = shadowsEnabled
+          config.shadows.shadowMapSize = shadowMapSize
+        })
+        console.log(`Graphics config ${newGraphicsConfig!==graphicsConfig ? "changed" : "did not change"} `)
         console.log(`Saving graphics config ${perm ? "permanently" : "for session"}: `, newGraphicsConfig)
         setGraphicsConfig(newGraphicsConfig, perm)
       },
@@ -50,6 +60,36 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
   </Form>)
 })
 
+const AudioForm = forwardRef(function AudioForm(props, ref) {
+  const audioConfig = useAudioConfig()
+  const [audioEnabled, setAudioEnabled] = useState(audioConfig.enabled)
+  const [audioVolume, setAudioVolume] = useState(audioConfig.volume)
+
+  useImperativeHandle(ref, () => {
+    return {
+      save(perm = false) {
+        const newAudioConfig = produce(audioConfig, (config) => {
+          config.enabled = audioEnabled
+          config.volume = audioVolume
+        })
+        console.log(`Audio config ${newAudioConfig!==audioConfig ? "changed" : "did not change"} `)
+        console.log(`Saving audio config ${perm ? "permanently" : "for session"}: `, newAudioConfig)
+        setAudioConfig(newAudioConfig, perm)
+      },
+      reset() {
+        setAudioEnabled(audioConfig.stars.enabled)
+        setAudioVolume(audioConfig.stars.count)
+      }
+    }
+  }, [audioEnabled, audioVolume, audioConfig])
+
+  return (<Form>
+    <Checkbox label="Enable Audio" value={audioEnabled} onChange={setAudioEnabled}/>
+    <RangeInput label="Master volume" placeholder="Enter master volume" value={audioVolume} min={0} max={10}
+                step={0.1} onChange={setAudioVolume} disabled={!audioEnabled}/>
+  </Form>)
+})
+
 const VideoForm = forwardRef(function VideoForm(props, ref) {
   const videoConfig = useVideoConfig()
   const [videoEnabled, setVideoEnabled] = useState(videoConfig.enabled)
@@ -59,11 +99,14 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
 
   useImperativeHandle(ref, () => {
     return {
-      newConfig() {
-        return {enabled: videoEnabled, appId: appId, channel: channel, token: token}
-      },
       save(perm = false) {
-        const newVideoConfig = this.newConfig()
+        const newVideoConfig = produce(videoConfig, (config) => {
+          config.enabled = videoEnabled
+          config.appId = appId
+          config.channel = channel
+          config.token = token
+        })
+        console.log(`Video config ${newVideoConfig!==videoConfig ? "changed" : "did not change"} `)
         console.log(`Saving video config ${perm ? "permanently" : "for session"}: `, newVideoConfig)
         setVideoConfig(newVideoConfig, perm)
       },
@@ -92,9 +135,10 @@ function callOnRefs(refs, func) {
 
 const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1, ...props}, ref) {
   const graphicsFormRef = useRef()
+  const audioFormRef = useRef()
   const videoFormRef = useRef()
 
-  const allRefs = [graphicsFormRef, videoFormRef]
+  const allRefs = [graphicsFormRef, audioFormRef, videoFormRef]
   const saveForms = (perm) => callOnRefs(allRefs, ref => ref.save(perm))
   const resetForms = () => callOnRefs(allRefs, ref => ref.reset())
   useImperativeHandle(ref, () => ({
@@ -106,10 +150,12 @@ const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1
         <Entry number={1} header="Graphics">
           <GraphicsForm ref={graphicsFormRef}/>
         </Entry>
-        <Entry number={2} header="Video">
+        <Entry number={2} header="Audio">
+          <AudioForm ref={audioFormRef}/>
+        </Entry>
+        <Entry number={3} header="Video">
           <VideoForm ref={videoFormRef}/>
         </Entry>
-        {/*<Entry number={3} header="Sound">On off, overall music, ...</Entry>*/}
         {/*<Entry number={4} header="Game">Difficulty etc.</Entry>*/}
       </Entries>
       <Button onClick={() => {
