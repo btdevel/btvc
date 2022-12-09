@@ -5,6 +5,7 @@ import {animated, useSpring} from '@react-spring/three'
 
 import {getAudioListener} from './Audio'
 import {gameState} from '../game/GameLogic'
+import {invokeOnGesture} from "../util/event";
 
 
 export const springConfigMove = {mass: 3, tension: 400, friction: 12.0, clamp: true}
@@ -54,16 +55,8 @@ export default function Camera() {
     // We do this here (not in Audio, since here is where we have/need our listener
     // Note, that only mouse and touch events seem to indicate to the typical browsers
     // that the user has interacted with the page, but no keyboard events (sigh)
-    const event_types = ['click', 'contextmenu', 'touchstart']
-    for( let type of event_types) {
-      document.addEventListener(type, resumeListener)
-    }
-    return () => {
-      for( let type of event_types) {
-        document.removeEventListener(type, resumeListener)
-      }
-    }
-  })
+    return invokeOnGesture(resumeListener)
+  }, [])
 
   return (<AnimatedCamera
       makeDefault

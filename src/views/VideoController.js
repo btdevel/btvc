@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {useVideoConfig} from "../game/GameLogic"
 import {setVideoElementRef, startVideoClient, stopVideoClient} from '../game/Video'
 import noise from "../assets/videos/noise.mp4"
+import {invokeOnGesture} from "../util/event";
 
 const VideoBox = styled.div`
   box-sizing: border-box;
@@ -15,6 +16,7 @@ const VideoBox = styled.div`
 
 export default function VideoController() {
   const videoContainerRef = useRef()
+  const noiseVideoRef = useRef()
   const videoConfig = useVideoConfig()
 
   useEffect(() => {
@@ -33,11 +35,16 @@ export default function VideoController() {
     }
   }, [videoConfig])
 
+  useEffect(()=> {
+    // Chrome e.g. won't autoplay a hidden video otherwise
+    return invokeOnGesture(() => noiseVideoRef.current?.play())
+  }, [noiseVideoRef])
+
   return (
     <>
       <VideoBox ref={videoContainerRef} id="videobox"/>
       <VideoBox id='noisebox'>
-        <video id="video" loop playsInline autoPlay>
+        <video id="video" ref={noiseVideoRef} loop playsInline autoPlay muted controls>
           <source src={noise} type='video/mp4;'/>
         </video>
       </VideoBox>
