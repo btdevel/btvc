@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useMemo} from 'react'
 import * as THREE from 'three'
 
 import {getAudioListener} from "./AudioListener"
@@ -32,15 +32,18 @@ export default function Audio({
   }
 
   const audioListener = getAudioListener()
-  const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener);
+  const audio = useMemo(() => {
+    const audio = ambient ? new THREE.Audio(audioListener) : new THREE.PositionalAudio(audioListener)
+    audio.translateX(x)
+    audio.translateY(y)
+    if (cone) {
+      const pi2 = Math.PI / 2
+      audio.setRotationFromEuler(new THREE.Euler(pi2, (2 + cone[0]) * pi2, 0), "XYZ")
+    }
+    audio.up = new THREE.Vector3(0, 0, 1)
+    return audio
+  }, [ambient, x, y, cone, audioListener])
 
-  audio.translateX(x)
-  audio.translateY(y)
-  if (cone) {
-    const pi2 = Math.PI / 2
-    audio.setRotationFromEuler(new THREE.Euler(pi2, (2 + cone[0]) * pi2, 0), "XYZ")
-  }
-  audio.up = new THREE.Vector3(0, 0, 1)
 
   useEffect(() => {
     const loader = new THREE.AudioLoader();
@@ -60,13 +63,14 @@ export default function Audio({
         audio.setVolume(volume)
         if (!ambient) {
           audio.setDistanceModel(distanceModel)
-          audio.setRefDistance(refDistance);
+          audio.setRefDistance(refDistance)
           audio.setRolloffFactor(rolloffFactor)
           audio.setMaxDistance(maxDistance)
           if (cone) {
             audio.setDirectionalCone(...cone.slice(1))
           }
         }
+        console.log("Starting audio: ", url)
         audio.play();
       },
       function (xhr) {
@@ -83,7 +87,7 @@ export default function Audio({
         isStopped = true
       }
     }
-  })
+  }, [ambient, audio, cone, distanceModel, loop, maxDistance, refDistance, rolloffFactor, url, volume])
 
   return <primitive object={audio}/>
 }
