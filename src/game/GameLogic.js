@@ -1,19 +1,19 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import {dumpConfig, loadConfig, loadYAML} from './GameConfig'
+import {dumpConfig, loadConfig, loadYAML} from './ConfigLoader'
 import {execCommand} from "./ExecCommand";
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
 import {moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
-import {initVideo} from './Video'
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
 import {clamp, radians} from '../util/math'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
+import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -27,16 +27,16 @@ const useStore = create((set, get) => {
     fullscreen: false,
     level: 'city',
     map: null,
-    location: ''
+    location: '',
+    config: {}
   }
 })
+
+export const useGameStore = useStore
 
 function modifyState(func) {
   useStore.getState().modify(func)
 }
-
-export const modifyStatInternal_ = modifyState
-export const useStoreInternal_ = useStore
 
 export const setOverlayText = (text) => modifyState(state => {
   state.overlayText = text
@@ -51,6 +51,34 @@ export const setGameText = (text) => modifyState(state => {
   state.gameText = text
 })
 
+export const setConfig = (config) => modifyState(state => {
+  state.config = config
+})
+export const setGameConfig = (gameConfig, save = false) => {
+  modifyState(state => {
+    state.config.audio = gameConfig
+  })
+  if (save) saveGameConfig(gameConfig)
+}
+export const setAudioConfig = (audioConfig, save = false) => {
+  modifyState(state => {
+    state.config.audio = audioConfig
+  })
+  if (save) saveAudioConfig(audioConfig)
+}
+export const setVideoConfig = (videoConfig, save = false) => {
+  modifyState(state => {
+    state.config.video = videoConfig
+  })
+  if (save) saveVideoConfig(videoConfig)
+}
+export const setGraphicsConfig = (graphicsConfig, save = false) => {
+  modifyState(state => {
+    state.config.graphics = graphicsConfig
+  })
+  if (save) saveGraphicsConfig(graphicsConfig)
+}
+
 export const useOverlayText = () => useStore(state => state.overlayText)
 export const useOverlayImage = () => useStore(state => state.overlayImage)
 export const useLocation = () => useStore(state => state.location)
@@ -58,6 +86,13 @@ export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
+
+const identity = (x) => x
+export const useConfig = (func = identity) => useStore(state => func(state.config))
+export const useGameConfig = (func = identity) => useStore(state => func(state.config?.game))
+export const useAudioConfig = (func = identity) => useStore(state => func(state.config?.audio))
+export const useVideoConfig = (func = identity) => useStore(state => func(state.config?.video))
+export const useGraphicsConfig = (func = identity) => useStore(state => func(state.config?.graphics))
 
 class GameState {
   stepper = new TimeStepper()
@@ -80,6 +115,8 @@ class GameState {
   get map() {
     return useStore.getState().map
   }
+
+
 
   export = {
     forward: () => this.move(true),
@@ -109,12 +146,13 @@ class GameState {
     toggleFly: () => {
       this.flyMode = !this.flyMode
     },
+    doDebugStuff: () => {/* currently nothing*/}
   }
 
   async init() {
     const config = await loadConfig(configFile)
 
-    this.config = config
+    // this.config = config
     this.position.x = config.position.x
     this.position.y = config.position.y
     this.dir = config.dir
@@ -140,11 +178,8 @@ class GameState {
       execCommand(command, "init()")
     }
 
-    if (config.video.enable) {
-      initVideo(config)
-    }
-
     setInterval(() => this.tic(), 200)
+    setConfig(config)
   }
 
   setViewAngles(diffX, diffY) {

@@ -1,7 +1,8 @@
 import React from 'react'
 
 import House from './House'
-import {createLevel} from "./LevelBase";
+import {createLevel} from "./LevelBase"
+import {useAudioConfig, useVideoConfig} from "../game/GameLogic"
 
 function createHouse(elements, x, y, square) {
   const type = square.type
@@ -12,5 +13,8 @@ function createHouse(elements, x, y, square) {
 }
 
 export default function City({map}) {
-  return <group>{createLevel(map, createHouse)}</group>
+  const videoEnabled = useVideoConfig((videoConfig) => videoConfig.enabled)
+  const audioEnabled = useAudioConfig((audioConfig) => audioConfig.enabled)
+
+  return <group>{createLevel(map, createHouse, videoEnabled, audioEnabled)}</group>
 }

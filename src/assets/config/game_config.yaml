@@ -1,7 +1,30 @@
-config: originalGame
-# config: debugCurrent
-# config: debugCellars
-# config: betterGame
+configName: originalGame
+#configName: debugStars
+#configName: debugCellars
+#configName: betterGame
+
+graphics:
+  stars:
+    enabled: true
+    count: 1000
+  sky:
+    enabled: true
+    useShader: true
+  shadows:
+    enabled: true
+    shadowMapSize: 4096
+
+audio:
+  enabled: true
+  volume: 1
+  decayParams: {}
+
+video:
+  enabled: true
+  appId: "0dc426f8235842b3b4b7828a0d89d51b"
+  channel: "test"
+  token: "007eJxTYJB8pM1q/OiRzlHVA46vD26aU3dQoCTh2PS7nLPkdI1WJncrMBikJJsYmaVZGBmbWpgYJRknmSSZWxhZJBqkWFimmBomHX8wIbkhkJFhVZUjEyMDBIL4LAwlqcUlDAwAMjYfVg=="
+  exptoken: "007eJxTYNi86Ies16SIt1t3S69a1Xt87lZD34/dy3pPv5388fbX/qwZCgwGKckmRmZpFkbGphYmRknGSSZJ5hZGFokGKRaWKaaGSSrTe5MbAhkZWhOFGBkZIBDEZ2EoSS0uYWAAAHNcIow="
 
 keyMap:
   ArrowUp: "forward"
@@ -36,21 +59,21 @@ commands:
 configs:
   # Full configs:
   originalGame:
-    configs: ["atGuildSouth", "facingNorth", "earlyMorning", "standard"]
+    basedOn: ["atGuildSouth", "facingNorth", "earlyMorning", "standard"]
   betterGame:
-    configs: ["originalGame", "atGuild", "facingEast"]
+    basedOn: ["originalGame", "atGuild", "facingEast"]
   debugCurrent:
-    configs: ["debugScarletBard"]
+    basedOn: ["debugScarletBard"]
   debugStars:
-    configs: ["night", "atCenter", "fast", "facingSouth", "fullscreen", "debug"]
+    basedOn: ["night", "atCenter", "fast", "facingSouth", "fullscreen", "debug"]
   debugCellars:
-    configs: ["cellars", "morning", "facingNorth", "debug"]
+    basedOn: ["cellars", "morning", "facingNorth", "debug"]
   debugScarletBard:
-    configs: ["beforeScarletBard", "noon", "facingEast", "debug"]
+    basedOn: ["beforeScarletBard", "noon", "facingEast", "debug"]
   debugShadowCasting:
-    configs: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
+    basedOn: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
   debugSky:
-    configs: ["atCenter", "noon", "fullscreen", "fast", "debug"]
+    basedOn: ["atCenter", "noon", "fullscreen", "fast", "debug"]
 
   # Game time configs
   standard:
@@ -106,6 +129,14 @@ configs:
   facingEast:
     dir: 3
 
+  # Others
+  silent:
+    audio:
+      enabled: false
+  loud:
+    audio:
+      volume: 3.0
+
   # Init commands
   paused:
     initCommands:
@@ -125,8 +156,3 @@ configs:
     position: { x: 0, y: 0 }
     dir: 0
     initCommands: ["welcomeMessage"]
-    video: {
-      enable: true,
-      appId: "73c22632975c4133b8de33f67f89b84b",
-      token: "00673c22632975c4133b8de33f67f89b84bIAAqCtBUxgBw6205wkgFQ6YtSRM/11pQTAEypqOAfjEYZAx+f9gAAAAAEAC0V+LrfH8QYAEAAQB7fxBg",
-    }

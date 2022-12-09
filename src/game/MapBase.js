@@ -1,9 +1,9 @@
-import {setGameText} from "./GameLogic"
-import {execCommand} from "./ExecCommand";
+import {setGameText, useGameStore} from "./GameLogic"
+import {execCommand} from "./ExecCommand"
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
-import {getDirName} from "./Direction";
-import {create2dArray} from "../util/arrays";
+import {getDirName} from "./Direction"
+import {create2dArray} from "../util/arrays"
 
 export const createMap = create2dArray
 
@@ -48,13 +48,15 @@ export default class MapBase {
     const {x, y} = pos
 
     // if !video field leave channel
+    // const videoConfig = useVideoConfig.getState()
+    const videoConfig = useGameStore.getState().config.video
     const videoConf = this.squares[x][y].videoConf
-    if (videoConf) {
+    if (videoConfig.enabled && videoConf) {
       startConference()
     }
 
     if (how !== "stairs") {
-      // check whether we are on stairs and ask
+      // todo: check whether we are on stairs and ask
       // if we take them exit before taking any other actions
       // same with portals
     }

@@ -5,7 +5,7 @@
 /*  - https://getbootstrap.com/docs/5.2/components/button/#variables */
 
 :root {
-    --bs-body-font-family: "8BitFont", courier, helvetica;
+    --bs-body-font-family: "EightBit";
     --bs-font-sans-serif: courier, Times;
 
     --amiga-wb-color-blue: #0057af;
@@ -14,6 +14,11 @@
     --amiga-wb-color-black: #000020;
 
     --bardstale-grey: #aaaaaa;
+    user-select: none;
+    caret-color: transparent;
+}
+input {
+    caret-color: var(--amiga-wb-color-orange);
 }
 
 .modal {

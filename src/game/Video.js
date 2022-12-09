@@ -124,20 +124,28 @@ function startTimeout() {
   onTimeout()
 }
 
-export function initializeVideo(ref) {
+export function setVideoElementRef(ref) {
   videoState.ref = ref
 }
 
-export function initVideo(config) {
+export function startVideoClient(videoConfig) {
   AgoraRTC.setLogLevel(2)
   videoState.client = AgoraRTC.createClient({mode: "rtc", codec: "h264"});
   videoState.client.on("user-published", onPublish);
   videoState.client.on("user-unpublished", onUnpublish);
-  videoState.client.on("")
 
-  videoState.appId = config.video.appId
-  videoState.channel = "test"
-  videoState.token = config.video.token
+  videoState.appId = videoConfig.appId
+  videoState.channel = videoConfig.channel
+  videoState.token = videoConfig.token
+}
+
+export function stopVideoClient() {
+  stopConference()
+  videoState.client.removeAllListeners()
+  videoState.appId = null
+  videoState.channel = null
+  videoState.token = null
+
 }
 
 
@@ -165,13 +173,15 @@ export async function startConference() {
     await videoState.client.join(videoState.appId, videoState.channel, videoState.token)
   } catch (e) {
     console.warn("Caught connection error: ", e);
-    let cause = "Unknown reason..."
+    let cause = "Reason: " + e.code
     switch (e.code) {
       case "CAN_NOT_GET_GATEWAY_SERVER":
         if (e.message.match('invalid vendor key')) {
           cause = "Invalid auth token..."
-        } else if (e.message.match('dynamic key expired')) {
+        } else if (e.message.match('dynamic key')) {
           cause = "Auth token probably expired..."
+        } else if (e.message.match('invalid token')) {
+          cause = "Auth token seems to be invalid..."
         }
         break
       case "OPERATION_ABORTED":
@@ -179,7 +189,6 @@ export async function startConference() {
         setGameText("")
         return
       default:
-        cause = "Reason: " + e.message
     }
     console.log("Cause: ", cause);
     setGameText(`Could not join channel!\n${cause}`)

@@ -3,7 +3,7 @@ import React from "react";
 import Audio from "./Audio";
 import VideoScreen from "./VideoScreen";
 
-export function createLevel(map, createSquare) {
+export function createLevel(map, createSquare, videoEnabled, audioEnabled) {
   if (!map?.squares) return []
 
   let elements = []
@@ -16,14 +16,14 @@ export function createLevel(map, createSquare) {
     }
   }
 
-  if (map.videoScreens) {
+  if (videoEnabled && map.videoScreens) {
     for (let video of map.videoScreens) {
       const [[x, y], dir, trackNo, params] = video
       elements.push(<VideoScreen key={`video-${x}-${y}-${dir}`} x={x} y={y} dir={dir} trackNo={trackNo} {...params} />)
     }
   }
 
-  if (map.audio) {
+  if (audioEnabled && map.audio) {
     for (let audio of map.audio) {
       const [[x, y], song, params] = audio
       elements.push(<Audio key={`audio-${x}-${y}-${song}`} x={x} y={y} song={song} {...params} />)

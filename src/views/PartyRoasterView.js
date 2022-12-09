@@ -5,13 +5,13 @@ const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  font-family: '8BitFont';
+  font-family: 'EightBit';
   color: black;
   background-color: transparent;
 `
 const CharacterLineBox = styled.div`
   padding-left: 20px;
-  font-family: '8BitFont';
+  font-family: 'EightBit';
   position: absolute;
   top: ${props => (props.number - 1) * 20 + 4}px;
   background-color: transparent;

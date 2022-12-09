@@ -14,7 +14,7 @@ export default function App() {
     <>
       <GameScreen/>
       <VideoController/>
-      <ButtonBar initialShow={"help"}/>
+      <ButtonBar initialShow={"settings"}/>
     </>
   );
 }

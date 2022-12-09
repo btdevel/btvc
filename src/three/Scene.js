@@ -4,26 +4,38 @@ import City from './City'
 import Dungeon from './Dungeon'
 import Lights from './Lights'
 import DungeonLights from './DungeonLights'
-import MySky from './MySky'
+import Sky from './Sky'
 import Ground from './Ground'
 import Camera from './Camera'
 import Effects from './Effects'
-import MyStars from './MyStars'
-import {useMap} from '../game/GameLogic'
+import Stars from './Stars'
+import {useGraphicsConfig, useMap} from '../game/GameLogic'
 
 export default function Scene() {
   const map = useMap() // get the map and pass it on to city or dungeon
-  if (!map) return <></>
-  const isCity = map.isCity()
+  const config = useGraphicsConfig()
 
-  return (
-    <>
+  if (!map) {
+    return <></>
+  } else if (map.isCity()) {
+    return (<>
       <Camera key={map.level}/>
-      {isCity ? <Lights/> : <DungeonLights map={map}/>}
-      {isCity && <MySky/>}
-      {isCity && <MyStars size={1.1} sprite={true} color='lightyellow' number={1000} box={400}/>}
-      <Ground type={isCity ? "city" : "dungeon"}/>
-      {isCity ? <City map={map}/> : <Dungeon map={map}/>}
+      <Lights shadows={config.shadows.enabled} shadowMapSize={config.shadows.shadowMapSize}/>
+      {config.sky.enabled && <Sky/>}
+      {config.stars.enabled &&
+        <Stars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
+      <Ground type="city"/>
+      <City map={map}/>
       <Effects/>
     </>)
+  } else {
+    return (<>
+      <Camera key={map.level}/>
+      <DungeonLights map={map}/>
+      <Ground type="dungeon"/>
+      <Dungeon map={map}/>
+      <Effects/>
+    </>)
+  }
+
 }
