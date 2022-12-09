@@ -1,6 +1,7 @@
 import React, {useEffect} from "react"
 import * as THREE from "three"
 import {invokeOnGesture} from "../util/event"
+import {useAudioConfig} from "../game/GameLogic";
 
 export function getAudioListener() {
   let audioListener = getAudioListener.audioListener
@@ -23,7 +24,11 @@ function resumeListener() {
 
 export default function AudioListener() {
   const audioListener = getAudioListener()
-  // const audioVolume =
+  const audioVolume = useAudioConfig((audioConfig) => audioConfig.volume)
+
+  useEffect(() => {
+    getAudioListener().setMasterVolume(audioVolume)
+  }, [audioVolume])
 
   useEffect(() => {
     // We do this here (not in Audio, since here is where we have/need our listener

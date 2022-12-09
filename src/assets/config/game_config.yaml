@@ -16,7 +16,7 @@ graphics:
 
 audio:
   enabled: true
-  volume: 0.2
+  volume: 1
   decayParams: {}
 
 video:
@@ -133,7 +133,9 @@ configs:
   silent:
     audio:
       enabled: false
-      volume: 0.0
+  loud:
+    audio:
+      volume: 3.0
 
   # Init commands
   paused:
