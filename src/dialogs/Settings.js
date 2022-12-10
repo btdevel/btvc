@@ -1,7 +1,7 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react'
 
-import {Button, Entries, Entry, PopupBox} from "./DialogElements";
-import {Checkbox, Form, RangeInput, TextInput} from "./FormElements";
+import {Button, Entries, Entry, PopupBox} from "./DialogElements"
+import {Checkbox, Form, RangeInput, TextInput} from "./FormElements"
 import {
   gameState,
   setAudioConfig,
@@ -9,9 +9,10 @@ import {
   setVideoConfig,
   useAudioConfig,
   useGraphicsConfig,
-  useVideoConfig
+  useVideoConfig,
 } from '../game/GameLogic'
-import produce from "immer";
+import produce from "immer"
+import {urlFromObject} from '../util/urls'
 
 const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
   const graphicsConfig = useGraphicsConfig()
@@ -77,8 +78,8 @@ const AudioForm = forwardRef(function AudioForm(props, ref) {
         setAudioConfig(newAudioConfig, perm)
       },
       reset() {
-        setAudioEnabled(audioConfig.stars.enabled)
-        setAudioVolume(audioConfig.stars.count)
+        setAudioEnabled(audioConfig.enabled)
+        setAudioVolume(audioConfig.volume)
       }
     }
   }, [audioEnabled, audioVolume, audioConfig])
@@ -96,6 +97,36 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
   const [appId, setAppId] = useState(videoConfig.appId)
   const [channel, setChannel] = useState(videoConfig.channel)
   const [token, setToken] = useState(videoConfig.token)
+
+  const createConfig = useCallback(() => produce(videoConfig, (config) => {
+    config.enabled = videoEnabled
+    config.appId = appId
+    config.channel = channel
+    config.token = token
+  }), [videoEnabled, appId, channel, token])
+  const chatURL = useMemo(() => {
+    return urlFromObject({'video': createConfig()})
+  }, [createConfig])
+  const emailLink = useMemo(() => {
+    const subject = "Chat invitation"
+    const body = `Hi!
+    
+    You're invited to join a video chat in the Bard's Tale Video Chat Client using the
+    following link:
+    
+    ${chatURL}
+    
+    After opening the link (or pasting it into your browsers address line), you can go to 
+    the Settings dialog and save the new video chat settings permanently, or always use
+    this link for joining with this connection information.
+    
+    Have fun.\n  
+    `
+    return `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }, [chatURL])
+  const alertText = useMemo(() => {
+    return `Please copy the following URL and send to your friends:\n\n${chatURL}`
+  }, [chatURL])
 
   useImperativeHandle(ref, () => {
     return {
@@ -124,6 +155,8 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
     <TextInput label="Video AppId" placeholder="Enter AppId" value={appId} onChange={setAppId}/>
     <TextInput label="Video Channel" placeholder="Enter channel name" value={channel} onChange={setChannel}/>
     <TextInput label="Video Token" placeholder="Enter Token" value={token} onChange={setToken}/>
+    <Button onClick={() => alert(alertText)}>Create link</Button>
+    <Button href={emailLink}>Email invitation</Button>
   </Form>)
 })
 

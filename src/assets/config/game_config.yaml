@@ -24,7 +24,6 @@ video:
   appId: "0dc426f8235842b3b4b7828a0d89d51b"
   channel: "test"
   token: "007eJxTYJB8pM1q/OiRzlHVA46vD26aU3dQoCTh2PS7nLPkdI1WJncrMBikJJsYmaVZGBmbWpgYJRknmSSZWxhZJBqkWFimmBomHX8wIbkhkJFhVZUjEyMDBIL4LAwlqcUlDAwAMjYfVg=="
-  exptoken: "007eJxTYNi86Ies16SIt1t3S69a1Xt87lZD34/dy3pPv5388fbX/qwZCgwGKckmRmZpFkbGphYmRknGSSZJ5hZGFokGKRaWKaaGSSrTe5MbAhkZWhOFGBkZIBDEZ2EoSS0uYWAAAHNcIow="
 
 keyMap:
   ArrowUp: "forward"
