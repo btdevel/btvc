@@ -1,7 +1,7 @@
 import YAML from 'js-yaml'
-import {parse} from 'query-string'
-import {mergeObject} from "../util/merging";
-import {loadAudioConfig, loadGraphicsConfig, loadVideoConfig} from "./Storage";
+import {mergeObject} from "../util/merging"
+import {loadAudioConfig, loadGraphicsConfig, loadVideoConfig} from "./Storage"
+import {queryAsObject} from '../util/urls'
 
 export function mergeRecursive(gameConfig, targetConfig, name) {
   // console.log('Recursively merging: ', name)
@@ -21,27 +21,6 @@ export async function loadYAML(file) {
   const body = await response.text()
 
   return YAML.load(body)
-}
-
-function queryAsObject() {
-  function insert(obj, names, value) {
-    const name = names[0]
-    if (names.length === 1) {
-      const number = Number(value)
-      obj[name] = Number.isNaN(number) ? value : number
-    } else {
-      if (!obj[name]) obj[name] = {}
-      insert(obj[name], names.slice(1), value)
-    }
-    return obj
-  }
-
-  const rawParams = parse(document.location.search)
-  const params = {}
-  for (let name in rawParams) {
-    insert(params, name.split("."), rawParams[name])
-  }
-  return params
 }
 
 export function dumpConfig(yaml) {
