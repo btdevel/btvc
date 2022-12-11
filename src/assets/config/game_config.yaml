@@ -142,7 +142,7 @@ configs:
       - "pause"
   fullscreen:
     initCommands:
-      - "toggleFullscreen"
+      - ["setFullscreen", true]
   debug:
     initCommands:
       - "doDebugStuff"

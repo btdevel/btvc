@@ -135,6 +135,7 @@ class GameState {
     exec: this.exec,
     program: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
+    setFullscreen: this.setFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
     nextLevel: () => {
@@ -245,6 +246,13 @@ class GameState {
       draft.fullscreen = !draft.fullscreen
     })
   }
+
+  setFullscreen(onOff) {
+    modifyState(draft => {
+      draft.fullscreen = onOff
+    })
+  }
+
 
   sun = {
     latitude: radians(51),
