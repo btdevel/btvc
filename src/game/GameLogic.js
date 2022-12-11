@@ -138,6 +138,8 @@ class GameState {
     setFullscreen: this.setFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
+    pause: this.pause,
+    resume: this.resume,
     nextLevel: () => {
       this.loadLevel(this.level + 1)
     },
@@ -175,7 +177,7 @@ class GameState {
     stepper.resume()
 
     for (const command of config.initCommands) {
-      console.log(command);
+      console.log('Init command:', command);
       execCommand(command, "init()")
     }
 
@@ -273,20 +275,20 @@ class GameState {
   }
 
   pause() {
+    console.log("Pausing game")
     this.stepper.pause()
   }
 
   resume() {
+    console.log("Resuming game")
     this.stepper.resume()
   }
 
   togglePause() {
-    console.log("pausing")
     // setLocation("this.map.name")
     setOverlayImage(null)
     // setGameText()
-
-    this.stepper.setPaused(!this.stepper.isPaused())
+    this.stepper.isPaused() ? this.resume() : this.pause()
   }
 
   time() {
