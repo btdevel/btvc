@@ -6,9 +6,7 @@ import {useAsyncFinish} from './util/hooks'
 import {gameInit} from './game/GameLogic'
 import ButtonBar from "./dialogs/ButtonBar"
 
-import './assets/styles/inline-font-c64.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './assets/styles/bootstrap-custom.css'
+import './App.scss'
 
 export default function App() {
   const finished = useAsyncFinish(gameInit)

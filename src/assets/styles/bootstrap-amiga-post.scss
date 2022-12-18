@@ -27,12 +27,14 @@ input {
 
     --bs-modal-header-padding: 0.5rem 1rem;
     --bs-modal-header-border-width: 2px;
+    --bs-modal-header-border-color: var(--amiga-wb-color-white);
 
     --bs-modal-border-width: 2px;
     --bs-modal-border-radius: 0px;
     --bs-modal-border-color: var(--amiga-wb-color-white);
 
     --bs-modal-bg: var(--amiga-wb-color-blue);
+    --bs-modal-padding: 16px;
 }
 
 .modal-header .btn-close {
@@ -40,8 +42,7 @@ input {
     background: transparent;
     color: var(--amiga-wb-color-black);
     font-size: larger;
-    padding-bottom: 1rem;
-    xpadding-bottom: calc(var(--bs-modal-header-padding-y) * .5);
+    padding-bottom: calc(var(--bs-modal-header-padding-y) * .5);
 }
 
 .modal-title.h4 {
@@ -49,11 +50,14 @@ input {
     white-space: nowrap;
 }
 
-.btn-close::before {
-    content: "X";
-}
-.btn-close:hover {
-    color: var(--amiga-wb-color-orange);
+.btn-close {
+    &::before {
+        content: "X";
+    }
+
+    &:hover {
+        color: var(--amiga-wb-color-orange);
+    }
 }
 
 .accordion {
@@ -61,8 +65,6 @@ input {
     --bs-accordion-border-width: 2px;
     --bs-accordion-border-color: var(--amiga-wb-color-black);
 
-    /*--bs-accordion-active-color: var(--amiga-wb-color-orange);*/
-    /*--bs-accordion-active-bg: var(--amiga-wb-color-white);*/
     --bs-accordion-active-color: var(--amiga-wb-color-white);
     --bs-accordion-active-bg: var(--amiga-wb-color-orange);
 
@@ -80,30 +82,24 @@ input {
 }
 .accordion-button {
     text-transform: uppercase;
-}
-.accordion-button:not(.collapsed) {
-    border-bottom: var(--bs-accordion-border-color) solid 2px;
-}
-.accordion-button::after {
-    content: "v";
+    &::after {
+        content: "v";
+    }
 }
 
-
-
-.btn-primary {
-    /*color: var(--amiga-wb-color-blue);*/
-    /*background: var(--amiga-wb-color-white);*/
-    color: var(--amiga-wb-color-black);
-    background: var(--bardstale-grey);
-    border-color: var(--amiga-wb-color-black);
-    border-radius: 0px;
-    border-width: 2px;
+.btn {
+    --bs-btn-padding-y: 0.25rem;
+    --bs-btn-padding-x: 0.5rem;
+    --bs-btn-font-size: 0.875rem;
+    --bs-btn-border-radius: 0.25rem;
+    margin: 10px;
+    border: 2px solid var(--amiga-wb-color-black);
+    &:hover {
+        color: var(--amiga-wb-color-orange);
+        border: 2px solid var(--amiga-wb-color-black);
+    }
 }
-.btn-primary:hover {
-    color: var(--amiga-wb-color-orange);
-    background: var(--bardstale-grey);
-    border-color: var(--amiga-wb-color-black);
-}
+
 :not(.btn-check) + .btn:active {
     color: var(--amiga-wb-color-black);
     background: var(--amiga-wb-color-orange);

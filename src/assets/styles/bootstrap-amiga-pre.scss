@@ -1,0 +1,42 @@
+/* For Bootstrap CSS customization see e.g.:*
+/*  - https://getbootstrap.com/docs/5.2/customize/css-variables/ */
+/*  - https://getbootstrap.com/docs/5.2/components/accordion/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/modal/#variables */
+/*  - https://getbootstrap.com/docs/5.2/components/button/#variables */
+
+
+$amiga-blue: #0057af;
+$amiga-orange: #ff8800;
+$amiga-white: #ffffff;
+$amiga-black: #000020;
+$bardstale-grey: #aaaaaa;
+
+
+$enable-rounded: false;
+$enable-shadows: false;
+$enable-grid-classes: false;
+$enable-rfs: false;
+$spacer: 0.1rem;
+
+$border-width: 2px;
+$border-color: $amiga-black;
+$border-color-translucent: $amiga-black;
+
+$primary:       $amiga-blue;
+$secondary:     $amiga-white;
+$success:       $amiga-blue;
+$info:          $bardstale-grey;
+$warning:       $amiga-orange;
+$danger:        $amiga-orange;
+$light:         $amiga-white;
+$dark:          $amiga-black;
+
+
+$modal-content-color: $amiga-white;
+$modal-content-bg: $amiga-blue;
+$modal-md: 620px;
+$model-inner-padding: 10px;
+$modal-header-padding-x: 0.5rem;
+$modal-header-padding-y: 0.1rem;
+
+$btn-close-color: $amiga-black;

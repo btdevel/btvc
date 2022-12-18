@@ -103,7 +103,7 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
     config.appId = appId
     config.channel = channel
     config.token = token
-  }), [videoEnabled, appId, channel, token])
+  }), [videoEnabled, appId, channel, token, videoConfig])
   const chatURL = useMemo(() => {
     return urlFromObject({'video': createConfig()})
   }, [createConfig])
@@ -191,15 +191,15 @@ const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1
         </Entry>
         {/*<Entry number={4} header="Game">Difficulty etc.</Entry>*/}
       </Entries>
-      <Button onClick={() => {
+      <Button variant="secondary" onClick={() => {
         saveForms(false);
         close()
       }}>OK</Button>
-      <Button onClick={() => {
+      <Button variant="secondary" onClick={() => {
         saveForms(true);
         close()
       }}>Save</Button>
-      <Button onClick={() => {
+      <Button variant="secondary" onClick={() => {
         resetForms();
         close()
       }}>Cancel</Button>
@@ -220,7 +220,7 @@ export default function Settings({initialShow = false}) {
   }, [show])
 
   return (<>
-      <Button onClick={open} id='settings-button'>Settings</Button>
+      <Button onClick={open} variant="info" id='settings-button'>Settings</Button>
       <PopupBox header="BTVCC Settings" show={show} close={() => {
         ref.current?.save(false);
         close()

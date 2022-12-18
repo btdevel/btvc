@@ -20,11 +20,6 @@ export function PopupBox({header, subheader, children, show, close}) {
 }
 
 export const Button = styled(RSButton)`
-  margin: 10px;
-  --bs-btn-padding-y: 0.25rem;
-  --bs-btn-padding-x: 0.5rem;
-  --bs-btn-font-size: 0.875rem;
-  --bs-btn-border-radius: 0.25rem;
 `
 
 export function Entries({children, ...params}) {
