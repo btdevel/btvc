@@ -10,10 +10,12 @@ export function mergeRecursive(gameConfig, targetConfig, name) {
     console.warn('Could not find config: ', name)
     return
   }
+  const mergedConfig = {}
   for (const baseName of config.basedOn || []) {
-    mergeRecursive(gameConfig, config, baseName)
+    mergeRecursive(gameConfig, mergedConfig, baseName)
   }
-  mergeObject(targetConfig, config)
+  mergeObject(mergedConfig, config)
+  mergeObject(targetConfig, mergedConfig)
 }
 
 export async function loadYAML(file) {
