@@ -21,7 +21,7 @@ export default function Scene() {
     return (<>
       <Camera key={map.level}/>
       <Lights shadows={config.shadows.enabled} shadowMapSize={config.shadows.shadowMapSize}/>
-      {config.sky.enabled && <Sky/>}
+      {config.sky.enabled && <Sky useShader={config.sky.useShader}/>}
       {config.stars.enabled &&
         <Stars size={1.1} sprite={true} color='lightyellow' number={config.stars.count} box={400}/>}
       <Ground type="city"/>
