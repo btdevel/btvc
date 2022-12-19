@@ -76,7 +76,7 @@ export function RangeInput({label, placeholder, value, onChange, comment, disabl
   return (
     <Group>
       <Form.Label disabled={disabled}>{label}</Form.Label>
-      <Form.Range value={value} tooltip="on" {...props} disabled={disabled} onChange={ev => onChange(ev.target.value)}/>
+      <Form.Range value={value} tooltip="on" {...props} disabled={disabled} onChange={ev => onChange(parseInt(ev.target.value))}/>
       {comment && <Form.Text className="text-muted">{comment}</Form.Text>}
     </Group>
   )
