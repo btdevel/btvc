@@ -89,3 +89,4 @@ export const objectMap = (obj, fn) =>
       ([k, v], i) => [k, fn(v, k, i)]
     )
   )
+export const makeVector3 = ([x, y, z]) => new THREE.Vector3(x, y, z)

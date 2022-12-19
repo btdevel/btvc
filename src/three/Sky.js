@@ -2,8 +2,11 @@ import React, {useRef, useState} from 'react'
 import {useFrame} from '@react-three/fiber'
 import * as THREE from 'three'
 import {Sky as DreiSky, Sphere} from '@react-three/drei'
+
+import PlayerPos from './PlayerPos'
 import {gameState} from '../game/GameLogic'
 import {clamp} from '../util/math'
+
 import starImg from '../assets/images/textures/star.png'
 
 export function ShaderSky() {
@@ -20,10 +23,10 @@ export function ShaderSky() {
         uniforms.up.value.y = 0
         uniforms.up.value.z = 1
 
-        uniforms['turbidity'].value = 10
-        uniforms['rayleigh'].value = 0.5
-        uniforms['mieCoefficient'].value = 0.00001
-        uniforms['mieDirectionalG'].value = 0.007
+        uniforms['turbidity'].value = 6.9 // 0..10
+        uniforms['rayleigh'].value = 0.3 // 0..10
+        uniforms['mieCoefficient'].value = 0.001 // 0..0.1
+        uniforms['mieDirectionalG'].value = 0.999 // 0..1
         sunInitialized = true
       }
       uniforms.sunPosition.value.x = x
@@ -40,36 +43,41 @@ export function ShaderSky() {
 
   const [x, y, z] = gameState.sun.position()
 
-  return <DreiSky ref={sunRef} distance={1000} sunPosition={[x, y, z]}/>
+  return <DreiSky ref={sunRef} distance={10000} sunPosition={[x, y, z]}/>
 }
 
-export function Sun({color = "yellow", size = 10}) {
-  const sunGeometry = new THREE.BufferGeometry()
 
-  let vertices = new Float32Array(3)
-  // let sunVector = new THREE.Vector3(99, 0, 0)
-  let sunVector = new THREE.Vector3(0, -100, 0)
-  sunVector.toArray(vertices, 0)
-  sunGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
-  // console.log("In Sun")
+const sunVertexArray=new Float32Array([0, 0, 0])
+const sunTexture=new THREE.TextureLoader().load(starImg)
 
-  let sunMaterial = new THREE.PointsMaterial({
-    color,
-    size,
-    transparent: true,
-    map: new THREE.TextureLoader().load(starImg),
-  })
-
-  const sun = new THREE.Points(sunGeometry, sunMaterial)
-
+export function Sun({dist = 100, color = "yellow", size = 0.06}) {
+  const sunRef = useRef()
   useFrame(() => {
-    sun.rotation.x = -gameState.sun.latitude
-    sun.rotation.z = -gameState.sun.hour_angle()
+    const spos = gameState.sun.position()
+    if (sunRef.current) {
+      sunRef.current.position.x = dist * spos[0]
+      sunRef.current.position.y = dist * spos[1]
+      sunRef.current.position.z = dist * spos[2]
+    }
   })
 
-  return <primitive object={sun}/>
+  return (<points ref={sunRef}>
+    <bufferGeometry>
+      <bufferAttribute
+        attach="attributes-position"
+        array={sunVertexArray}
+        count={1} //
+        itemSize={3}
+      />
+    </bufferGeometry>
+    <pointsMaterial
+      color={color}
+      size={size * dist}
+      transparent
+      opacity={1.0}
+      map={sunTexture}/>
+  </points>)
 }
-
 
 function skyColor() {
   const [x, y, z] = gameState.sun.position()
@@ -83,31 +91,26 @@ function skyColor() {
   return color
 }
 
-export function SimpleSky() {
-  const radius = 400
-  const widthSegs = 8
-  const heightSegs = 8
-
+export function SimpleSky({dist = 100}) {
   const [color, setColor] = useState(skyColor())
 
   useFrame(() => {
     const newColor = skyColor()
     setColor(newColor)
   })
-  console.log("In Simple")
-
 
   return (<>
-    <Sphere args={[radius, widthSegs, heightSegs]}>
-      <meshBasicMaterial side={THREE.DoubleSide} color={color} wireframe={false}
-                         fog={false}
-      />
+    <Sphere args={[dist, 8, 8]}>
+      <meshBasicMaterial side={THREE.DoubleSide} color={color}/>
     </Sphere>
   </>)
 }
 
 
 export default function Sky({useShader}) {
-  return (useShader ? <ShaderSky/> :
-    <><SimpleSky/><Sun/></>)
+  if (useShader) return <ShaderSky/>
+  return (<PlayerPos>
+    <SimpleSky dist={500}/>
+    <Sun dist={280} color={"yellow"} size={0.12}/>
+  </PlayerPos>)
 }
