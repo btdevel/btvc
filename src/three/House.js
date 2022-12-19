@@ -154,8 +154,8 @@ export default function House({x, y, type, dir, props}) {
   // console.log(dir);
   dir = 2 + '^<v>'.indexOf(dir)
   // console.log(dir);
-  const epsXY = 0.1
-  const epsZ = 0.2
+  const epsXY = 0.06
+  const epsZ = 0.02
   // The inner walls remove some shadow artifacts around the floor (but not all)
   return (
     <>
