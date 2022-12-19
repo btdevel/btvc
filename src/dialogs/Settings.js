@@ -156,7 +156,8 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
     <TextInput label="Video Channel" placeholder="Enter channel name" value={channel} onChange={setChannel}/>
     <TextInput label="Video Token" placeholder="Enter Token" value={token} onChange={setToken}/>
     <Button onClick={() => alert(alertText)}>Create link</Button>
-    <Button href={emailLink}>Email invitation</Button>
+    <Button href={emailLink}>Email invite</Button>
+    <Button href="https://console.agora.io/projects" target="_blank">Get new token</Button>
   </Form>)
 })
 
