@@ -42,12 +42,16 @@ export default function GameControls({partyViewRef, screenRef}) {
       const element = gesturesElementRef.current
       const gestures = new Hammer(element);
 
-      gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05});
+      gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05})
+      gestures.get('pinch').set({ enable: true })
       const enableSwipe = (ev) => (enableMouseSwipes || ev.pointerType !== "mouse")
       gestures.on('swipeleft', (ev) => enableSwipe(ev) && gameState.turn(1))
       gestures.on('swiperight', (ev) => enableSwipe(ev) && gameState.turn(-1))
       gestures.on('swipeup', (ev) => enableSwipe(ev) && gameState.move(true))
       gestures.on('swipedown', (ev) => enableSwipe(ev) && gameState.move(false))
+
+      gestures.on('pinchin', () => gameState.setFullscreen(false))
+      gestures.on('pinchout', () =>  gameState.setFullscreen(true))
 
       return () => {
         gestures.stop()
