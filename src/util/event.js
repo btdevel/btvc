@@ -13,9 +13,18 @@ export function addRemoveEventListeners(element, types, listeners, add) {
   }
 }
 
+export function addEventListeners(element, types, listeners) {
+  addRemoveEventListeners(element, types, listeners, true)
+}
+
+export function removeEventListeners(element, types, listeners) {
+  addRemoveEventListeners(element, types, listeners, false)
+}
+
 export const gestureTypes = ['click', 'contextmenu', 'touchstart']
+export const interactionEventTypes = ['click', 'contextmenu', 'touchstart', 'mousemove', 'keydown']
 
 export function invokeOnGesture(listeners) {
-  addRemoveEventListeners(document, gestureTypes, listeners, true)
-  return () => addRemoveEventListeners(document, gestureTypes, listeners, false)
+  addEventListeners(document, gestureTypes, listeners)
+  return () => removeEventListeners(document, gestureTypes, listeners)
 }

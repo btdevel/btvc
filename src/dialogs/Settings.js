@@ -4,7 +4,7 @@ import {Button, Entries, Entry, PopupBox} from "./DialogElements"
 import {Checkbox, Form, RangeInput, TextInput} from "./FormElements"
 import {
   gameState,
-  setAudioConfig,
+  setAudioConfig, setGameText,
   setGraphicsConfig,
   setVideoConfig,
   useAudioConfig,
@@ -156,7 +156,8 @@ const VideoForm = forwardRef(function VideoForm(props, ref) {
     <TextInput label="Video Channel" placeholder="Enter channel name" value={channel} onChange={setChannel}/>
     <TextInput label="Video Token" placeholder="Enter Token" value={token} onChange={setToken}/>
     <Button onClick={() => alert(alertText)}>Create link</Button>
-    <Button href={emailLink}>Email invitation</Button>
+    <Button href={emailLink}>Email invite</Button>
+    <Button href="https://console.agora.io/projects" target="_blank">Get new token</Button>
   </Form>)
 })
 
@@ -192,10 +193,12 @@ const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1
         {/*<Entry number={4} header="Game">Difficulty etc.</Entry>*/}
       </Entries>
       <Button variant="secondary" onClick={() => {
+        setGameText("Settings saved for this setting only.")
         saveForms(false);
         close()
       }}>OK</Button>
       <Button variant="secondary" onClick={() => {
+        setGameText("Settings saved permanently to localStorage.")
         saveForms(true);
         close()
       }}>Save</Button>

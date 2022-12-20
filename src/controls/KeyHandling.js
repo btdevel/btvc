@@ -13,8 +13,7 @@ export function handleKeyDown(event) {
 
   if (!key) return
 
-  const command = gameState.keyMap[key]
-  // console.log('command: ', command);
+  const command = gameState.keyMap[key] || gameState.keyMap[key.toLowerCase()]
   if (!command) return
 
   execCommand(command, `keypress: ${key}`)
