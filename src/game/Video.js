@@ -4,6 +4,7 @@ import AgoraRTC from "agora-rtc-sdk-ng"
 
 import {setGameText, useGameStore} from "./GameLogic"
 import {mergeArrays} from "../util/util"
+import {addEventListeners, interactionEventTypes, removeEventListeners} from '../util/event'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -106,6 +107,11 @@ async function onUnpublish(user, mediaType) {
 }
 
 
+export function restartTimeout() {
+  setGameText("")
+  startTimeout()
+}
+
 function startTimeout() {
   const timeoutInSecs = useGameStore.getState().config.video.timeout
   const warningInSecs = useGameStore.getState().config.video.warning
@@ -159,6 +165,7 @@ export function stopVideoClient() {
 
 export async function startConference() {
   startTimeout()
+  addEventListeners(document, interactionEventTypes, restartTimeout)
   if (!(videoState.ref && videoState.client)) return
 
   const {client} = videoState
@@ -223,6 +230,7 @@ export async function startConference() {
 }
 
 export async function stopConference() {
+  removeEventListeners(document, interactionEventTypes, restartTimeout)
   if (!(videoState.ref && videoState.client)) return
 
   const {client} = videoState
