@@ -22,8 +22,8 @@ audio:
 video:
   enabled: true
   appId: "0dc426f8235842b3b4b7828a0d89d51b"
-  channel: "test"
-  token: "007eJxTYJB8pM1q/OiRzlHVA46vD26aU3dQoCTh2PS7nLPkdI1WJncrMBikJJsYmaVZGBmbWpgYJRknmSSZWxhZJBqkWFimmBomHX8wIbkhkJFhVZUjEyMDBIL4LAwlqcUlDAwAMjYfVg=="
+  channel: "btchannel"
+  token: "token-from-agora.io"
   timeout: 600 # 10 minutes
   warning: 60 # 1 minute
 
@@ -69,6 +69,7 @@ configs:
     basedOn: ["night", "atCenter", "fast", "facingSouth", "fullscreen", "debug"]
   debugCellars:
     basedOn: ["cellars", "morning", "facingNorth", "debug"]
+    position: {x: 9, y: 9}
   debugScarletBard:
     basedOn: ["beforeScarletBard", "noon", "facingEast", "debug"]
   debugShadowCasting:

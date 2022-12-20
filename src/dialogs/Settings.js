@@ -4,7 +4,7 @@ import {Button, Entries, Entry, PopupBox} from "./DialogElements"
 import {Checkbox, Form, RangeInput, TextInput} from "./FormElements"
 import {
   gameState,
-  setAudioConfig,
+  setAudioConfig, setGameText,
   setGraphicsConfig,
   setVideoConfig,
   useAudioConfig,
@@ -193,10 +193,12 @@ const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1
         {/*<Entry number={4} header="Game">Difficulty etc.</Entry>*/}
       </Entries>
       <Button variant="secondary" onClick={() => {
+        setGameText("Settings saved for this setting only.")
         saveForms(false);
         close()
       }}>OK</Button>
       <Button variant="secondary" onClick={() => {
+        setGameText("Settings saved permanently to localStorage.")
         saveForms(true);
         close()
       }}>Save</Button>
