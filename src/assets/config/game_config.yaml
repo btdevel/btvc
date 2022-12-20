@@ -24,6 +24,8 @@ video:
   appId: "0dc426f8235842b3b4b7828a0d89d51b"
   channel: "test"
   token: "007eJxTYJB8pM1q/OiRzlHVA46vD26aU3dQoCTh2PS7nLPkdI1WJncrMBikJJsYmaVZGBmbWpgYJRknmSSZWxhZJBqkWFimmBomHX8wIbkhkJFhVZUjEyMDBIL4LAwlqcUlDAwAMjYfVg=="
+  timeout: 600 # 10 minutes
+  warning: 60 # 1 minute
 
 keyMap:
   ArrowUp: "forward"

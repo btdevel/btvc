@@ -1,8 +1,8 @@
 import create from 'zustand'
 import produce from 'immer'
-import AgoraRTC from "agora-rtc-sdk-ng";
+import AgoraRTC from "agora-rtc-sdk-ng"
 
-import {setGameText} from "./GameLogic";
+import {setGameText, useGameStore} from "./GameLogic"
 import {mergeArrays} from "../util/util"
 
 const useStore = create((set, get) => {
@@ -105,20 +105,28 @@ async function onUnpublish(user, mediaType) {
   removeDiv(user.uid)
 }
 
-const defaultTimeout = 5 * 60
-const defaultRefresh = 5
 
 function startTimeout() {
-  videoState.timeoutAt = Date.now() + 1000 * defaultTimeout
-  if (videoState.timeoutRunning) return
+  const timeoutInSecs = useGameStore.getState().config.video.timeout
+  const warningInSecs = useGameStore.getState().config.video.warning
+
+  videoState.timeoutAt = Date.now() + 1000 * timeoutInSecs
+  if (videoState.timeoutRunning) {
+    return
+  }
   videoState.timeoutRunning = true
   const onTimeout = () => {
-    if (Date.now() > videoState.timeoutAt) {
+    const remain = videoState.timeoutAt - Date.now()
+    if (remain <= 0) {
       videoState.timeoutRunning = false
       stopConference()
-      console.log("Timing out now");
+      setGameText("Video connection stopped. Move to reconnect.")
     } else {
-      setTimeout(onTimeout, defaultRefresh)
+      setTimeout(onTimeout, 250) // check 4 times every second
+      const remainInSecs = Math.floor(remain / 1000)
+      if (remainInSecs <= warningInSecs) {
+        setGameText(`Video time out in ${remainInSecs} seconds. Please move to reactivate connection...`)
+      }
     }
   }
   onTimeout()
