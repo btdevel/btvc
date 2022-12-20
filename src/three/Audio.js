@@ -4,6 +4,11 @@ import * as THREE from 'three'
 import {getAudioListener} from "./AudioListener"
 import {songMap} from "../game/Songs"
 
+// Some hints on choosing the values for Audio
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics
+// https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
+// https://www.desmos.com/calculator/lzxfqvwoqq?lang=de
+
 export default function Audio({
                                 url,
                                 song = "",
@@ -14,7 +19,7 @@ export default function Audio({
                                 volume = 0.5,
                                 distanceModel = "exponential",
                                 refDistance = 0.5,
-                                rolloffFactor = 2,
+                                rolloffFactor = 4,
                                 maxDistance = 5,
                                 cone = undefined
                               }) {
@@ -55,11 +60,6 @@ export default function Audio({
         isLoaded = true
         audio.setBuffer(audioBuffer);
         audio.setLoop(loop)
-
-        // https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Web_audio_spatialization_basics
-        // https://medium.com/@kfarr/understanding-web-audio-api-positional-audio-distance-models-for-webxr-e77998afcdff
-        // https://www.desmos.com/calculator/lzxfqvwoqq?lang=de
-
         audio.setVolume(volume)
         if (!ambient) {
           audio.setDistanceModel(distanceModel)
