@@ -130,8 +130,8 @@ class GameState {
     overlayImage: (name) => setOverlayImage(imageMap[name]),
     location: setLocation,
     // exec: this.exec,
-    program: this.execProgram,
-    subprogram: this.execProgram,
+    program: (name, ...args) => this.execProgram(name, true, ...args),
+    subprogram: (name, ...args) => this.execProgram(name, false, ...args),
     toggleFullscreen: this.toggleFullscreen,
     setFullscreen: this.setFullscreen,
     togglePause: this.togglePause,
@@ -348,15 +348,9 @@ class GameState {
     }
   }
 
-  // exec(...commands) {
-  //   for (let command of commands) {
-  //     execCommand(command, "exec()")
-  //   }
-  // }
-
-  execProgram(prog, ...args) {
+  execProgram(prog, replace, ...args) {
     console.log("Executing program: ", prog, " with args: ", ...args)
-    engine.run(prog, ...args)
+    engine.run(prog, replace, ...args)
   }
 
 }

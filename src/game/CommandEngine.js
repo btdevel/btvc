@@ -3,7 +3,7 @@ import {dumpConfig} from './ConfigLoader'
 
 
 class CommandEngine {
-  program = []
+  stack = []
   programRunning = false
 
   started = false
@@ -21,7 +21,7 @@ class CommandEngine {
   start() {
     if( !this.started ) {
       console.log("Starting engine...")
-      setInterval(() => this.#tic(), 20)
+      setInterval(() => this.#tic(), 200)
       this.started = true
     }
   }
@@ -29,10 +29,29 @@ class CommandEngine {
     console.log("pausing")
   }
 
+  #pushProg(prog, replace) {
+    if (replace)
+      this.stack = [prog]
+    else
+      this.stack.unshift(prog)
+    console.log("Pushed prog: ", replace, dumpConfig(this.stack))
+  }
+  #getTop() {
+    while( this.stack.length>0) {
+      if( this.stack[0].commands.length > 0) {
+        return this.stack[0]
+      }
+      else {
+        console.log("Popping program stack...")
+        this.stack.shift()
+      }
+    }
+  }
   #tic() {
     if (this.programRunning) {
-      if (this.program.length) {
-        const command = this.program.shift()
+      const program = this.#getTop()
+      if (program) {
+        const command = program.commands.shift()
         console.log("Executing: ", command);
         execCommand(command)
       } else {
@@ -44,24 +63,34 @@ class CommandEngine {
     }
   }
 
-  run(prog) {
-    const program = this.programDefs[prog]
-    if (!program) {
-      console.warn("Unknown program: ", prog, program)
+  run(name, replace, ...args) {
+    console.log("Executing program: ", name, " with args: ", ...args)
+
+    const commands = this.programDefs[name]
+    if (!commands) {
+      console.warn("Unknown program: ", name, commands)
       console.log(this.programDefs)
       return
     }
-    const dump = {};
-    dump[prog] = program
-    console.log("Program: ", dumpConfig(dump))
-    this.program = [...program]
+
+    const newProg = {name: name, commands: [...commands], args: args}
+    console.log('Program:', dumpConfig(newProg))
+    this.#pushProg( newProg, replace)
+
     this.programRunning = true
   }
 
   execCommand(command, invoker) {
     // If command of the form "string" then funcname="string" and args=[]
     // otherwise if its of the form ["foo", arg1, arg2] then funcname="foo" and args=[arg1, arg2]
-    const [funcname, ...args] = (typeof command === 'string') ? [command, []] : command
+    const [funcname, ...xargs] = (typeof command === 'string') ? [command, []] : command
+
+    // Massage args
+    const regex1 = RegExp(':arg[0-9]*:')
+    const args = xargs.map(arg =>
+      regex1.test(arg) ? this.stack[0].args[parseInt(arg.substring(4))-1] : arg
+    )
+    console.log("Executing: ", funcname, [...args]);
 
     // Look it up in the command map (from the game_config)
     // A command is a one line definition with a name that is replaced
@@ -76,7 +105,6 @@ class CommandEngine {
     // If it wasn't in the command map, look it up in the
     // map of basic functions from the GameLogic
     const func = this.functions[funcname]
-    // console.log('func: ', func);
     if( func ) {
       func.apply(gameState, args)
       return
