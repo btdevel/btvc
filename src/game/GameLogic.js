@@ -141,7 +141,8 @@ class GameState {
     nextLevel: () => {this.loadLevel(this.level + 1)},
     prevLevel: () => {this.loadLevel(this.level - 1)},
     toggleFly: () => {this.flyMode = !this.flyMode},
-    doDebugStuff: () => {/* currently nothing*/}
+    doDebugStuff: () => {/* currently nothing*/},
+    delay: this.delay
   }
 
   async init() {
@@ -253,6 +254,11 @@ class GameState {
     this.stepper.pause()
   }
 
+  delay(time_in_secs) {
+    engine.pause(true)
+    setTimeout(() => engine.pause(false), time_in_secs * 1000)
+  }
+
   resume() {
     console.log("Resuming game")
     this.stepper.resume()
@@ -349,7 +355,6 @@ class GameState {
   }
 
   execProgram(prog, replace, ...args) {
-    console.log("Executing program: ", prog, " with args: ", ...args)
     engine.run(prog, replace, ...args)
   }
 

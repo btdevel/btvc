@@ -1,12 +1,15 @@
 import {gameState, setGameText, setLocation, setOverlayImage} from "./GameLogic"
 import {dumpConfig} from './ConfigLoader'
 
+const ticInterval = 20
 
 class CommandEngine {
   stack = []
   programRunning = false
 
   started = false
+  paused = false
+
   programDefs = {}
   commandDefs = {}
   functions = {}
@@ -21,12 +24,13 @@ class CommandEngine {
   start() {
     if( !this.started ) {
       console.log("Starting engine...")
-      setInterval(() => this.#tic(), 200)
+      setInterval(() => this.#tic(), ticInterval)
       this.started = true
     }
   }
-  pause() {
-    console.log("pausing")
+  pause(paused) {
+    this.paused = paused
+    console.log(paused ? "Pausing engine" : "Resuming engine")
   }
 
   #pushProg(prog, replace) {
@@ -48,7 +52,7 @@ class CommandEngine {
     }
   }
   #tic() {
-    if (this.programRunning) {
+    if (this.programRunning && !this.paused) {
       const program = this.#getTop()
       if (program) {
         const command = program.commands.shift()

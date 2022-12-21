@@ -29,6 +29,7 @@ programs:
 
   credits:
     - ["overlayImage", "inside/credits"]
+    - ["location", "Bard's Tale"]
     - [
         "showMessage",
         "THE BARD'S TALE IBM was from an original design by Michael Cranford.\nIt was created at Interplay Productions, in Newport Beach, California.\nInterplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:\nTodd Camasta\n(Artwork)\nTroy P. Worrell\n(Programming)\nDave Warhol\nAarn Abbey\n(Music)\nBrian Fargo\n(Dungeons)\nJoe Ybarra\n(Producer)\n",
@@ -37,18 +38,29 @@ programs:
 
   guild:
     - ["overlayImage", "inside/guild"]
+    - ["location", "The guild"]
     - ["returnToCity"]
 
   reviewBoard:
     - ["overlayImage", "inside/review"]
+    - ["location", "Review board"]
     - ["returnToCity"]
 
   roscoes:
     - ["overlayImage", "inside/roscoes"]
+    - ["location", "Roscoe's"]
+    - ["showMessage", "Welcome, my friends, to Roscoe's Energy Emporium. Who needeth spell points restored?"]
+# has some definite spell point problems. It will cost
+# Roscoe re-energizes him.
     - ["returnToCity"]
 
   shop:
+    - ["condition", "night",
+       [["showMessage", "The shoppe is closed at night."], "returnToCity"], []
+      ]
     - ["overlayImage", "inside/shop"]
+    - ["location", "The Shoppe"]
+    - ["showMessage", "  Welcome to Garth's Equipment Shoppe, oh wealthy travellers!\nWhich of you is interested in my fine wares?"]
     - ["returnToCity"]
 
   scarletBard:
@@ -60,32 +72,39 @@ programs:
       ]
     - ["teleport", 0, 0, 0]
 
+  mdTest:
+    - ["overlayImage", ":arg1:"]
+    - ["overlayImage", ":arg2:"]
+
+
   madgodTemple:
+    - ["overlayImage", "inside/pub"]
+    - ["delay", 3]
     - ["overlayImage", "inside/temple"]
     - ["location", "Mad God"]
     - [
-        "showMessage",
+        "selection",
         "This is the temple of the Mad God. What is thy business, unbeliever?",
+        ["Speak to priest", "s", ["subprogram", "madgodSpeak"]],
+        ["(EXIT)", "e", "returnToCity"]
       ]
-    - ["teleport", 4, 0, 0]
+    - ["subprogram", "madgodEnter"]
 
-  madgodTempleX:
-    - ["overlayImage", "inside/temple"]
-    - ["textQuestion", "... What wilt thou say?"]
-    - [
-        "answerEquals",
+
+  madgodSpeak:
+    - ["riddle", "Only those who know the name of the Mad one are welcome.\nWhat wilt thou say?",
         "TARJAN",
         ["subprogram", "madgodEnter"],
         ["subprogram", "madgodWrongAnswer"],
       ]
 
   madgodEnter:
-    - ["showMessage", "Speak not the name ..."]
+    - ["showMessage", '"Speak not the name of the High One so loudly, lest he awaken." the priest says. "enter the catacombs, believer."']
     - ["waitForKeyPress"]
     - ["teleport", 4, 0, 0]
 
   madgodWrongAnswer:
-    - ["showMessage", "... Infidel... "]
+    - ["showMessage", '"Quit thy babbling," the priest says.']
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
@@ -118,10 +137,19 @@ programs:
 
   stairsDown:
     - [
-        "yesNoQuestion",
-        "There are stairs going down here. Do you want to take them?",
-      ]
-    - ["answerEquals", "YES", ["stairsDown"], []]
+      "selection",
+      "There are stairs here, going down. Do you wish to take them?",
+      ["Yes", "y", ["stairsDown"]],
+      ["No", "n", []]
+    ]
+
+  stairsUp:
+    - [
+      "selection",
+      "There are stairs here, going up. Do you wish to take them?",
+      ["Yes", "y", ["stairsUp"]],
+      ["No", "n", []]
+    ]
 
   # stairsUp, portalUp, portalDown
   # pub
