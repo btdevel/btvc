@@ -2,18 +2,18 @@ import create from 'zustand'
 import produce from 'immer'
 
 import {dumpConfig, loadConfig, loadYAML} from './ConfigLoader'
-import {execCommand} from "./ExecCommand";
+import {execCommand, engine} from "./CommandEngine"
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
 import {moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
+import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage"
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
 import {clamp, radians} from '../util/math'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
-import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage";
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -102,9 +102,6 @@ class GameState {
   dPhi = 0
   dTheta = 0
   keyMap = {}
-  commands = {}
-  program = []
-  programRunning = false
 
   canGrabKeyboard = true
 
@@ -118,7 +115,7 @@ class GameState {
 
 
 
-  export = {
+  functions = {
     forward: () => this.move(true),
     backward: () => this.move(false),
     turn: this.turn,
@@ -132,23 +129,18 @@ class GameState {
     showMessage: this.showMessage,
     overlayImage: (name) => setOverlayImage(imageMap[name]),
     location: setLocation,
-    exec: this.exec,
+    // exec: this.exec,
     program: this.execProgram,
+    subprogram: this.execProgram,
     toggleFullscreen: this.toggleFullscreen,
     setFullscreen: this.setFullscreen,
     togglePause: this.togglePause,
     loadLevel: this.loadLevel,
     pause: this.pause,
     resume: this.resume,
-    nextLevel: () => {
-      this.loadLevel(this.level + 1)
-    },
-    prevLevel: () => {
-      this.loadLevel(this.level - 1)
-    },
-    toggleFly: () => {
-      this.flyMode = !this.flyMode
-    },
+    nextLevel: () => {this.loadLevel(this.level + 1)},
+    prevLevel: () => {this.loadLevel(this.level - 1)},
+    toggleFly: () => {this.flyMode = !this.flyMode},
     doDebugStuff: () => {/* currently nothing*/}
   }
 
@@ -160,11 +152,7 @@ class GameState {
     this.position.y = config.position.y
     this.dir = config.dir
     this.keyMap = config.keyMap
-    this.commands = config.commands
 
-    const programs = await loadYAML(programFile)
-    // console.log("Programs: ", dumpConfig(programs))
-    this.programs = programs.programs
 
     await this.loadLevel(config.level)
 
@@ -176,12 +164,15 @@ class GameState {
     stepper.setSimTime(config.hour * TimeStepper.HOUR)
     stepper.resume()
 
+    const programsConfig = await loadYAML(programFile)
+    engine.init(this.functions, config.commands, programsConfig.programs)
+    engine.start()
+
     for (const command of config.initCommands) {
       console.log('Init command:', command);
-      execCommand(command, "init()")
+      engine.execCommand(command, "init()")
     }
 
-    setInterval(() => this.tic(), 200)
     setConfig(config)
   }
 
@@ -190,23 +181,6 @@ class GameState {
     const maxTheta = radians(45)
     this.dPhi = clamp(-diffX / 100, -maxPhi, maxPhi)
     this.dTheta = clamp(-diffY / 100, -maxTheta, maxTheta)
-  }
-
-
-  tic() {
-    // console.log("Tic...");
-    if (this.programRunning) {
-      if (this.program.length) {
-        const command = this.program.shift()
-        console.log("Executing: ", command);
-        execCommand(command)
-      } else {
-        setLocation(this.map.name)
-        setOverlayImage(null)
-        setGameText()
-        this.programRunning = false
-      }
-    }
   }
 
   async loadLevel(level) {
@@ -374,24 +348,15 @@ class GameState {
     }
   }
 
-  exec(...commands) {
-    for (let command of commands) {
-      execCommand(command, "exec()")
-    }
-  }
+  // exec(...commands) {
+  //   for (let command of commands) {
+  //     execCommand(command, "exec()")
+  //   }
+  // }
 
   execProgram(prog, ...args) {
-    console.log("Executing program: ", prog, " with args: ", ...args);
-    const program = this.programs[prog]
-    if (!program) {
-      console.warn("Unknown program: ", prog);
-      return
-    }
-    const dump = {};
-    dump[prog] = program
-    console.log("Program: ", dumpConfig(dump));
-    this.program = [...program]
-    this.programRunning = true
+    console.log("Executing program: ", prog, " with args: ", ...args)
+    engine.run(prog, ...args)
   }
 
 }

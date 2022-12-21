@@ -32,7 +32,7 @@ export default class DungeonMap extends MapBase {
   }
 
   showMap(pos, dir) {
-    setGameText("Sorry pal! Auto mapping was disabled on purpose...")
+    setGameText("Sorry pal! No auto mapping in dungeons...")
   }
 
   getLocationInfo() {

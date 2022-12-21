@@ -1,5 +1,5 @@
 import {setGameText, useGameStore} from "./GameLogic"
-import {execCommand} from "./ExecCommand"
+import {execCommand} from "./CommandEngine"
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
 import {getDirName} from "./Direction"

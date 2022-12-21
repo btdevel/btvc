@@ -1,7 +1,5 @@
-configName: originalGame
-#configName: debugStars
-#configName: debugCellars
-#configName: betterGame
+#configName: originalGame
+configName: debugPrograms
 
 graphics:
   stars:
@@ -72,8 +70,8 @@ configs:
     position: {x: 9, y: 9}
   debugScarletBard:
     basedOn: ["beforeScarletBard", "noon", "facingEast", "debug"]
-  debugShadowCasting:
-    basedOn: ["atCenter", "morning", "fullscreen", "ultrafast", "debug"]
+  debugPrograms:
+    basedOn: ["atCenter", "morning", "facingEast", "debug"]
   debugSky:
     basedOn: ["atCenter", "noon", "fullscreen", "fast", "debug"]
 
