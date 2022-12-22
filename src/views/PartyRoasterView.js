@@ -1,5 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
+
+import zipurl from '../assets/data/msdos2.zip'
+// import zipurl from '../assets/data/amiga.zip'
+
+import {loadCharacter, loadZip} from '../game/Party'
 
 const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
@@ -8,32 +13,30 @@ const PartyRoasterViewBox = styled.div`
 `
 const CharacterLineBox = styled.div`
   position: absolute;
-  top: ${props => (props.number - 1) * 20 + 4}px;
+  top: ${props => (props.number - 1) * 16 + 16}px;
   padding-left: 20px;
   font-family: 'EightBit';
   font-size: 12pt;
   color: black;
-  //text-shadow: 1px 1px #777;
   background-color: transparent;
+  white-space: nowrap;
 `
 const attrInfo = {
-  number: {pos: -62, type: 'num'},
-  name: {pos: 4, type: 'upp'},
-  ac: {pos: 220, type: 'num'},
-  hp: {pos: 300, type: 'num'},
-  cnd: {pos: 374, type: 'num'},
-  sp: {pos: 456, type: 'num'},
-  cls: {pos: 534, type: 'cap'},
+  number: {pos: -1062, right: true},
+  name: {pos: 8},
+  ac: {pos: 236, right: true},
+  hp: {pos: 316, right: true},
+  cnd: {pos: 396, right: true, emph: true },
+  sp: {pos: 476, right: true },
+  cls: {pos: 552},
 }
 const Attribute = styled.div`
   position: absolute;
-  left: ${props => attrInfo[props.attr].pos + 20}px;
+  left: ${props => attrInfo[props.attr].pos}px;
   width: 60px;
+  color: ${props => attrInfo[props.attr].emph ? 'white' : 'black'};;
   text-align: ${props =>
-  attrInfo[props.attr].type === 'num' ? 'right' : 'left'};
-  text-transform: ${props =>
-  attrInfo[props.attr].type === 'cap' ? 'capitalize' : 'uppercase'};
-  ...extra;
+          attrInfo[props.attr].right ? 'right' : 'left'};
 `
 
 function CharacterLineDisplay({number, name, ac, hp, cnd, sp, cls}) {
@@ -41,46 +44,49 @@ function CharacterLineDisplay({number, name, ac, hp, cnd, sp, cls}) {
   return (
     <CharacterLineBox number={number} id={id}>
       <Attribute attr='number'>{number}</Attribute>
-      <Attribute attr='name'>{name}</Attribute>
-      <Attribute attr='ac'>{ac}</Attribute>
-      <Attribute attr='hp'>{hp}</Attribute>
-      <Attribute attr='cnd'>{cnd}</Attribute>
-      <Attribute attr='sp'>{sp}</Attribute>
-      <Attribute attr='cls'>{cls}</Attribute>
+      <Attribute attr="name">{name}</Attribute>
+      <Attribute attr="ac">{ac}</Attribute>
+      <Attribute attr="hp">{hp}</Attribute>
+      <Attribute attr="cnd">{cnd}</Attribute>
+      <Attribute attr="sp">{sp}</Attribute>
+      <Attribute attr="cls">{cls}</Attribute>
     </CharacterLineBox>
   )
 }
 
+function PartyRoaster({chars}) {
+  const elems = []
+  for (let i = 0; i < chars.length; ++i) {
+    const char = chars[i]
+    elems.push(
+      <CharacterLineDisplay key={i + 1} number={i + 1}
+                            name={char.name}
+                            ac={char.acName()}
+                            hp={char.maximum.hp}
+                            cnd={char.current.hp}
+                            sp={char.current.sp}
+                            cls={char.className().substring(0, 2)}
+      />,
+    )
+  }
+  return elems // <>{elems}</>
+}
+
+async function loadCharsFromZip(setChars) {
+  const chars = await loadZip(zipurl)
+  console.log("Characters loaded from zip", chars)
+  setChars(chars)
+}
+
 export default function LocationView() {
+  const [chars, setChars] = useState([])
+  useEffect(() => {
+    loadCharsFromZip(setChars)
+  }, [setChars])
+
   return (
-    <PartyRoasterViewBox id='party-roaster-box' style={{textAlign: 'center'}}>
-      <CharacterLineDisplay
-        number={1}
-        name='Gimli'
-        ac='lo'
-        hp={320}
-        cnd='210'
-        sp={0}
-        cls='wa'
-      />
-      <CharacterLineDisplay
-        number={2}
-        name='Bilbo'
-        ac='-5'
-        hp={120}
-        cnd='8'
-        sp={0}
-        cls='th'
-      />
-      <CharacterLineDisplay
-        number={3}
-        name='Gandalf'
-        ac='3'
-        hp={98}
-        cnd='old'
-        sp={512}
-        cls='wi'
-      />
+    <PartyRoasterViewBox id="party-roaster-box" style={{textAlign: 'center'}}>
+      <PartyRoaster chars={chars}/>
     </PartyRoasterViewBox>
   )
 }
