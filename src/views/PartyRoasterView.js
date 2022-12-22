@@ -5,18 +5,16 @@ const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
   width: 100%;
   height: 100%;
-  font-family: 'EightBit';
-  color: black;
-  background-color: transparent;
 `
 const CharacterLineBox = styled.div`
-  padding-left: 20px;
-  font-family: 'EightBit';
   position: absolute;
   top: ${props => (props.number - 1) * 20 + 4}px;
-  background-color: transparent;
+  padding-left: 20px;
+  font-family: 'EightBit';
+  font-size: 12pt;
   color: black;
-  text-shadow: 1px 1px #777;
+  //text-shadow: 1px 1px #777;
+  background-color: transparent;
 `
 const attrInfo = {
   number: {pos: -62, type: 'num'},
@@ -33,7 +31,6 @@ const Attribute = styled.div`
   width: 60px;
   text-align: ${props =>
   attrInfo[props.attr].type === 'num' ? 'right' : 'left'};
-  background-color: transparent;
   text-transform: ${props =>
   attrInfo[props.attr].type === 'cap' ? 'capitalize' : 'uppercase'};
   ...extra;

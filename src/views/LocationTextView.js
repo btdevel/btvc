@@ -8,6 +8,8 @@ const LocationTextBox = styled.div`
   width: 100%;
   height: 100%;
   font-family: 'EightBit';
+  font-size: 10pt;
+  padding-top: 2px;
   color: white;
   text-align: center;
 `
