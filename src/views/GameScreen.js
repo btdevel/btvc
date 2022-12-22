@@ -18,8 +18,6 @@ function ErrorComponent() {
 const GameScreenBox = styled.div`
   width: 640px;
   height: 400px;
-  // The following does not work with the threejs camera (displaces it; we'd need a correction for that too...)
-  //transform: translate(-50%, -50%) scale(2) translate(50%, 50%) ;  
 `
 const BackgroundImageBox = styled.div`
   width: 640px;
@@ -46,10 +44,13 @@ const PartyViewGroupBox = styled.div`
 `
 const PartyViewBox = styled.div`
   background-color: black;
-  width: 100%;
-  height: 100%;
+  width: var(--game-scale-percent);
+  height: var(--game-scale-percent);
+  left: var(--game-shift-percent);
+  top:  var(--game-shift-percent);
   position: absolute;
   cursor: all-scroll;
+  transform: scale(calc(1.0/var(--game-scale)));
 `
 const ImageOverlayBox = styled(PartyViewBox)`
   background-color: transparent;
@@ -116,7 +117,11 @@ export default function GameScreen() {
     return (
       <GameScreenBox id='game-screen' ref={gameScreenRef}>
         <FullscreenBox ref={partyViewRef}>
-          <PartyView id='party-view' />
+          <PartyViewBox id='3d-view'>
+            <ErrorBoundary FallbackComponent={ErrorComponent}>
+              <PartyView id='party-view' />
+            </ErrorBoundary>
+          </PartyViewBox>
           <FullscreenTextViewBox id='text-view'>
             <TextView/>
           </FullscreenTextViewBox>
@@ -140,7 +145,7 @@ export default function GameScreen() {
       <PartyViewGroupBox id='party-view' ref={partyViewRef}>
         <PartyViewBox id='3d-view' >
           <ErrorBoundary FallbackComponent={ErrorComponent}>
-            <PartyView />
+            <PartyView id='party-view'/>
           </ErrorBoundary>
         </PartyViewBox>
         <ImageOverlayBox id='3d-image-overlay'>
