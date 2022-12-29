@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import styled from 'styled-components'
+import zipUrlMSDOS2 from '../assets/data/msdos2.zip'
+import zipUrlAmiga from '../assets/data/amiga.zip'
 
-import zipurl from '../assets/data/msdos2.zip'
-// import zipurl from '../assets/data/amiga.zip'
-
-import {loadCharacter, loadZip} from '../game/Party'
+import {importChars} from '../game/Loader/Loader'
+import {loadCurrentParty} from '../game/Party'
 
 const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
@@ -34,7 +34,7 @@ const Attribute = styled.div`
   position: absolute;
   left: ${props => attrInfo[props.attr].pos}px;
   width: 60px;
-  color: ${props => attrInfo[props.attr].emph ? 'white' : 'black'};;
+  color: ${props => attrInfo[props.attr].emph ? 'white' : 'black'};
   text-align: ${props =>
           attrInfo[props.attr].right ? 'right' : 'left'};
 `
@@ -58,13 +58,14 @@ function PartyRoaster({chars}) {
   const elems = []
   for (let i = 0; i < chars.length; ++i) {
     const char = chars[i]
+    console.log("Showing...", char)
     elems.push(
       <CharacterLineDisplay key={i + 1} number={i + 1}
                             name={char.name}
                             ac={char.acName()}
-                            hp={char.maximum.hp}
-                            cnd={char.current.hp}
-                            sp={char.current.sp}
+                            hp={char.maxHP}
+                            cnd={char.currHP}
+                            sp={char.currSP}
                             cls={char.className().substring(0, 2)}
       />,
     )
@@ -73,8 +74,14 @@ function PartyRoaster({chars}) {
 }
 
 async function loadCharsFromZip(setChars) {
-  const chars = await loadZip(zipurl)
-  console.log("Characters loaded from zip", chars)
+  localStorage.clear()
+  // await importChars(zipUrlMSDOS)
+  await importChars(zipUrlMSDOS2)
+  // await importChars(zipUrlMSDOS3)
+  await importChars(zipUrlAmiga)
+
+  const chars = loadCurrentParty()
+  console.log("Characters loaded", chars)
   setChars(chars)
 }
 

@@ -1,7 +1,5 @@
-import {dumpConfig} from './ConfigLoader'
 import {mergeObject} from '../util/merging'
-import JSZip from 'jszip'
-import * as MSDOSLoader from './Loader/MSDOS'
+import {getCharMap, getPartyMap} from './Loader/Loader'
 // import * as AmigaLoader from './Loader/Amiga'
 
 
@@ -32,17 +30,25 @@ class Character {
     mergeObject(this, attributes)
   }
 
-  className() {
-    return classes[this.klass]
+  static loadCharacter(name) {
+    const charMap = getCharMap()
+    const attribs = charMap.get(name)
+    return attribs ? new Character(attribs) : null
   }
 
-  ac() {
-    return 10
+  className() {
+    if (this.charClass >= 0 && this.charClass < classes.length)
+      return classes[this.charClass]
+    return "??"
   }
 
   acName() {
     const ac = this.ac()
     return ac > -10 ? ac.toString() : "LO"
+  }
+
+  ac() {
+    return this.armour
   }
 }
 
@@ -51,55 +57,29 @@ class Party {
     mergeObject(this, attributes)
   }
 
-}
-
-function read(bytes, loader) {
-  const attribs = loader.read(bytes)
-  if( !attribs ) return
-  return attribs.isParty ? new Party(attribs) : new Character(attribs)
-}
-
-async function fetchArrayBuffer(url) {
-  const response = await fetch(url, {method: "GET"})
-  const buffer = await response.arrayBuffer()
-  return new Uint8Array(buffer)
-}
-
-export async function loadCharacter(characterUrl, loader = MSDOSLoader) {
-  const bytes = await fetchArrayBuffer(characterUrl)
-  const char = read(bytes, loader)
-  console.log(dumpConfig(char))
-  return char
-}
-
-export async function loadZip(url, loader = MSDOSLoader) {
-  const bytes = await fetchArrayBuffer(url)
-  const zip = await JSZip.loadAsync(bytes)
-  const files = []
-  zip.forEach((relativPath, file) => {
-    files.push(file)
-  })
-  const charMap = new Map()
-  const chars = []
-  let party = null
-  for (const file of files) {
-    const charBytes = await file.async('uint8array')
-    console.log(file.name, charBytes)
-    const char = read(charBytes, loader)
-    console.log(char)
-    if (!char) continue
-    if (!loader.hasNames()) {
-      char.name = file.name // do something with it
-    }
-    if( char.isParty) {
-      party = char
-    }
-    else {
-      charMap.set(char.name, char)
-      chars.push(char)
-    }
+  static loadParty(name) {
+    const partyMap = getPartyMap()
+    const attribs = partyMap.get(name)
+    return new Party(attribs)
   }
-  console.log(charMap)
-  if( !party) return chars
-  return party.characterNames.map((name) => charMap.get(name))
+
+  loadCharacters() {
+    const chars = []
+    for (const charName of this.characterNames) {
+      const char = Character.loadCharacter(charName)
+      if (char) chars.push(char)
+    }
+    return chars
+  }
+}
+
+
+export function loadCurrentParty() {
+  // const name = "ATEAM"
+  const name = "OLD BEARDS"
+  const party = Party.loadParty(name)
+  console.log("Loaded party: ", name, party)
+  const chars = party.loadCharacters()
+  console.log("Loaded characters: ", chars)
+  return chars
 }
