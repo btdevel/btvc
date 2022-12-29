@@ -1,10 +1,6 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import zipUrlMSDOS2 from '../assets/data/msdos2.zip'
-import zipUrlAmiga from '../assets/data/amiga.zip'
-
-import {importChars} from '../game/Loader/Loader'
-import {loadCurrentParty} from '../game/Party'
+import {useCharacters} from '../game/GameLogic'
 
 const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
@@ -73,23 +69,8 @@ function PartyRoaster({chars}) {
   return elems // <>{elems}</>
 }
 
-async function loadCharsFromZip(setChars) {
-  localStorage.clear()
-  // await importChars(zipUrlMSDOS)
-  await importChars(zipUrlMSDOS2)
-  // await importChars(zipUrlMSDOS3)
-  await importChars(zipUrlAmiga)
-
-  const chars = loadCurrentParty()
-  console.log("Characters loaded", chars)
-  setChars(chars)
-}
-
 export default function LocationView() {
-  const [chars, setChars] = useState([])
-  useEffect(() => {
-    loadCharsFromZip(setChars)
-  }, [setChars])
+  const chars = useCharacters()
 
   return (
     <PartyRoasterViewBox id="party-roaster-box" style={{textAlign: 'center'}}>

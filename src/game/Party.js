@@ -73,10 +73,7 @@ class Party {
   }
 }
 
-
-export function loadCurrentParty() {
-  // const name = "ATEAM"
-  const name = "OLD BEARDS"
+export function loadParty(name) {
   const party = Party.loadParty(name)
   console.log("Loaded party: ", name, party)
   const chars = party.loadCharacters()

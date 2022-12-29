@@ -2,6 +2,8 @@ import create from 'zustand'
 import produce from 'immer'
 
 import {loadConfig, loadYAML} from './ConfigLoader'
+import {importChars} from './Loader/Loader'
+import {loadParty} from './Party'
 import {engine} from "./CommandEngine"
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
@@ -14,6 +16,11 @@ import {clamp, radians} from '../util/math'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
+
+import zipUrlMSDOS2 from '../assets/data/msdos2.zip'
+import zipUrlAmiga from '../assets/data/amiga.zip'
+
+
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -29,6 +36,7 @@ const useStore = create((set, get) => {
     map: null,
     location: '',
     config: {},
+    characters: [],
   }
 })
 
@@ -49,6 +57,9 @@ export const setLocation = (text) => modifyState(state => {
 })
 export const setGameText = (text) => modifyState(state => {
   state.gameText = text
+})
+export const setCharacters = (characters) => modifyState(state => {
+  state.characters = characters
 })
 
 export const setConfig = (config) => modifyState(state => {
@@ -86,6 +97,7 @@ export const useGameText = () => useStore(state => state.gameText)
 export const useFullscreen = () => useStore(state => state.fullscreen)
 export const useLevel = () => useStore(state => state.level)
 export const useMap = () => useStore(state => state.map)
+export const useCharacters = () => useStore(state => state.characters)
 
 const identity = (x) => x
 export const useConfig = (func = identity) => useStore(state => func(state.config))
@@ -166,7 +178,15 @@ class GameState {
     return useStore.getState().map
   }
 
+
   async init() {
+    localStorage.clear()
+    // await importChars(zipUrlMSDOS2)
+    // const chars = loadParty("ATEAM")
+    await importChars(zipUrlAmiga)
+    const chars = loadParty("OLD BEARDS")
+    setCharacters(chars)
+
     const config = await loadConfig(configFile)
 
     // this.config = config
