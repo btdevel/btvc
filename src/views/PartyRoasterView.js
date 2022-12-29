@@ -54,7 +54,6 @@ function PartyRoaster({chars}) {
   const elems = []
   for (let i = 0; i < chars.length; ++i) {
     const char = chars[i]
-    console.log("Showing...", char)
     elems.push(
       <CharacterLineDisplay key={i + 1} number={i + 1}
                             name={char.name}

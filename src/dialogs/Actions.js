@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import {Button, PopupBox} from "./DialogElements"
 import {gameState} from '../game/GameLogic'
 import Form from 'react-bootstrap/Form'
@@ -8,21 +8,20 @@ function Action({title, func}) {
   return (<Button variant="secondary" onClick={() => {func()}}>{title}</Button>)
 }
 
-function ImportAction({title, func, label, placeholder, value, ...props}) {
+function FileAction({title, func}) {
+  const inputRef = useRef()
   return (
-    <Form.Group>
-      <Form.Label>{label}</Form.Label>
-      <Form.Control type="file" placeholder={placeholder} value={value} {...props} onChange={
+    <>
+      <Form.Control type="file" className={"d-none"} ref={inputRef} onChange={
         (ev) => {
-          const file = ev.target.files[0]
-          const fileUrl = URL.createObjectURL(file)
-          func(fileUrl)
+          func(URL.createObjectURL(ev.target.files[0]))
         }
       }/>
-    </Form.Group>
+      <Button variant="secondary" onClick={() => {
+        inputRef.current?.click()
+      }}>{title}</Button>
+    </>
   )
-
-  // return (<Button variant="secondary" type="file" onClick={() => {func()}}>{title}</Button>)
 }
 
 
@@ -39,7 +38,7 @@ function ActionsDialog({close}) {
       <Action title="Map" func={closeAfter(() => gameState.showMap())}/>
       <Action title="Location" func={closeAfter(() => gameState.showInfo())}/>
       <Action title="Pause" func={closeAfter(() => gameState.togglePause())}/>
-      <ImportAction title="Import Party" func={closeAfter((url) => gameState.loadParty(url, true))}/>
+      <FileAction title="Import Party from Zipfile" func={closeAfter((url) => gameState.loadParty(url, true))}/>
     </>
   )
 }

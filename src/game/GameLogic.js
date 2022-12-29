@@ -17,7 +17,6 @@ import {clamp, radians} from '../util/math'
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
 
-import zipUrlMSDOS2 from '../assets/data/msdos2.zip'
 import zipUrlAmiga from '../assets/data/amiga.zip'
 
 
@@ -217,7 +216,6 @@ class GameState {
 
     setConfig(config)
 
-    // await this.loadParty(zipUrlMSDOS2)
     await this.loadParty(zipUrlAmiga)
   }
 
