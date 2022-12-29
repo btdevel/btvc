@@ -10,6 +10,7 @@ import './App.scss'
 import styled, {createGlobalStyle} from 'styled-components'
 
 import titleImg from './assets/images/title.png'
+import {invokeOnGesture} from './util/event'
 
 const MediaScale = createGlobalStyle`
   {
@@ -54,6 +55,7 @@ export default function App() {
   const [loaded, setLoaded] = useState(false)
   useEffect(()=>{
     setTimeout(()=>setLoaded(true), 4000)
+    invokeOnGesture(() => setLoaded(true))
   }, [])
 
   if (!finished) return <div>Loading...</div>
