@@ -1,5 +1,5 @@
-#configName: originalGame
-configName: debugPrograms
+configName: originalGame
+#configName: debugPrograms
 
 graphics:
   stars:

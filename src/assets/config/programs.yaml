@@ -31,9 +31,29 @@ programs:
     - ["overlayImage", "inside/credits"]
     - ["location", "Bard's Tale"]
     - [
-        "showMessage",
-        "THE BARD'S TALE IBM was from an original design by Michael Cranford.\nIt was created at Interplay Productions, in Newport Beach, California.\nInterplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:\nTodd Camasta\n(Artwork)\nTroy P. Worrell\n(Programming)\nDave Warhol\nAarn Abbey\n(Music)\nBrian Fargo\n(Dungeons)\nJoe Ybarra\n(Producer)\n",
-      ]
+      "showMessage",
+      "THE BARD'S TALE
+      Amiga was from an original design by Michael Cranford.
+      
+      
+      It was created at Interplay Productions, in Irvine, California."
+    ]
+    - ["delay", 3]
+    - [
+      "showMessage",
+      "Interplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:
+      
+      
+      Todd Camasta
+      
+      (Artwork)"
+    ]
+    - ["delay", 3]
+    - [
+      "showMessage",
+      "Troy P. Worrell\n(Programming)\n\nDave Warhol\nAarn Abbey\n(Music)\n\nBrian Fargo\n(Dungeons)\n\nJoe Ybarra\n(Producer)"
+    ]
+    - ["delay", 3]
     - ["returnToCity"]
 
   guild:
@@ -72,14 +92,7 @@ programs:
       ]
     - ["teleport", 0, 0, 0]
 
-  mdTest:
-    - ["overlayImage", ":arg1:"]
-    - ["overlayImage", ":arg2:"]
-
-
   madgodTemple:
-    - ["overlayImage", "inside/pub"]
-    - ["delay", 3]
     - ["overlayImage", "inside/temple"]
     - ["location", "Mad God"]
     - [

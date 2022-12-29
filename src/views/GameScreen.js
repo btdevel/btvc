@@ -137,7 +137,7 @@ export default function GameScreen() {
       <BackgroundImageBox id='background-image'>
         <img
           src={mainImg}
-          style={{width: 640, height: 400, imageRendering: "crisp-edges"}}
+          style={{width: 640, height: 400, imageRendering: "pixelated"}}
           alt='BT1 main screen'
         />
       </BackgroundImageBox>

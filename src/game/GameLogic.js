@@ -1,8 +1,8 @@
 import create from 'zustand'
 import produce from 'immer'
 
-import {dumpConfig, loadConfig, loadYAML} from './ConfigLoader'
-import {execCommand, engine} from "./CommandEngine"
+import {loadConfig, loadYAML} from './ConfigLoader'
+import {engine} from "./CommandEngine"
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
 import {moveDir, normalizeDir} from './Direction'
@@ -28,7 +28,7 @@ const useStore = create((set, get) => {
     level: 'city',
     map: null,
     location: '',
-    config: {}
+    config: {},
   }
 })
 
@@ -104,17 +104,6 @@ class GameState {
   keyMap = {}
 
   canGrabKeyboard = true
-
-  get level() {
-    return useStore.getState().level
-  }
-
-  get map() {
-    return useStore.getState().map
-  }
-
-
-
   functions = {
     forward: () => this.move(true),
     backward: () => this.move(false),
@@ -138,11 +127,43 @@ class GameState {
     loadLevel: this.loadLevel,
     pause: this.pause,
     resume: this.resume,
-    nextLevel: () => {this.loadLevel(this.level + 1)},
-    prevLevel: () => {this.loadLevel(this.level - 1)},
-    toggleFly: () => {this.flyMode = !this.flyMode},
-    doDebugStuff: () => {/* currently nothing*/},
-    delay: this.delay
+    nextLevel: () => {
+      this.loadLevel(this.level + 1)
+    },
+    prevLevel: () => {
+      this.loadLevel(this.level - 1)
+    },
+    toggleFly: () => {
+      this.flyMode = !this.flyMode
+    },
+    doDebugStuff: () => {/* currently nothing*/
+    },
+    delay: this.delay,
+  }
+  sun = {
+    latitude: radians(51),
+    day: 180,
+    hour_angle() {
+      return hour_angle(gameState.time_hours())
+    },
+    elevation() {
+      // return radians(30)
+      return elevation(this.latitude, declination(this.day), this.hour_angle())
+    },
+    position() {
+      // const phi = gameState.sun.azimuth()
+      const phi = gameState.sun.hour_angle()
+      const theta = gameState.sun.elevation()
+      return sunPosition(phi, theta)
+    },
+  }
+
+  get level() {
+    return useStore.getState().level
+  }
+
+  get map() {
+    return useStore.getState().map
   }
 
   async init() {
@@ -160,7 +181,7 @@ class GameState {
     const stepper = this.stepper
     stepper.pause()
     stepper.setSimSpeed(
-      TimeStepper.DAY / TimeStepper.MINUTE / config.dayLengthInMinutes
+      TimeStepper.DAY / TimeStepper.MINUTE / config.dayLengthInMinutes,
     )
     stepper.setSimTime(config.hour * TimeStepper.HOUR)
     stepper.resume()
@@ -170,7 +191,7 @@ class GameState {
     engine.start()
 
     for (const command of config.initCommands) {
-      console.log('Init command:', command);
+      console.log('Init command:', command)
       engine.execCommand(command, "init()")
     }
 
@@ -209,7 +230,7 @@ class GameState {
   }
 
   showMap() {
-    this.map.showMap(this.position, this.dir);
+    this.map.showMap(this.position, this.dir)
   }
 
   showMessage(msg = "") {
@@ -228,25 +249,6 @@ class GameState {
     modifyState(draft => {
       draft.fullscreen = onOff
     })
-  }
-
-
-  sun = {
-    latitude: radians(51),
-    day: 180,
-    hour_angle() {
-      return hour_angle(gameState.time_hours())
-    },
-    elevation() {
-      // return radians(30)
-      return elevation(this.latitude, declination(this.day), this.hour_angle())
-    },
-    position() {
-      // const phi = gameState.sun.azimuth()
-      const phi = gameState.sun.hour_angle()
-      const theta = gameState.sun.elevation()
-      return sunPosition(phi, theta)
-    }
   }
 
   pause() {
@@ -283,9 +285,9 @@ class GameState {
     this.saved = {
       position: {
         x: this.position.x,
-        y: this.position.y
+        y: this.position.y,
       },
-      dir: this.dir
+      dir: this.dir,
     }
   }
 
