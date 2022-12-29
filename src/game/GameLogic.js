@@ -179,13 +179,13 @@ class GameState {
   }
 
 
-  async init() {
-    localStorage.clear()
-    // await importChars(zipUrlMSDOS2)
-    // const chars = loadParty("ATEAM")
-    await importChars(zipUrlAmiga)
-    const chars = loadParty("OLD BEARDS")
+  async loadParty(zipUrl, overwrite = false) {
+    const [_, partys] = await importChars(zipUrl, overwrite)
+    const chars = loadParty(partys[0].name)
     setCharacters(chars)
+  }
+
+  async init() {
 
     const config = await loadConfig(configFile)
 
@@ -216,6 +216,9 @@ class GameState {
     }
 
     setConfig(config)
+
+    // await this.loadParty(zipUrlMSDOS2)
+    await this.loadParty(zipUrlAmiga)
   }
 
   setViewAngles(diffX, diffY) {

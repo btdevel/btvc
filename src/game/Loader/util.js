@@ -1,50 +1,46 @@
 import JSZip from 'jszip'
 
-export function readByte(bytes, i) {
-  return bytes[i]
+
+function readByte(view, i) {
+  return view.getUint8(i)
 }
 
-export function readInt(bytes, i, bigendian) {
-  if( bigendian)
-    return 0x100 * bytes[i] + bytes[i + 1]
-  else
-    return bytes[i] + 0x100 * bytes[i + 1]
+function readInt(view, i, bigEndian) {
+  const val = view.getInt16(i, !bigEndian)
+  return val
 }
 
-export function readLong(bytes, i, bigendian) {
-  if( bigendian)
-    return 0x1000000 * bytes[i] + 0x10000 * bytes[i + 1] + 0x100 * bytes[i + 2] + bytes[i + 3]
-  else
-    return bytes[i] + 0x100 * bytes[i + 1] + 0x10000 * bytes[i + 2] + 0x1000000 * bytes[i + 3]
+function readLong(view, i, bigEndian) {
+  return view.getInt32(i, !bigEndian)
 }
 
-export function readZString(bytes, i, maxLen) {
+function readZString(view, i, maxLen) {
+  const bytes = new Uint8Array(view.buffer, i, maxLen)
   let str = ""
-  const end = maxLen === undefined ? bytes.length : i + maxLen
-  for (let j = i; j < end && bytes[j] > 0; j++) str += String.fromCharCode(bytes[j])
+  for (let j = 0; j < maxLen && bytes[j] > 0; j++) str += String.fromCharCode(bytes[j])
   return str
 }
 
-export function makeReadBuffer(bytes, bigendian) {
+export function makeReadBuffer(view, bigEndian) {
   let i = 0
   return {
     readByte() {
-      const val = readByte(bytes, i)
+      const val = readByte(view, i)
       i+=1
       return val
     },
     readInt() {
-      const val = readInt(bytes, i, bigendian)
+      const val = readInt(view, i, bigEndian)
       i+=2
       return val
     },
     readLong() {
-      const val = readLong(bytes, i, bigendian)
+      const val = readLong(view, i, bigEndian)
       i+=4
       return val
     },
     readZString(maxLen) {
-      const val = readZString(bytes, i, maxLen)
+      const val = readZString(view, i, maxLen)
       i+=maxLen
       return val
     },
@@ -52,7 +48,7 @@ export function makeReadBuffer(bytes, bigendian) {
       i+=n
     },
     remaining() {
-      return bytes.length - i
+      return view.byteLength - i
     }
   }
 }
@@ -60,11 +56,12 @@ export function makeReadBuffer(bytes, bigendian) {
 async function fetchArrayBuffer(url) {
   const response = await fetch(url, {method: "GET"})
   const buffer = await response.arrayBuffer()
-  return new Uint8Array(buffer)
+  return buffer
 }
 
 export async function loadZipFile(url) {
-  const bytes = await fetchArrayBuffer(url)
+  const buffer = await fetchArrayBuffer(url)
+  const bytes = new Uint8Array(buffer)
   const zip = await JSZip.loadAsync(bytes)
   const files = []
   zip.forEach((relativePath, file) => {

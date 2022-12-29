@@ -5,8 +5,8 @@ import {makeReadBuffer} from './util'
 const charRegex = /^(.*[/\\])*TPW\.(?<name>[ A-Za-z0-9]*)\.C$/
 const partyRegex = /^(.*[/\\])*TPW\.(?<name>[ A-Za-z0-9]*)\.P$/
 
-export function readCharacter(bytes, filename) {
-  const buffer = makeReadBuffer(bytes, true)
+export function readCharacter(view, filename) {
+  const buffer = makeReadBuffer(view, true)
 
   const match = filename.match(charRegex)
 
@@ -59,8 +59,8 @@ export function readCharacter(bytes, filename) {
 }
 
 
-function readParty(bytes, filename) {
-  const buffer = makeReadBuffer(bytes, true)
+function readParty(view, filename) {
+  const buffer = makeReadBuffer(view, true)
   const match = filename.match(partyRegex)
   const partyName = match.groups.name
   const isParty = true
@@ -80,19 +80,19 @@ function readParty(bytes, filename) {
   }
 }
 
-function isParty(bytes, filename) {
+function isParty(view, filename) {
   return partyRegex.test(filename)
 }
 
-export function readAttributes(bytes, filename) {
-  if (isParty(bytes, filename))
-    return readParty(bytes, filename)
+export function readAttributes(view, filename) {
+  if (isParty(view, filename))
+    return readParty(view, filename)
   else
-    return readCharacter(bytes, filename)
+    return readCharacter(view, filename)
 }
 
-export function recognize(bytes, filename) {
-  if (bytes.length == 96 && charRegex.test(filename)) return "Amiga BT1 Character File"
-  if (bytes.length == 96 && partyRegex.test(filename)) return "Amiga BT1 Party File"
+export function recognize(view, filename) {
+  if (view.byteLength == 96 && charRegex.test(filename)) return "Amiga BT1 Character File"
+  if (view.byteLength == 96 && partyRegex.test(filename)) return "Amiga BT1 Party File"
   return false
 }

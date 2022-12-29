@@ -1,7 +1,7 @@
 import {makeReadBuffer} from './util'
 
-export function readCharacter(bytes, filename) {
-  const buffer = makeReadBuffer(bytes, false)
+export function readCharacter(view, filename) {
+  const buffer = makeReadBuffer(view, false)
 
   const char = {}
   char.name = buffer.readZString(16)
@@ -55,8 +55,8 @@ export function readCharacter(bytes, filename) {
 }
 
 
-function readParty(bytes, filename) {
-  const buffer = makeReadBuffer(bytes, false)
+function readParty(view, filename) {
+  const buffer = makeReadBuffer(view, false)
   const partyName = buffer.readZString(16)
   const isParty = buffer.readByte() || true
   const charNames = []
@@ -75,21 +75,21 @@ function readParty(bytes, filename) {
   }
 }
 
-function isParty(bytes) {
-  return bytes.length > 16 && bytes[16] === 2
+function isParty(view) {
+  return view.byteLength > 16 && view.getUint8(16) === 2
 }
 
-export function readAttributes(bytes, filename) {
-  if (isParty(bytes))
-    return readParty(bytes, filename)
+export function readAttributes(view, filename) {
+  if (isParty(view))
+    return readParty(view, filename)
   else
-    return readCharacter(bytes, filename)
+    return readCharacter(view, filename)
 }
 
-export function recognize(bytes, filename) {
+export function recognize(view, filename) {
   // Match any filename of the form "path/to/file/123.TPW", where \ instead of / is also accepted
   const regex = /^(.*[/\\])*[0-9]*\.TPW$/
-  if (bytes.length == 109 && regex.test(filename)) return "MSDOS BT1 Character File"
-  if (bytes.length == 113 && regex.test(filename)) return "MSDOS BT1 Party File"
+  if (view.byteLength == 109 && regex.test(filename)) return "MSDOS BT1 Character File"
+  if (view.byteLength == 113 && regex.test(filename)) return "MSDOS BT1 Party File"
   return false
 }

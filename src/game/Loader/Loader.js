@@ -3,13 +3,13 @@ import * as AmigaLoader from './Amiga'
 import {jsonToMap, loadZipFile, mapToJson} from './util'
 
 
-function readAttribs(bytes, filename) {
+function readAttribs(view, filename) {
   const loaders = [MSDOSLoader, AmigaLoader]
   for (const loader of loaders) {
-    const type = loader.recognize(bytes, filename)
+    const type = loader.recognize(view, filename)
     if (type) {
       console.log(`File ${filename} recognized as "${type}"`)
-      const attribs = loader.readAttributes(bytes, filename)
+      const attribs = loader.readAttributes(view, filename)
       return attribs
     }
   }
@@ -23,9 +23,10 @@ export async function loadZip(url) {
   const chars = []
   const partys = []
   for (const file of files) {
-    const charBytes = await file.async('uint8array')
-    console.log(file.name, charBytes)
-    const char = readAttribs(charBytes, file.name)
+    const buffer = await file.async('arraybuffer')
+    const view = new DataView(buffer)
+    console.log(file.name, new Uint8Array(buffer))
+    const char = readAttribs(view, file.name)
     if (char) {
       console.log(char)
       if (char.isParty)
