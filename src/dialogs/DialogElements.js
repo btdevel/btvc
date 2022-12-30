@@ -1,6 +1,6 @@
-import React from "react";
-import {Accordion, Button as RSButton, Modal} from "react-bootstrap";
-import styled from "styled-components";
+import React from "react"
+import {Accordion, Button as RSButton, Modal} from "react-bootstrap"
+import styled from "styled-components"
 
 
 export function PopupBox({header, subheader, children, show, close}) {
