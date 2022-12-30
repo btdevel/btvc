@@ -3,8 +3,8 @@ import produce from 'immer'
 import AgoraRTC from "agora-rtc-sdk-ng"
 
 import {setGameText, useGameStore} from "./GameLogic"
-import {mergeArrays} from "../util/util"
 import {addEventListeners, interactionEventTypes, removeEventListeners} from '../util/event'
+import {mergeArrays} from '../util/merging'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))

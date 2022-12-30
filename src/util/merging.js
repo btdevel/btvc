@@ -3,6 +3,11 @@ function mergeArray(obj1, obj2) {
   return [...obj1, ...obj2]
 }
 
+export function mergeArrays(a, b) {
+  for (let [i, x] of b.entries()) a[i] = a[i] || x
+  return a
+}
+
 export function mergeObject(obj1, obj2) {
   if (!obj1) return obj2
 
@@ -18,3 +23,4 @@ export function mergeObject(obj1, obj2) {
   }
   return obj1
 }
+

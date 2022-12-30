@@ -44,6 +44,10 @@ test('elevation', () => {
 })
 
 test('sunPosition', () => {
-  expect(sunPosition(0, 0)).toEqual([0, 1, 0])
+  const pos = sunPosition(0, 0)
+  expect(pos[0]).toBeCloseTo(0)
+  expect(pos[1]).toBeCloseTo(-1)
+  expect(pos[2]).toBeCloseTo(0)
+  // expect(sunPosition(0, 0)).toEqual([0, 0, -1])
   // expect(sunPosition(0, radians(45))).toEqual([0, Math.sqrt(0.5), Math.sqrt(0.5)])
 })
