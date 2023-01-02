@@ -96,12 +96,12 @@ const PartyRoasterBox = styled.div`
   top: 262px;
 `
 const EffectsViewBox = styled.div`
-  background-color: rgba(255,0,0,0.0);
+  background-color: ${props => props.shadow ? "rgba(100,100,100,0.3)" : "transparent"};
   width: 60px;
   height: 220px;
   position: absolute;
-  left: 266px;
-  top: 24px;
+  left: ${props => props.x || 266}px;
+  top: ${props => props.y || 20}px;
 `
 
 
@@ -134,6 +134,9 @@ export default function GameScreen() {
           <FullscreenTextViewBox id='text-view'>
             <TextView/>
           </FullscreenTextViewBox>
+          <EffectsViewBox x={572} y={150} shadow>
+            <EffectsView/>
+          </EffectsViewBox>
         </FullscreenBox>
         <GameControls screenRef={gameScreenRef} partyViewRef={partyViewRef}/>
       </GameScreenBox>

@@ -59,10 +59,10 @@ export function EffectsView() {
 
 
   return (<>
-    <AnimatedImage urls={[fire1, fire2, fire3, fire4]} delay={100} pos={[8, -4]} show={showFire}/>
-    <AnimatedImage urls={[carpet1, carpet2, carpet3, carpet4]} pos={[6, 42]} show={showCarpet}/>
-    <MultiImage urls={[compass_north, compass_west, compass_south, compass_east]} pos={[0, 88]} show={showCompass} num={compassDir}/>
-    <AnimatedImage urls={[eye1, eye2, eye3, eye4, eye3, eye2]} delay={[2000, 100, 100, 100, 100, 100]} pos={[8, 142]} show={showEye}/>
-    <MultiImage urls={[shield]} pos={[4, 178]} show={showShield}/>
+    <AnimatedImage urls={[fire1, fire2, fire3, fire4]} delay={100} pos={[8, 0]} show={showFire}/>
+    <AnimatedImage urls={[carpet1, carpet2, carpet3, carpet4]} pos={[6, 46]} show={showCarpet}/>
+    <MultiImage urls={[compass_north, compass_west, compass_south, compass_east]} pos={[0, 92]} show={showCompass} num={compassDir}/>
+    <AnimatedImage urls={[eye1, eye2, eye3, eye4, eye3, eye2]} delay={[2000, 100, 100, 100, 100, 100]} pos={[8, 146]} show={showEye}/>
+    <MultiImage urls={[shield]} pos={[4, 182]} show={showShield}/>
   </>)
 }
