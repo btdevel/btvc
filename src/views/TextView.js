@@ -11,14 +11,22 @@ const TextViewBox = styled.div`
   font-family: 'EightBit';
   font-size: 10pt;
   overflow: hidden;
+  white-space: nowrap;
+  line-height: 115%;
 `
 
+function getTextWidth(text) {
+  // const font = document.getElementById('text-view-box').font
+  const font = "10pt EightBit"
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  context.font = font;
+  const width = context.measureText(text).width;
+  return width
+}
+
 export default function TextView() {
-  const text = useGameText();
-  if (typeof text === "string") {
-    const lines = text.split("\n").map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)
-    return <TextViewBox id='text-view-box'>{lines}</TextViewBox>
-  } else {
-    return <TextViewBox id='text-view-box'>{text}</TextViewBox>
-  }
+  const lines = useGameText()
+  const children = lines.map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)
+  return <TextViewBox id='text-view-box'>{children}</TextViewBox>
 }

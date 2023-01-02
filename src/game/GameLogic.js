@@ -1,3 +1,4 @@
+import React from 'react'
 import create from 'zustand'
 import produce from 'immer'
 
@@ -13,10 +14,11 @@ import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} fr
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
 import {clamp, radians} from '../util/math'
+import {addEventListeners} from '../util/event'
+import {wordWrap} from '../util/strings'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
-
 import zipUrlAmiga from '../assets/data/amiga.zip'
 
 
@@ -29,7 +31,7 @@ const useStore = create((set, get) => {
 
     overlayText: '',
     overlayImage: '',
-    gameText: '',
+    gameText: [],
     fullscreen: false,
     level: 'city',
     map: null,
@@ -54,8 +56,26 @@ export const setOverlayImage = (url) => modifyState(state => {
 export const setLocation = (text) => modifyState(state => {
   state.location = text
 })
-export const setGameText = (text) => modifyState(state => {
-  state.gameText = text
+export const setGameText = (text, line, center) => modifyState(state => {
+  if (typeof text == "string") {
+    let newGameText = [...state.gameText]
+    if (line === undefined) {
+      newGameText = []
+      line = 0
+    }
+    for (let l = newGameText.length; l < line; l++) newGameText[l] = ""
+    const wrapCenter = text => <p style={{textAlign: "center"}}>{text}</p>
+    text = wordWrap(text, 22, '|')
+    const lines = text.split(/\||\n/)
+    for( let l=0; l<lines.length; l++ ) {
+      newGameText[line + l] = center ? wrapCenter(lines[l]) : lines[l]
+    }
+    state.gameText = newGameText
+  } else if (Array.isArray(text)) {
+    state.gameText = text
+  } else {
+    console.warn("Unknown text type for setGameText: ", text)
+  }
 })
 export const setCharacters = (characters) => modifyState(state => {
   state.characters = characters
@@ -150,6 +170,7 @@ class GameState {
     doDebugStuff: () => {/* currently nothing*/
     },
     delay: this.delay,
+    waitForKeyPress: this.waitForKeyPress,
   }
   sun = {
     latitude: radians(51),
@@ -255,9 +276,7 @@ class GameState {
   }
 
   showMessage(msg = "") {
-    modifyState(draft => {
-      draft.gameText = msg
-    })
+    setGameText(msg)
   }
 
   toggleFullscreen() {
@@ -280,6 +299,19 @@ class GameState {
   delay(time_in_secs) {
     engine.pause(true)
     setTimeout(() => engine.pause(false), time_in_secs * 1000)
+  }
+
+  waitForKeyPress(text) {
+    engine.pause(true)
+    const oldState = this.canGrabKeyboard
+    this.canGrabKeyboard = false
+    const resume = () => {
+      this.canGrabKeyboard = oldState
+      engine.pause(false)
+      setGameText("")
+    }
+    if (text) setGameText(text, 11, true)
+    addEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume, {once: true})
   }
 
   resume() {

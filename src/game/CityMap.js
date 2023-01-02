@@ -81,7 +81,7 @@ export class CityMap extends MapBase {
     const arrows = ['\u2191', '\u2190', '\u2193', '\u2192']
     dir = mod(dir, 4)
 
-    setGameText(
+    setGameText([
       <div style={{width: '100%', height: '100%'}}>
         <img height='100%' width='100%' src={cityMapImg} alt="MapBase of Skara Brae"/>
         <div style={{
@@ -94,7 +94,7 @@ export class CityMap extends MapBase {
           top: y
         }}>{arrows[dir]}</div>
       </div>
-    )
+    ])
   }
 
   getLocationInfo() {

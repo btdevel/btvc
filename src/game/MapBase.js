@@ -38,9 +38,9 @@ export default class MapBase {
     let locationText = this.getLocationInfo()
     const gameText = `${locationText} facing ${direction}.
 
-        It's now ${timeStr}.
-
-        [T: ${hours}:${minutes} L: ${this.level} X: ${pos.x} Y: ${pos.y}]`
+        It's now ${timeStr}.`
+    // todo: move next line to debug stuff (show in overlay)
+    // `[T: ${hours}:${minutes} L: ${this.level} X: ${pos.x} Y: ${pos.y}]`
     setGameText(gameText)
   }
 

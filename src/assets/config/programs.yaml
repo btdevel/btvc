@@ -32,28 +32,19 @@ programs:
     - ["location", "Bard's Tale"]
     - [
       "showMessage",
-      "THE BARD'S TALE
-      Amiga was from an original design by Michael Cranford.
-      
-      
-      It was created at Interplay Productions, in Irvine, California."
-    ]
-    - ["delay", 3]
+      "THE BARD'S TALE|Amiga was from an original design by Michael Cranford.||It was created at Interplay Productions, in Irvine, California."
+      ]
+    - ["waitForKeyPress"]
     - [
       "showMessage",
-      "Interplay wishes to express its gratitude to a number of people who worked on THE BARD'S TALE:
-      
-      
-      Todd Camasta
-      
-      (Artwork)"
-    ]
-    - ["delay", 3]
+      "Interplay wishes to express its gratitude to a number of people who worked on|THE BARD'S TALE:||Todd Camasta|(Artwork)||Troy P. Worrell|(Programming)"
+      ]
+    - ["waitForKeyPress"]
     - [
       "showMessage",
-      "Troy P. Worrell\n(Programming)\n\nDave Warhol\nAarn Abbey\n(Music)\n\nBrian Fargo\n(Dungeons)\n\nJoe Ybarra\n(Producer)"
-    ]
-    - ["delay", 3]
+      "Dave Warhol|Aarn Abbey|(Music)||Brian Fargo|(Dungeons)||Joe Ybarra|(Producer)"
+      ]
+    - ["waitForKeyPress", "(CONTINUE)"]
     - ["returnToCity"]
 
   guild:
@@ -64,14 +55,17 @@ programs:
   reviewBoard:
     - ["overlayImage", "inside/review"]
     - ["location", "Review board"]
+    - ["showMessage", "Wouldst thou like to be reviewed for||Advancement|Spell Acquiring|Class Change"]
+    - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
   roscoes:
     - ["overlayImage", "inside/roscoes"]
     - ["location", "Roscoe's"]
-    - ["showMessage", "Welcome, my friends, to Roscoe's Energy Emporium. Who needeth spell points restored?"]
+    - ["showMessage", "Welcome, my friends, to Roscoe's Energy Emporium.|Who needeth spell points restored?"]
 # has some definite spell point problems. It will cost
 # Roscoe re-energizes him.
+    - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
   shop:
@@ -80,7 +74,8 @@ programs:
       ]
     - ["overlayImage", "inside/shop"]
     - ["location", "The Shoppe"]
-    - ["showMessage", "  Welcome to Garth's Equipment Shoppe, oh wealthy travellers!\nWhich of you is interested in my fine wares?"]
+    - ["showMessage", "Welcome to Garth's Equipment Shoppe, oh wealthy travellers!|Which of you is interested in my fine wares?"]
+    - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
   scarletBard:
