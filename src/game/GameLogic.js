@@ -8,19 +8,18 @@ import {loadParty} from './Party'
 import {engine} from "./CommandEngine"
 import {CityMap} from './CityMap'
 import DungeonMap from './DungeonMap'
-import {moveDir, normalizeDir} from './Direction'
+import {getDirName, moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
 import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage"
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
-import {clamp, radians} from '../util/math'
+import {clamp, mod, radians} from '../util/math'
 import {addEventListeners} from '../util/event'
 import {wordWrap} from '../util/strings'
 
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
 import zipUrlAmiga from '../assets/data/amiga.zip'
-
 
 
 const useStore = create((set, get) => {
@@ -130,15 +129,13 @@ export const useGraphicsConfig = (func = identity) => useStore(state => func(sta
 class GameState {
   stepper = new TimeStepper()
   // pos = {x: 0, y: 0}
-  get position() {
-    return useGameStore.getState().pos
-  }
-  set position(p) {
-    modifyState((state) => {
-      state.pos = p
-    })
-  }
-  dir = 0
+  debug = false
+  flyMode = false
+  dPhi = 0
+  dTheta = 0
+  canGrabKeyboard = true
+  keyMap = {}
+
   get direction() {
     return useGameStore.getState().dir
   }
@@ -146,14 +143,18 @@ class GameState {
     modifyState((state) => {
       state.dir = d
     })
+    this.showDebugInfo()
+  }
+  get position() {
+    return useGameStore.getState().pos
+  }
+  set position(p) {
+    modifyState((state) => {
+      state.pos = p
+    })
+    this.showDebugInfo()
   }
 
-  flyMode = false
-  dPhi = 0
-  dTheta = 0
-  keyMap = {}
-
-  canGrabKeyboard = true
   functions = {
     forward: () => this.move(true),
     backward: () => this.move(false),
@@ -187,10 +188,12 @@ class GameState {
       this.flyMode = !this.flyMode
     },
     doDebugStuff: () => {/* currently nothing*/
+      this.debug = true
     },
     delay: this.delay,
     waitForKeyPress: this.waitForKeyPress,
   }
+
   sun = {
     latitude: radians(51),
     day: 180,
@@ -424,6 +427,22 @@ class GameState {
 
   execProgram(prog, replace, ...args) {
     engine.run(prog, replace, ...args)
+  }
+
+  showDebugInfo() {
+    if (this.debug) {
+      const time = mod(this.time_hours(), 24)
+
+      function pad(num, size) {
+        return ('00' + num).substr(-size)
+      }
+
+      const hours = pad(Math.floor(time), 2)
+      const minutes = pad(Math.floor((time - hours) * 60), 2)
+      const direction = getDirName(this.direction)
+      const pos = this.position
+      setOverlayText(`[T: ${hours}:${minutes} L: ${this.level} X: ${pos.x} Y: ${pos.y} D: ${direction}]`)
+    }
   }
 
 }
