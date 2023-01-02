@@ -19,7 +19,6 @@ function computeLightParams() {
   const theta = gameState.sun.elevation()
   const sunPos = makeVector3(gameState.sun.position())
 
-  // todo: rethink those formulas...
   const sin = Math.sin(theta)
   const intensity1 = Math.min(0.9, Math.max(2 * sin, 0.1))
   const intensity2 = Math.min(0.9, Math.max(2 * (sin - 0.0001), 0.0))

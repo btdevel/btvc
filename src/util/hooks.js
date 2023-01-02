@@ -16,7 +16,9 @@ export function useAsync(func, args) {
       }
     }
 
-    // todo: check why we ignore the returned promise here, and whether this is okay
+    // We ignore the returned promise here, cause we handle
+    // everything (success and errors) in the async function and
+    // setting the state accordingly
     callFunc()
   }, [setState, func, ...args])
 

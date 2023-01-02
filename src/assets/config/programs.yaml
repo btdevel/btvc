@@ -13,7 +13,6 @@ programs:
         "showMessage",
         "Sorry, friends, all the horses have been eaten by creatures!.",
       ]
-    - ["showMessage", "You are in an empty building."]
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
@@ -50,6 +49,7 @@ programs:
   guild:
     - ["overlayImage", "inside/guild"]
     - ["location", "The guild"]
+    - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
   reviewBoard:
