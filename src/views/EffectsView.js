@@ -16,7 +16,8 @@ import eye3 from '../assets/images/effects/eye3.png'
 import eye4 from '../assets/images/effects/eye4.png'
 import shield from '../assets/images/effects/shield.png'
 import {useEffect, useState} from 'react'
-import {useGameStore} from '../game/GameLogic'
+import {useGameStore, useLevel} from '../game/GameLogic'
+import {Direction} from '../game/Direction'
 
 
 function MultiImage({urls, num = 0, pos, show}) {
@@ -48,18 +49,19 @@ function AnimatedImage({urls, delay = 300, show, ...props}) {
 }
 
 export function EffectsView() {
-  const [showFire, setShowFire] = useState(true)
+  const showFire = useLevel() !== 'city'
   const [showCarpet, setShowCarpet] = useState(false)
   const [showCompass, setShowCompass] = useState(true)
-  const [showEye, setShowEye] = useState(!false)
-  const [showShield, setShowShield] = useState(!false)
+  const [showEye, setShowEye] = useState(false)
+  const [showShield, setShowShield] = useState(false)
+  const compassDir = useGameStore((state) => Direction.normalize(state.dir))
 
-  useGameStore()
+
 
   return (<>
     <AnimatedImage urls={[fire1, fire2, fire3, fire4]} delay={100} pos={[8, -4]} show={showFire}/>
     <AnimatedImage urls={[carpet1, carpet2, carpet3, carpet4]} pos={[6, 42]} show={showCarpet}/>
-    <MultiImage urls={[compass_north, compass_east, compass_south, compass_west]} pos={[0, 88]} show={showCompass}/>
+    <MultiImage urls={[compass_north, compass_west, compass_south, compass_east]} pos={[0, 88]} show={showCompass} num={compassDir}/>
     <AnimatedImage urls={[eye1, eye2, eye3, eye4, eye3, eye2]} delay={[2000, 100, 100, 100, 100, 100]} pos={[8, 142]} show={showEye}/>
     <MultiImage urls={[shield]} pos={[4, 178]} show={showShield}/>
   </>)

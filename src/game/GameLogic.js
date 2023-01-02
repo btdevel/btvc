@@ -38,6 +38,8 @@ const useStore = create((set, get) => {
     location: '',
     config: {},
     characters: [],
+    pos: {x: 0, y: 0},
+    dir: 0
   }
 })
 
@@ -127,8 +129,25 @@ export const useGraphicsConfig = (func = identity) => useStore(state => func(sta
 
 class GameState {
   stepper = new TimeStepper()
-  position = {x: 0, y: 0}
+  // pos = {x: 0, y: 0}
+  get position() {
+    return useGameStore.getState().pos
+  }
+  set position(p) {
+    modifyState((state) => {
+      state.pos = p
+    })
+  }
   dir = 0
+  get direction() {
+    return useGameStore.getState().dir
+  }
+  set direction(d) {
+    modifyState((state) => {
+      state.dir = d
+    })
+  }
+
   flyMode = false
   dPhi = 0
   dTheta = 0
@@ -210,9 +229,10 @@ class GameState {
     const config = await loadConfig(configFile)
 
     // this.config = config
-    this.position.x = config.position.x
-    this.position.y = config.position.y
-    this.dir = config.dir
+    // this.position.x = config.position.x
+    // this.position.y = config.position.y
+    this.position = config.position
+    this.direction = config.dir
     this.keyMap = config.keyMap
 
 
@@ -264,15 +284,15 @@ class GameState {
   }
 
   angle() {
-    return radians(this.dir * 90)
+    return radians(this.direction * 90)
   }
 
   showInfo() {
-    this.map.showInfo(this.time_hours(), this.position, this.dir)
+    this.map.showInfo(this.time_hours(), this.position, this.direction)
   }
 
   showMap() {
-    this.map.showMap(this.position, this.dir)
+    this.map.showMap(this.position, this.direction)
   }
 
   showMessage(msg = "") {
@@ -336,23 +356,19 @@ class GameState {
 
   savePosition() {
     this.saved = {
-      position: {
-        x: this.position.x,
-        y: this.position.y,
-      },
-      dir: this.dir,
+      position: this.position,
+      dir: this.direction,
     }
   }
 
   restorePosition() {
-    this.position.x = this.saved.position.x
-    this.position.y = this.saved.position.y
-    this.dir = this.saved.dir
+    this.position = this.saved.position
+    this.direction = this.saved.dir
   }
 
   move(forward) {
     const map = this.map
-    const dir = normalizeDir(this.dir, forward)
+    const dir = normalizeDir(this.direction, forward)
     const new_x = moveDir(this.position.x, dir, true, map.width)
     const new_y = moveDir(this.position.y, dir, false, map.height)
     if (!this.flyMode) {
@@ -362,8 +378,7 @@ class GameState {
     }
 
     if (map.isCity()) this.savePosition()
-    this.position.x = new_x
-    this.position.y = new_y
+    this.position = {x: new_x, y: new_y}
     if (!this.flyMode) {
       this.map.enter(this.position)
     }
@@ -372,21 +387,19 @@ class GameState {
   turn(i) {
     // we don't wrap around here (mod 4) because that would cause problems with the smooth 3d rotation
     // rather we always use mod 4 in map computations
-    this.dir += i
+    this.direction += i
     this.showMessage()
   }
 
   jump(x, y) {
-    this.position.x = x
-    this.position.y = y
+    this.position = {x: x, y: y}
     this.jumped = true
     this.showMessage()
   }
 
   teleport(level, x, y) {
     this.loadLevel(level)
-    this.position.x = x
-    this.position.y = y
+    this.position = {x: x, y:y }
     this.jumped = true
   }
 
