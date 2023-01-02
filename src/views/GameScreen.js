@@ -10,6 +10,7 @@ import GameControls from '../controls/GameControls'
 import {useFullscreen, useOverlayImage, useOverlayText} from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
+import {EffectsView} from './EffectsView'
 
 function ErrorComponent() {
   return <></>
@@ -94,6 +95,14 @@ const PartyRoasterBox = styled.div`
   left: 22px;
   top: 262px;
 `
+const EffectsViewBox = styled.div`
+  background-color: rgba(255,0,0,0.0);
+  width: 60px;
+  height: 220px;
+  position: absolute;
+  left: 266px;
+  top: 24px;
+`
 
 
 function OverlayTextView() {
@@ -159,6 +168,10 @@ export default function GameScreen() {
       <LocationTextBox id='location-view'>
         <LocationTextView/>
       </LocationTextBox>
+
+      <EffectsViewBox>
+        <EffectsView/>
+      </EffectsViewBox>
 
       <TextViewBox id='text-view'>
         <TextView/>
