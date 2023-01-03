@@ -64,7 +64,7 @@ export default function App() {
   return (
     <ScaledDiv scale={scale}>
       <HidableDiv show={!loaded}>
-        <BackgroundImageBox id='background-image'>
+        <BackgroundImageBox id='title-image'>
           <img
             src={titleImg}
             style={{width: 640, height: 400, imageRendering: "pixelated"}}

@@ -113,7 +113,7 @@ function OverlayTextView() {
 function OverlayImageView() {
   const overlayImageUrl = useOverlayImage()
   if (overlayImageUrl) return <img src={overlayImageUrl} width="100%" height="100%" alt=""
-                                   style={{imageRendering: "crisp-edges"}}/>
+                                   style={{imageRendering: "pixelated"}}/>
   return <></>
 }
 
