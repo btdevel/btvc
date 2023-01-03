@@ -1,6 +1,7 @@
 import {setGameText} from './GameLogic'
 import MapBase, {createMap} from './MapBase'
 import {mergeObject} from "../util/merging";
+import AutoMap from './AutoMap'
 
 export default class DungeonMap extends MapBase {
   width
@@ -28,11 +29,14 @@ export default class DungeonMap extends MapBase {
     const wallTypeInDir = [wallTypes.north, wallTypes.west, wallTypes.south, wallTypes.east]
     const type = wallTypeInDir[dir]
     if (type === 1) return [false, "Ouch!"]
+    this.squares[old_x][old_y].visited = true
+    this.squares[new_x][new_y].visited = true // assume that we will move (not clean, but should do...)
     return [true, undefined]
   }
 
   showMap(pos, dir) {
-    setGameText("Sorry pal! No auto mapping in dungeons...")
+    // setGameText("Sorry pal! No auto mapping in dungeons...")
+    setGameText([<AutoMap map={this} width={176} height={176} pos={pos} dir={dir}/>])
   }
 
   getLocationInfo() {
@@ -78,6 +82,7 @@ export default class DungeonMap extends MapBase {
         square.south = horzChars.indexOf(map.map[row + 1][col])
         square.east = vertChars.indexOf(map.map[row][col + 1])
         square.west = vertChars.indexOf(map.map[row][col - 1])
+        square.visited = false
 
         const x = i, y = rows - 1 - j
         map.squares[x][y] = square
