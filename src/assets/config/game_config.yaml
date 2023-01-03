@@ -11,6 +11,7 @@ graphics:
   shadows:
     enabled: true
     shadowMapSize: 4096
+  smoothDungeonCam: false
 
 audio:
   enabled: true

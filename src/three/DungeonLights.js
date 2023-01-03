@@ -2,7 +2,7 @@ import React, {useRef} from 'react'
 import {useFrame} from '@react-three/fiber'
 import {animated, useSpring} from '@react-spring/three'
 
-import {gameState} from '../game/GameLogic'
+import {gameState, useGraphicsConfig} from '../game/GameLogic'
 
 export const springConfigSlide = {mass: 2, tension: 1400, friction: 150}
 export const springConfigSlow = {mass: 2, tension: 1000, friction: 300.0}
@@ -27,6 +27,7 @@ function PointLight({color = 0xffffff, position}) {
 const AnimatedPointLight = animated(PointLight)
 
 export default function DungeonLights({map}) {
+  const config = useGraphicsConfig()
   const ambientRef = useRef()
 
   const startPos = gameState.position
@@ -38,7 +39,8 @@ export default function DungeonLights({map}) {
 
   useFrame(() => {
     const pos = gameState.position
-    posApi.start({position: [pos.x, pos.y, 0.4]})
+    const immediate = !config.smoothDungeonCam || gameState.jumped
+    posApi.start({position: [pos.x, pos.y, 0.4], immediate: immediate})
   })
 
   const lights = []

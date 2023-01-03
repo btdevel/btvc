@@ -35,7 +35,7 @@ function Wall({x, y, dir, wtype}) {
   const rot = dir * 0.5 * Math.PI
 
   const walls = []
-  const repI = 0, repJ = 0;
+  const repI = 1, repJ = 1;
   for (let i = -repI; i <= repI; ++i) {
     for (let j = -repJ; j <= repJ; ++j) {
       walls.push(<mesh key={[i, j]} position={[x + 22 * i, y + 22 * j, 0]} rotation-order='ZXY'

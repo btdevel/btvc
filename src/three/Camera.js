@@ -2,7 +2,7 @@ import React from 'react'
 import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'
-import {gameState} from '../game/GameLogic'
+import {gameState, useGraphicsConfig} from '../game/GameLogic'
 import AudioListener from "./AudioListener"
 
 
@@ -15,6 +15,7 @@ const AnimatedCamera = animated(PerspectiveCamera)
 export default function Camera() {
   const startPos = gameState.position
   const startAngle = gameState.angle()
+  const config = useGraphicsConfig()
 
   const [{position}, posApi] = useSpring(() => ({
     position: [startPos.x, startPos.y, 0],
@@ -33,7 +34,7 @@ export default function Camera() {
     const dTheta = gameState.dTheta
     const z = gameState.flyMode ? 1 : 0
 
-    const immediate = gameState.jumped
+    const immediate = !config.smoothDungeonCam || gameState.jumped
     posApi.start({position: [pos.x, pos.y, z], immediate: immediate})
     rotApi.start({rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate})
     gameState.jumped = false
