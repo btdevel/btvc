@@ -1,4 +1,9 @@
 programs:
+  notImplemented:
+    - ["showMessage", "Feature not implemented yet."]
+    - ["delay", 0.5]
+    - ["subprogram", ":arg1:"]
+
   emptyHouse:
     - ["overlayImage", "inside/empty"]
     - ["location", "Empty Building"]
@@ -8,7 +13,7 @@ programs:
 
   stables:
     - ["overlayImage", "inside/empty"]
-    - ["location", "Empty Building"]
+    - ["location", "Stables"]
     - [
         "showMessage",
         "Sorry, friends, all the horses have been eaten by creatures!.",
@@ -23,6 +28,7 @@ programs:
         "showMessage",
         "You stand before the city gates, which are blocked by a gigantic snow drift.",
       ]
+    - ["delay", 0.3]
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
@@ -46,18 +52,33 @@ programs:
     - ["waitForKeyPress", "(CONTINUE)"]
     - ["returnToCity"]
 
+
   guild:
     - ["overlayImage", "inside/guild"]
     - ["location", "The guild"]
-    - ["waitForKeyPress", "(EXIT)"]
-    - ["returnToCity"]
+    - [
+        "selection",
+        "Thou art in the guild of adventurers",
+        ["Add member", "a", ["subprogram", "notImplemented", "guild"]],
+        ["Remove member", "r", ["subprogram", "notImplemented", "guild"]],
+        ["Create a member", "c", ["subprogram", "notImplemented", "guild"]],
+        ["Delete a member", "d", ["subprogram", "notImplemented", "guild"]],
+        ["Save party", "s", ["subprogram", "notImplemented", "guild"]],
+        ["Leave game", "l", ["subprogram", "notImplemented", "guild"]],
+        ["Enter the city", "e", "returnToCity"],
+      ]
 
   reviewBoard:
     - ["overlayImage", "inside/review"]
     - ["location", "Review board"]
-    - ["showMessage", "Wouldst thou like to be reviewed for||Advancement|Spell Acquiring|Class Change"]
-    - ["waitForKeyPress", "(EXIT)"]
-    - ["returnToCity"]
+    - [
+        "selection",
+        "Wouldst thou like to be reviewed for",
+        ["Advancement", "a", ["subprogram", "notImplemented", "reviewBoard"]],
+        ["Spell Acquiring", "s", ["subprogram", "notImplemented", "reviewBoard"]],
+        ["Class Change", "c", ["subprogram", "notImplemented", "reviewBoard"]],
+        ["(EXIT)", "e", "returnToCity", -1],
+      ]
 
   roscoes:
     - ["overlayImage", "inside/roscoes"]
@@ -75,6 +96,7 @@ programs:
     - ["overlayImage", "inside/shop"]
     - ["location", "The Shoppe"]
     - ["showMessage", "Welcome to Garth's Equipment Shoppe, oh wealthy travellers!|Which of you is interested in my fine wares?"]
+    - ["delay", 0.3]
     - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
@@ -82,10 +104,12 @@ programs:
     - ["overlayImage", "inside/pub"]
     - ["location", "Scarlet Bard"]
     - [
-        "showMessage",
-        "Hail, travelers! Step to the bar and I'll draw you a tankard.\nYou can:\nOrder a drink\nTalk to barkeep",
+        "selection",
+        "Hail, travelers! Step to the bar and I'll draw you a tankard.|You can:",
+        ["Order a drink", "o", ["teleport", 0, 0, 0]],
+        ["Talk to barkeep", "t", ["subprogram", "notImplemented", "scarletBard"]],
+        ["(EXIT)", "e", "returnToCity", -1],
       ]
-    - ["teleport", 0, 0, 0]
 
   madgodTemple:
     - ["overlayImage", "inside/temple"]
@@ -94,17 +118,17 @@ programs:
         "selection",
         "This is the temple of the Mad God. What is thy business, unbeliever?",
         ["Speak to priest", "s", ["subprogram", "madgodSpeak"]],
-        ["(EXIT)", "e", "returnToCity"]
+        ["(EXIT)", "e", "returnToCity", -1]
       ]
-    - ["subprogram", "madgodEnter"]
 
 
   madgodSpeak:
-    - ["riddle", "Only those who know the name of the Mad one are welcome.\nWhat wilt thou say?",
+    - ["riddle", "Only those who know the name of the Mad one are welcome.|What wilt thou say?|",
         "TARJAN",
         ["subprogram", "madgodEnter"],
         ["subprogram", "madgodWrongAnswer"],
       ]
+    - ["subprogram", "madgodEnter"]
 
   madgodEnter:
     - ["showMessage", '"Speak not the name of the High One so loudly, lest he awaken." the priest says. "enter the catacombs, believer."']
@@ -113,35 +137,38 @@ programs:
 
   madgodWrongAnswer:
     - ["showMessage", '"Quit thy babbling," the priest says.']
-    - ["waitForKeyPress", "(EXIT)"]
-    - ["returnToCity"]
+    - ["delay", 1.0]
+    - ["subprogram", "madgodTemple"]
 
   harkynsCastle:
     - ["overlayImage", "inside/castle"]
     - ["location", "Castle"]
     - [
-        "showMessage",
-        "This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign threatens trespassers with death. You can:\nTake stairs up",
+        "selection",
+        "This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign threatens trespassers with death.|You can:",
+        ["Take stairs up", "t", ["teleport", 7, 0, 0]],
+        ["(EXIT)", "e", "returnToCity", -1],
       ]
-    - ["teleport", 7, 0, 0]
 
   kylearansTower:
-    - ["overlayImage", "inside/stairs"]
-    - ["location", "Amber Tower"]
+    - [ "overlayImage", "inside/stairs" ]
+    - [ "location", "Amber Tower" ]
     - [
-        "showMessage",
-        "This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up to a lofty level of chambers. You can:\nTake stairs",
+        "selection",
+        "This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up to a lofty level of chambers.|You can:",
+        [ "Take stairs up", "t", [ "teleport", 10, 0, 0 ] ],
+        [ "(EXIT)", "e", "returnToCity", -1 ],
       ]
-    - ["teleport", 10, 0, 0]
 
   mangarsTower:
     - ["overlayImage", "inside/stairs"]
     - ["location", "The Tower"]
     - [
-        "showMessage",
-        "This is the entry chamber to Mangar's Tower. A stairwell leads up to the first level of traps and terrors. You can:\nTake stairs",
+        "selection",
+        "This is the entry chamber to Mangar's Tower. A stairwell leads up to the first level of traps and terrors.|You can:",
+        [ "Take stairs up", "t", [ "teleport", 11, 0, 0 ] ],
+        [ "(EXIT)", "e", "returnToCity", -1 ],
       ]
-    - ["teleport", 11, 0, 0]
 
   stairsDown:
     - [

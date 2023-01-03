@@ -57,23 +57,29 @@ export const setOverlayImage = (url) => modifyState(state => {
 export const setLocation = (text) => modifyState(state => {
   state.location = text
 })
-export const setGameText = (text, line, center) => modifyState(state => {
+export const setGameText = (text, lineNum, options) => modifyState(state => {
   if (typeof text == "string") {
     let newGameText = [...state.gameText]
-    if (line === undefined) {
+    if (lineNum === undefined) {
       newGameText = []
-      line = 0
+      lineNum = 0
+    } else if (lineNum == "append") {
+      lineNum = newGameText.length
     }
-    for (let l = newGameText.length; l < line; l++) newGameText[l] = ""
-    const wrapCenter = text => <p style={{textAlign: "center"}}>{text}</p>
+    for (let l = newGameText.length; l < lineNum; l++) newGameText[l] = ""
     text = wordWrap(text, 22, '|')
     const lines = text.split(/\||\n/)
     for( let l=0; l<lines.length; l++ ) {
-      newGameText[line + l] = center ? wrapCenter(lines[l]) : lines[l]
+      let line = lines[l]
+      if( options?.center ) line = <p style={{textAlign: "center"}}>{line}</p>
+      if( options?.callback ) line = <span onClick={() => options.callback()}>{line}</span>
+      newGameText[lineNum + l] = line
     }
     state.gameText = newGameText
   } else if (Array.isArray(text)) {
     state.gameText = text
+  } else if (text === undefined) {
+    state.gameText = []
   } else {
     console.warn("Unknown text type for setGameText: ", text)
   }
@@ -169,7 +175,7 @@ class GameState {
     showMessage: this.showMessage,
     overlayImage: (name) => setOverlayImage(imageMap[name]),
     location: setLocation,
-    // exec: this.exec,
+    exec: (commands) => engine.execCommands(commands),
     program: (name, ...args) => this.execProgram(name, true, ...args),
     subprogram: (name, ...args) => this.execProgram(name, false, ...args),
     toggleFullscreen: this.toggleFullscreen,
@@ -192,6 +198,8 @@ class GameState {
     },
     delay: this.delay,
     waitForKeyPress: this.waitForKeyPress,
+    riddle: this.riddle,
+    selection: this.selection,
   }
 
   sun = {
@@ -324,7 +332,7 @@ class GameState {
     setTimeout(() => engine.pause(false), time_in_secs * 1000)
   }
 
-  waitForKeyPress(text) {
+  #stopEngine() {
     engine.pause(true)
     const oldState = this.canGrabKeyboard
     this.canGrabKeyboard = false
@@ -333,8 +341,30 @@ class GameState {
       engine.pause(false)
       setGameText("")
     }
-    if (text) setGameText(text, 11, true)
+    return resume
+
+  }
+  waitForKeyPress(text) {
+    const resume = this.#stopEngine()
+    if (text) setGameText(text, 11, {center: true})
     addEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume, {once: true})
+  }
+
+  riddle(text, correctAnswer, successCmd, failCmd) {
+    const resume = this.#stopEngine()
+    setGameText(text)
+    setGameText(correctAnswer, "append")
+    addEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume, {once: true})
+  }
+
+  selection(text, ...choices) {
+    const resume = this.#stopEngine()
+    setGameText(text + "|")
+    for( let choice of choices ) {
+      const [text, key, command, lineDef] = choice
+      const lineNum = lineDef ? mod(lineDef, 12) : "append"
+      setGameText(text, lineNum, {center: !!lineDef, callback: () => {engine.execCommand(command); resume()}})
+    }
   }
 
   resume() {

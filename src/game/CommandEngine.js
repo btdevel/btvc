@@ -125,13 +125,15 @@ class CommandEngine {
     }
   }
 
-
+  execCommands(commands) {
+    const newProg = {name: "unnamed", commands: [...commands], args: []}
+    this.#pushProg( newProg, false)
+  }
 
 }
 
 export const engine = new CommandEngine()
 
 export const execCommand = (command, invoker) => engine.execCommand(command, invoker)
-
 
 
