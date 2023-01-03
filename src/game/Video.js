@@ -108,11 +108,15 @@ async function onUnpublish(user, mediaType) {
 
 
 export function restartTimeout() {
-  setGameText("")
+  if( videoState.showedWarning ) {
+    setGameText("")
+    videoState.showedWarning = false
+  }
   startTimeout()
 }
 
 function startTimeout() {
+  console.log("(Re)starting timeout...", videoState.timeoutRunning, videoState.timeoutAt - Date.now())
   const timeoutInSecs = useGameStore.getState().config.video.timeout
   const warningInSecs = useGameStore.getState().config.video.warning
 
@@ -122,6 +126,11 @@ function startTimeout() {
   }
   videoState.timeoutRunning = true
   const onTimeout = () => {
+    if( videoState.timeoutAt === 0 ) {
+      // timeout was stopped already...
+      videoState.timeoutRunning = false
+      return
+    }
     const remain = videoState.timeoutAt - Date.now()
     if (remain <= 0) {
       videoState.timeoutRunning = false
@@ -132,6 +141,7 @@ function startTimeout() {
       const remainInSecs = Math.floor(remain / 1000)
       if (remainInSecs <= warningInSecs) {
         setGameText(`Video time out in ${remainInSecs} seconds. Please move to reactivate connection...`)
+        videoState.showedWarning = true
       }
     }
   }
@@ -159,12 +169,9 @@ export function stopVideoClient() {
   videoState.appId = null
   videoState.channel = null
   videoState.token = null
-
 }
 
-
 export async function startConference() {
-  startTimeout()
   addEventListeners(document, interactionEventTypes, restartTimeout)
   if (!(videoState.ref && videoState.client)) return
 
@@ -176,7 +183,8 @@ export async function startConference() {
     case "CONNECTING":   // falls through
     case "RECONNECTING":    // falls through
     case "CONNECTED":
-      return // We are already (re)connecting or connected, do nothing
+      startTimeout()
+      return // We are already (re)connecting or connected, do nothing (except prolonging the timeout)
     default:
       throw new Error(`Unknown connection state: ${client.connectionState}`)
   }
@@ -212,6 +220,7 @@ export async function startConference() {
     AgoraRTC.setLogLevel(2)
   }
   setGameText("Successfully joined...");
+  startTimeout()
 
   // This should go into on(connection-state-changed)->connected
   if (client.connectionState !== "CONNECTED") return
@@ -232,6 +241,7 @@ export async function startConference() {
 export async function stopConference() {
   removeEventListeners(document, interactionEventTypes, restartTimeout)
   if (!(videoState.ref && videoState.client)) return
+  videoState.timeoutAt = 0 // stop timeout function
 
   const {client} = videoState
   switch (client.connectionState) {
