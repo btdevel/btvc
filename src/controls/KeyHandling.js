@@ -4,7 +4,7 @@ import {engine} from "../game/CommandEngine"
 
 export function handleKeyDown(event) {
   // for dialogs that also need keyboard input
-  if( !gameState.canGrabKeyboard ) return
+  if( !gameState.enableKeyMap ) return
 
   const {key} = event
   if (!key) return

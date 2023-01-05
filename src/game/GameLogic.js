@@ -139,12 +139,14 @@ class GameState {
   flyMode = false
   dPhi = 0
   dTheta = 0
-  canGrabKeyboard = true
+  enableKeyMap = true
+  enableMouseControls = true
   keyMap = {}
 
   get direction() {
     return useGameStore.getState().dir
   }
+
   set direction(d) {
     modifyState((state) => {
       state.dir = d
@@ -200,6 +202,9 @@ class GameState {
     waitForKeyPress: this.waitForKeyPress,
     riddle: this.riddle,
     selection: this.selection,
+    _call: (callback) => {
+      callback()
+    },
   }
 
   sun = {
@@ -330,10 +335,15 @@ class GameState {
 
   #stopEngine() {
     engine.pause(true)
-    const oldState = this.canGrabKeyboard
-    this.canGrabKeyboard = false
+    const oldEnableMouseControls = this.enableMouseControls
+    const oldEnableKeyMap = this.enableKeyMap
+    const oldKeyMap = this.keyMap
+    this.enableMouseControls = false
+    this.keyMap = new Map()
     const resume = () => {
-      this.canGrabKeyboard = oldState
+      this.enableMouseControls = oldEnableMouseControls
+      this.enableKeyMap = oldEnableKeyMap
+      this.keyMap = oldKeyMap
       engine.pause(false)
       setGameText("")
     }
@@ -356,11 +366,18 @@ class GameState {
   selection(text, ...choices) {
     const resume = this.#stopEngine()
     setGameText(text + "|")
+    const keymap = new Map()
     for( let choice of choices ) {
       const [text, key, command, lineDef] = choice
       const lineNum = lineDef ? mod(lineDef, 12) : "append"
-      setGameText(text, lineNum, {center: !!lineDef, callback: () => {engine.execImmediate([command], "selection"); resume()}})
+      const callback = () => {
+        engine.execImmediate([command], "selection")
+        resume()
+      }
+      setGameText(text, lineNum, {center: !!lineDef, callback: callback})
+      keymap[key] = ["_call", callback]
     }
+    this.keyMap = keymap
   }
 
   resume() {

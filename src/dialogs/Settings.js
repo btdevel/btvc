@@ -219,7 +219,7 @@ export default function Settings({initialShow = false}) {
   const open = () => setShow(true)
 
   useEffect(() => {
-    gameState.canGrabKeyboard = !show
+    gameState.enableKeyMap = !show
   }, [show])
 
   return (<>

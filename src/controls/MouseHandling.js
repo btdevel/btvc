@@ -11,33 +11,39 @@ export function addMouseHandlers(startElem, stopMoveElem, useCapture) {
   }
 
   function handleMouseDown(event) {
-    if ((event.buttons & 1) !== 0 && useRightMouse) return
-    if ((event.buttons & 2) !== 0 && !useRightMouse) return
-    xStart = event.screenX
-    yStart = event.screenY
-    isPressed = true
-    setAngles(xStart, yStart)
+    const canHandle = gameState.enableMouseControls && //
+      !((event.buttons & 1) !== 0 && useRightMouse) && //
+      !((event.buttons & 2) !== 0 && !useRightMouse)
+    if (canHandle) {
+      xStart = event.screenX
+      yStart = event.screenY
+      isPressed = true
+      setAngles(xStart, yStart)
+    }
     event.preventDefault()
     return false
   }
 
   function handleMouseMove(event) {
+    if (!gameState.enableMouseControls) {
+      // Weird case then the player moves while holding the right button down...
+      isPressed = false
+      setAngles(xStart, yStart)
+    }
     if (isPressed) {
       const x = event.screenX
       const y = event.screenY
       setAngles(x, y)
-      event.preventDefault()
-      return false
     }
+    event.preventDefault()
+    return false
   }
 
   function handleMouseUp(event) {
-    if (isPressed) {
-      isPressed = false
-      setAngles(xStart, yStart)
-      event.preventDefault()
-      return false
-    }
+    isPressed = false
+    setAngles(xStart, yStart)
+    event.preventDefault()
+    return false
   }
 
   startElem.addEventListener('mousedown', handleMouseDown, useCapture)
