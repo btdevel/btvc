@@ -29,8 +29,8 @@ export default class DungeonMap extends MapBase {
     const wallTypeInDir = [wallTypes.north, wallTypes.west, wallTypes.south, wallTypes.east]
     const type = wallTypeInDir[dir]
     if (type === 1) return [false, "Ouch!"]
-    this.squares[old_x][old_y].visited = true
-    this.squares[new_x][new_y].visited = true // assume that we will move (not clean, but should do...)
+    this.squares[old_x][old_y].info.visited = true
+    this.squares[new_x][new_y].info.visited = true // assume that we will move (not clean, but should do...)
     return [true, undefined]
   }
 
@@ -82,7 +82,8 @@ export default class DungeonMap extends MapBase {
         square.south = horzChars.indexOf(map.map[row + 1][col])
         square.east = vertChars.indexOf(map.map[row][col + 1])
         square.west = vertChars.indexOf(map.map[row][col - 1])
-        square.visited = false
+        square.info = {texts: []}
+
 
         const x = i, y = rows - 1 - j
         map.squares[x][y] = square

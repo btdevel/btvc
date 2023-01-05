@@ -52,6 +52,7 @@ export class CityMap extends MapBase {
         if (['1', '2', '3', '4'].includes(square.type)) {
           square.actions = [['program', 'emptyHouse']]
         }
+        square.info = {texts: []}
 
         const x = j, y = rows - 1 - i
         this.squares[x][y] = square

@@ -120,19 +120,22 @@ export default class MapBase {
 
     for (let stairsDown of values(map.stairsDown)) {
       const [x, y] = stairsDown
-      // addAction(map[x][y], ["showMessage", "There are stairs going down here. Do you want to take them?"])
-      addAction(squares[x][y], "stairsDown")
+      addAction(squares[x][y], ["subprogram", "stairsDown"])
+      squares[x][y].info.stairsDown = true
+      squares[x][y].info.texts.push("Stairs down.")
     }
 
     for (let stairsUp of values(map.stairsUp)) {
       const [x, y] = stairsUp
-      // addAction(map[x][y], ["showMessage", "There are stairs up down here. Do you want to take them?"])
-      addAction(squares[x][y], "stairsUp")
+      addAction(squares[x][y], ["subprogram", "stairsUp"])
+      squares[x][y].info.stairsUp = true
+      squares[x][y].info.texts.push("Stairs up.")
     }
 
     for (let videoConf of values(map.videoFields)) {
       const [x, y] = videoConf // Needs string possibly
       squares[x][y].videoConf = "test"
+      squares[x][y].info.texts.push("Video room.")
     }
 
     for (let actionStruct of values(map.actions)) {
@@ -143,19 +146,29 @@ export default class MapBase {
     for (let message of values(map.messages)) {
       const [[x, y], msg] = message
       addAction(squares[x][y], ["showMessage", msg])
+      squares[x][y].info.message = {message: msg}
+      squares[x][y].info.texts.push(`Message: ${msg}`)
     }
 
     for (let specialProg of values(map.specialProgramsInfo)) {
       // const [[x, y], msg, ...rest] = msg_struct
       const [[x, y], msg] = specialProg
       addAction(squares[x][y], ["showMessage", msg])
+      squares[x][y].info.special = {message: msg}
+      squares[x][y].info.texts.push(`Special: ${msg}`)
     }
 
+    let num = 1
     for (let teleport of values(map.teleports)) {
-      const [from, to] = teleport;
+      const [from, to] = teleport
       const [x1, y1] = from
       const [x2, y2] = to
       addAction(squares[x1][y1], ["jump", x2, y2])
+      squares[x1][y1].info.teleportTo = {number: num, x: x2, y: y2}
+      squares[x2][y2].info.teleportFrom = {number: num, x: x1, y: y1}
+      squares[x1][y1].info.texts.push(`Teleport to ${x2}E ${y2}N`)
+      squares[x2][y2].info.texts.push(`Teleport from ${x1}E ${y1}N`)
+      num += 1
     }
   }
 }
