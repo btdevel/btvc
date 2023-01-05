@@ -1,5 +1,5 @@
 configName: originalGame
-#configName: debugPrograms
+#configName: debugCellars
 
 graphics:
   stars:
@@ -59,7 +59,7 @@ commands:
 configs:
   # Full configs:
   originalGame:
-    basedOn: ["atGuildSouth", "facingNorth", "earlyMorning", "standard"]
+    basedOn: ["atGuildSouth", "facingNorth", "earlyMorning", "standard", "startInGuild"]
   betterGame:
     basedOn: ["originalGame", "atGuild", "facingEast"]
   debugCurrent:
@@ -145,6 +145,9 @@ configs:
   fullscreen:
     initCommands:
       - ["setFullscreen", true]
+  startInGuild:
+    initCommands:
+      - ["program", "guild"]
   debug:
     initCommands:
       - "doDebugStuff"

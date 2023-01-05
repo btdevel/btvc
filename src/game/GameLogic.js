@@ -408,8 +408,10 @@ class GameState {
   }
 
   restorePosition() {
-    this.position = this.saved.position
-    this.direction = this.saved.dir
+    if( this.saved ) {
+      this.position = this.saved.position
+      this.direction = this.saved.dir
+    }
   }
 
   move(forward) {
