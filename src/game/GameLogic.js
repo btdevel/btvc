@@ -142,6 +142,7 @@ class GameState {
   enableKeyMap = true
   enableMouseControls = true
   keyMap = {}
+  initialized = false
 
   get direction() {
     return useGameStore.getState().dir
@@ -240,13 +241,10 @@ class GameState {
     setCharacters(chars)
   }
 
-  async init() {
-
+  async #init() {
     const config = await loadConfig(configFile)
+    setConfig(config)
 
-    // this.config = config
-    // this.position.x = config.position.x
-    // this.position.y = config.position.y
     this.position = config.position
     this.direction = config.dir
     this.keyMap = config.keyMap
@@ -266,9 +264,20 @@ class GameState {
     engine.init(this.functions, config.commands, programsConfig.programs)
     engine.start()
     engine.execImmediate(config.initCommands, "initCommands")
-    setConfig(config)
 
     await this.loadParty(zipUrlAmiga)
+  }
+
+  async init() {
+    if (this.initialized) {
+      this.initialized.then(() => {
+      })
+    } else {
+      this.initialized = new Promise((resolve, reject) => {
+        this.#init().then(() => resolve())
+      })
+    }
+    return this.initialized
   }
 
   setViewAngles(diffX, diffY) {
