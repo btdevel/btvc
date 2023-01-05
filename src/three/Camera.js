@@ -34,7 +34,7 @@ export default function Camera() {
     const dTheta = gameState.dTheta
     const z = gameState.flyMode ? 1 : 0
 
-    const immediate = !config.smoothDungeonCam || gameState.jumped
+    const immediate = (gameState.level !== 'city' && !config.smoothDungeonCam) || gameState.jumped
     posApi.start({position: [pos.x, pos.y, z], immediate: immediate})
     rotApi.start({rotationZ: angle + dPhi, rotationX: Math.PI / 2 + dTheta, immediate: immediate})
     gameState.jumped = false

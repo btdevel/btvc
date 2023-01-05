@@ -274,6 +274,7 @@ class GameState {
   }
 
   async loadLevel(level) {
+    setGameText()
     if (level === undefined) return null
     let map
     if (level === "city")
