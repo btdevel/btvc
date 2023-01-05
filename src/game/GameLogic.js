@@ -175,7 +175,7 @@ class GameState {
     showMessage: this.showMessage,
     overlayImage: (name) => setOverlayImage(imageMap[name]),
     location: setLocation,
-    exec: (commands) => engine.execCommands(commands),
+    exec: (...commands) => engine.execImmediate(commands, "execCmd"),
     program: (name, ...args) => this.execProgram(name, true, ...args),
     subprogram: (name, ...args) => this.execProgram(name, false, ...args),
     toggleFullscreen: this.toggleFullscreen,
@@ -260,12 +260,7 @@ class GameState {
     const programsConfig = await loadYAML(programFile)
     engine.init(this.functions, config.commands, programsConfig.programs)
     engine.start()
-
-    for (const command of config.initCommands) {
-      console.log('Init command:', command)
-      engine.execCommand(command, "init()")
-    }
-
+    engine.execImmediate(config.initCommands, "initCommands")
     setConfig(config)
 
     await this.loadParty(zipUrlAmiga)
@@ -363,7 +358,7 @@ class GameState {
     for( let choice of choices ) {
       const [text, key, command, lineDef] = choice
       const lineNum = lineDef ? mod(lineDef, 12) : "append"
-      setGameText(text, lineNum, {center: !!lineDef, callback: () => {engine.execCommand(command); resume()}})
+      setGameText(text, lineNum, {center: !!lineDef, callback: () => {engine.execImmediate([command], "selection"); resume()}})
     }
   }
 

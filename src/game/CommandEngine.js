@@ -34,11 +34,12 @@ class CommandEngine {
   }
 
   #pushProg(prog, replace) {
+    if( prog.commands.length == 0 ) return
     if (replace)
       this.stack = [prog]
     else
       this.stack.unshift(prog)
-    console.log("Pushed prog: ", replace, dumpConfig(this.stack))
+    console.log(`Pushed prog (engine:${this.paused?"paused":"running"}) : `, replace, dumpConfig(this.stack) )
   }
   #getTop() {
     while( this.stack.length>0) {
@@ -57,11 +58,11 @@ class CommandEngine {
       if (program) {
         const command = program.commands.shift()
         console.log("Executing: ", command);
-        execCommand(command)
+        this.#execCommand(command)
       } else {
         setLocation(gameState.map.name)
         setOverlayImage(null)
-        setGameText()
+        // setGameText()
         this.programRunning = false
       }
     }
@@ -84,7 +85,7 @@ class CommandEngine {
     this.programRunning = true
   }
 
-  execCommand(command, invoker) {
+  #execCommand(command, invoker) {
     // If command of the form "string" then funcname="string" and args=[]
     // otherwise if its of the form ["foo", arg1, arg2] then funcname="foo" and args=[arg1, arg2]
     const [funcname, ...xargs] = (typeof command === 'string') ? [command, []] : command
@@ -102,7 +103,7 @@ class CommandEngine {
     // E.g. "turnLeft" -> ["turn", 1]
     const repl = this.commandDefs && this.commandDefs[command]
     if (repl) {
-      this.execCommand(repl, `${invoker}/${repl}`)
+      this.#execCommand(repl, `${invoker}/${repl}`)
       return
     }
 
@@ -125,15 +126,21 @@ class CommandEngine {
     }
   }
 
-  execCommands(commands) {
-    const newProg = {name: "unnamed", commands: [...commands], args: []}
+  execCommands(commands, invoker) {
+    if( commands.length == 0 ) return
+    const newProg = {name: "invoked_by_" + invoker, commands: [...commands], args: []}
     this.#pushProg( newProg, false)
+    this.programRunning = true
   }
 
+  execImmediate(commands, invoker) {
+    for( const command of commands ) {
+      this.#execCommand(command, invoker)
+    }
+  }
 }
 
 export const engine = new CommandEngine()
 
-export const execCommand = (command, invoker) => engine.execCommand(command, invoker)
 
 

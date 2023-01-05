@@ -1,5 +1,5 @@
 import {gameState} from '../game/GameLogic'
-import {execCommand} from "../game/CommandEngine";
+import {engine} from "../game/CommandEngine"
 
 
 export function handleKeyDown(event) {
@@ -12,7 +12,7 @@ export function handleKeyDown(event) {
   const command = gameState.keyMap[key] || gameState.keyMap[key.toLowerCase()]
   if (!command) return
 
-  execCommand(command, `keypress: ${key}`)
+  engine.execImmediate([command], `keypress: ${key}`)
 
   event.preventDefault()
 }

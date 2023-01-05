@@ -1,5 +1,5 @@
 import {setGameText, useGameStore} from "./GameLogic"
-import {execCommand} from "./CommandEngine"
+import {engine} from "./CommandEngine"
 import {startConference, stopConference} from './Video'
 import {mod} from '../util/math'
 import {getDirName} from "./Direction"
@@ -67,9 +67,7 @@ export default class MapBase {
 
     const actions = this.squares[x][y].actions
     if (actions) {
-      for (let action of actions) {
-        execCommand(action)
-      }
+      engine.execImmediate(actions, "map_action")
     }
   }
 
@@ -90,11 +88,11 @@ export default class MapBase {
   }
 
   transformMapBaseData() {
-    // Can be overwritte in derived class
+    // Can be overwritten in derived class
   }
 
   transformSquares() {
-    // Can be overwritte in derived class
+    // Can be overwritten in derived class
   }
 
   addActions() {
