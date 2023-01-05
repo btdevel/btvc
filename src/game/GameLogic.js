@@ -72,7 +72,7 @@ export const setGameText = (text, lineNum, options) => modifyState(state => {
     for( let l=0; l<lines.length; l++ ) {
       let line = lines[l]
       if( options?.center ) line = <p style={{textAlign: "center"}}>{line}</p>
-      if( options?.callback ) line = <span onClick={() => options.callback()}>{line}</span>
+      if( options?.callback ) line = <span style={{cursor: "pointer"}} onClick={() => options.callback()}>{line}</span>
       newGameText[lineNum + l] = line
     }
     state.gameText = newGameText
