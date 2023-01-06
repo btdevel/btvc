@@ -107,10 +107,10 @@ export function SimpleSky({dist = 100}) {
 }
 
 
-export default function Sky({useShader}) {
+export default function Sky({useShader, skyDist=80, sunDist=500}) {
   if (useShader) return <ShaderSky/>
   return (<PlayerPos>
-    <SimpleSky dist={500}/>
-    <Sun dist={280} color={"yellow"} size={0.12}/>
+    <SimpleSky dist={sunDist}/>
+    <Sun dist={skyDist} color={"yellow"} size={0.12}/>
   </PlayerPos>)
 }
