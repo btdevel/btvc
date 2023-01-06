@@ -14,7 +14,7 @@ import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} fr
 import imageMap from './Images'
 import TimeStepper from '../util/TimeStepper'
 import {clamp, mod, radians} from '../util/math'
-import {addEventListeners} from '../util/event'
+import {addEventListeners, removeEventListeners} from '../util/event'
 import {wordWrap} from '../util/strings'
 
 import configFile from '../assets/config/game_config.yaml'
@@ -338,12 +338,12 @@ class GameState {
   }
 
   delay(time_in_secs) {
-    engine.pause(true)
-    setTimeout(() => engine.pause(false), time_in_secs * 1000)
+    const id = engine.pause(true)
+    setTimeout(() => engine.pause(false, id), time_in_secs * 1000)
   }
 
-  #stopEngine() {
-    engine.pause(true)
+  #stopEngine(onResume) {
+    const id = engine.pause(true)
     const oldEnableMouseControls = this.enableMouseControls
     const oldEnableKeyMap = this.enableKeyMap
     const oldKeyMap = this.keyMap
@@ -353,16 +353,17 @@ class GameState {
       this.enableMouseControls = oldEnableMouseControls
       this.enableKeyMap = oldEnableKeyMap
       this.keyMap = oldKeyMap
-      engine.pause(false)
+      engine.pause(false, id)
       setGameText("")
+      if (onResume) onResume()
     }
     return resume
 
   }
   waitForKeyPress(text) {
-    const resume = this.#stopEngine()
+    const resume = this.#stopEngine(() => removeEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume))
     if (text) setGameText(text, 11, {center: true})
-    addEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume, {once: true})
+    addEventListeners(document, ['click', 'contextmenu', 'touchend', 'keyup'], resume)
   }
 
   riddle(text, correctAnswer, successCmd, failCmd) {

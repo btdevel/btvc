@@ -1,5 +1,6 @@
 import {gameState, setGameText, setLocation, setOverlayImage} from "./GameLogic"
 import {dumpConfig} from './ConfigLoader'
+import {generateUUID} from 'three/src/math/MathUtils'
 
 const ticInterval = 20
 
@@ -28,9 +29,11 @@ class CommandEngine {
       this.started = true
     }
   }
-  pause(paused) {
+  pause(paused, id) {
+    if( paused && !id) id = generateUUID();
     this.paused = paused
-    console.log(paused ? "Pausing engine" : "Resuming engine")
+    console.log(paused ? `Pausing engine (${id})` : `Resuming engine (${id})`)
+    return id
   }
 
   #pushProg(prog, replace) {
@@ -57,7 +60,6 @@ class CommandEngine {
       const program = this.#getTop()
       if (program) {
         const command = program.commands.shift()
-        console.log("Executing: ", command);
         this.#execCommand(command)
       } else {
         setLocation(gameState.map.name)
