@@ -39,17 +39,17 @@ programs:
       "showMessage",
       "THE BARD'S TALE|Amiga was from an original design by Michael Cranford.||It was created at Interplay Productions, in Irvine, California."
       ]
-    - ["waitForKeyPress"]
+    - ["waitForKeyPress", "(CONTINUE)"]
     - [
       "showMessage",
       "Interplay wishes to express its gratitude to a number of people who worked on|THE BARD'S TALE:||Todd Camasta|(Artwork)||Troy P. Worrell|(Programming)"
       ]
-    - ["waitForKeyPress"]
+    - ["waitForKeyPress", "(CONTINUE)"]
     - [
       "showMessage",
       "Dave Warhol|Aarn Abbey|(Music)||Brian Fargo|(Dungeons)||Joe Ybarra|(Producer)"
       ]
-    - ["waitForKeyPress", "(CONTINUE)"]
+    - ["waitForKeyPress", "(EXIT)"]
     - ["returnToCity"]
 
 

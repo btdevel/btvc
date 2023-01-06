@@ -55,7 +55,7 @@ export default function App() {
   const [loaded, setLoaded] = useState(false)
   useEffect(()=>{
     setTimeout(()=>setLoaded(true), 4000)
-    invokeOnGesture(() => setLoaded(true))
+    return invokeOnGesture(() => setLoaded(true))
   }, [])
 
   if (!finished) return <div>Loading...</div>
