@@ -93,7 +93,7 @@ export const setConfig = (config) => modifyState(state => {
 })
 export const setGameConfig = (gameConfig, save = false) => {
   modifyState(state => {
-    state.config.audio = gameConfig
+    state.config.game = gameConfig
   })
   if (save) saveGameConfig(gameConfig)
 }

@@ -1,6 +1,6 @@
 import YAML from 'js-yaml'
 import {mergeObject} from "../util/merging"
-import {loadAudioConfig, loadGraphicsConfig, loadVideoConfig} from "./Storage"
+import {loadAudioConfig, loadGameConfig, loadGraphicsConfig, loadVideoConfig} from "./Storage"
 import {objectFromUrl} from '../util/urls'
 
 export function mergeRecursive(gameConfig, targetConfig, name) {
@@ -29,16 +29,19 @@ export function dumpConfig(yaml) {
   return YAML.dump(yaml)
 }
 
-export async function loadConfig(configFile) {
+export async function loadConfig(configFile, includeLocalStorage = true) {
   // Load the config file (usually assets/config/gameConfig.json)
   let config = await loadYAML(configFile)
   // Load configs from localStorage and merge in
-  const storage = {
-    graphics: loadGraphicsConfig(),
-    audio: loadAudioConfig(),
-    video: loadVideoConfig()
+  if (includeLocalStorage) {
+    const storage = {
+      game: loadGameConfig(),
+      graphics: loadGraphicsConfig(),
+      audio: loadAudioConfig(),
+      video: loadVideoConfig()
+    }
+    config = mergeObject(config, storage)
   }
-  config = mergeObject(config, storage)
   // If configs are specified in the url params, merge them in as well
   const params = objectFromUrl()
   config = mergeObject(config, params)

@@ -4,17 +4,50 @@ import {Button, Entries, Entry, PopupBox} from "./DialogElements"
 import {Checkbox, Form, RangeInput, TextInput} from "./FormElements"
 import {
   gameState,
-  setAudioConfig, setGameText,
+  setAudioConfig,
+  setGameConfig,
+  setGameText,
   setGraphicsConfig,
   setVideoConfig,
   useAudioConfig,
+  useGameConfig,
   useGraphicsConfig,
   useVideoConfig,
 } from '../game/GameLogic'
 import produce from "immer"
 import {urlFromObject} from '../util/urls'
 
-const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
+const GameForm = forwardRef(function (props, ref) {
+  const gameConfig = useGameConfig()
+  const [invertX, setInvertX] = useState(gameConfig.invertX)
+  const [invertY, setInvertY] = useState(gameConfig.invertY)
+
+  useImperativeHandle(ref, () => {
+    return {
+      save(perm = false) {
+        const newGameConfig = produce(gameConfig, (config) => {
+          config.invertX = invertX
+          config.invertY = invertY
+        })
+        console.log(`Game config ${newGameConfig !== gameConfig ? "changed" : "did not change"} `)
+        console.log(`Saving game config ${perm ? "permanently" : "for session"}: `, newGameConfig)
+        setGameConfig(newGameConfig, perm)
+      },
+      reset() {
+        setInvertX(gameConfig.invertX)
+        setInvertY(gameConfig.invertY)
+      },
+    }
+  }, [invertX, invertY, gameConfig])
+
+  return (<Form>
+    <Checkbox label="Invert X" value={invertX} onChange={setInvertX}/>
+    <Checkbox label="Invert Y" value={invertY} onChange={setInvertY}/>
+  </Form>)
+})
+
+
+const GraphicsForm = forwardRef(function (props, ref) {
   const graphicsConfig = useGraphicsConfig()
   const [starsEnabled, setStarsEnabled] = useState(graphicsConfig.stars.enabled)
   const [starsCount, setStarsCount] = useState(graphicsConfig.stars.count)
@@ -53,7 +86,7 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
     <Checkbox label="Enable Stars" value={starsEnabled} onChange={setStarsEnabled}/>
     <RangeInput label="Number of stars" placeholder="Enter number of stars" value={starsCount} min={0} max={3000}
                 onChange={setStarsCount} disabled={!starsEnabled}/>
-    <Checkbox label="Enable Sky" value={skyEnabled} onChange={setSkyEnabled}/>
+    {/*<Checkbox label="Enable Sky" value={skyEnabled} onChange={setSkyEnabled}/>*/}
     <Checkbox label="Use Sky Shader" disabled={!skyEnabled} value={skyUseShader} onChange={setSkyUseShader}/>
     <Checkbox label="Enable Shadows" value={shadowsEnabled} onChange={setShadowsEnabled}/>
     <RangeInput label="Shadow Map Size" value={shadowMapSize} min={128} max={4096} step={128}
@@ -61,7 +94,7 @@ const GraphicsForm = forwardRef(function GraphicsForm(props, ref) {
   </Form>)
 })
 
-const AudioForm = forwardRef(function AudioForm(props, ref) {
+const AudioForm = forwardRef(function (props, ref) {
   const audioConfig = useAudioConfig()
   const [audioEnabled, setAudioEnabled] = useState(audioConfig.enabled)
   const [audioVolume, setAudioVolume] = useState(audioConfig.volume)
@@ -91,7 +124,7 @@ const AudioForm = forwardRef(function AudioForm(props, ref) {
   </Form>)
 })
 
-const VideoForm = forwardRef(function VideoForm(props, ref) {
+const VideoForm = forwardRef(function (props, ref) {
   const videoConfig = useVideoConfig()
   const [videoEnabled, setVideoEnabled] = useState(videoConfig.enabled)
   const [appId, setAppId] = useState(videoConfig.appId)
@@ -168,11 +201,12 @@ function callOnRefs(refs, func) {
 }
 
 const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1, ...props}, ref) {
+  const gameFormRef = useRef()
   const graphicsFormRef = useRef()
   const audioFormRef = useRef()
   const videoFormRef = useRef()
 
-  const allRefs = [graphicsFormRef, audioFormRef, videoFormRef]
+  const allRefs = [gameFormRef, graphicsFormRef, audioFormRef, videoFormRef]
   const saveForms = (perm) => callOnRefs(allRefs, ref => ref.save(perm))
   const resetForms = () => callOnRefs(allRefs, ref => ref.reset())
   useImperativeHandle(ref, () => ({
@@ -181,20 +215,23 @@ const SettingsDialog = forwardRef(function SettingsDialog({close, defaultKey = 1
 
   return (<>
       <Entries alwaysOpen={false} defaultActiveKey={defaultKey}>
-        <Entry number={1} header="Graphics">
+        <Entry number={1} header="Game">
+          <GameForm ref={gameFormRef}/>
+        </Entry>
+        <Entry number={2} header="Graphics">
           <GraphicsForm ref={graphicsFormRef}/>
         </Entry>
-        <Entry number={2} header="Audio">
+        <Entry number={3} header="Audio">
           <AudioForm ref={audioFormRef}/>
         </Entry>
-        <Entry number={3} header="Video">
+        <Entry number={4} header="Video">
           <VideoForm ref={videoFormRef}/>
         </Entry>
         {/*<Entry number={4} header="Game">Difficulty etc.</Entry>*/}
       </Entries>
       <Button variant="secondary" onClick={() => {
         setGameText("Settings saved for this setting only.")
-        saveForms(false);
+        saveForms(false)
         close()
       }}>OK</Button>
       <Button variant="secondary" onClick={() => {

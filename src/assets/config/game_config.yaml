@@ -1,6 +1,10 @@
 configName: originalGame
 #configName: debugCellars
 
+game:
+  invertX: true
+  invertY: false
+
 graphics:
   stars:
     enabled: true
