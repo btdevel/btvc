@@ -1,6 +1,6 @@
 import {setGameText} from './GameLogic'
 import MapBase, {createMap} from './MapBase'
-import {mergeObject} from "../util/merging";
+import {mergeObject} from "../util/objects";
 import AutoMap from './AutoMap'
 
 export default class DungeonMap extends MapBase {

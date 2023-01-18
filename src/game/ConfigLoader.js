@@ -1,5 +1,5 @@
 import YAML from 'js-yaml'
-import {mergeObject} from "../util/merging"
+import {mergeObject} from "../util/objects"
 import {loadAudioConfig, loadGameConfig, loadGraphicsConfig, loadVideoConfig} from "./Storage"
 import {objectFromUrl} from '../util/urls'
 

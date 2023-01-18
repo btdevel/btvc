@@ -4,7 +4,7 @@ import AgoraRTC from "agora-rtc-sdk-ng"
 
 import {setGameText, useGameStore} from "./GameLogic"
 import {addEventListeners, interactionEventTypes, removeEventListeners} from '../util/event'
-import {mergeArrays} from '../util/merging'
+import {mergeMaps} from '../util/arrays'
 
 const useStore = create((set, get) => {
   const modify = fn => set(produce(fn))
@@ -26,7 +26,7 @@ export const addTrackInfo = (id, trackInfo) => modifyState(state => {
   console.log("Before: ", state.tracks, state.ids)
   let index = state.ids.indexOf(id)
   if (index !== -1) {
-    state.tracks[index] = mergeArrays(state.tracks[index], trackInfo)
+    state.tracks[index] = mergeMaps(state.tracks[index], trackInfo)
     console.log("Found: ", state.tracks, state.ids)
     return
   }

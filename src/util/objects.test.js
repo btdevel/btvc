@@ -1,4 +1,4 @@
-import {diffObjects} from './merging'
+import {diffObjects} from './objects'
 
 
 test('diffObject', () => {
