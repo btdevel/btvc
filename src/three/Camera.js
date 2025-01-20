@@ -19,12 +19,12 @@ export default function Camera() {
 
   const [{position}, posApi] = useSpring(() => ({
     position: [startPos.x, startPos.y, 0],
-    config: springConfigSlide
+    config: springConfigMove // springConfigSlide
   }))
   const [{rotationZ, rotationX}, rotApi] = useSpring(() => ({
     rotationZ: startAngle,
     rotationX: Math.PI / 2,
-    config: springConfigSlide
+    config: springConfigMove // springConfigSlide
   }))
 
   useFrame(() => {

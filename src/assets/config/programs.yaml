@@ -4,6 +4,11 @@ programs:
     - ["delay", 0.5]
     - ["subprogram", ":arg1:"]
 
+  delayedMessage:
+    - ["showMessage", ":arg1:"]
+    - ["delay", 1.0]
+    - ["subprogram", ":arg2:"]
+
   emptyHouse:
     - ["overlayImage", "inside/empty"]
     - ["location", "Empty Building"]
@@ -58,7 +63,7 @@ programs:
     - ["location", "The guild"]
     - [
         "selection",
-        "Thou art in the guild of adventurers",
+        "Thou art in the guild of adventurers|",
         ["Add member", "a", ["subprogram", "notImplemented", "guild"]],
         ["Remove member", "r", ["subprogram", "notImplemented", "guild"]],
         ["Create a member", "c", ["subprogram", "notImplemented", "guild"]],
@@ -73,7 +78,7 @@ programs:
     - ["location", "Review board"]
     - [
         "selection",
-        "Wouldst thou like to be reviewed for",
+        "Wouldst thou like to be reviewed for|",
         ["Advancement", "a", ["subprogram", "notImplemented", "reviewBoard"]],
         ["Spell Acquiring", "s", ["subprogram", "notImplemented", "reviewBoard"]],
         ["Class Change", "c", ["subprogram", "notImplemented", "reviewBoard"]],
@@ -105,18 +110,38 @@ programs:
     - ["location", "Scarlet Bard"]
     - [
         "selection",
-        "Hail, travelers! Step to the bar and I'll draw you a tankard.|You can:",
-        ["Order a drink", "o", ["teleport", 0, 0, 0]],
+        "Hail, travelers!|Step to the bar and I'll draw you a tankard.||You can:",
+        ["Order a drink", "o", ["subprogram", "scarletBardOrder"]],
         ["Talk to barkeep", "t", ["subprogram", "notImplemented", "scarletBard"]],
         ["(EXIT)", "e", "returnToCity", -1],
       ]
+
+# todo: select char, then "Seat thyself, NAME. We've got..."
+  scarletBardOrder:
+    - [
+        "selection",
+        "Seat thyself. We've got...",
+        ["Ale", "a", ["subprogram", "delayedMessage", "Not bad!!", "scarletBard"]],
+        ["Beer", "b", ["subprogram", "delayedMessage", "Not bad!!", "scarletBard"]],
+        ["Mead", "m", ["subprogram", "delayedMessage", "Not bad!!", "scarletBard"]],
+        ["Foul spirits", "f", ["subprogram", "delayedMessage", "You don't feel too well.", "scarletBard"]],
+        ["Ginger Ale", "g", ["subprogram", "delayedMessage", "The girls in the tavern are not impressed.", "scarletBard"]],
+        ["Wine", "w", ["subprogram", "enterCellar"]],
+        ["|What'll it be?"],
+        ["(CANCEL)", "c", ["subprogram", "scarletBard"], -1],
+      ]
+
+  enterCellar:
+    - ["showMessage", "The barkeep says, \"Go down to the cellar and pick out a bottle.\""]
+    - ["waitForKeyPress", "(CONTINUE)"]
+    - ["teleport", 0, 0, 0]
 
   madgodTemple:
     - ["overlayImage", "inside/temple"]
     - ["location", "Mad God"]
     - [
         "selection",
-        "This is the temple of the Mad God. What is thy business, unbeliever?",
+        "This is the temple of the Mad God. What is thy business, unbeliever?|",
         ["Speak to priest", "s", ["subprogram", "madgodSpeak"]],
         ["(EXIT)", "e", "returnToCity", -1]
       ]
@@ -145,7 +170,7 @@ programs:
     - ["location", "Castle"]
     - [
         "selection",
-        "This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign threatens trespassers with death.|You can:",
+        "This is the entry chamber to Harkyn's Castle. It is not guarded, but a sign threatens trespassers with death.|You can:|",
         ["Take stairs up", "t", ["teleport", 7, 0, 0]],
         ["(EXIT)", "e", "returnToCity", -1],
       ]
@@ -155,7 +180,7 @@ programs:
     - [ "location", "Amber Tower" ]
     - [
         "selection",
-        "This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up to a lofty level of chambers.|You can:",
+        "This is the entry chamber to Kylearan's Amber Tower. A stairwell leads up to a lofty level of chambers.|You can:|",
         [ "Take stairs up", "t", [ "teleport", 10, 0, 0 ] ],
         [ "(EXIT)", "e", "returnToCity", -1 ],
       ]
@@ -165,7 +190,7 @@ programs:
     - ["location", "The Tower"]
     - [
         "selection",
-        "This is the entry chamber to Mangar's Tower. A stairwell leads up to the first level of traps and terrors.|You can:",
+        "This is the entry chamber to Mangar's Tower. A stairwell leads up to the first level of traps and terrors.|You can:|",
         [ "Take stairs up", "t", [ "teleport", 11, 0, 0 ] ],
         [ "(EXIT)", "e", "returnToCity", -1 ],
       ]
@@ -173,7 +198,7 @@ programs:
   stairsDown:
     - [
       "selection",
-      "There are stairs here, going down. Do you wish to take them?",
+      "There are stairs here, going down. Do you wish to take them?|",
       ["Yes", "y", ["stairsDown"]],
       ["No", "n", []]
     ]
@@ -181,7 +206,7 @@ programs:
   stairsUp:
     - [
       "selection",
-      "There are stairs here, going up. Do you wish to take them?",
+      "There are stairs here, going up. Do you wish to take them?|",
       ["Yes", "y", ["stairsUp"]],
       ["No", "n", []]
     ]

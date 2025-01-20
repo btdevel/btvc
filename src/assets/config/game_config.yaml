@@ -2,8 +2,11 @@ configName: originalGame
 #configName: debugCellars
 
 game:
-  invertX: true
-  invertY: false
+  movement:
+    swipeDontClick: true
+    invertX: true
+    invertY: false
+    moveBackDontTurn: false
 
 graphics:
   stars:
@@ -16,6 +19,7 @@ graphics:
     enabled: true
     shadowMapSize: 4096
   smoothDungeonCam: false
+  pixelation: 4
 
 audio:
   enabled: true

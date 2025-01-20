@@ -89,7 +89,7 @@ const TextBox = styled.div`
 
 export default function AutoMap({map, pos, dir, width, height}) {
   const canvasRef = useRef()
-  const [text, setText] = useState("")
+  const [text, setText] = useState([])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -103,12 +103,13 @@ export default function AutoMap({map, pos, dir, width, height}) {
   })
 
   useEffect(() => {
-    setText(<p>{map.fullName}</p>)
+    setText([<p>{map.fullName}</p>])
     const mouseMoved = (ev) => {
       const scaleX = canvasRef.current.width / map.width
       const scaleY = canvasRef.current.height / map.height
       const x = clamp(Math.floor(ev.offsetX / scaleX), 0, map.width-1)
       const y = clamp(Math.floor(map.height - ev.offsetY / scaleY), 0, map.height-1)
+      console.log("Map: ", x, y)
       const info = map.squares[x][y].info
       const texts = info.texts.map((s, i) => <p key={i}>{s}</p>)
       setText([<p key="fullname">{map.fullName}<br/>{x}E {y}N</p>, ...texts])

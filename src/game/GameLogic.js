@@ -203,9 +203,6 @@ class GameState {
     waitForKeyPress: this.waitForKeyPress,
     riddle: this.riddle,
     selection: this.selection,
-    _call: (callback) => {
-      callback()
-    },
   }
 
   sun = {
@@ -375,17 +372,17 @@ class GameState {
 
   selection(text, ...choices) {
     const resume = this.#stopEngine()
-    setGameText(text + "|")
+    setGameText(text)
     const keymap = new Map()
     for( let choice of choices ) {
       const [text, key, command, lineDef] = choice
       const lineNum = lineDef ? mod(lineDef, 12) : "append"
-      const callback = () => {
+      const callback = command ? () => {
         engine.execImmediate([command], "selection")
         resume()
-      }
+      } : undefined
       setGameText(text, lineNum, {center: !!lineDef, callback: callback})
-      keymap[key] = ["_call", callback]
+      keymap[key] = callback
     }
     this.keyMap = keymap
   }

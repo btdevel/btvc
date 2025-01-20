@@ -35,6 +35,6 @@ export function Entry({number, header, children}) {
   )
 }
 
-export function Link({href}) {
-  return (<> <a href={href} target="_blank" rel={"noreferrer"}>{href}</a> </>)
+export function Link({href, title}) {
+  return (<> <a href={href} target="_blank" rel={"noreferrer"}>{title || href}</a> </>)
 }

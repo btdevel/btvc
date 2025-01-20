@@ -86,6 +86,15 @@ const FullscreenTextViewBox = styled.div`
   left: 340px;
   top: 30px;
 `
+const FullscreenImageOverlayBox = styled.div`
+  background-color: transparent;
+  width: calc(2 * 222px);
+  height: calc(2 * 176px);
+  position: absolute;
+  left: 34px;
+  top: 30px;
+`
+
 const PartyRoasterBox = styled.div`
   background-color: transparent;
   color: transparent;
@@ -131,6 +140,9 @@ export default function GameScreen() {
               <PartyView id='party-view' />
             </ErrorBoundary>
           </PartyViewBox>
+          <FullscreenImageOverlayBox id='3d-image-overlay'>
+            <OverlayImageView/>
+          </FullscreenImageOverlayBox>
           <FullscreenTextViewBox id='text-view'>
             <TextView/>
           </FullscreenTextViewBox>

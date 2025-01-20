@@ -12,7 +12,10 @@ export function handleKeyDown(event) {
   const command = gameState.keyMap[key] || gameState.keyMap[key.toLowerCase()]
   if (!command) return
 
-  engine.execImmediate([command], `keypress: ${key}`)
+  if (typeof command === "function")
+    command()
+  else
+    engine.execImmediate([command], `keypress: ${key}`)
 
   event.preventDefault()
 }

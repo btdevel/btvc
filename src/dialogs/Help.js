@@ -36,6 +36,14 @@ function HelpText() {
           the developer of this fine piece of software go to
           <Link href="https://github.com/btdevel/btvc/issues"/> and do so.
         </Entry>
+        <Entry number={6} header="Thanks">
+          This would not have been possible without a number of people. <br/>
+          Brotherhood of the Sleeping Gods.
+          Thanks go to ZeroZero, Darendor, Maven, Twoflower, Horpner, drifting, Caracas, ...<Link href="https://bardstale.brotherhood.de/talefiles/index.html"/> <br/>
+          Also thanks go to Kroah <Link href="http://bringerp.free.fr/RE/BardsTale/utility.php5" title="(Kroah's Game Reverse Engineering Page)"/>
+          for sharing all the Bard's Tale images.
+
+        </Entry>
       </Entries>
     </>
   )

@@ -1,8 +1,9 @@
 import {gameState, setGameText, setLocation, setOverlayImage} from "./GameLogic"
-import {dumpConfig} from './ConfigLoader'
 import {generateUUID} from 'three/src/math/MathUtils'
+import YAML from 'js-yaml'
+import {execute} from 'bootstrap/js/src/util'
 
-const ticInterval = 20
+const ticInterval = 0
 
 class CommandEngine {
   stack = []
@@ -42,7 +43,7 @@ class CommandEngine {
       this.stack = [prog]
     else
       this.stack.unshift(prog)
-    console.log(`Pushed prog (engine:${this.paused?"paused":"running"}) : `, replace, dumpConfig(this.stack) )
+    console.log(`Pushed prog (engine:${this.paused?"paused":"running"}) : `, replace, this.#dumpProgram(this.stack) )
   }
   #getTop() {
     while( this.stack.length>0) {
@@ -56,6 +57,7 @@ class CommandEngine {
     }
   }
   #tic() {
+    // Execute (usually) one command in one clock tick
     if (this.programRunning && !this.paused) {
       const program = this.#getTop()
       if (program) {
@@ -81,16 +83,32 @@ class CommandEngine {
     }
 
     const newProg = {name: name, commands: [...commands], args: args}
-    console.log('Program:', dumpConfig(newProg))
+    console.log('Program:', this.#dumpProgram(newProg))
     this.#pushProg( newProg, replace)
 
     this.programRunning = true
+  }
+
+  #dumpProgram(prog) {
+    try {
+      return YAML.dump(prog)
+    }
+    catch (e) {
+      console.log("Error dumping program: ", prog)
+      return prog
+    }
   }
 
   #execCommand(command, invoker) {
     // If command of the form "string" then funcname="string" and args=[]
     // otherwise if its of the form ["foo", arg1, arg2] then funcname="foo" and args=[arg1, arg2]
     const [funcname, ...xargs] = (typeof command === 'string') ? [command, []] : command
+    if (funcname === "#noWait") {
+      for( const command of xargs ) {
+        this.#execCommand(command, invoker)
+      }
+      return
+    }
 
     // Massage args
     const regex1 = RegExp(':arg[0-9]*:')
@@ -136,10 +154,14 @@ class CommandEngine {
   }
 
   execImmediate(commands, invoker) {
-    for( const command of commands ) {
-      this.#execCommand(command, invoker)
-    }
+    if (commands.length === 1)
+      this.execCommands(commands, invoker)
+    else
+      this.execCommands([["#noWait", ...commands]], invoker)
   }
+  // rename both to: exec and execNoWait
+  // execNoWait does not exec immediately but pushes but then executes those commands without allow interfering events
+  // maybe puts some "command" around the command, to indicate that to the engine
 }
 
 export const engine = new CommandEngine()
