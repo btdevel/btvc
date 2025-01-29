@@ -13,7 +13,7 @@ case $what in
     *) exit 1;;
 esac
 
-REMOTEFOLDER="webapps/bt/$SUBDIR"
+REMOTEFOLDER="webapps/bt_v3/$SUBDIR"
 LOCALFOLDER="$(pwd)/../build/$SUBDIR"
 #MIRROR_OPTS="--parallel=10 --verbose --use-cache --only-newer"
 #MIRROR_OPTS="--parallel=10 --verbose --use-cache --continue --delete"
