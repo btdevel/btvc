@@ -2,6 +2,7 @@
 
 source .data
 
+name="bt_v4"
 
 script=$(basename ${0%.sh})
 cmd=${script%_*}
@@ -13,7 +14,7 @@ case $what in
     *) exit 1;;
 esac
 
-REMOTEFOLDER="webapps/bt_v3/$SUBDIR"
+REMOTEFOLDER="webapps/$name/$SUBDIR"
 LOCALFOLDER="$(pwd)/../build/$SUBDIR"
 #MIRROR_OPTS="--parallel=10 --verbose --use-cache --only-newer"
 #MIRROR_OPTS="--parallel=10 --verbose --use-cache --continue --delete"

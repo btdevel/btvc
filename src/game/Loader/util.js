@@ -6,8 +6,7 @@ function readByte(view, i) {
 }
 
 function readInt(view, i, bigEndian) {
-  const val = view.getInt16(i, !bigEndian)
-  return val
+  return view.getInt16(i, !bigEndian)
 }
 
 function readLong(view, i, bigEndian) {

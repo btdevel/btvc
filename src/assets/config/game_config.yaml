@@ -1,5 +1,4 @@
 configName: originalGame
-#configName: debugCellars
 
 game:
   movement:

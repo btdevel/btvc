@@ -1,38 +1,50 @@
-# Bard's Tale Webchat Client
+# React + TypeScript + Vite
 
-##  Todo:
-- show text for other events...
-- add direction to city exit location
-- make "enter" method aware how the square was entered (stairs/portal/teleport...)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-- add dungeon locations to city_amend.json
-- add in/on/in an to street names
+Currently, two official plugins are available:
 
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-- house and directions
-- refactor city map
-- read city_amend.json
-- move more common functions to map
+## Expanding the ESLint configuration
 
-- conference names
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-- Make text window scrolling (css: scrollHeight, scrollTop, scrollBehavior=smooth/javaScript setInterval/set var if finished/setText does not auto clear )
-- make "programs"
-  - graphic overlays (taverns, mmouth)
-  - text menus, text entry, yes-no questions
+- Configure the top-level `parserOptions` property like this:
 
-- split _amend.json files (normal/video...)
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-- commands
-  - showOverlay "mmouth" commands
-  - yesNoQuestion "Do you want to ...", yesAction, noAction
-  - textMenu "Bla bla", "option 1", action1, "option 2", actions 2
-  - takeDamage
-  - giveItem
-  - startBattle
-  - delay
-  - goBack (movement)
-  - return (menu)
-  - changeMap (wall/door, all, stairs, ...)
-  - ifItem(one, all, equipped) yesAction noAction
-  - ifNight
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```

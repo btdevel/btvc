@@ -1,0 +1,380 @@
+<HTML>
+<HEAD>
+<TITLE>The Bard's Tale Character File Format</TITLE>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<TABLE BORDER="0" WIDTH="99%" ALIGN="LEFT">
+	<TR> 
+		
+    <TD ALIGN="LEFT" VALIGN="TOP" HEIGHT="2"> 
+      <FONT SIZE="6"><B><FONT SIZE="5">The Adventurers' Guild </FONT></B></FONT><BR>
+      <a href="http://www.bardstale.de"><font color="#000080">
+      http://www.bardstale.de</font></a><font color="#000080"> </font>
+	
+		</TD>
+		<TD ALIGN="RIGHT" VALIGN="TOP">The Bard's Tale: Tales of the Unkown<BR>
+      <B>MS-DOS Character File Format</B></TD>
+	</TR>
+</TABLE>
+
+<BR CLEAR="all">
+<HR NOSHADE WIDTH="100%">
+<P ALIGN="center">&nbsp;</P>
+<P ALIGN="center"><FONT SIZE="2"><B>Note</B>: I don't guarantee that this info 
+	is 100% accurate. Don't blame me if you mess up your characters.</FONT></P>
+<P ALIGN="center"><FONT SIZE="2">Characters and parties are stored in *.TPW files 
+  in the Bard's Tale directory. Characters are always 109 bytes long.</FONT></P>
+<DIV ALIGN="center"> 
+  <TABLE BORDER="1" WIDTH="75%" CELLSPACING="0">
+    
+    <TR VALIGN="BOTTOM" ALIGN="LEFT">
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP">Offset (Dec)</TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP">Length</TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><B>Purpose:</B></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><B>Notes:</B></TD>
+    </TR>
+    
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">0</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">14</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Character 
+        Name (null terminated)</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">ASCII</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">14</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR VALIGN="top"> 
+      <TD WIDTH="13%" HEIGHT="13" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">16</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="13" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="13" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">01h</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="13" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Determines 
+        whether the file is a party or a character. 01h = character, 02h = party.</FONT></TD>
+    </TR>
+    
+    <TR VALIGN="top"> 
+      <TD HEIGHT="149" WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">17</FONT></TD>
+      <TD HEIGHT="149" WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD HEIGHT="149" WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Status</FONT></TD>
+      <TD HEIGHT="149" WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"> 
+        <P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Bitfield:<BR>
+          Nuts=80h<BR>
+          Poss=40h<BR>
+          Para=20h<BR>
+          Ston=10h<BR>
+          Pois=08h<BR>
+          Old=04h<BR>
+          Dead=02h<BR>
+          Alive=00h </FONT></P>
+      </TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">18</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR VALIGN="top"> 
+      <TD WIDTH="13%" HEIGHT="96" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">19</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="96" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="96" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Race</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="96" ALIGN="LEFT" VALIGN="TOP"> 
+        <P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">00h=Human<BR>
+          01h=Elf<BR>
+          02h=Dwarf<BR>
+          03h=Hobbit<BR>
+          04h=Half-Elf<BR>
+          05h=Half-orc<BR>
+          06h=Gnome </FONT></P>
+      </TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">20</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR VALIGN="top"> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">21</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP">1</TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Class</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"> 
+        <P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">00h=Warrior<BR>
+          01h=Paladin<BR>
+          02h=Rogue<BR>
+          03h=Bard<BR>
+          04h=Hunter<BR>
+          05h=Monk<BR>
+          06h=Conjurer<BR>
+          07h=Magician<BR>
+          08h=Sorceror<BR>
+          09h=Wizard </FONT></P>
+      </TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="11" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">22</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="11" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="11" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="11" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="23" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">23</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="23" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="23" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current Strength</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="23" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Drops when character is Old</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">24</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT SIZE="2">25</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current IQ</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Drops when character is Old</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">26</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">27</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current Dexterity</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Drops when character is Old</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">28</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">29</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current Constitution</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Drops when character is Old</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">30</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">31</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current Luck</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Drops when character is Old</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="5" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">32</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="5" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="5" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="5" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">33</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Maximum Strength</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">34</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">35</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Maximum IQ</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">36</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">37</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Maximum Dexterity</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">38</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">39</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Maximum Constitution</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">40</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">41</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Maximum Luck</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">42</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="25" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">3</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="25" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    
+    
+    
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">45</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">HP</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">47</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Condition</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">49</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Total 
+        SpPT</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">51</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Current 
+        SpPT</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR VALIGN="top"> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">53</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">16</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"> 
+        <P><FONT SIZE="2" FACE="Arial, Helvetica, sans-serif">Equipment:</FONT></P>
+	<P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Offset 53 = Item #1 
+          Code<BR>
+          </FONT><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Offset 54 = 
+          Item #1 Status<BR>
+          Offset 55 = Item #2 Code<BR>
+          ...etc...<BR>
+	  Offset 68 = Item #8 Status
+	  </FONT></P>
+      </TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP"> 
+        <P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Codes: <A HREF="bt1-item_values.html">See 
+          Bard's Tale Item Values</A>.</FONT></P>
+	<P><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Status: 00h = unequipped, 
+          80h = equipped.</FONT></P>
+      </TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">69</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">3</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Experience</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">72</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="10" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">73</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="10" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">3</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="10" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Gold</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="10" ALIGN="LEFT" VALIGN="TOP"><FONT SIZE="2"> </FONT></TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">76</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">77</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">2</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Level</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">79</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">3</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">82</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Conj. 
+        Level</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">83</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Magi. 
+        Level</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">84</FONT></TD>
+      <TD WIDTH="13%" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Sorc. 
+        Level</FONT></TD>
+      <TD WIDTH="36%" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">85</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="2" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Wizd. 
+        Level</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="2" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR> 
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">86</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">7</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">93</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">1</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">Number of Bard Songs left</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP">&nbsp;</TD>
+    </TR>
+    <TR>
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">94</FONT></TD>
+      <TD WIDTH="13%" HEIGHT="4" ALIGN="CENTER" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">15</FONT></TD>
+      <TD WIDTH="43%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">?</FONT></TD>
+      <TD WIDTH="36%" HEIGHT="4" ALIGN="LEFT" VALIGN="TOP"><FONT FACE="Arial, Helvetica, sans-serif" SIZE="2">null?</FONT></TD>
+    </TR>
+  </TABLE>
+</DIV>
+</BODY>
+</HTML>
