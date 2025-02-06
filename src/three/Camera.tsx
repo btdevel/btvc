@@ -1,4 +1,3 @@
-import React from 'react'
 import {useFrame} from '@react-three/fiber'
 import {PerspectiveCamera} from '@react-three/drei'
 import {animated, useSpring} from '@react-spring/three'

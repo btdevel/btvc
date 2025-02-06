@@ -1,5 +1,3 @@
-import React from 'react'
-
 import House from './House'
 import {createLevel} from "./LevelBase"
 import {useAudioConfig, useVideoConfig} from "../game/GameLogic"

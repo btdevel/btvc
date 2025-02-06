@@ -1,10 +1,10 @@
-import React, {useRef, useEffect} from 'react'
+import {useRef, useEffect} from 'react'
 import styled from 'styled-components'
 
-import {useVideoConfig} from "../game/GameLogic.js"
+import {useVideoConfig} from '../game/GameLogic'
 import {setVideoElementRef, startVideoClient, stopVideoClient} from '../game/Video'
-import noise from "../assets/videos/noise.mp4"
-import {invokeOnGesture} from "../util/event";
+import noise from '../assets/videos/noise.mp4'
+import {invokeOnGesture} from '../util/event';
 
 const VideoBox = styled.div`
   box-sizing: border-box;

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {PopupBox, Button, Entries, Entry, Link} from "./DialogElements.js";
+import { useState } from 'react';
+import {PopupBox, Button, Entries, Entry, Link} from "./DialogElements";
 
 
 function HelpText() {

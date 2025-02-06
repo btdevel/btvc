@@ -1,5 +1,3 @@
-import React from 'react'
-
 import City from './City'
 import Dungeon from './Dungeon'
 import Lights from './Lights'

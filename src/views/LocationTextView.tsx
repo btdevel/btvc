@@ -1,7 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
 
-import {useLocation} from '../game/GameLogic.js'
+import {useLocation} from '../game/GameLogic'
 
 const LocationTextBox = styled.div`
   box-sizing: border-box;

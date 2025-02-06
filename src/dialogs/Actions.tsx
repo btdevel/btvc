@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react'
+import {useRef, useState} from 'react'
 import {Button, PopupBox} from "./DialogElements"
 import {gameState} from '../game/GameLogic'
 import Form from 'react-bootstrap/Form'

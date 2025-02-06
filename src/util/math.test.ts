@@ -1,4 +1,4 @@
-import {clamp, degree, mapTo, mod, radians, randomInt} from './math.js'
+import {clamp, degree, mapTo, mod, radians, randomInt} from './math'
 
 test('randomInt', () => {
   for (let i = 0; i < 100; i++) {

@@ -1,7 +1,7 @@
-import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react'
+import {forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState} from 'react'
 
-import {Button, Entries, Entry, PopupBox} from "./DialogElements.js"
-import {Checkbox, Form, RangeInput, TextInput} from "./FormElements.js"
+import {Button, Entries, Entry, PopupBox} from "./DialogElements"
+import {Checkbox, Form, RangeInput, TextInput} from "./FormElements"
 import {
   gameState,
   setAudioConfig,

@@ -1,4 +1,4 @@
-import {mergeObject} from '../util/objects.js'
+import {mergeObject} from '../util/objects'
 import {getCharMap, getPartyMap} from './Loader/Loader'
 // import * as AmigaLoader from './Loader/Amiga'
 

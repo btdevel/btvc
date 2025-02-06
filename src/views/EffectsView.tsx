@@ -16,7 +16,7 @@ import eye3 from '../assets/images/effects/eye3.png'
 import eye4 from '../assets/images/effects/eye4.png'
 import shield from '../assets/images/effects/shield.png'
 import {useEffect, useState} from 'react'
-import {useGameStore, useLevel} from '../game/GameLogic.js'
+import {useGameStore, useLevel} from '../game/GameLogic'
 import {Direction} from '../game/Direction'
 
 

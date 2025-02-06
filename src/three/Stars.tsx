@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import * as THREE from 'three'
 import {useFrame} from '@react-three/fiber'

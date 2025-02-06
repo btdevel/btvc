@@ -1,5 +1,3 @@
-import React from "react";
-
 import Audio from "./Audio";
 import VideoScreen from "./VideoScreen";
 

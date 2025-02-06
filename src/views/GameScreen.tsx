@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import {useRef} from 'react'
 import {ErrorBoundary} from 'react-error-boundary'
 import styled from 'styled-components'
 
@@ -7,10 +7,10 @@ import PartyRoasterView from './PartyRoasterView'
 import PartyView from './PartyView'
 import LocationTextView from './LocationTextView'
 import GameControls from '../controls/GameControls'
-import {useFullscreen, useOverlayImage, useOverlayText} from '../game/GameLogic.js'
+import {useFullscreen, useOverlayImage, useOverlayText} from '../game/GameLogic'
 
 import mainImg from '../assets/images/main.png'
-import {EffectsView} from './EffectsView.js'
+import {EffectsView} from './EffectsView'
 
 function ErrorComponent() {
   return <></>

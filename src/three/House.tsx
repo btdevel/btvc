@@ -1,4 +1,3 @@
-import React from 'react'
 import * as THREE from 'three'
 
 import house1Img from '../assets/images/city/house1.png'
@@ -30,7 +29,7 @@ import gate2Img from '../assets/images/city/gate2.png'
 import gate2Alpha from '../assets/images/city/gate2_alpha.png'
 
 
-import {makeShapeGeometry, makeWallGeometry} from './util.ts'
+import {makeShapeGeometry, makeWallGeometry} from './util'
 
 const loader = new THREE.TextureLoader()
 

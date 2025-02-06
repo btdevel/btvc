@@ -1,6 +1,6 @@
-import React, {useEffect} from "react"
+import {useEffect} from "react"
 import * as THREE from "three"
-import {invokeOnGesture} from "../util/event.js"
+import {invokeOnGesture} from "../util/event"
 import {useAudioConfig} from "../game/GameLogic";
 
 export function getAudioListener() {

@@ -1,4 +1,3 @@
-import React from "react"
 import {Accordion, Button as RSButton, Modal} from "react-bootstrap"
 import styled from "styled-components"
 

@@ -1,6 +1,5 @@
-import React from 'react'
 import styled from 'styled-components'
-import {useCharacters} from '../game/GameLogic.js'
+import {useCharacters} from '../game/GameLogic'
 
 const PartyRoasterViewBox = styled.div`
   box-sizing: border-box;
@@ -11,7 +10,8 @@ const CharacterLineBox = styled.div`
   position: absolute;
   top: ${props => (props.number - 1) * 16 + 16}px;
   padding-left: 20px;
-  font-family: 'EightBit';
+  font-family: 'EightBit',monospace;
+  font-weight: 1000;
   font-size: 12pt;
   color: black;
   background-color: transparent;

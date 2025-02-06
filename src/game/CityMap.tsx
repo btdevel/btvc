@@ -1,7 +1,5 @@
-import React from 'react'
-
 import MapBase, {createMap} from './MapBase'
-import {gameState, setGameText} from './GameLogic.js'
+import {gameState, setGameText} from './GameLogic'
 import {mapTo, mod} from '../util/math'
 
 import cityMapJsonRaw from '../assets/levels/city.json'

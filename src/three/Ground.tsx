@@ -1,7 +1,6 @@
-import React from 'react'
 import * as THREE from 'three'
 
-import {loadTextureRepeat} from "./util.ts"
+import {loadTextureRepeat} from "./util"
 
 import floorImg from '../assets/images/textures/yellow_floor.png'
 import dungeonFloorImg from '../assets/images/levels1/dungeon_floor2.png'

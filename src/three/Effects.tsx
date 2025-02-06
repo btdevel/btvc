@@ -1,4 +1,3 @@
-import React from 'react'
 import {Bloom, DepthOfField, EffectComposer, Noise, Vignette, Pixelation} from '@react-three/postprocessing'
 import {useGraphicsConfig} from '../game/GameLogic'
 

@@ -1,7 +1,6 @@
-import React from 'react'
 import styled from 'styled-components'
-
-import {useGameText} from '../game/GameLogic.js'
+import {Fragment} from 'react';
+import {useGameText} from '../game/GameLogic'
 
 const TextViewBox = styled.div`
   box-sizing: border-box;
@@ -27,6 +26,6 @@ function getTextWidth(text) {
 
 export default function TextView() {
   const lines = useGameText()
-  const children = lines.map((line, i) => <React.Fragment key={i}>{line}<br/></React.Fragment>)
+  const children = lines.map((line, i) => <Fragment key={i}>{line}<br/></Fragment>)
   return <TextViewBox id='text-view-box'>{children}</TextViewBox>
 }

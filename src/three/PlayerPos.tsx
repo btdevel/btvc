@@ -1,8 +1,8 @@
-import React, {forwardRef, useImperativeHandle, useRef} from 'react'
+import {forwardRef, useImperativeHandle, useRef} from 'react'
 import {useFrame, useThree} from '@react-three/fiber'
 
 import {gameState} from '../game/GameLogic'
-import {makeVector3} from './util.ts'
+import {makeVector3} from './util'
 
 
 function AxesHelper() {

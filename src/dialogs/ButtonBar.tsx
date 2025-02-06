@@ -1,5 +1,3 @@
-import React from 'react'
-
 import Help from "./Help"
 import Settings from "./Settings"
 import Actions from './Actions'

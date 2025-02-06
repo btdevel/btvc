@@ -1,4 +1,3 @@
-import React from 'react'
 import {create} from 'zustand'
 import {produce} from 'immer'
 
@@ -7,7 +6,7 @@ import {importChars} from './Loader/Loader'
 import {loadParty} from './Party'
 import {engine} from "./CommandEngine"
 import {CityMap} from './CityMap'
-import DungeonMap from './DungeonMap.tsx'
+import DungeonMap from './DungeonMap'
 import {getDirName, moveDir, normalizeDir} from './Direction'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
 import {saveAudioConfig, saveGameConfig, saveGraphicsConfig, saveVideoConfig} from "./Storage"

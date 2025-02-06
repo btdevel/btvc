@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import {useRef} from 'react'
 import * as THREE from 'three'
 import {DirectionalLightHelper, SpotLightHelper} from 'three'
 import {useFrame, useThree} from '@react-three/fiber'
@@ -6,8 +6,8 @@ import {useHelper} from '@react-three/drei'
 
 import PlayerPos from './PlayerPos'
 import {gameState} from '../game/GameLogic'
-import {radians} from "../util/math"
-import {makeVector3} from './util.ts'
+import {radians} from '../util/math'
+import {makeVector3} from './util'
 
 const sunDistance = 20
 const maxShadowUpdateDelay = 0.2

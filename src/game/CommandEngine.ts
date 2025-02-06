@@ -1,5 +1,5 @@
 import {gameState, setGameText, setLocation, setOverlayImage} from "./GameLogic"
-import {generateUUID} from 'three/src/math/MathUtils.js'
+import {generateUUID} from 'three/src/math/MathUtils'
 import YAML from 'js-yaml'
 import {execute} from 'bootstrap/js/src/util'
 

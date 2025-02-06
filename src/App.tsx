@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 
 import GameScreen from './views/GameScreen'
 import VideoController from './views/VideoController'
@@ -33,9 +33,7 @@ const ScaledDiv = styled.div`
   --game-scale: ${props => props.scale ? props.scale : "var(--game-scale-default)"};
   --game-scale-percent: calc(var(--game-scale) * 100%);
   --game-shift-percent: calc(-50% * (var(--game-scale) - 1.0));
-  //transform:  scale(var(--game-scale)) ;
   transform:  translate(-50%, -50%) scale(var(--game-scale)) translate(50%, 50%) ;
-  //transform:  translate(-50%, 0%) scale(var(--game-scale)) translate(50%, 0%) ;
 `
 
 function HidableDiv({show, children}) {
