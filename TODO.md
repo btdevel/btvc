@@ -5,4 +5,8 @@ Issues:
  
 
 Nice to have:
+* Types for config: https://jvilk.com/MakeTypes/
+* and https://onlineyamltools.com/convert-yaml-to-json
+* or https://www.npmjs.com/package/json-schema-to-typescript and script?
 * 
+
