@@ -42,8 +42,8 @@ export default function GameControls({partyViewRef, screenRef}) {
     if (enableGestures && gesturesElementRef.current) {
       const element = gesturesElementRef.current
       const gestures = new Hammer(element);
-      const invertX = gameConfig.invertX
-      const invertY = gameConfig.invertY
+      const invertX = gameConfig.movement.invertX
+      const invertY = gameConfig.movement.invertY
 
       gestures.get('swipe').set({direction: Hammer.DIRECTION_ALL, threshold: 1, velocity: 0.05})
       gestures.get('pinch').set({ enable: true })

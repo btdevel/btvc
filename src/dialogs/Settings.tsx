@@ -19,23 +19,23 @@ import {urlFromObject} from '../util/urls'
 
 const GameForm = forwardRef(function (props, ref) {
   const gameConfig = useGameConfig()
-  const [invertX, setInvertX] = useState(gameConfig.invertX)
-  const [invertY, setInvertY] = useState(gameConfig.invertY)
+  const [invertX, setInvertX] = useState(gameConfig.movement.invertX)
+  const [invertY, setInvertY] = useState(gameConfig.movement.invertY)
 
   useImperativeHandle(ref, () => {
     return {
       save(perm = false) {
         const newGameConfig = produce(gameConfig, (config) => {
-          config.invertX = invertX
-          config.invertY = invertY
+          config.movement.invertX = invertX
+          config.movement.invertY = invertY
         })
         console.log(`Game config ${newGameConfig !== gameConfig ? "changed" : "did not change"} `)
         console.log(`Saving game config ${perm ? "permanently" : "for session"}: `, newGameConfig)
         setGameConfig(newGameConfig, perm)
       },
       reset() {
-        setInvertX(gameConfig.invertX)
-        setInvertY(gameConfig.invertY)
+        setInvertX(gameConfig.movement.invertX)
+        setInvertY(gameConfig.movement.invertY)
       },
     }
   }, [invertX, invertY, gameConfig])
@@ -124,7 +124,7 @@ const AudioForm = forwardRef(function (props, ref) {
   </Form>)
 })
 
-const VideoForm = forwardRef(function (props, ref) {
+const VideoForm = forwardRef(function (_props, ref) {
   const videoConfig = useVideoConfig()
   const [videoEnabled, setVideoEnabled] = useState(videoConfig.enabled)
   const [appId, setAppId] = useState(videoConfig.appId)
@@ -188,7 +188,8 @@ const VideoForm = forwardRef(function (props, ref) {
     <TextInput label="Video AppId" placeholder="Enter AppId" value={appId} onChange={setAppId}/>
     <TextInput label="Video Channel" placeholder="Enter channel name" value={channel} onChange={setChannel}/>
     <TextInput label="Video Token" placeholder="Enter Token" value={token} onChange={setToken}/>
-    <Button onClick={() => alert(alertText)}>Create link</Button>
+    {/*<Button onClick={() => alert(alertText)}>Create link</Button>*/}
+    <Button onClick={() => navigator.clipboard.writeText(chatURL)}>Copy link</Button>
     <Button href={emailLink}>Email invite</Button>
     <Button href="https://console.agora.io/projects" target="_blank">Get new token</Button>
   </Form>)
