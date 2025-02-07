@@ -1,7 +1,8 @@
 import * as JSURL from 'jsurl'
 import queryString from 'query-string'
+import {IStringIndex} from './objects'
 
-export function urlFromObject(obj, baseUrl="") {
+export function urlFromObject(obj: IStringIndex, baseUrl="") {
   const location = window.location
   // https://developer.mozilla.org/en-US/docs/Web/API/Location
   let url = baseUrl || location.origin + location.pathname
@@ -14,34 +15,12 @@ export function urlFromObject(obj, baseUrl="") {
   return url
 }
 
-export function objectFromUrl(url = "") {
+export function objectFromUrl(url: string) {
   const location = window.location
-  const params = queryString.parse( url || location.search)
-  const obj = {}
+  const params = queryString.parse( url || location.search) as IStringIndex
+  const obj: IStringIndex = {}
   for(const name in params) {
     obj[name] = JSURL.tryParse(params[name], {})
   }
   return obj
-}
-
-// Old function, not used anymore (keep sometime as ref, then maybe remove)
-export function queryAsObject() {
-  function insert(obj, names, value) {
-    const name = names[0]
-    if (names.length === 1) {
-      const number = Number(value)
-      obj[name] = Number.isNaN(number) ? value : number
-    } else {
-      if (!obj[name]) obj[name] = {}
-      insert(obj[name], names.slice(1), value)
-    }
-    return obj
-  }
-
-  const rawParams = queryString.parse(window.location.search)
-  const params = {}
-  for (const name in rawParams) {
-    insert(params, name.split("."), rawParams[name])
-  }
-  return params
 }

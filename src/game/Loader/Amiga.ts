@@ -5,13 +5,15 @@ import {makeReadBuffer} from './util'
 const charRegex = /^(.*[/\\])*TPW\.(?<name>[ A-Za-z0-9]*)\.C$/
 const partyRegex = /^(.*[/\\])*TPW\.(?<name>[ A-Za-z0-9]*)\.P$/
 
-export function readCharacter(view, filename) {
+export function readCharacter(view: DataView, filename: string) {
   const buffer = makeReadBuffer(view, true)
 
   const match = filename.match(charRegex)
 
-  const char = {}
-  char.name = match.groups.name
+  const char = {
+    isParty: undefined,
+  }
+  char.name = match?.groups?.name || "UNKNOWN"
   char.isParty = false
   char.status = buffer.readInt() /*00*/
   char.race = buffer.readInt() /*02*/
@@ -59,10 +61,10 @@ export function readCharacter(view, filename) {
 }
 
 
-function readParty(view, filename) {
+function readParty(view: DataView, filename: string) {
   const buffer = makeReadBuffer(view, true)
   const match = filename.match(partyRegex)
-  const partyName = match.groups.name
+  const partyName = match?.groups?.name || "UNKNOWN"
   const isParty = true
   const charNames = []
   for (let i = 0; i < 6; i++) {
@@ -80,18 +82,18 @@ function readParty(view, filename) {
   }
 }
 
-function isParty(view, filename) {
+function isParty(filename: string) {
   return partyRegex.test(filename)
 }
 
-export function readAttributes(view, filename) {
-  if (isParty(view, filename))
+export function readAttributes(view: DataView, filename: string) {
+  if (isParty(filename))
     return readParty(view, filename)
   else
     return readCharacter(view, filename)
 }
 
-export function recognize(view, filename) {
+export function recognize(view: DataView, filename: string) {
   if (view.byteLength == 96 && charRegex.test(filename)) return "Amiga BT1 Character File"
   if (view.byteLength == 96 && partyRegex.test(filename)) return "Amiga BT1 Party File"
   return false

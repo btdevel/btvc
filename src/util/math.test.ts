@@ -1,3 +1,4 @@
+import {test, expect} from 'vitest'
 import {clamp, degree, mapTo, mod, radians, randomInt} from './math'
 
 test('randomInt', () => {

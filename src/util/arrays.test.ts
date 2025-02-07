@@ -1,3 +1,4 @@
+import {test, expect} from 'vitest'
 import {create2dArray, mergeArrays, mergeMaps, union} from './arrays'
 
 test('create2dArray', () => {

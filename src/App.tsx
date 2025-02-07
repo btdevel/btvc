@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {ReactNode, useEffect, useState} from 'react'
 
 import GameScreen from './views/GameScreen'
 import VideoController from './views/VideoController'
@@ -36,7 +36,7 @@ const ScaledDiv = styled.div`
   transform:  translate(-50%, -50%) scale(var(--game-scale)) translate(50%, 50%) ;
 `
 
-function HidableDiv({show, children}) {
+function HidableDiv({show, children}: {show: boolean, children: ReactNode}) {
   const vis =  show ? "visible" : "hidden"
   return (<div style={{visibility: vis}}>{children}</div>)
 }

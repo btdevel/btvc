@@ -1,3 +1,4 @@
+import {test, expect} from 'vitest'
 import {declination, elevation, hour_angle, sunPosition} from './Sun'
 import {degree, radians} from "../util/math";
 

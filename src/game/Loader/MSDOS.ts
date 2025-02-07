@@ -1,6 +1,6 @@
 import {makeReadBuffer} from './util'
 
-export function readCharacter(view, filename) {
+export function readCharacter(view: DataView, filename: string) {
   const buffer = makeReadBuffer(view, false)
 
   const char = {}
@@ -55,7 +55,7 @@ export function readCharacter(view, filename) {
 }
 
 
-function readParty(view, filename) {
+function readParty(view: DataView, filename: string) {
   const buffer = makeReadBuffer(view, false)
   const partyName = buffer.readZString(16)
   const isParty = buffer.readByte() || true
@@ -75,18 +75,18 @@ function readParty(view, filename) {
   }
 }
 
-function isParty(view) {
+function isParty(view: DataView) {
   return view.byteLength > 16 && view.getUint8(16) === 2
 }
 
-export function readAttributes(view, filename) {
+export function readAttributes(view: DataView, filename: string) {
   if (isParty(view))
     return readParty(view, filename)
   else
     return readCharacter(view, filename)
 }
 
-export function recognize(view, filename) {
+export function recognize(view: DataView, filename: string) {
   // Match any filename of the form "path/to/file/123.TPW", where \ instead of / is also accepted
   const regex = /^(.*[/\\])*[0-9]*\.TPW$/
   if (view.byteLength == 109 && regex.test(filename)) return "MSDOS BT1 Character File"

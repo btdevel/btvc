@@ -19,6 +19,7 @@ import {wordWrap} from '../util/strings'
 import configFile from '../assets/config/game_config.yaml'
 import programFile from '../assets/config/programs.yaml'
 import zipUrlAmiga from '../assets/data/amiga.zip'
+import { JSX } from 'react/jsx-runtime'
 
 
 const useStore = create((set, get) => {
@@ -37,7 +38,7 @@ const useStore = create((set, get) => {
     config: {},
     characters: [],
     pos: {x: 0, y: 0},
-    dir: 0
+    dir: 0,
   }
 })
 
@@ -56,7 +57,9 @@ export const setOverlayImage = (url) => modifyState(state => {
 export const setLocation = (text) => modifyState(state => {
   state.location = text
 })
-export const setGameText = (text, lineNum, options) => modifyState(state => {
+export const setGameText = (text: string | JSX.Element[] | null | undefined,
+                            lineNum: "append" | number | undefined,
+                            options: { center: any; callback?: any } | undefined) => modifyState(state => {
   if (typeof text == "string") {
     let newGameText = [...state.gameText]
     if (lineNum === undefined) {
@@ -69,7 +72,7 @@ export const setGameText = (text, lineNum, options) => modifyState(state => {
     text = wordWrap(text, 22, '|')
     const lines = text.split(/\||\n/)
     for( let l=0; l<lines.length; l++ ) {
-      let line = lines[l]
+      let line: JSX.Element = <span>{lines[l]}</span>
       if( options?.center ) line = <p style={{textAlign: "center"}}>{line}</p>
       if( options?.callback ) line = <span style={{cursor: "pointer"}} onClick={() => options.callback()}>{line}</span>
       newGameText[lineNum + l] = line
@@ -338,7 +341,7 @@ class GameState {
     setTimeout(() => engine.pause(false, id), time_in_secs * 1000)
   }
 
-  #stopEngine(onResume) {
+  #stopEngine(onResume: () => void) {
     const id = engine.pause(true)
     const oldEnableMouseControls = this.enableMouseControls
     const oldEnableKeyMap = this.enableKeyMap

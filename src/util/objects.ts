@@ -1,10 +1,17 @@
 import {mergeArrays, union} from './arrays'
 
-function isObject(obj) {
+export interface IStringIndex {
+  // An object that has strings as index (this is the default in JS, but somehow TS needs this...)
+  // See: https://stackoverflow.com/questions/56833469/typescript-error-ts7053-element-implicitly-has-an-any-type
+  [key: string]: any
+}
+
+function isObject(obj: any): obj is IStringIndex {
   return (typeof obj==="object") && !Array.isArray(obj)
 }
 
-export function mergeObject(obj1, obj2) {
+
+export function mergeObject(obj1: IStringIndex, obj2: IStringIndex) {
   if (!obj1) return obj2
 
   for (const prop in obj2) {
@@ -20,10 +27,10 @@ export function mergeObject(obj1, obj2) {
   return obj1
 }
 
-export function diffObjects(obj1, obj2) {
-  const o1 = {}
-  const o2 = {}
-  const d = {}
+export function diffObjects(obj1: IStringIndex, obj2: IStringIndex): IStringIndex {
+  const o1: IStringIndex = {}
+  const o2: IStringIndex = {}
+  const d: IStringIndex = {}
   for (const key of union(Object.keys(obj1), Object.keys(obj2))) {
     const v1 = obj1[key]
     const v2 = obj2[key]

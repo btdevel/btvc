@@ -3,7 +3,7 @@ configName: originalGame
 game:
   movement:
     swipeDontClick: true
-    invertX: true
+    invertX: false
     invertY: false
     moveBackDontTurn: false
 
@@ -27,9 +27,9 @@ audio:
 
 video:
   enabled: true
-  appId: "0dc426f8235842b3b4b7828a0d89d51b"
+  appId: "<app-id>"
   channel: "btchannel"
-  token: "token-from-agora.io"
+  token: "<token-from-agora.io>"
   timeout: 600 # 10 minutes
   warning: 60 # 1 minute
 

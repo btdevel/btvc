@@ -3,7 +3,7 @@ import * as AmigaLoader from './Amiga'
 import {jsonToMap, loadZipFile, mapToJson} from './util'
 
 
-function readAttribs(view, filename) {
+function readAttribs(view: DataView, filename: string) {
   const loaders = [MSDOSLoader, AmigaLoader]
   for (const loader of loaders) {
     const type = loader.recognize(view, filename)
@@ -18,7 +18,7 @@ function readAttribs(view, filename) {
 }
 
 
-export async function loadZip(url) {
+export async function loadZip(url: string) {
   const files = await loadZipFile(url)
   const chars = []
   const partys = []
@@ -38,7 +38,7 @@ export async function loadZip(url) {
   return [chars, partys]
 }
 
-export async function importChars(url, overwrite = false) {
+export async function importChars(url: string, overwrite = false) {
   const [chars, partys] = await loadZip(url)
   toLocalStorage(chars, partys, overwrite)
   return [chars, partys]
@@ -78,7 +78,7 @@ function toLocalStorage(chars, partys, overwrite = !false) {
   setPartyMap(partyMap)
 }
 
-function fromLocalStorage(charName, partyName) {
+function fromLocalStorage(charName?: string, partyName?: string) {
   if (charName) {
     const charMap = getCharMap()
     return charMap.get(charName)

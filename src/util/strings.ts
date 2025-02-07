@@ -1,4 +1,4 @@
-export function wordWrap(str, maxLen, additionalBreakChar) {
+export function wordWrap(str: string | null | undefined, maxLen: number, additionalBreakChar?: string) {
   if (!str) return ""
 
   if (additionalBreakChar) {

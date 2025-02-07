@@ -20,7 +20,7 @@ import {useGameStore, useLevel} from '../game/GameLogic'
 import {Direction} from '../game/Direction'
 
 
-function MultiImage({urls, num = 0, pos, show}) {
+function MultiImage({urls, num = 0, pos, show}: {urls: string[], num?: number, pos: number[], show: boolean}) {
   return <img src={urls[num]} style={{
     left: pos[0],
     top: pos[1],
@@ -28,10 +28,10 @@ function MultiImage({urls, num = 0, pos, show}) {
     imageRendering: "pixelated",
     opacity: 1,
     display: show ? "inline-block" : "none",
-  }}/>
+  }} alt=""/>
 }
 
-function AnimatedImage({urls, delay = 300, show, ...props}) {
+function AnimatedImage({urls, delay = 300, show, ...props}: {urls: string[], delay?: number | number[], pos: number[], show: boolean}) {
   const [num, setNum] = useState(0)
   useEffect(() => {
     if (show) {
@@ -50,10 +50,10 @@ function AnimatedImage({urls, delay = 300, show, ...props}) {
 
 export function EffectsView() {
   const showFire = useLevel() !== 'city'
-  const [showCarpet, setShowCarpet] = useState(false)
-  const [showCompass, setShowCompass] = useState(true)
-  const [showEye, setShowEye] = useState(false)
-  const [showShield, setShowShield] = useState(false)
+  const [showCarpet, _setShowCarpet] = useState(false)
+  const [showCompass, _setShowCompass] = useState(true)
+  const [showEye, _setShowEye] = useState(false)
+  const [showShield, _setShowShield] = useState(false)
   const compassDir = useGameStore((state) => Direction.normalize(state.dir))
 
 

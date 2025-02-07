@@ -1,3 +1,4 @@
+import {test, expect} from 'vitest'
 import {wordWrap} from './strings'
 
 test('wordWrap', () => {
